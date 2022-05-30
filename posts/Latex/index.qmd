@@ -1,0 +1,10 @@
+---
+title: "Latex"
+author: "Harrie Jonkman"
+date: "28 maart 2018"
+categories: [communicatie]
+image: "img/latex.jpg"
+---
+
+
+[Hier](http://www.harriejonkman.nl/wp-content/uploads/2017/06/Latexintro.pdf) vind je een snelle introductie op de werking van Latex

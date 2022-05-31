@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.345">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Harrie Jonkman">
+
+<title>Harrie’s Hoekje - Propensity Score Matching</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Harrie’s Hoekje</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">Harrie’s Hoekje</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Jonkman1"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Propensity Score Matching</h1>
+            <p class="subtitle lead">Om precies het effect van een aanpak of politieke keuze vast te stellen is een ingewikkelde kwestie. Toch is er dat soort onderzoek nodig om de keuze voor programma’s te legitimeren. Tegenwoordig is er een heel spectrum van technieken om de impact van programma’s vast te stellen. Hier stellen we zo’n matchingsmethode voor (PSM) die goed gebruikt kan worden in verschillende soorten impactstudies en laten we zien hoe deze uitgevoerd kan worden.</p>
+                          <div class="quarto-categories">
+                <div class="quarto-category">analyse</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Harrie Jonkman </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">Invalid Date</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p><br></p>
+<section id="impactevaluatie" class="level2">
+<h2 class="anchored" data-anchor-id="impactevaluatie">Impactevaluatie</h2>
+<p>Om precies het effect van een aanpak of politieke keuze vast te stellen is een ingewikkelde kwestie. Toch is er dat soort onderzoek nodig om de keuze voor programma’s te legitimeren. Tegenwoordig is er een heel spectrum van technieken om de impact van programma’s vast te stellen. Dit zijn technieken die kunnen worden gebruikt binnen hele verschillende soorten impactstudies. Het is goed daar kennis van te nemen, zeker nu steeds meer mogelijk is omdat er meer data beschikbaar zijn waarop deze evaluaties gebaseerd kunnen worden. Impactstudies worden uitgevoerd om vast te stellen of programma’s de effecten opleveren die ze nastreven, om te begrijpen of en waarom deze programma’s werken, om vast te stellen in hoeverre veranderingen zijn toe te schrijven aan de inzet van het programma en ook om vast te stellen of de gelden op een goede manier worden besteed. Op dit terrein is er natuurlijk een enorme hoeveelheid literatuur en enkele uitgaven geven ons hiervan een goed en up-to-date overzicht<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. Experimentele studies kunnen natuurlijk goede impactstudies zijn, met sterke punten en beperkingen. Maar er zijn ook aanvullende methodes die in quasi-experimentele of observationele studies kunnen worden toegepast. Zo zijn er panel datamethodes die gebruikt kunnen worden, regressie discontinu?teit methodes en instrumentele variabelen methodes. Daarnaast zijn er verschillende matchingsmethodes die in impactstudies worden gebruikt. Hier stellen we zo’n matchingsmethode voor die goed gebruikt kan worden in verschillende soorten impactstudies en laten we zien hoe deze uitgevoerd kan worden.</p>
+</section>
+<section id="propensity-score-matching-als-optie" class="level2">
+<h2 class="anchored" data-anchor-id="propensity-score-matching-als-optie">Propensity Score Matching als optie</h2>
+<p>Propensity Score Matching is een statische techniek waarin een individu (of andere eenheid) die behandeld wordt of die ergens aan meedoet, wordt gematcht met een of meer respondenten uit de controlegroep op basis van de propensity score. Deze matchingstechniek versterkt causale argumenten in quasi-experimentele en observationele studies omdat ze selectie-bias reduceert. In dit artikel concentreren we ons op hoe we propensity score matching uitvoeren via een voorbeeld uit het onderwijsveld. Het doel van dit artikel is om informatie te geven zodat het gebruikt kan worden door onderzoekers en mensen die evaluatiestudies uitvoeren<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
+</section>
+<section id="stap-voor-stap" class="level2">
+<h2 class="anchored" data-anchor-id="stap-voor-stap">Stap voor stap</h2>
+<p>Propensity score matching is een statistische techniek waarin een geval uit de behandelgroep wordt gematcht met een of meer gevallen uit de controlegroep gebaseerd op ieders propensity score. Elders zijn er veel uitleg en onderbouwingen te vinden voor propensity score (Adelson, 2013<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>; Holland, 1986 <a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>; Rubin, 2005 <a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>; Rudner &amp; Peyton, 2006<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>; Shadish, Cook, &amp; Campbell, 2002<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a>; Stone &amp; Tang, 2013<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> ). In dit artikel concentreren we ons op de vraag hoe we propensity score matching moeten uitvoeren door een voorbeeld uit het onderwijsveld te geven. In dit document willen we vooral een stap-voor-stap voorbeeld geven van de uitvoering van propensity score matching in R. We gebruiken hierbij het MatchIt-pakket met ‘nearest-neighbor 1-to-1 matching’. Terwijl er andere software is dan R voor het uitvoeren van propensity score matching, hebben we voor R gekozen omdat het open-source software is en omdat het breed gebruikt wordt door data-wetenschappers binnen verschillende disciplines. Het doel van dit artikel is om informatie te verschaffen zodat propensity score matching binnen het bereik komt van onderzoek en evaluatie.</p>
+</section>
+<section id="informatie-over-de-gebruikte-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="informatie-over-de-gebruikte-dataset">Informatie over de gebruikte dataset</h2>
+<p>Data van een observationele studie door Falbe (2014) worden hier gebruikt om te illustreren hoe propensity score matching werkt. In die studie gebruikt Falbe algemeen toegankelijke schooldata van verschillende staten om te onderzoeken of een bepaalde interventie een voorspeller was van succes in de resultaten op lezen of rekenen/wiskunde wanneer er voor de schoolgrootte worden gecontrolleerd (tot), percentage studenten van minderheden (min) en het percentage studenten dat een vrije of in prijs gereduceerde lunch ontvangt (dis)<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a>. Voor het voorbeeld hier gebruiken we alleen Falbe’s schooldata van de staat New York. In de New York data set, zijn er 25 stw scholen en 560 niet-stw scholen (stw refereert hier naar een bepaalde interventie). Als matchingsvariabelen koos Falbe schoolgrootte, percentage minderheids studenten en het percentage studenten dat een vrije of een in prijs gereduceerde lunch ontvangt. De reden dat ze voor deze matchings variabelen koos, was dat vorig onderzoek had aangetoond dat deze variabelen samenhingen met academische resultaten. Door op deze variabelen te matchen, kon ze, dat was haar doel, selectie-bias reduceren tussen experimentele (“treated”, bijvoorbeeld stw) en controle groep (“control”, bijvoorbeeld niet-stw-scholen). Let op dat ondanks Falbe in haar studie naar correlaties zocht en niet-experimenteel van opzet was, we hier de termen behandeling (treated) en controle (control) gebruiken omdat deze termen worden gebruikt in het programma en de output van het MatchIt pakket.</p>
+</section>
+<section id="de-stappen-in-het-uitvoeren-van-propensity-score-matching-in-r" class="level2">
+<h2 class="anchored" data-anchor-id="de-stappen-in-het-uitvoeren-van-propensity-score-matching-in-r">De stappen in het uitvoeren van Propensity Score Matching in R</h2>
+</section>
+<section id="step-1-installeer-r." class="level1">
+<h1>Step 1 Installeer R.</h1>
+<p>R is een gratis toegankelijk statistisch pakket dat via URL van het ‘R Core Team’ (2014) kan worden binnengehaald. Zie de referentie<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a>. Let op de specifieke informatie voor het binnenhalen en het openen van de software. R is beschikbaar voor Windows, Mac OS X en Linux systemen. Dit artikel is op de R versie 3.3.2.</p>
+</section>
+<section id="step-2-installeer-en-laad-het-matchit-pakket." class="level1">
+<h1>Step 2 Installeer en laad het MatchIt pakket.</h1>
+<p>MatchIt is een R-pakket dat R-gebruikers goed in staat stelt om met propensity score matching te werken; specifieke informatie over het MatchIt pakket kan worden gevonden in de artikelen van Ho, Kosoke, King, and Stuart (2007a<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a>, 2007b<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a>, 2011<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a>, 2013<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a>). Om het MatchIt pakket te gebruiken, moet je dat pakket eerst installeren en laden. Zoals met alle R-pakketten hoef je dat installeren alleen de eerste keer te doen. Bij MatchIt dus ook; echter je moet het pakket wel steeds laden als je de R-software gebruikt. Om een pakket te installeren, open je R en selecteer je het ‘Packages’ -menu. Kies dan: ‘Install Package(s)’. Een pop-up beeld van CRAN Mirror verschijnt. Kies het pakket dat je wilt uit een lijst en klik OK. Een ander beeld (“Packages” genaamd) verschijnt. Ga naar beneden en selecteer MatchIt en klik weer op OK. Het pakket wordt meteen binnengehaald. Als je vervolgens het MatchIt pakket wilt laden, kies dan voor ‘Load Package’ van het dropdown menu onder het ‘Package’-menu in R. Een beeld verschijnt met beschikbare pakketten waar jij jouw pakket uit moet selecteren. Kies uit de lijst voor MatchIt en klik op OK. Het MatchIt pakket wordt nu geladen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MatchIt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'MatchIt' was built under R version 4.1.3</code></pre>
+</div>
+</div>
+</section>
+<section id="step-3-klaarmaken-en-laden-van-de-data." class="level1">
+<h1>Step 3 Klaarmaken en laden van de data.</h1>
+<p>Om propensity score matching uit te voeren heb je een dataset nodig die bestaat uit gevallen die in rijen staan (bv. individuen) en variabelen die in kolommen staan. Je hebt een groepvariabele nodig en een of meer matchingsvariabelen. De groepvariabele is de variabele die specificeert tot welke groep een geval (een individu of een school) behoort (bv. experimenteel of controle). De matchingsvariabelen zijn de variabelen waar je de groepen op wilt gelijk zetten. In de dataset van Falbe (2014) is bijvoorbeeld de stw-variabele de groepvariabele. Deze variabele geeft aan of een bepaald geval (een school hier) de interventie heeft ontvangen (1) of niet (0). De andere variabelen tot (schoolgrootte), min (percentage studenten met een andere etnische achtergrond in de school) en dis (percentage van de studenten dat een vrije of in prijs gereduceerde lunch ontvangt) zijn de matchingsvariabelen. De dataset die we hiervoor gebruiken kan worden binnengehaald via Randolph (2014a)<a href="#fn16" class="footnote-ref" id="fnref16" role="doc-noteref"><sup>16</sup></a>. In jouw eigen datasets moet je er wel zeker van zijn dat er geen missende data zijn want dan kan R de analyse niet uitvoeren. Ofschoon er verschillende functies zijn om Excel, SPSS of andere dataformaten in R te importeren, vinden wij het het makkelijkste om de data op te slaan als een .csv-file voordat je de data in R binnehaalt. Als je de file in Excel hebt opgeslagen, heb je de optie om het als een .csv-file op te slaan. Als je de file opslaat, let dan wel op waar deze wordt opgeslagen. Nu moet je de lokatie van jouw file die tussen haakjes staat in de eerste regel van de R-code (zie hieronder) aan jouw lokatie aanpassen. Let op dat in de eerste regel voorwaartste schuine streepjes staan eerder dan terugwaartse om jouw file lokatie te specificeren. Het voorbeeld hieronder is een filelokatie in Windows, waar de data staan in de file die newyork.csv heet in de folder R/PSM genaamd op de C-schijf. De eerste regel leest de data van jouw computer en hernoemt het als mydata. De tweede regel maakt deze data beschikbaar voor deze R sessie. De derde regel van de code hieronder print de variabelenamen en de eerste gevallen in de dataset. We doen dat alleen om de data te controleren en te begrijpen waar elke kolom voorstaat.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> <span class="fu">read.csv</span> (<span class="st">"newyork.csv"</span>) </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(mydata) </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>mydata[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,] </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                               school  tot  min  dis stw
+1           SKANEATELES MIDDLE SCHOOL  380 0.03 0.00   0
+2        MARCUS WHITMAN MIDDLE SCHOOL  276 0.04 0.00   0
+3       BLIND BROOK-RYE MIDDLE SCHOOL  376 0.09 0.00   0
+4            BRONXVILLE MIDDLE SCHOOL  404 0.11 0.00   0
+5            BRIARCLIFF MIDDLE SCHOOL  374 0.12 0.00   0
+6                   RYE MIDDLE SCHOOL  754 0.17 0.00   0
+7           EASTCHESTER MIDDLE SCHOOL  704 0.26 0.00   0
+8             SCARSDALE MIDDLE SCHOOL 1172 0.27 0.00   0
+9  EDGEMONT JUNIOR-SENIOR HIGH SCHOOL  920 0.42 0.00   0
+10        SEVEN BRIDGES MIDDLE SCHOOL  619 0.17 0.01   0</code></pre>
+</div>
+</div>
+<p>Na de code zie je hierboven de resultaten staan van wat de R-code oplevert. Het laat de eerste tien gevallen in de dataset zien en wat de kolommen inhouden. Het laat zien dat de kolommen van links naar rechts de gevalnummer zijn (een uniek id-nummer voor elke school), school (de naam van elke school), tot (het totale aantal studenten in op die school), min (het percentage van minderheidsstudenten op de school), dis (precentage studenten dat een vrije of in prijs gereduceerde lunch) en stw (of de school de interventie ontvangt met een (1) Scholen die deze wel of (0) niet ontvangen).</p>
+</section>
+<section id="step-4.-matching-uitvoeren-en-de-resultaten-evalueren." class="level1">
+<h1>Step 4. Matching uitvoeren en de resultaten evalueren.</h1>
+<p>De volgende stap is nodig om te laten zien hoe de matching wordt uitgevoerd en de resultaten vervolgens kunnen worden geevalueerd. De eerste regel in de code die hieronder te zien is, voert de matching uit en de groepsvariabele is stw en de variabelen waarop wordt gematcht zijn tot, min en dis. Je moet deze variabelen in de code eventueel later vervangen door de variabelenamen die in jouw eigen dataset voorkomen. In de methode hieronder wordt de ‘nearest neighbor-methode’ gebruikt. Het ratio-commanda geeft aan dat er een ??n op ??n matching wordt toegepast en dat betekent dat elk geval van de behandeling wordt gematcht aan een geval uit de controlegroep. Het getal waarin gematcht wordt kan toenemen; meestal wordt hier een getal tussen 1 en 5 gebruikt.</p>
+<p>Hieronder zie je de code om de PSM uit te voeren en de resultaten ervan.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>m.out <span class="ot">=</span> <span class="fu">matchit</span>(stw <span class="sc">~</span> tot <span class="sc">+</span> min <span class="sc">+</span> dis, <span class="at">data =</span> mydata, <span class="at">method =</span> <span class="st">"nearest"</span>, <span class="at">ratio =</span> <span class="dv">1</span>) </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m.out)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+matchit(formula = stw ~ tot + min + dis, data = mydata, method = "nearest", 
+    ratio = 1)
+
+Summary of Balance for All Data:
+         Means Treated Means Control Std. Mean Diff. Var. Ratio eCDF Mean
+distance        0.0943        0.0405          1.0459     1.0425    0.3159
+tot           832.6400      568.8998          0.9037     0.7650    0.2434
+min             0.1664        0.2767         -0.9140     0.1605    0.1115
+dis             0.1840        0.4079         -1.5435     0.3368    0.2283
+         eCDF Max
+distance   0.5185
+tot        0.4996
+min        0.1896
+dis        0.4744
+
+
+Summary of Balance for Matched Data:
+         Means Treated Means Control Std. Mean Diff. Var. Ratio eCDF Mean
+distance        0.0943        0.0942          0.0019     1.0016    0.0017
+tot           832.6400      830.6400          0.0069     0.8546    0.0902
+min             0.1664        0.1772         -0.0895     0.8234    0.0277
+dis             0.1840        0.1808          0.0221     1.1359    0.0264
+         eCDF Max Std. Pair Dist.
+distance     0.04          0.0098
+tot          0.24          1.1790
+min          0.12          1.2233
+dis          0.12          0.6177
+
+Sample Sizes:
+          Control Treated
+All           559      25
+Matched        25      25
+Unmatched     534       0
+Discarded       0       0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(m.out, <span class="at">type =</span> <span class="st">"jitter"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "To identify the units, use first mouse button; to stop, use second."</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>integer(0)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(m.out, <span class="at">type =</span> <span class="st">"hist"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Er kunnen ook andere methodes gebruikt worden; een korte beschrijving hiervan vind je in de lijst hieronder. We moedigen MatchIt-gebruikers aan om verschillende methodes te gebruiken en te zien welke methode het beste werkt voor een bepaalde dataset. In dit geval probeerden we alle matchingmethodes die er tegenwoordig gebruikt kunnen worden in MatchIt en kozen voor de ’nearest neighbor-methode’omdat dit leidde tot de laagste gemiddelde verschillen tussen groepen. Sommmige andere methodes zijn<br>
+- Exact Matching - Elke eenheid uit de treated groep heeft precies dezelfde waarden aan die uit de controle groep op elke covariaat. Als er veel covariaten zijn en/of covariaten die een groot aantal waarden aan kunnen nemen, dan kan het zijn dat Exact Matching niet mogelijk is (method = “exact”).<br>
+- Subclassificatie - Deze techniek breekt de data als het ware in enkele subklassen zodat de verdelingen van de covariaten hetzelfde zijn binnen iedere subklasse (method = “subclass”).<br>
+- Nearest Neighbor - Deze techniek matcht een treated-eenheid aan die van de controlegroep in termen van afstand die in een logit-waarde wordt uitgedrukt (method = “nearest”).<br>
+- Optimal Matching - Deze techniek richt zich op het minimaliseren van de gemiddelde absolute afstand over alle gematchte paren (method = “optimal”). Deze methode van matching vraagt een bepaald pakket.<br>
+- Genetic Matching - dit gebruikt een intensief genetisch zoekalgoritme om de treatment aan de controle eenheid te koppelen (method = “genetic”). - Coarsened Exact Matching techniek matcht op een covariaat terwijl de balans op de andere covariaten wordt vastgehouden. Het werkt “goed voor multicategoriale behandelingen, wanneer er met blokken in experimentele designs wordt gewerkt en bij het evalueren van extreme counterfactuals” (Ho, Kosuke, King, &amp; Stuart, 2011, p.12<a href="#fn17" class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a>) (method = “cem”).</p>
+<p>Zie documentatie over MatchIt voor verdere detailt over de matchingsprocedure zoals hierboven is uitgelegd. (Ho, Kosuke, King, &amp; Stewart, 2007a<a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a>, 2007b<a href="#fn19" class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a>, 2011<a href="#fn20" class="footnote-ref" id="fnref20" role="doc-noteref"><sup>20</sup></a>, 2013<a href="#fn21" class="footnote-ref" id="fnref21" role="doc-noteref"><sup>21</sup></a>).</p>
+<p>De resultaten van de matching worden opgeslagen in een variabele die heet m.out. De tweede regel geeft een samenvatting van de matching. De derde en vierde regel produceren plots en histogrammen. De resultaten laten zien dat de matching bijzonder goed werkt voor deze dataset. In de samenvatting lezen we dat voor de matching het gemiddel aantal studenten (tot) in de treatment groep van scholen 263.74 studenten minder was dan in de controle (de niet-stw) scholen. De treated-scholen had 11% minder minderheidsstudenten (min) en 22% procent minder studenten in armoede (dis) dan in de controlescholen. Na de matching echter zijn deze verschillen dramatisch teruggebracht zoals we in de samenvatting kunnen lezen. Het gemiddelde verschil in aantallen studenten tussen de treated en de controlescholen is tot 2 teruggebracht; het was 263 voor de matching. Het percentage verschil in minderheidsstudenten tussen de treated en controle scholen is nog slechts 1%; het was 11% voor de matching. Tenslotte, het gemiddelde verschil tussen treated en controle scholen in termen van percentage achterstandsstudenten is tot 3/10 procent teruggebracht; het was 22% voor de matching.</p>
+<p>Samengevat, de treated en controle scholen zijn na de matching vrijwel hetzelfde geworden wat betreft het aantal studenten, het percentage minderheidsstudenten en het percentage studenten dat een vrij en in prijs verlaagde lunch ontvangt. Voor de matching waren de treated scholen gemiddeld groter, hadden ze minder minderheidsstudenten en minder achterstandsstudenten dan de controle scholen. De kolommen rechts in de samenvatting laten de mediaan, het gemiddelde en het maximum quartiel zien tussen de treated en de controledata; kleinere QQ-waarden laten een betere matching zien. Het valt op dat de QQ-waarden na matching kleiner zijn dan voor de matching.</p>
+<p>Met de derde en vierde regel van de code worden jitterplots en histogrammen gemaakt om de kwaliteit van de matching aan te tonen. In een jitterplot representeert elke cirkel een propensityscore van een geval. Bovenaan zie je dat er geen niet-gematchte treatment eenheden zijn. De middelste grafieken laten de sterke match zien tussen de gematchte treatment en controleeenheden. Onderaan zien je de niet gematchte controleeenheden die in de analyses verder niet gebruikt zullen worden.</p>
+<p>Daaronder zie je de histogrammen voor en na de matching. De histogrammen voor de matching, links, verschillen in sterke mate. De histogrammen na de matching, rechts, zijn voor een groot deel hetzelfde. Samengevat kunnen we stellen dat zowel de numerieke als de visuele data laten zien dat de matching succesvol was.</p>
+</section>
+<section id="step-5.-exporteren-van-een-datafile-om-vervolgens-de-analyses-te-kunnen-uitvoeren." class="level1">
+<h1>Step 5. Exporteren van een datafile om vervolgens de analyses te kunnen uitvoeren.</h1>
+<p>Als de matching een keer is afgerond, wil je een dataset hebben die bestaat uit enkel gematchte gevallen waarmee je de statistische analyses kunt doen die je voor ogen hebt. Hieronder zie je de code staan waarmee je in de eerste regel een R-dataset maakt met gematchte behandel en controlegevallen (bijvoorbeeld hier zitten de meer dan 500 controlgevallen niet meer in die niet zijn gematcht.) De tweede regel zorgt er voor dat de gematchte data in een .csv-file worden omgezet die verder in R kunnen worden geanalyseerd of eenvoudig kunnen worden omgezet naar een ander statistisch software-pakket; in dit geval is de output dataset opgeslagen als een file die newyork_nearest1 wordt genoemd in een specifieke folder (R/PSM in dit geval) op de C-schijf. (De dataset voor de New York data kan worden gedownload van Randolph (2014b))<a href="#fn22" class="footnote-ref" id="fnref22" role="doc-noteref"><sup>22</sup></a>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>m.data1 <span class="ot">&lt;-</span> <span class="fu">match.data</span>(m.out) </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(m.data1, <span class="at">file =</span> <span class="st">"newyork_nearest100.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Wat vervolgens de analyse betreft was Falbe (2014) ge?nteresseerd in de vraag of stw-scholen het beter doen dan niet-stw schools ten aanzien van academische resultaten<a href="#fn23" class="footnote-ref" id="fnref23" role="doc-noteref"><sup>23</sup></a>. Om die analyse uit te voeren, voegde ze de lees-en rekenscores toe aan de gematchte dataset en voorspelde zo de academische resultaten op basis van de volgende variabelen: of een school een stw-school was of niet, de schoolgrootte, het percentage minderheidstudenten in een school en het percentage studenten dat een vrije of in prijs verlaagde lunche ontvangt. Het blijkt dat matching in dit geval belangrijk was. Zonder matching hadden stw-scholen statistisch gezien betere resultaten dan wanneer ze niet gematcht waren. Fable vond geen statistisch gezien significant verschil tussen stw niet stw-scholen op de academische resultaten. Zonder propensity score matching zou Falbe een hele andere conclusie hebben getrokken ten aanzien van de effectiviteit van de interventie, die dan eigenlijk het resultaat is van selectie-bias. Het is duidelijk dat propensity score matching een bruikbaar gereedschap is om selectie-bias te reduceren en causale conclusies te trekken. We hopen dat door deze stap-voor-stap gids een brede groep onderzoekers en evaluatiemedewerkers propensity score matching aan hun repertoire van data analysetechnieken kan toevoegen en deze techniek in hun werk kan gebruiken.</p>
+</section>
+<section id="referenties" class="level1">
+<h1>Referenties</h1>
+<p>Adelson, J. L. (2013). Educational research with real data: Reducing selection bias with propensity score analysis. Practical Assessment Research &amp; Evaluation, 18(15). Retrieved from http://pareonline.net/getvn.asp?v=18&amp;n=15</p>
+<p>Falbe, K. (2014). The relationship between Schools to Watch ? designation and ac study of Colorado, New York, Ohio, and Virginia (Doctoral dissertation). Available from Proquest Dissertations and Theses database. (UMI No.&nbsp;3581272)</p>
+<p>Gertler, P.J., Martinez, S., Prenard, P., Rawlings, L.B. &amp; Vermeersch, C.M. (2011). Impact Evaluation in Practice. Washington D.C.: The World Bank</p>
+<p>Ho, D., Kosuke, I., King, G., &amp; Stuart, E. (2007a). MatchIt: Nonparametric preprocessing for parametric causal inference. Political Analysis, 15(3), 199</p>
+<p>Ho, D., Kosuke, I., King, G., &amp; Stuart, E. (2007b). Matching as nonparametric preprocessing for reducing model dependence in parametric causal inference. Journal of Statistical Software. Retrieved from http://gking.harvard.edu/matchit/</p>
+<p>Ho, D., Kosuke, I. King, G., &amp; Stuart, E. (2011). MatchIt: Nonparametric preprocessing inference [software documentation]. Retrieved from http://gking.harvard.edu/matchit</p>
+<p>Ho, D., Kosuke, I., King, G., &amp; Stuart, E. (2013). MatchIt: Nonparametric preprocessing for parametric causal inference [software]. Retrived from http://gking.harvard.edu/matchit</p>
+<p>Holland, P. W. (1986). Statistics and causal inference. Journal of the American Statistical Association, 81(396), 945-960.</p>
+<p>Khandker, S.R., Koolwal, G.B. &amp; Samad, H.A. (2010). Handbook on Impactevaluation. Quantative Methods and Practices. Washington D.C: The World Bank.</p>
+<p>Murnane, R.J. &amp; Willet, J.B.(2011). Methods Matter. Improving Causal Inference in Educational and Social Science Research. New York: Oxford University.</p>
+<p>Randolph, J. J. (2014a). New York educational data set example before matching. Retrieved from http://justusrandolph.net/psm/newyork.csv</p>
+<p>Randolph, J. J. (2014b). New York educational data set example after matching. Retrieved from http://justusrandolph.net/psm/newyork_nearest100.c sv</p>
+<p>R Core Team (2014). R: A language and environment for statistical computing. (3.0.3 ) [Computer software]. Vienna, Austria: Foundation for Statistical Computing. Retrieved from http://www.R-project.org/.</p>
+<p>Rubin D. B. (2005). Causal inference using potential outcomes: Design, modeling, decisions. Journal of the American Statistical Association, 100(496), 322-331.</p>
+<p>Rudner, L. M., &amp; Peyton, J. (2006). Consider propensity scores to compare treatments. Practical Assessment Research &amp; Evaluation, 11(9). Retrieved from: http://pareonline.net/getvn.asp?v=11&amp;n=9</p>
+<p>Shadish, W. R., Cook, T. D., &amp; Campbell, D. T. (2002). Experimental and quasi-experimental designs for generalized causal inference. Boston, MA: Houghton Mifflin.</p>
+<p>Stone, C. A. &amp; Tang, Y. (2013). Comparing propensity score methods in balancing covariates and recovering impact in small sample educational program evaluations.</p>
+<p>Note: A previous version of this paper was delivered at the 2014 annual meeting of Mercer University Atlanta Research Conference, Atlanta, GA.</p>
+</section>
+<section id="citation" class="level1">
+<h1>Citation:</h1>
+<p>Randolph, Justus J., Falbe, Kristina, Manuel, Austin Kureethara, &amp; Balloun, Joseph L. (2014). A Step-byStep Guide to Propensity Score Matching in R. Practical Assessment, Research &amp; Evaluation, 19(18). Available online: http://pareonline.net/getvn.asp?v=19&amp;n=18</p>
+</section>
+<section id="corresponding-author" class="level1">
+<h1>Corresponding Author:</h1>
+<p>Justus J. Randolph Tift College of Education Mercer University 3001 Mercer University Dr.&nbsp;Atlanta, GA 30341 randolph_jj@mercer.edu</p>
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1" role="doc-endnote"><p>Khandker, S.R., Koolwal, G.B. &amp; Samad, H.A. (2010). <em>Handbook on Impactevaluation. Quantative Methods and Practices</em>. Washington D.C: The World Bank; Gertler, P.J., Martinez, S., Prenard, P., Rawlings, L.B. &amp; Vermeersch, C.M. (2011). <em>Impact Evaluation in Practice</em>. Washington D.C.: The World Bank; Murnane, R.J. &amp; Willet, J.B.(2011). <em>Methods Matter. Improving Causal Inference in Educational and Social Science Research</em>. New York: Oxford University<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>Alles gebaseerd op: Randolph, Justus J., Falbe, Kristina, Manuel, Austin Kureethara, &amp; Balloun, Joseph L. (2014). A Step-byStep Guide to Propensity Score Matching in R. <em>Practical Assessment, Research &amp; Evaluation, 19(18). Available online: http://pareonline.net/getvn.asp?v=19&amp;n=18</em> <a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p>Het correspondentieadres van hem is: Justus J. Randolph Tift College of Education Mercer University 3001 Mercer University Dr.&nbsp;Atlanta, GA 30341 randolph_jj@mercer.edu<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4" role="doc-endnote"><p>Educational research with real data: Reducing selection bias with propensity score analysis. <em>Practical Assessment Research &amp; Evaluation, 18(15). Retrieved from http://pareonline.net/getvn.asp?v=18&amp;n=15</em> <a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5" role="doc-endnote"><p>Holland, P. W. (1986). Statistics and causal inference. <em>Journal of the American Statistical Association, 81(396)</em>, 945-960. <a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6" role="doc-endnote"><p>Rubin D. B. (2005). Causal inference using potential outcomes: Design, modeling, decisions. <em>Journal of the American Statistical Association, 100(496)</em>, 322-331. <a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7" role="doc-endnote"><p>Rudner, L. M., &amp; Peyton, J. (2006). Consider propensity scores to compare treatments. <em>Practical Assessment Research &amp; Evaluation, 11(9). Retrieved from: http://pareonline.net/getvn.asp?v=11&amp;n=9</em> <a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8" role="doc-endnote"><p>Shadish, W. R., Cook, T. D., &amp; Campbell, D. T. (2002). <em>Experimental and quasi-experimental designs for generalized causal inference</em>. Boston, MA: Houghton Mifflin. <a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9" role="doc-endnote"><p>Stone, C. A. &amp; Tang, Y. (2013). <em>Comparing propensity score methods in balancing covariates and recovering impact in small sample educational program evaluations</em>. <a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10" role="doc-endnote"><p>Falbe, K. (2014). <em>The relationship between Schools to Watch ? designation and ac study of Colorado, New York, Ohio, and Virginia (Doctoral dissertation). Available from Proquest Dissertations and Theses database. (UMI No.&nbsp;3581272)</em><a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn11" role="doc-endnote"><p>R Core Team (2014). R: A language and environment for statistical computing. (3.0.3 ) <em>[Computer software]. Vienna, Austria: Foundation for Statistical Computing. Retrieved from http://www.R-project.org/</em>. <a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn12" role="doc-endnote"><p>Ho, D., Kosuke, I., King, G., &amp; Stuart, E. (2007a). MatchIt: Nonparametric preprocessing for parametric causal inference. <em>Political Analysis, 15(3)</em> , 199 <a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn13" role="doc-endnote"><p>Ho, D., Kosuke, I., King, G., &amp; Stuart, E. (2007b). Matching as nonparametric preprocessing for reducing model dependence in parametric causal inference. <em>Journal of Statistical Software. Retrieved from http://gking.harvard.edu/matchit/</em> <a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn14" role="doc-endnote"><p>Ho, D., Kosuke, I. King, G., &amp; Stuart, E. (2011). MatchIt: Nonparametric preprocessing inference <em>[software documentation]. Retrieved from http://gking.harvard.edu/matchit</em><a href="#fnref14" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn15" role="doc-endnote"><p>Ho, D., Kosuke, I., King, G., &amp; Stuart, E. (2013). MatchIt: Nonparametric preprocessing for parametric causal inference <em>[software]. Retrived from http://gking.harvard.edu/matchit</em> <a href="#fnref15" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn16" role="doc-endnote"><p>Randolph, J. J. (2014a). New York educational data set example before matching. <em>Retrieved from http://justusrandolph.net/psm/newyork.csv</em> <a href="#fnref16" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn17" role="doc-endnote"><p>Ho, D., Kosuke, I. King, G., &amp; Stuart, E. (2011). MatchIt: Nonparametric preprocessing inference <em>[software documentation]. Retrieved from http://gking.harvard.edu/matchit</em><a href="#fnref17" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn18" role="doc-endnote"><p>Ho, D., Kosuke, I., King, G., &amp; Stuart, E. (2007a). MatchIt: Nonparametric preprocessing for parametric causal inference. <em>Political Analysis, 15(3)</em> , 199 <a href="#fnref18" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn19" role="doc-endnote"><p>Ho, D., Kosuke, I., King, G., &amp; Stuart, E. (2007b). Matching as nonparametric preprocessing for reducing model dependence in parametric causal inference. <em>Journal of Statistical Software. Retrieved from http://gking.harvard.edu/matchit/</em> <a href="#fnref19" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn20" role="doc-endnote"><p>Ho, D., Kosuke, I. King, G., &amp; Stuart, E. (2011). MatchIt: Nonparametric preprocessing inference <em>[software documentation]. Retrieved from http://gking.harvard.edu/matchit</em><a href="#fnref20" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn21" role="doc-endnote"><p>Ho, D., Kosuke, I., King, G., &amp; Stuart, E. (2013). MatchIt: Nonparametric preprocessing for parametric causal inference <em>[software]. Retrived from http://gking.harvard.edu/matchit</em> <a href="#fnref21" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn22" role="doc-endnote"><p>Randolph, J. J. (2014b). New York educational data set example after matching. <em>Retrieved from http://justusrandolph.net/psm/newyork_nearest100.csv</em><a href="#fnref22" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn23" role="doc-endnote"><p>Falbe, K. (2014). The relationship between Schools to Watch ? designation and ac study of Colorado, New York, Ohio, and Virginia (Doctoral dissertation). <em>Available from Proquest Dissertations and Theses database. (UMI No.&nbsp;3581272).</em> <a href="#fnref23" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

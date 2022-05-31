@@ -1,0 +1,16 @@
+{
+  "hash": "be82c9f6520b022dbc3af182c06f9f09",
+  "result": {
+    "markdown": "---\ntitle: \"Latex\"\nauthor: \"Harrie Jonkman\"\ndate: \"28 februari 2018\"\ncategories: [analyse]\nimage: \"img/latex.jpg\"\n---\n\n\n\n\n[Hier](http://www.harriejonkman.nl/wp-content/uploads/2017/06/Latexintro.pdf) vind je een snelle introductie op de werking van Latex\n\n\n\n\n\n",
+    "supporting": [
+      "latex_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": null
+  }
+}

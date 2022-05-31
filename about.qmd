@@ -1,6 +1,6 @@
 ---
-title: "About"
-image: profile.jpg
+title: "Harrie's Hoekje"
+image: Harriefoto.png
 about:
   template: jolla
   links:
@@ -12,8 +12,64 @@ about:
       href: https://linkedin.com
     - icon: github
       text: Github
-      href: https://github.com
+      href: https://github.com/Jonkman1
 
 ---
 
-About this blog
+
+Met deze blog Harrie's Hoekje wil ik enkele ontwikkelingen op het terrein van moderne data-analyse bijhouden. Op dit terrein gebeurt op dit moment heel veel. Het zo nu en dan erover schrijven is voor mij een manier om een beetje bij te blijven en ontwikkelingen die mij interesseren zichtbaar te maken.   
+
+
+
+**Dr. Harrie Jonkman** studeerde sociologie en onderwijskunde en werkte aan de Rijksuniversiteit Groningen, in het onderwijs, het Nationaal Comité 4 en 5 mei en het Nederlands Jeugdinstituut (NJi). Sinds 2008 is hij verbonden aan het Verwey-Jonker Instituut. Zijn werk richt zich op de sociale en cognitieve
+ontwikkeling van kinderen en jongeren, sociale determinanten en preventie van ontwikkelings- en gedragsproblemen. In 2012 ontving hij van het National Institute on Drug Abuse (VS) een beurs als 'Distinguished Researcher'. Hij was landelijk projectleider van de Community that Care strategie in Nederland, ondersteunde deze ook in andere landen en schreef zijn promotieonderzoek naar de effecten van de preventiestrategie Communities that Care. 
+Bij het VerweyJonker Instituut is hij betrokken bij experimenten en evaluaties van sociale programma's, longitudinale studies, en internationaal vergelijkende studies. Hij ondersteunt preventiewerk in verschillende landen, was adviseur van de International Task Force on Prevention van de Society of Prevention Research en werkte tientallen jaren als supervisor in stuurgroepen van onderwijsinstellingen. 
+De laatste jaren specialiseerde hij zich in moderne data-analyse. Zijn interesse gaat daarbij uit naar multilevel-analyse, effectonderzoek en, sinds kort, machine-learning, zowel frequentisch als Bayesiaans. Maar ook vormgeving en visualisatie heeft zijn interesse. Hij ziet zichzelf meer als liefhebber dan als expert. 
+
+
+Dit zijn blogs die hij graag volgt:
+
+[Simply Statistics](https://simplystatistics.org/)   
+[Rbloggers](https://www.r-bloggers.com/)   
+[R4stats](http://r4stats.com/)   
+[DataCamp](https://www.datacamp.com/)  
+[JASP](https://jasp-stats.org/)   
+[MLwiN](http://www.bristol.ac.uk/cmm/software/mlwin/)   
+[STATA](https://www.stata.com/)   
+
+Individuen die hij graag volgt zijn onder andere:   
+
+[Kieran Healey](https://github.com/kjhealy)   
+[Rens van de Schoot](https://www.rensvandeschoot.com)   
+[David Spiegelhalter](http://www.statslab.cam.ac.uk/~david/)   
+[Alison Hill](https://alison.rbind.io/)   
+ 
+Hier boeken die op dit moment voor hem belangrijk zijn:
+
+Johnson, A.A., Ott, M., Dogucu, M. (2021). *Bayes Rules! Introduction to Bayesian Modeling with R*. https://www.bayesrulesbook.com/ 
+
+Batra, N. (ed, 2021). *The Epidemiologist R Handbook*. https://epirhandbook.com/index.html
+
+Baumer, B.S., Kaplan, D.T. & Horton, N.J. (2018). *Modern Data Science with R*. Boca Raton: CRC Press. 
+
+Freeman, M. & Ross, J. (2019). *Programming Skills for Data Science. Start writing code to wrangle, analyze, and visualize data with R*. Boston: Addison Wesley.
+
+Gillespie, C. & Lovelace, R. (2017). *Efficient R Programming*. (https://csgillespie.github.io/efficientR/) 
+
+Grolemund, G. & Wickham, H. (2019). *R for Data Science*. (https://r4ds.had.co.nz/) 
+
+Healey, K. (2019). *Data Visualization: A Practical Introduction*. Princeton: Princeton University Press.  
+
+Irizarry, R.A. (2019). *Introduction to Data Science. Data Analysis and Prediction Algorithms with R*. (https://rafalab.github.io/dsbook/) 
+
+Lovelace, R., Nowosad, J. & Muenchow, J. (2019). *Geocomputation with R*. (https://geocompr.robinlovelace.net/) 
+
+McElreath, R. (2019). *Statistical Rethinking. A Bayesian Course with Examples in R and Stan*. (Second edition). Boca Raton: Chapman and Hall/CRC  Vooral met brms, ggplot2 and the tidyverse https://bookdown.org/connect/#/apps/1850/access 
+
+Poldrack, R.A. (2021). *Statistical Thinking for the 21st Century*.https://statsthinking21.github.io/statsthinking21-core-site/
+
+Spiegelhalter, D. (2019). *The Art of Statistics. Learning from Data*. https://github.com/dspiegel29/ArtofStatistics
+
+Xie, Y., Allaire, J.J. & Grolemund, G.(2019). *R Markdown: The Definitive Guide*. https://bookdown.org/yihui/rmarkdown/ 
+
+Xie, Y., Dervieux, C. & Riederer, E. (2021). *RMarkdown Cookbook*. https://bookdown.org/yihui/rmarkdown-cookbook/

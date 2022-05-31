@@ -1,0 +1,37 @@
+---
+title: "Bayes"
+author: "Harrie Jonkman"
+date: "2018-29-01"
+categories: [analyseren]
+image: "img/Voorkant.PNG"
+---
+
+
+*"Als de feiten veranderen, verander ik mijn mening. Wat doe jij dan, meneer?" (Keynes)* 
+
+
+
+Thomas Bayes was een Engels wiskundige en presbyteriaans predikant die zichzelf in de tweede helft van de 18e eeuw enkele belangrijke vragen stelde, zoals hoe moeten we onze overtuigingen aanpassen als we nieuwe informatie krijgen en hoe houden we vast aan oude veronderstellingen, ook als ze onhoudbaar zijn geworden. Of laten we die overtuigingen heel makkelijk los, ook als we een klein beetje gaan twijfelen? 
+
+Bayes maakt ons ervan bewust dat we onze opvattingen steeds geleidelijk aan passen aan de werkelijkheid. Zijn stelling, of theorema, is een belangrijk instrument geworden voor allerlei wetenschappers en de Bayesiaanse regel staat niet zelden heel stoer op een t-shirt afgebeeld:
+
+$$P(A|B) = \frac {P(A) \times P(B|A)}{P(B)}$$
+
+
+Bayes draaide dingen om en wilde iets zeggen over een hypothese gegeven het bewijsmateriaal dat we hebben. Hoe moet je een veronderstelling begrijpen in het licht van empirisch materiaal? Bayes' theorie kent vervolgens een lange, ingewikkelde en verrassende geschiedenis die tot op de dag van vandaag doorgaat. Die geschiedenis heeft Sharon Bertsch McGrayne, een Amerikaanse wetenschapsjournalist, heel mooi in beeld gebracht. Maar het was niet Bayes zelf, maar zijn vriend Richard Price, een amateur wiskundige, die deze ideeën openbaar maakte na Bayes' dood. Zonder Price had die theorie helemaal niet bestaan. Price stuurde Bayes wetenschappelijke werk in en zorgde er zo voor dat er een publicatie van kwam. Naar die stelling werd vervolgens helemaal niet meer omgekeken tot de beroemde Franse wiskundige Pierre Simon Laplace in het begin van de 19e eeuw deze ideeën uitbreidde en op slimme manieren toepaste. Daarna was het maatschappelijk aan en uit met die theorie, werd het gebruikt en raakte het ook weer uit de mode. De ideeën werden op het ene na het andere gebied toegepast, om vervolgens weer te worden veroordeeld omdat het zou werken met vage, subjectieve of onwetenschappelijke uitgangspunten. Rivaliserende kampen (Frequentisten en Baysianen) voerden hier lange tijd grote strijd over.
+
+
+ 
+De theorie zelf kan eenvoudig worden uitgelegd. Je hebt een bepaalde hypothese, bijvoorbeeld over een munt. Je denkt dat de kans op kop of munt hetzelde is. Daar ga je van te voren van uit. Als je vijf keer gooit en je gooit steeds kop dan denk je nog dat het toeval is en je past jouw veronderstelling nog niet aan. Anders wordt het als dit 100 keer gebeurt, dan ga je toch echt twijfelen over de munt en ga je denken dat het misschien wel alleen maar kop kent. Bij waarschijnlijkheid gaat het om uitsluitende mogelijkheden die je toekent. Je hebt van tevoren een idee over iets (prior), vervolgens heb je de data (likelihood) en dat zorgt vervolgens voor jouw geupdated kennis (posterior). Bayes' theorie is een manier om de waarschijnlijkheid steeds op een consistent en logische manier te herberekenen. Dat herberekenen van de hypothese (of kennis die we hebben) vindt dus steeds plaats in het licht van nieuwe bewijzen. Deze geupdated of aangepaste waarschijnlijkheid wordt de posterior probability of gewoon de posterior genoemd. 
+
+Om het iets ingewikkelder te zeggen, de stelling van Bayes's houdt nu in dat de posterior waarschijnlijkheid van een hypothese gelijk is aan het product van de voorafgaande waarschijnlijkheid van de hypothese (dus wat je weet al, de prior) en de waarschijnlijkheid van het bewijs gegeven de hypothese (de data, de likelihood). Dit deel je vervolgens door de waarschijnlijkheid van alle bewijzen. Dat laatste gebeurt omdat je zo steeds een waarde tussen 0 en 1 te krijgen, en hoe dichter bij 1 hoe groter de kans. Dat is precies wat op dat stoere t-shirt staat.
+
+
+Heel veel kennis is er opgebouwd met munten, kaarten en dergelijke. Moeilijker wordt het wanneer je de stelling van Bayes toepast op het echte leven. Maar ook hier gebeurt het op een zelfde manier. Stel dat je naar buitenloopt en ziet dat jouw tuinpad nat is. Dan denk je misschien dat het geregend heeft. Als je verder loopt en ziet dat de straten droog zijn, ga je toch denken dat jouw vrouw misschien de tuin heeft gesproeid. Wanneer je het weerbericht hebt gehoord (waarin regen wordt voorspeld) voordat je naar buitenloopt, denk je nog eerder dat het geregend heeft als je over het natte tuinpad loopt. Met dat weersbericht en dat natte tuinpad word je minder snel van jouw regengedachte afgehaald als je de droge straat ziet. In het dagelijks leven worden gedachten en veronderstellingen voortdurend geüpdated. Kennis wordt gebruikt en nieuw bewijsmateriaal wordt voortdurend daarmee gefilterd en verwerkt in jouw Bayesiaanse hoofd. Steeds meer doen we kennis op over hoe kansen zijn toe te wijzen en bewijs kan worden geëvalueerd in situaties die veel ingewikkelder zijn dan het gooien van munten of het inschatten van regen. 
+
+McGrayne besteedt veel aandacht aan allerlei bijdragen van individuele wetenschappers aan die boeiende geschiedenis van de Bayesiaanse theorie. Zo bespreekt ze uitgebreid hoe het in oorlogsvoering is gebruikt, in het proces van kolonel Dreyfus, hoe Alan Turing met deze theorie Duitse codes kraakte en er met dat kleine groepje slimme mensen voor zorgde dat de Tweede Wereldoorlog minder lang duurde. Maar veel meer voorbeelden komen aan de orde.
+
+Bayesiaanse theorie wordt tegenwoordig op allerlei gebieden van wetenschap toegepast. Ook in onze dagelijks leven hebben we ermee te maken via vertaalmachines, spamfilters en stuurloze auto's bijvoorbeeld. We zijn er onszelf nauwelijks van bewust. McGrayne heeft niet alleen oog voor statistici die zich succesvol wijdden aan Bayesiaanse statistiek. Ze laat ook zien hoe deze door andere statici (zoals Fischer, als vertegenwoordiger van de zogenaamde Frequentisten) heftig worden tegengewerkt. De kern van de verschillen tussen deze twee groepen is dat volgens Bayesianen de prior een subjectieve uitdrukking kan zijn van de mate van geloof in een hypothese. Je moet de kennis gebruiken die je al hebt, het is vreemd om steeds maar opnieuw en van voren af aan te beginnen. Frequentisten erkennen dit subjectieve element niet. Voor hen moet wetenschap een objectieve basis hebben, liefste in relatieve frequentie van gebeurtenissen in herhaalbare, welomschreven experimenten.Dat subjectieve element staat daar ver van.  
+
+McGrayne's boek is een prachtig wetenschapshistorisch boek [Zie ook haar presentatie hier](https://www.youtube.com/watch?v=8oD6eBkjF9o). Ze laat zien dat de Bayesiaanse theorie weer helemaal terug is en dat komt natuurlijk vooral ook door de ontwikkeling van de computer en moderne algoritmen waarmee de theorie niet enkel theorie blijft maar ook praktisch kan worden toegepast. David Spiegelhalter en zijn biostatistische onderzoeksgroep hebben daar op een ongekende manier aan bijgedragen. De Bayesiaanse methode wordt in allerlei onderzoek gebruikt en in verschillende omstandigheden heeft het grote voordelen zien ten opzichte van de frequentistische statistiek. Er wordt vandaag de dag veel pragmatischer mee hiermee omgegaan. De tegenwoordige wetenschapper loopt steeds vaker met twee gereedschapskisten rond en op basis van het probleem besluit hij of zij tot een onderzoekswijze.
+

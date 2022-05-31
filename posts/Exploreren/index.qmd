@@ -1,0 +1,9 @@
+---
+title: "Exploreren"
+author: "Harrie Jonkman"
+date: "28 februari 2018"
+categories: [analyse]
+image: "img/explore.jpg"
+---
+
+De tekst vind je hier: http://www.harriejonkman.nl/wp-content/uploads/2018/01/MDtotaal.pdf

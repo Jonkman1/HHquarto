@@ -2,12 +2,12 @@ project:
   type: website
 
 website:
-  title: "quarto-blog"
+  title: "Harrie's Hoekje"
   navbar:
     right:
       - about.qmd
       - icon: github
-        href: https://github.com/
+        href: https://github.com/Jonkman1
       - icon: twitter
         href: https://twitter.com
 format:

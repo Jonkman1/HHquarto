@@ -1,0 +1,1951 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.345">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Marian L. Schmidte, bewerkte Harrie Jonkman">
+<meta name="dcterms.date" content="2018-06-28">
+
+<title>Harrie’s Hoekje - Dynamische documenten maken met RMarkdown en knitr</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="..\..\site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="..\..\site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="..\..\site_libs/datatables-binding-0.22/datatables.js"></script>
+<script src="..\..\site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="..\..\site_libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="..\..\site_libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="..\..\site_libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="..\..\site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="..\..\site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<script src="..\..\site_libs/plotly-binding-4.10.0/plotly.js"></script>
+<script src="..\..\site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="..\..\site_libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="..\..\site_libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Harrie’s Hoekje</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">Harrie’s Hoekje</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Jonkman1"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Dynamische documenten maken met RMarkdown en knitr</h1>
+            <p class="subtitle lead">RMarkdown en Knitr zijn pakketten die je in staat stellen om reproduceerbare en dynamische documenten te maken. In deze blog wordt uitgelegd hoe je hiermee kunt werken.</p>
+                          <div class="quarto-categories">
+                <div class="quarto-category">communicatie</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Marian L. Schmidte, bewerkte Harrie Jonkman </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">June 28, 2018</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<!--Einde van opties instellen en R pakketten laden-->
+<hr>
+<section id="welkom" class="level1">
+<h1>Welkom!</h1>
+<p>Deze workshop is eerder gegeven door Schmidt op <strong>11 Mei 2016</strong> en er waren wat aanvullende materialen beschikbaar:</p>
+<ol type="1">
+<li><strong>Klas notities</strong> die voor de workshop konden worden gebruikt <a href="http://pad.software-carpentry.org/2016-05-11-RMarkdown" target="_blank">etherpad</a>.<br>
+</li>
+<li>De workshop is ook live <strong>opgenomen</strong> en beschikbaar op <a href="http://youtu.be/WFAHJ0NHOEQ" target="_blank">YouTube</a>. Kijk naar dit college op YouTube! Zeer leerzaam.</li>
+</ol>
+<p>Deze tutorial is gemaakt als onderdeel van een programma van Dr.&nbsp;C Titus Brown’s <a href="http://dib-training.readthedocs.io/en/pub/index.html" target="_blank">Data Intensive Biology (DIB)</a> trainingsprogramma op de Universiteit van Californie, Davis. Dit DIB trainingsprogramma omvat lokale + remote workshops die onderwerpen en gereedschappen behandelen in de bio-informatica en data analyse.</p>
+<p>Het college werd gegeven vanuit Ann Arbor Michigan en drie klassen van elders deden tegelijkertijd mee:</p>
+<ol type="1">
+<li>Universiteit van Californi?, Davis<br>
+</li>
+<li>Simon Fraser Universiteit</li>
+<li>Ontario Instituut for Kanker Onderzoek</li>
+</ol>
+<p>De <strong>Github repository</strong>, die ik binnen heb gehaald en hier gebruik voor deze les, kan worden gevonden op <a href="https://github.com/marschmi/RMarkdown_May11_2016" target="_blank">hier</a>.</p>
+<p><strong>Opgelet:</strong> Dit soort werk introduceert wel een groot aantal Engelse woorden in onze Nederlandse taal. Enkele daarvan heb ik laten staan, niet omdat ik ze mooi vind maar omdat ze al overal gebruikt worden. Gewone mensen praten al over bijvoorbeeld renderen, cachen, files, widgets en output. Met excuses hiervoor, bij voorbaat.</p>
+<hr>
+<section id="instructies-bij-het-installeren" class="level2">
+<h2 class="anchored" data-anchor-id="instructies-bij-het-installeren">Instructies bij het installeren</h2>
+<p><strong>Voordat je gaat werken met de workshopmaterialen, zorg ervoor dat je het volgende hebt gedaan:</strong></p>
+<ol type="1">
+<li>Open <strong>RStudio</strong>.<br>
+</li>
+<li>Installeer en download het <strong>devtools</strong> R pakket door het volgende commando te runnen.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"devtools"</span>) <span class="co"># Nodig voor deze sessie</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"devtools"</span>)          <span class="co"># Nodig voor deze sessie   </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="3" type="1">
+<li>Check of je de goede versie hebt van <strong>R</strong> en <strong>RStudio</strong> door <code>devtools::session_info()</code> in de R console te draaien.<br>
+Hier geeft <code>devtools::</code> aan om de <code>session_info()</code> functie in <strong>R</strong> te gebruiken ipv het <strong>devtools</strong> pakket en de <code>sessionInfo()</code> functie binnen het <strong>utils</strong> pakket. Het runnen van <code>devtools::session_info()</code> stelt ons in staat de versie van <strong>R</strong> en <strong>RStudio</strong> vast te stellen.</li>
+</ol>
+<p>Heb je de volgende versie van <strong>R</strong> en <strong>RStudio</strong>?</p>
+<ul>
+<li><p><strong>R:</strong> <code>Versie 3.3.0 (2016-05-03)</code><br>
+</p></li>
+<li><p><strong>RStudio:</strong> <code>0.99.1172</code></p>
+<ul>
+<li>Zo <strong>ja</strong> dan kun je van start gaan!<br>
+</li>
+<li>Zo <strong>nee</strong> dan heb je nieuwe versies van <strong>R</strong> en <strong>RStudio</strong> nodig, volg dan <a href="http://umswc.github.io/2016-05-11-RMarkdown/" target="_blank">Setup</a> in dit document.</li>
+</ul></li>
+</ul>
+<ol start="4" type="1">
+<li>Installeer andere R pakketten die nodig zijn voor deze workshop.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Installeer de goede pakketten</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"rmarkdown"</span>)  <span class="co"># Dit zorgt voor koele dynamische documenten</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"knitr"</span>)      <span class="co"># Hier kun je R code Chunks mee runnen</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"ggplot2"</span>)    <span class="co"># Voor het plotten van mooie figuren</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"DT"</span>)         <span class="co"># Om interactieve HTML tabellen te maken</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Deze pakketten ook laden om er zeker van te zijn dat je de goede pakketten hebt</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rmarkdown"</span>)           <span class="co"># Dit zorgt voor koele dynamische documenten</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"knitr"</span>)               <span class="co"># Hier kun je R code Chunks mee runnen</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggplot2"</span>)             <span class="co"># Voor het plotten van mooie figuren</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"DT"</span>)                  <span class="co"># Om interactieve HTML tabellen te maken</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="5" type="1">
+<li>Als je de pakketten zonder fouten hebt geladen, ben je klaar voor deze workshop!</li>
+</ol>
+<p>Zijn er nog problemen, meld het ajb!</p>
+<hr>
+</section>
+</section>
+<section id="goede-bronnen" class="level1">
+<h1>Goede bronnen</h1>
+<p>Deze tutorial kon <strong>niet</strong> samengesteld worden zonder onderstaande goede bronnen:</p>
+<ol type="1">
+<li>De <a href="http://rmarkdown.rstudio.com/index.html" target="_blank">RMarkdown</a> website van RStudio.<br>
+</li>
+<li>Dr.&nbsp;Yuhui Xie’s boek: <a href="http://www.amazon.com/Dynamic-Documents-knitr-Chapman-Hall/dp/1482203537" target="_blank">Dynamic Documents with R and Knitr</a> 2<sup>nd</sup> Edition <span class="citation" data-cites="Xie2015">[@Xie2015]</span> en zijn <a href="http://yihui.name/knitr/" target="_blank">Knitr</a> website.
+<ul>
+<li><strong>HEEL VEEL DANK</strong> aan Dr.&nbsp;Xie voor het schrijven van het <strong>knitr</strong> pakket!!<br>
+</li>
+</ul></li>
+<li>Dr.&nbsp;Karl Broman’s <a href="http://kbroman.org/knitr_knutshell/" target="_blank">“Knitr in a Knutshell”</a>.<br>
+</li>
+<li><a href="https://www.rstudio.com/resources/cheatsheets/" target="_blank">Cheatsheets</a> released by RStudio.</li>
+</ol>
+<hr>
+</section>
+<section id="dynamische-documenten" class="level1">
+<h1>Dynamische documenten</h1>
+<p><a href="https://en.wikipedia.org/wiki/Literate_programming">Literate programming</a>, zoals dat in het Engels wordt genoemd, is het basisidee achter dynamische documenten en is ge?ntroduceerd door Donald Knuth in 1984. Oorspronkelijk om de broncode en de bijbehorende software documentatie samen te brengen. Tegenwoordig cre?ren we dynamische documenten waarin het programma of de analyse code samen draaien om tot ‘outputs’ te komen (bv. tabellen, plots, modellen, etc) die worden uitgelegd via narratief schrijven.</p>
+<p>De drie stappen van <strong>Literate Programming</strong>:</p>
+<ol type="1">
+<li><strong>Parse</strong> het bron document en haal de code en het verhaal uit elkaar.<br>
+</li>
+<li><strong>Execute</strong> bron code en laat de resultaten zien.<br>
+</li>
+<li><strong>Mix</strong> resultaten van de broncode met het orginele verhaal.</li>
+</ol>
+<p>Er blijven 2 stappen voor ons voor wat betreft het schrijven:</p>
+<ol type="1">
+<li>Analyse code<br>
+</li>
+<li>Een verhaal om de resultaten van de analyse code toe te lichten.</li>
+</ol>
+<p>Traditioneel gebruikten mensen commentaren om het verhaal in de code file kwijt te kunnen raken (voor <strong>R</strong> zou dat een <code>.R</code> file zijn). Deze file zou het volgende in kunnen houden:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Titel:  Relatie tussen Autogewicht en Gasefficientie/of-verbruik</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Door :  Marian Schmidt  </span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Datum:  11 Mei 2016</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Ik verspel dat er een relatie is tussen het gewicht van de auto en de afstand die met de brandstof afgelegd kan worden.  </span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Dat test ik met een lineaire analyse van de ''mtcarsdataset' als onderdeel van de R datasets</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Hoe zien de data eruit?</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#datatable(mtcars) # Interactieve tabel </span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Is er een relatie tussen het gewicht en de afstand per, in dit geval, gallon?</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>lm_mpg <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg <span class="sc">~</span> wt, <span class="at">data =</span> mtcars) <span class="co"># Run het lineaire model dat mpg voorspelt op basis van wt</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>coef_lm_mpg <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(lm_mpg))  <span class="co"># Haal de coefficienten eruit voor de tabel die komt </span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(coef_lm_mpg)                    <span class="co"># Maak een niet-interactieve tabel - een functie in knitr</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot de relatie tussen gewicht en afstand in mijl per gallon   </span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="at">x =</span> wt, <span class="at">y =</span> mpg)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="co"># </span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span>           <span class="co"># Maak een lineair model en maak het zwart en wit</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Weight (1000lbs)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Miles per Gallon"</span>) <span class="co"># Voeg tekst aan de assen toe</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplotly</span>(plot)                                        <span class="co"># Maak de plot interactief  </span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Het lijkt erop dat met een toename van 1000 pounds er een afname is van brandstof gebruik met 5.34 mijl per gallon</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Het eind</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>De gebruiker zal de commentaren lezen en de codes zelf runnen.</p>
+<p>Echter, ‘literate programming’ stelt ons in staat de code te runnen en de resultaten te beschrijven, allemaal in een document dat we kunnen delen. We zouden bijvoorbeeld het volgende kunnen doen:</p>
+<hr>
+<p><strong>Relatie tussen gewicht van de auto en het brandstofverbruik</strong><br>
+<em>Door:</em> Marian Schmidt<br>
+<em>Datum:</em> 11 Mei 2016</p>
+<p>Ik voorspel dat er een relatie is tussen het gewicht en de afstand die met de brandstof kan worden afgelegd.</p>
+<p>Ik test dat met een lineair model op een dataset in R.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Hoe zien de data eruit?</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(mtcars) <span class="co"># Interactieve tabel </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-fb36d29971dd9ca5a654" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-fb36d29971dd9ca5a654">{"x":{"filter":"none","vertical":false,"data":[["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant","Duster 360","Merc 240D","Merc 230","Merc 280","Merc 280C","Merc 450SE","Merc 450SL","Merc 450SLC","Cadillac Fleetwood","Lincoln Continental","Chrysler Imperial","Fiat 128","Honda Civic","Toyota Corolla","Toyota Corona","Dodge Challenger","AMC Javelin","Camaro Z28","Pontiac Firebird","Fiat X1-9","Porsche 914-2","Lotus Europa","Ford Pantera L","Ferrari Dino","Maserati Bora","Volvo 142E"],[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],[6,6,4,6,8,6,8,4,4,6,6,8,8,8,8,8,8,4,4,4,4,8,8,8,8,4,4,4,8,6,8,4],[160,160,108,258,360,225,360,146.7,140.8,167.6,167.6,275.8,275.8,275.8,472,460,440,78.7,75.7,71.1,120.1,318,304,350,400,79,120.3,95.1,351,145,301,121],[110,110,93,110,175,105,245,62,95,123,123,180,180,180,205,215,230,66,52,65,97,150,150,245,175,66,91,113,264,175,335,109],[3.9,3.9,3.85,3.08,3.15,2.76,3.21,3.69,3.92,3.92,3.92,3.07,3.07,3.07,2.93,3,3.23,4.08,4.93,4.22,3.7,2.76,3.15,3.73,3.08,4.08,4.43,3.77,4.22,3.62,3.54,4.11],[2.62,2.875,2.32,3.215,3.44,3.46,3.57,3.19,3.15,3.44,3.44,4.07,3.73,3.78,5.25,5.424,5.345,2.2,1.615,1.835,2.465,3.52,3.435,3.84,3.845,1.935,2.14,1.513,3.17,2.77,3.57,2.78],[16.46,17.02,18.61,19.44,17.02,20.22,15.84,20,22.9,18.3,18.9,17.4,17.6,18,17.98,17.82,17.42,19.47,18.52,19.9,20.01,16.87,17.3,15.41,17.05,18.9,16.7,16.9,14.5,15.5,14.6,18.6],[0,0,1,1,0,1,0,1,1,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0,1,0,1,0,0,0,1],[1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1],[4,4,4,3,3,3,3,4,4,4,4,3,3,3,3,3,3,4,4,4,3,3,3,3,3,4,5,5,5,5,5,4],[4,4,1,1,2,1,4,2,2,4,4,3,3,3,4,4,4,1,2,1,1,2,2,4,2,1,2,2,4,6,8,2]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>mpg<\/th>\n      <th>cyl<\/th>\n      <th>disp<\/th>\n      <th>hp<\/th>\n      <th>drat<\/th>\n      <th>wt<\/th>\n      <th>qsec<\/th>\n      <th>vs<\/th>\n      <th>am<\/th>\n      <th>gear<\/th>\n      <th>carb<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7,8,9,10,11]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Is er een relatie tussen het gewicht van de auto en de afstand die het kan afleggen met de brandstof?</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>lm_mpg <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg <span class="sc">~</span> wt, <span class="at">data =</span> mtcars) <span class="co"># Run het lineair model dat mpg voorspelt op basis van wt</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>coef_lm_mpg <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(lm_mpg))  <span class="co"># Haal de co?ffici?nten voor de tabel eruit</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(coef_lm_mpg)                    <span class="co"># Maak een niet-interactieve tabel - functie in knitr</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Estimate</th>
+<th style="text-align: right;">Std. Error</th>
+<th style="text-align: right;">t value</th>
+<th style="text-align: right;">Pr(&gt;|t|)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">37.285126</td>
+<td style="text-align: right;">1.877627</td>
+<td style="text-align: right;">19.857575</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">wt</td>
+<td style="text-align: right;">-5.344472</td>
+<td style="text-align: right;">0.559101</td>
+<td style="text-align: right;">-9.559044</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot de relatie tussen gewicht en mijl per gallon  </span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="at">x =</span> wt, <span class="at">y =</span> mpg)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="co"># </span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span>           <span class="co"># voeg lineair model toe en maak het zwart en wit </span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Weight (1000lbs)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Miles per Gallon"</span>) <span class="co"># Voeg tekst aan x en y-as toe</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplotly</span>(plot)                                        <span class="co"># Maak een interactieve plot (dat kan in html)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div id="htmlwidget-ccf46526dce3010c88c3" style="width:100%;height:650px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ccf46526dce3010c88c3">{"x":{"data":[{"x":[2.62,2.875,2.32,3.215,3.44,3.46,3.57,3.19,3.15,3.44,3.44,4.07,3.73,3.78,5.25,5.424,5.345,2.2,1.615,1.835,2.465,3.52,3.435,3.84,3.845,1.935,2.14,1.513,3.17,2.77,3.57,2.78],"y":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"text":["wt: 2.620<br />mpg: 21.0","wt: 2.875<br />mpg: 21.0","wt: 2.320<br />mpg: 22.8","wt: 3.215<br />mpg: 21.4","wt: 3.440<br />mpg: 18.7","wt: 3.460<br />mpg: 18.1","wt: 3.570<br />mpg: 14.3","wt: 3.190<br />mpg: 24.4","wt: 3.150<br />mpg: 22.8","wt: 3.440<br />mpg: 19.2","wt: 3.440<br />mpg: 17.8","wt: 4.070<br />mpg: 16.4","wt: 3.730<br />mpg: 17.3","wt: 3.780<br />mpg: 15.2","wt: 5.250<br />mpg: 10.4","wt: 5.424<br />mpg: 10.4","wt: 5.345<br />mpg: 14.7","wt: 2.200<br />mpg: 32.4","wt: 1.615<br />mpg: 30.4","wt: 1.835<br />mpg: 33.9","wt: 2.465<br />mpg: 21.5","wt: 3.520<br />mpg: 15.5","wt: 3.435<br />mpg: 15.2","wt: 3.840<br />mpg: 13.3","wt: 3.845<br />mpg: 19.2","wt: 1.935<br />mpg: 27.3","wt: 2.140<br />mpg: 26.0","wt: 1.513<br />mpg: 30.4","wt: 3.170<br />mpg: 15.8","wt: 2.770<br />mpg: 19.7","wt: 3.570<br />mpg: 15.0","wt: 2.780<br />mpg: 21.4"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,0,0,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,0,0,1)"}},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1.513,1.56250632911392,1.61201265822785,1.66151898734177,1.7110253164557,1.76053164556962,1.81003797468354,1.85954430379747,1.90905063291139,1.95855696202532,2.00806329113924,2.05756962025316,2.10707594936709,2.15658227848101,2.20608860759494,2.25559493670886,2.30510126582278,2.35460759493671,2.40411392405063,2.45362025316456,2.50312658227848,2.55263291139241,2.60213924050633,2.65164556962025,2.70115189873418,2.7506582278481,2.80016455696203,2.84967088607595,2.89917721518987,2.9486835443038,2.99818987341772,3.04769620253165,3.09720253164557,3.14670886075949,3.19621518987342,3.24572151898734,3.29522784810127,3.34473417721519,3.39424050632911,3.44374683544304,3.49325316455696,3.54275949367089,3.59226582278481,3.64177215189873,3.69127848101266,3.74078481012658,3.79029113924051,3.83979746835443,3.88930379746835,3.93881012658228,3.9883164556962,4.03782278481013,4.08732911392405,4.13683544303798,4.1863417721519,4.23584810126582,4.28535443037975,4.33486075949367,4.3843670886076,4.43387341772152,4.48337974683544,4.53288607594937,4.58239240506329,4.63189873417722,4.68140506329114,4.73091139240506,4.78041772151899,4.82992405063291,4.87943037974684,4.92893670886076,4.97844303797468,5.02794936708861,5.07745569620253,5.12696202531646,5.17646835443038,5.2259746835443,5.27548101265823,5.32498734177215,5.37449367088608,5.424],"y":[29.1989406778126,28.9343555091934,28.6697703405742,28.4051851719549,28.1406000033357,27.8760148347165,27.6114296660973,27.3468444974781,27.0822593288588,26.8176741602396,26.5530889916204,26.2885038230012,26.023918654382,25.7593334857627,25.4947483171435,25.2301631485243,24.9655779799051,24.7009928112859,24.4364076426666,24.1718224740474,23.9072373054282,23.642652136809,23.3780669681898,23.1134817995705,22.8488966309513,22.5843114623321,22.3197262937129,22.0551411250937,21.7905559564744,21.5259707878552,21.261385619236,20.9968004506168,20.7322152819976,20.4676301133783,20.2030449447591,19.9384597761399,19.6738746075207,19.4092894389015,19.1447042702822,18.880119101663,18.6155339330438,18.3509487644246,18.0863635958054,17.8217784271861,17.5571932585669,17.2926080899477,17.0280229213285,16.7634377527093,16.49885258409,16.2342674154708,15.9696822468516,15.7050970782324,15.4405119096132,15.1759267409939,14.9113415723747,14.6467564037555,14.3821712351363,14.1175860665171,13.8530008978978,13.5884157292786,13.3238305606594,13.0592453920402,12.794660223421,12.5300750548017,12.2654898861825,12.0009047175633,11.7363195489441,11.4717343803249,11.2071492117056,10.9425640430864,10.6779788744672,10.413393705848,10.1488085372288,9.88422336860955,9.61963819999033,9.35505303137111,9.09046786275189,8.82588269413267,8.56129752551345,8.29671235689423],"text":["wt: 1.513000<br />mpg: 29.198941","wt: 1.562506<br />mpg: 28.934356","wt: 1.612013<br />mpg: 28.669770","wt: 1.661519<br />mpg: 28.405185","wt: 1.711025<br />mpg: 28.140600","wt: 1.760532<br />mpg: 27.876015","wt: 1.810038<br />mpg: 27.611430","wt: 1.859544<br />mpg: 27.346844","wt: 1.909051<br />mpg: 27.082259","wt: 1.958557<br />mpg: 26.817674","wt: 2.008063<br />mpg: 26.553089","wt: 2.057570<br />mpg: 26.288504","wt: 2.107076<br />mpg: 26.023919","wt: 2.156582<br />mpg: 25.759333","wt: 2.206089<br />mpg: 25.494748","wt: 2.255595<br />mpg: 25.230163","wt: 2.305101<br />mpg: 24.965578","wt: 2.354608<br />mpg: 24.700993","wt: 2.404114<br />mpg: 24.436408","wt: 2.453620<br />mpg: 24.171822","wt: 2.503127<br />mpg: 23.907237","wt: 2.552633<br />mpg: 23.642652","wt: 2.602139<br />mpg: 23.378067","wt: 2.651646<br />mpg: 23.113482","wt: 2.701152<br />mpg: 22.848897","wt: 2.750658<br />mpg: 22.584311","wt: 2.800165<br />mpg: 22.319726","wt: 2.849671<br />mpg: 22.055141","wt: 2.899177<br />mpg: 21.790556","wt: 2.948684<br />mpg: 21.525971","wt: 2.998190<br />mpg: 21.261386","wt: 3.047696<br />mpg: 20.996800","wt: 3.097203<br />mpg: 20.732215","wt: 3.146709<br />mpg: 20.467630","wt: 3.196215<br />mpg: 20.203045","wt: 3.245722<br />mpg: 19.938460","wt: 3.295228<br />mpg: 19.673875","wt: 3.344734<br />mpg: 19.409289","wt: 3.394241<br />mpg: 19.144704","wt: 3.443747<br />mpg: 18.880119","wt: 3.493253<br />mpg: 18.615534","wt: 3.542759<br />mpg: 18.350949","wt: 3.592266<br />mpg: 18.086364","wt: 3.641772<br />mpg: 17.821778","wt: 3.691278<br />mpg: 17.557193","wt: 3.740785<br />mpg: 17.292608","wt: 3.790291<br />mpg: 17.028023","wt: 3.839797<br />mpg: 16.763438","wt: 3.889304<br />mpg: 16.498853","wt: 3.938810<br />mpg: 16.234267","wt: 3.988316<br />mpg: 15.969682","wt: 4.037823<br />mpg: 15.705097","wt: 4.087329<br />mpg: 15.440512","wt: 4.136835<br />mpg: 15.175927","wt: 4.186342<br />mpg: 14.911342","wt: 4.235848<br />mpg: 14.646756","wt: 4.285354<br />mpg: 14.382171","wt: 4.334861<br />mpg: 14.117586","wt: 4.384367<br />mpg: 13.853001","wt: 4.433873<br />mpg: 13.588416","wt: 4.483380<br />mpg: 13.323831","wt: 4.532886<br />mpg: 13.059245","wt: 4.582392<br />mpg: 12.794660","wt: 4.631899<br />mpg: 12.530075","wt: 4.681405<br />mpg: 12.265490","wt: 4.730911<br />mpg: 12.000905","wt: 4.780418<br />mpg: 11.736320","wt: 4.829924<br />mpg: 11.471734","wt: 4.879430<br />mpg: 11.207149","wt: 4.928937<br />mpg: 10.942564","wt: 4.978443<br />mpg: 10.677979","wt: 5.027949<br />mpg: 10.413394","wt: 5.077456<br />mpg: 10.148809","wt: 5.126962<br />mpg:  9.884223","wt: 5.176468<br />mpg:  9.619638","wt: 5.225975<br />mpg:  9.355053","wt: 5.275481<br />mpg:  9.090468","wt: 5.324987<br />mpg:  8.825883","wt: 5.374494<br />mpg:  8.561298","wt: 5.424000<br />mpg:  8.296712"],"type":"scatter","mode":"lines","name":"fitted values","line":{"width":3.77952755905512,"color":"rgba(51,102,255,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1.513,1.56250632911392,1.61201265822785,1.66151898734177,1.7110253164557,1.76053164556962,1.81003797468354,1.85954430379747,1.90905063291139,1.95855696202532,2.00806329113924,2.05756962025316,2.10707594936709,2.15658227848101,2.20608860759494,2.25559493670886,2.30510126582278,2.35460759493671,2.40411392405063,2.45362025316456,2.50312658227848,2.55263291139241,2.60213924050633,2.65164556962025,2.70115189873418,2.7506582278481,2.80016455696203,2.84967088607595,2.89917721518987,2.9486835443038,2.99818987341772,3.04769620253165,3.09720253164557,3.14670886075949,3.19621518987342,3.24572151898734,3.29522784810127,3.34473417721519,3.39424050632911,3.44374683544304,3.49325316455696,3.54275949367089,3.59226582278481,3.64177215189873,3.69127848101266,3.74078481012658,3.79029113924051,3.83979746835443,3.88930379746835,3.93881012658228,3.9883164556962,4.03782278481013,4.08732911392405,4.13683544303798,4.1863417721519,4.23584810126582,4.28535443037975,4.33486075949367,4.3843670886076,4.43387341772152,4.48337974683544,4.53288607594937,4.58239240506329,4.63189873417722,4.68140506329114,4.73091139240506,4.78041772151899,4.82992405063291,4.87943037974684,4.92893670886076,4.97844303797468,5.02794936708861,5.07745569620253,5.12696202531646,5.17646835443038,5.2259746835443,5.27548101265823,5.32498734177215,5.37449367088608,5.424,5.424,5.424,5.37449367088608,5.32498734177215,5.27548101265823,5.2259746835443,5.17646835443038,5.12696202531646,5.07745569620253,5.02794936708861,4.97844303797468,4.92893670886076,4.87943037974684,4.82992405063291,4.78041772151899,4.73091139240506,4.68140506329114,4.63189873417722,4.58239240506329,4.53288607594937,4.48337974683544,4.43387341772152,4.3843670886076,4.33486075949367,4.28535443037975,4.23584810126582,4.1863417721519,4.13683544303798,4.08732911392405,4.03782278481013,3.9883164556962,3.93881012658228,3.88930379746835,3.83979746835443,3.79029113924051,3.74078481012658,3.69127848101266,3.64177215189873,3.59226582278481,3.54275949367089,3.49325316455696,3.44374683544304,3.39424050632911,3.34473417721519,3.29522784810127,3.24572151898734,3.19621518987342,3.14670886075949,3.09720253164557,3.04769620253165,2.99818987341772,2.9486835443038,2.89917721518987,2.84967088607595,2.80016455696203,2.7506582278481,2.70115189873418,2.65164556962025,2.60213924050633,2.55263291139241,2.50312658227848,2.45362025316456,2.40411392405063,2.35460759493671,2.30510126582278,2.25559493670886,2.20608860759494,2.15658227848101,2.10707594936709,2.05756962025316,2.00806329113924,1.95855696202532,1.90905063291139,1.85954430379747,1.81003797468354,1.76053164556962,1.7110253164557,1.66151898734177,1.61201265822785,1.56250632911392,1.513,1.513],"y":[26.9637596243046,26.748211630978,26.532293643118,26.3159798039527,26.0992420315869,25.8820498075489,25.6643699464367,25.4461663458981,25.2273997165231,25.0080272917409,24.7880025185342,24.5672747307859,24.3457888084175,24.1234848272503,23.9002977068049,23.6761568661453,23.4509859014399,23.2247023032092,22.9972172362447,22.7684354108148,22.5382550797684,22.3065682020549,22.073260818275,21.8382136871272,21.6013032316477,21.3624028393291,21.1213845488153,20.8781211364057,20.6324885872813,20.3843688997083,20.1336531278785,19.8802445251398,19.624061610802,19.3650409583153,19.1031394977534,18.8383361460623,18.5706326249216,18.3000533934652,18.0266447019082,17.7504728499618,17.4716217986802,17.190190327058,16.9062889412588,16.6200367360143,16.3315583798572,16.0409813560006,15.748433546582,15.4540412060478,15.157927333949,14.8602104304317,14.5610035995316,14.2604139550846,13.9585422800956,13.6554828910183,13.3513236620105,13.0461461695019,12.740025923372,12.4330326570007,12.1252306540028,11.8166790943701,11.5074324069286,11.1975406184823,10.8870496928064,10.5760018548558,10.2644358972571,9.95238746743981,9.6398893347169,9.32697163731397,9.01366210982825,8.69998629192387,8.38596771927446,8.07162809788066,7.75698746294225,7.44206432347029,7.1268757937988,6.81143771310854,6.49576475401476,6.17987052120298,5.86376764102542,5.5474678428992,5.5474678428992,11.0459568708893,11.2588274100015,11.4718948670624,11.685170971489,11.8986683496337,12.1124006061819,12.3263824137488,12.5406296115153,12.7551593138153,12.96999002966,13.185141794249,13.400636313583,13.6164971233358,13.8327497631713,14.0494219676868,14.266543875108,14.4841482547477,14.7022707540356,14.9209501655981,15.1402287143902,15.3601523641871,15.5807711417929,15.8021394760335,16.0243165469005,16.2473666380091,16.4713594827389,16.6963705909696,16.9224815391307,17.1497802013801,17.3783608941716,17.6083244005099,17.8397778342311,18.0728342993708,18.307612296075,18.5442348238948,18.7828281372767,19.023520118358,19.266438250352,19.5117072017912,19.7594460674074,20.0097653533643,20.2627638386563,20.5185254843377,20.7771165901197,21.0385834062175,21.3029503917649,21.5702192684414,21.8403689531932,22.1133563760938,22.3891181105935,22.6675726760022,22.9486233256676,23.2321611137817,23.5180680386105,23.8062200853351,24.096490030255,24.3887499120139,24.6828731181045,24.9787360715631,25.276219531088,25.5752095372801,25.8755980490886,26.1772833193625,26.4801700583702,26.7841694309033,27.0891989274822,27.3951821442752,27.7020485003464,28.0097329152165,28.3181754647066,28.6273210287383,28.9371189411946,29.2475226490581,29.5584893857579,29.8699798618842,30.1819579750846,30.4943905399572,30.8072470380303,31.1204993874088,31.4341217313206,26.9637596243046],"text":["wt: 1.513000<br />mpg: 29.198941","wt: 1.562506<br />mpg: 28.934356","wt: 1.612013<br />mpg: 28.669770","wt: 1.661519<br />mpg: 28.405185","wt: 1.711025<br />mpg: 28.140600","wt: 1.760532<br />mpg: 27.876015","wt: 1.810038<br />mpg: 27.611430","wt: 1.859544<br />mpg: 27.346844","wt: 1.909051<br />mpg: 27.082259","wt: 1.958557<br />mpg: 26.817674","wt: 2.008063<br />mpg: 26.553089","wt: 2.057570<br />mpg: 26.288504","wt: 2.107076<br />mpg: 26.023919","wt: 2.156582<br />mpg: 25.759333","wt: 2.206089<br />mpg: 25.494748","wt: 2.255595<br />mpg: 25.230163","wt: 2.305101<br />mpg: 24.965578","wt: 2.354608<br />mpg: 24.700993","wt: 2.404114<br />mpg: 24.436408","wt: 2.453620<br />mpg: 24.171822","wt: 2.503127<br />mpg: 23.907237","wt: 2.552633<br />mpg: 23.642652","wt: 2.602139<br />mpg: 23.378067","wt: 2.651646<br />mpg: 23.113482","wt: 2.701152<br />mpg: 22.848897","wt: 2.750658<br />mpg: 22.584311","wt: 2.800165<br />mpg: 22.319726","wt: 2.849671<br />mpg: 22.055141","wt: 2.899177<br />mpg: 21.790556","wt: 2.948684<br />mpg: 21.525971","wt: 2.998190<br />mpg: 21.261386","wt: 3.047696<br />mpg: 20.996800","wt: 3.097203<br />mpg: 20.732215","wt: 3.146709<br />mpg: 20.467630","wt: 3.196215<br />mpg: 20.203045","wt: 3.245722<br />mpg: 19.938460","wt: 3.295228<br />mpg: 19.673875","wt: 3.344734<br />mpg: 19.409289","wt: 3.394241<br />mpg: 19.144704","wt: 3.443747<br />mpg: 18.880119","wt: 3.493253<br />mpg: 18.615534","wt: 3.542759<br />mpg: 18.350949","wt: 3.592266<br />mpg: 18.086364","wt: 3.641772<br />mpg: 17.821778","wt: 3.691278<br />mpg: 17.557193","wt: 3.740785<br />mpg: 17.292608","wt: 3.790291<br />mpg: 17.028023","wt: 3.839797<br />mpg: 16.763438","wt: 3.889304<br />mpg: 16.498853","wt: 3.938810<br />mpg: 16.234267","wt: 3.988316<br />mpg: 15.969682","wt: 4.037823<br />mpg: 15.705097","wt: 4.087329<br />mpg: 15.440512","wt: 4.136835<br />mpg: 15.175927","wt: 4.186342<br />mpg: 14.911342","wt: 4.235848<br />mpg: 14.646756","wt: 4.285354<br />mpg: 14.382171","wt: 4.334861<br />mpg: 14.117586","wt: 4.384367<br />mpg: 13.853001","wt: 4.433873<br />mpg: 13.588416","wt: 4.483380<br />mpg: 13.323831","wt: 4.532886<br />mpg: 13.059245","wt: 4.582392<br />mpg: 12.794660","wt: 4.631899<br />mpg: 12.530075","wt: 4.681405<br />mpg: 12.265490","wt: 4.730911<br />mpg: 12.000905","wt: 4.780418<br />mpg: 11.736320","wt: 4.829924<br />mpg: 11.471734","wt: 4.879430<br />mpg: 11.207149","wt: 4.928937<br />mpg: 10.942564","wt: 4.978443<br />mpg: 10.677979","wt: 5.027949<br />mpg: 10.413394","wt: 5.077456<br />mpg: 10.148809","wt: 5.126962<br />mpg:  9.884223","wt: 5.176468<br />mpg:  9.619638","wt: 5.225975<br />mpg:  9.355053","wt: 5.275481<br />mpg:  9.090468","wt: 5.324987<br />mpg:  8.825883","wt: 5.374494<br />mpg:  8.561298","wt: 5.424000<br />mpg:  8.296712","wt: 5.424000<br />mpg:  8.296712","wt: 5.424000<br />mpg:  8.296712","wt: 5.374494<br />mpg:  8.561298","wt: 5.324987<br />mpg:  8.825883","wt: 5.275481<br />mpg:  9.090468","wt: 5.225975<br />mpg:  9.355053","wt: 5.176468<br />mpg:  9.619638","wt: 5.126962<br />mpg:  9.884223","wt: 5.077456<br />mpg: 10.148809","wt: 5.027949<br />mpg: 10.413394","wt: 4.978443<br />mpg: 10.677979","wt: 4.928937<br />mpg: 10.942564","wt: 4.879430<br />mpg: 11.207149","wt: 4.829924<br />mpg: 11.471734","wt: 4.780418<br />mpg: 11.736320","wt: 4.730911<br />mpg: 12.000905","wt: 4.681405<br />mpg: 12.265490","wt: 4.631899<br />mpg: 12.530075","wt: 4.582392<br />mpg: 12.794660","wt: 4.532886<br />mpg: 13.059245","wt: 4.483380<br />mpg: 13.323831","wt: 4.433873<br />mpg: 13.588416","wt: 4.384367<br />mpg: 13.853001","wt: 4.334861<br />mpg: 14.117586","wt: 4.285354<br />mpg: 14.382171","wt: 4.235848<br />mpg: 14.646756","wt: 4.186342<br />mpg: 14.911342","wt: 4.136835<br />mpg: 15.175927","wt: 4.087329<br />mpg: 15.440512","wt: 4.037823<br />mpg: 15.705097","wt: 3.988316<br />mpg: 15.969682","wt: 3.938810<br />mpg: 16.234267","wt: 3.889304<br />mpg: 16.498853","wt: 3.839797<br />mpg: 16.763438","wt: 3.790291<br />mpg: 17.028023","wt: 3.740785<br />mpg: 17.292608","wt: 3.691278<br />mpg: 17.557193","wt: 3.641772<br />mpg: 17.821778","wt: 3.592266<br />mpg: 18.086364","wt: 3.542759<br />mpg: 18.350949","wt: 3.493253<br />mpg: 18.615534","wt: 3.443747<br />mpg: 18.880119","wt: 3.394241<br />mpg: 19.144704","wt: 3.344734<br />mpg: 19.409289","wt: 3.295228<br />mpg: 19.673875","wt: 3.245722<br />mpg: 19.938460","wt: 3.196215<br />mpg: 20.203045","wt: 3.146709<br />mpg: 20.467630","wt: 3.097203<br />mpg: 20.732215","wt: 3.047696<br />mpg: 20.996800","wt: 2.998190<br />mpg: 21.261386","wt: 2.948684<br />mpg: 21.525971","wt: 2.899177<br />mpg: 21.790556","wt: 2.849671<br />mpg: 22.055141","wt: 2.800165<br />mpg: 22.319726","wt: 2.750658<br />mpg: 22.584311","wt: 2.701152<br />mpg: 22.848897","wt: 2.651646<br />mpg: 23.113482","wt: 2.602139<br />mpg: 23.378067","wt: 2.552633<br />mpg: 23.642652","wt: 2.503127<br />mpg: 23.907237","wt: 2.453620<br />mpg: 24.171822","wt: 2.404114<br />mpg: 24.436408","wt: 2.354608<br />mpg: 24.700993","wt: 2.305101<br />mpg: 24.965578","wt: 2.255595<br />mpg: 25.230163","wt: 2.206089<br />mpg: 25.494748","wt: 2.156582<br />mpg: 25.759333","wt: 2.107076<br />mpg: 26.023919","wt: 2.057570<br />mpg: 26.288504","wt: 2.008063<br />mpg: 26.553089","wt: 1.958557<br />mpg: 26.817674","wt: 1.909051<br />mpg: 27.082259","wt: 1.859544<br />mpg: 27.346844","wt: 1.810038<br />mpg: 27.611430","wt: 1.760532<br />mpg: 27.876015","wt: 1.711025<br />mpg: 28.140600","wt: 1.661519<br />mpg: 28.405185","wt: 1.612013<br />mpg: 28.669770","wt: 1.562506<br />mpg: 28.934356","wt: 1.513000<br />mpg: 29.198941","wt: 1.513000<br />mpg: 29.198941"],"type":"scatter","mode":"lines","line":{"width":3.77952755905512,"color":"transparent","dash":"solid"},"fill":"toself","fillcolor":"rgba(153,153,153,0.4)","hoveron":"points","hoverinfo":"x+y","showlegend":false,"xaxis":"x","yaxis":"y","frame":null}],"layout":{"margin":{"t":23.3059360730594,"r":7.30593607305936,"b":37.2602739726027,"l":37.2602739726027},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[1.31745,5.61955],"tickmode":"array","ticktext":["2","3","4","5"],"tickvals":[2,3,4,5],"categoryorder":"array","categoryarray":["2","3","4","5"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"Weight (1000lbs)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[4.12984123504415,35.317626607855],"tickmode":"array","ticktext":["10","20","30"],"tickvals":[10,20,30],"categoryorder":"array","categoryarray":["10","20","30"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"Miles per Gallon","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":"transparent","line":{"color":"rgba(51,51,51,1)","width":0.66417600664176,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"5ef84edc9d":{"x":{},"y":{},"type":"scatter"},"5ef8659b1291":{"x":{},"y":{}}},"cur_data":"5ef84edc9d","visdat":{"5ef84edc9d":["function (y) ","x"],"5ef8659b1291":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Het lijkt erop dat met elke <strong>1000</strong> pond er een <strong>afname</strong> is in brandstof gebruik met 5.3444716 mijl per gallon</p>
+<p>Het einde</p>
+<hr>
+<p>Als we zo programmeren kunnen we ook:</p>
+<ol type="1">
+<li><strong>Tangle</strong>: De broncode uit het document halen.<br>
+</li>
+<li><strong>Weave</strong> : Deze code pakken en de resultaten rechtstreeks laten zien.</li>
+</ol>
+<p>Dat is wat we gaan doen.</p>
+<hr>
+<section id="reproduceerbaar-onderzoek" class="level2">
+<h2 class="anchored" data-anchor-id="reproduceerbaar-onderzoek">Reproduceerbaar onderzoek</h2>
+<p>Reproduceerbaar onderzoek is een mogelijk product van dynamische documenten, echter, goed resultaat is niet gegarandeerd!<br>
+Goede uitvoering van reproduceerbaar onderzoek houdt in ieder geval in:</p>
+<ol type="1">
+<li>Het hele project in een directory plaatsen die wordt ondersteund door de ‘version control’.<br>
+</li>
+<li>Code en data vrijlaten.<br>
+</li>
+<li>Alles documenteren en de code als documentatie gebruiken!<br>
+</li>
+<li>Figuren, tabellen en de statistiek zijn het resultaat van scripts en <code>codes die in de tekst staan</code>.<br>
+</li>
+<li>Schrijf in de codes de paden die worden gebruikt.<br>
+</li>
+<li>Stel ‘seed’ in zodat een volgende persoon dezelfde resultaten krijgt.<br>
+</li>
+<li>Laat ook informatie zien waarmee de code file wordt uitgevoerd. Je kunt bijvoorbeeld de <code>devtools::session_info()</code> gebruiken.</li>
+</ol>
+<p>Om meer over reproduceerbaarheid en datamanagement te lezen, kun je Vince Buffalo’s Boek erop naslaan<span class="citation" data-cites="Buffalo2015">[@Buffalo2015]</span>.</p>
+<hr>
+</section>
+</section>
+<section id="markdown" class="level1">
+<h1>Markdown</h1>
+<p>Om RMarkdown helemaal te begrijpen moeten we het eerst hebben over <a href="https://daringfireball.net/projects/markdown/">Markdown</a>, wat een systeem is om een simpele, leesbare tekst te maken die eenvoudig kan worden omgezet naar HTML. Markdown is essentieel voor twee dingen:</p>
+<ol type="1">
+<li>Een kale tekst die de syntax vormt<br>
+</li>
+<li>Een software gereedschap dat in Perl is geschreven.
+<ul>
+<li>Zet de kale tekst om in HTML.</li>
+</ul></li>
+</ol>
+<blockquote class="blockquote">
+<p><strong>Belangrijkste doel van Markdown:</strong><br>
+Maakt de syntax van het orginele (pre-HTML) document zo leesbaar als mogelijk.</p>
+</blockquote>
+<p>Zou je deze code liever in HTML lezen?</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;body&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;section&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;h1&gt;</span>Paklijst voor bergklimmen<span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;ul&gt;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>      <span class="kw">&lt;li&gt;</span>Bergschoenen<span class="kw">&lt;/li&gt;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>      <span class="kw">&lt;li&gt;</span>Klimgordel<span class="kw">&lt;/li&gt;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>      <span class="kw">&lt;li&gt;</span>Rugzak<span class="kw">&lt;/li&gt;</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>      <span class="kw">&lt;li&gt;</span>Touw<span class="kw">&lt;/li&gt;</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>      <span class="kw">&lt;li&gt;</span>Zelfzekering<span class="kw">&lt;/li&gt;</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;/ul&gt;</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;/section&gt;</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/body&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Of deze code in Markdown?</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Paklijst voor bergklimmen</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Bergschoenen</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Klimgordel</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Rugzak  </span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Touw</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Zelfzekering</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Een beetje een normaal mens vindt de Markdown code zeker makkelijker om te lezen!</p>
+<p>We zullen meer over de syntax van Markdown praten nadat we RMarkdown hebben ge?ntroduceerd maar laten we ons allereerst beseffen hoeveel makkelijker ons leven is/zal zijn omdat Markdown bestaat! Dank je <a href="https://en.wikipedia.org/wiki/John_Gruber">John Gruber</a> en <a href="https://en.wikipedia.org/wiki/Aaron_Swartz">Aaron Swartz</a> (RIP) voor het ontwikkelen van Markdown in 2004!</p>
+<hr>
+</section>
+<section id="rmarkdown" class="level1">
+<h1>RMarkdown</h1>
+<p><a href="http://rmarkdown.rstudio.com/">RMarkdown</a> is een variant van Markdown dat het makkelijker maakt om met RStudio dynamische documenten, presentaties en rapporten te maken. Het omvat ‘R code chunks’ (ik laat hier even het Engels staan) om met <strong>knitr</strong> te gebruiken waarmee makkelijker reproduceerbare (web-based) rapporten gemaakt kunnen worden die automatisch aangepast worden wanneer de onderliggende code is veranderd.</p>
+<ul>
+<li>RMarkdown laat jou <strong>Markdown</strong> combineren met plaatjes, linken, tabellen, LaTeX en de code zelf.</li>
+<li>RStudio zorgt ervoor dat het maken van documenten met RMarkdown makkelijk wordt<br>
+</li>
+<li>RStudio is (net als R) vrij te gebruiken en draait op elk systeem.</li>
+</ul>
+<p><strong>RMarkdown geeft verschillende typen files waaronder:</strong></p>
+<ul>
+<li><a href="http://rmarkdown.rstudio.com/html_document_format.html">HTML</a><br>
+</li>
+<li><a href="http://rmarkdown.rstudio.com/pdf_document_format.html">PDF</a><br>
+</li>
+<li>Markdown<br>
+</li>
+<li><a href="http://rmarkdown.rstudio.com/word_document_format.html">Microsoft Word</a><br>
+</li>
+<li>Presentaties:
+<ul>
+<li>Opvallende HTML5 presentaties:
+<ul>
+<li><a href="http://rmarkdown.rstudio.com/ioslides_presentation_format.html">ioslides</a></li>
+<li><a href="http://rmarkdown.rstudio.com/slidy_presentation_format.html">Slidy</a><br>
+</li>
+<li><a href="http://slidify.org/index.html">Slidify</a></li>
+</ul></li>
+<li>PDF presentaties:
+<ul>
+<li><a href="http://rmarkdown.rstudio.com/beamer_presentation_format.html">Beamer</a><br>
+</li>
+</ul></li>
+<li>Handouts:
+<ul>
+<li><a href="http://rmarkdown.rstudio.com/tufte_handout_format.html">Tufte Handouts</a></li>
+</ul></li>
+</ul></li>
+<li><a href="http://rmarkdown.rstudio.com/package_vignette_format.html">HTML R Package Vignettes</a><br>
+</li>
+<li><a href="http://rmarkdown.rstudio.com/rmarkdown_websites.html">Even Entire Websites!</a></li>
+</ul>
+<p><img src="Images/Rmd_output.png" class="img-fluid"></p>
+<p>Terwijl er heel veel verschillende documenten kunnen worden geleverd met RMarkdown, leggen we vandaag de nadruk in de eerste plaats op HTML output files omdat die voor mijn onderzoek misschien het meest bruikbaar en flexibel zijn.</p>
+<section id="waarom-r-markdown" class="level2">
+<h2 class="anchored" data-anchor-id="waarom-r-markdown">Waarom R Markdown?</h2>
+<p>Een aantrekkelijk gereedschap voor reproduceerbare en dynamische rapporten!</p>
+<ul>
+<li>Terwijl het was gemaakt voor R, accepteert het veel programmeertalen. Om het eenvoudig te houden, werken we vandaag alleen met R.<br>
+</li>
+<li>Een code kan op een aantal manieren worden uitgevoerd:
+<ol type="1">
+<li><strong>Inline Code:</strong> Een korte code die in de geschreven tekst van het document wordt uitgevoerd.</li>
+<li><strong>Code Chunks:</strong> Delen van het document omvatten verschillende zinnen voor programmeer of analyse code. Dat kan een plot of een tabel zijn, maar ook berekeningen van de samenvattende statistiek, pakketten laden, etc.<br>
+</li>
+</ol></li>
+<li>Het is makkelijk om:
+<ul>
+<li>Plaatjes op te nemen.<br>
+</li>
+<li>De Markdown syntax te leren.<br>
+</li>
+<li>LaTeX vergelijkingen op te nemen.<br>
+</li>
+<li>Interactieve tabellen op te nemen.</li>
+<li>Gebruik de versie via <strong>Git</strong>.
+<ul>
+<li>Dan is het makkelijker om te delen en samen te werken in analyses, projecten en publicaties!</li>
+</ul></li>
+<li>Externe linken toe te voegen - Rmarkdown begrijpt zelfs enige html codes!<br>
+</li>
+<li>Om mooie documenten te maken.</li>
+</ul></li>
+<li>Je hoeft je geen zorgen te maken over pagina breuken of het plaatsen van de figuren.<br>
+</li>
+<li>Consolideer jouw code en plaats het in een file:
+<ul>
+<li>Powerpoint, PDFs, html documenten en word files</li>
+</ul></li>
+</ul>
+</section>
+<section id="eenvoudige-werkwijze" class="level2">
+<h2 class="anchored" data-anchor-id="eenvoudige-werkwijze">Eenvoudige werkwijze</h2>
+<p>In het kort, om een rapport te maken:</p>
+<ol type="1">
+<li><strong>Open</strong> een <code>.Rmd</code> file.
+<ul>
+<li>Maak een YAML kop (meer hierover zo dadelijk!)</li>
+</ul></li>
+<li><strong>Schrijf</strong> de inhoud met RMarkdown syntax.<br>
+</li>
+<li><strong>Neem mee</strong> de R code in code chunks of met een inline code.<br>
+</li>
+<li><strong>Draai</strong> de document output.</li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Images/rmd_workflow_cheatsheet.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Werkwijze om een rapport te maken</figcaption><p></p>
+</figure>
+</div>
+<p><strong>Overzicht van de stappen die RMarkdown maakt om een ‘gerenderd’ document te krijgen:</strong></p>
+<ol type="1">
+<li>Maak een <code>.Rmd</code> rapport met ‘R code chunks’ en markdown verhalen (zoals hierboven in stappen beschreven).<br>
+</li>
+<li>Geef de <code>.Rmd</code>-file aan <code>knitr</code> om de ‘R code chunks’ uit te voeren en een nieuwe <code>.md</code> file te maken.
+<ul>
+<li><a href="http://yihui.name/knitr/" target="_blank">Knitr</a> is een pakket binnen R die jou in staat stelt de code binnen RMarkdown documenten uit te voeren zoals HTML, latex, pdf, word en andere document types.<br>
+</li>
+</ul></li>
+<li>Geef de <code>.md</code> file aan <strong>pandoc</strong>, die er een definitief document van maakt (b.v. html, Microsoft word, pdf, etc.).
+<ul>
+<li><a href="http://pandoc.org/" target="_blank">Pandoc</a> is een universeel gereedschap om documenten te converteren en zet het ene document type (in dit geval: <code>.Rmd</code>) om in een ander (in dit geval: HTML)</li>
+</ul></li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Images/Rmd_workflow.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Hoe een Rmd document wordt omgezet</figcaption><p></p>
+</figure>
+</div>
+<p>Hoewel dit mogelijk wat ingewikkeld lijkt, kunnen we op de “Knit” knop drukken boven aan de pagina die er zo uitziet:<br>
+<img src="Images/knit_button.png" class="img-fluid"></p>
+<p>of we kunnen de volgende code runnen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>rmarkdown<span class="sc">::</span><span class="fu">render</span>(<span class="st">"RMarkdown_Lesson.Rmd"</span>, <span class="st">"html_document"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="maak-een-.rmd-file" class="level2">
+<h2 class="anchored" data-anchor-id="maak-een-.rmd-file">Maak een <code>.Rmd</code> file</h2>
+<p>Het wordt tijd! Laten we met RMarkdown gaan werken!</p>
+<ol type="1">
+<li>In de menu bar, klik je op <strong>File -&gt; New File -&gt; RMarkdown</strong>
+<ul>
+<li>Of je klikt eenvoudig op het groene plus teken links boven in de hoek van RStudio.</li>
+</ul></li>
+</ol>
+<p><img src="Images/create_rmd.png" class="img-fluid"></p>
+<ol start="2" type="1">
+<li>Het volgende zal omhoog komen.<br>
+</li>
+</ol>
+<ul>
+<li>Hierbinnen kies je het type output dat je wilt hebben. <strong>Opgelet:</strong> deze output kan later heel makkelijk worden aangepast!</li>
+</ul>
+<p><img src="Images/new_rmd_yaml.png" class="img-fluid"></p>
+<ol start="3" type="1">
+<li>Klik <strong>OK</strong></li>
+</ol>
+</section>
+<section id="yaml-koppen" class="level2">
+<h2 class="anchored" data-anchor-id="yaml-koppen">YAML koppen</h2>
+<p>YAML staat voor “YAML Ain’t Markup Language” en is eigenlijk een soort geklusterde structuur voor de metadata van het document. Het staat tussen twee regels van drie streepjes <code>---</code> en wordt automatisch omgezet door RStudio. Een eenvoudig voorbeeld:</p>
+<pre><code>---
+title:  "Analyse Rapport"  
+Author:  "Harrie Jonkman"  
+date: "1 Maart 2017"  
+output:  html_document
+---</code></pre>
+<p>Het voorbeeld boven zal een HTML document maken. Echter, de volgende opties zijn ook beschikbaar.</p>
+<ul>
+<li><code>html_document</code><br>
+</li>
+<li><code>pdf_document</code><br>
+</li>
+<li><code>word_document</code><br>
+</li>
+<li><code>beamer_presentation</code> (pdf powerpoint)<br>
+</li>
+<li><code>ioslides_presentation</code> (HTML powerpoint)<br>
+</li>
+<li>en nog meer …</li>
+</ul>
+<p>Vandaag leggen we de nadruk op HTML files. Echter voel je vrij als je hier wat mee wilt spelen door bv. word en pdf documenten te maken. Presentatie documenten kennen een wat andere syntax (bv. om aan te geven wanneer de ene dia eindigt en de andere begint) en dan is er nog wat markdown syntax specifiek voor presentaties maar die gaat voorbij het doel van deze workshop.</p>
+<p>In deze workshops bouwen we verder voort op de details van YAML koppen.</p>
+</section>
+<section id="markdown-basis" class="level2">
+<h2 class="anchored" data-anchor-id="markdown-basis">Markdown Basis</h2>
+<p>Kijk hiernaar <a href="http://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf">RMarkdown Reference Guide</a></p>
+<p>Haal hier ook informatie vandaan <a href="http://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf">RMarkdown Cheatsheet</a>:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Images/markdown_basics.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Markdown Basis van RStudio’s RMarkdown Cheatsheet</figcaption><p></p>
+</figure>
+</div>
+<p><strong>Handige tips:</strong></p>
+<ul>
+<li>Eindig elke regel met twee spaties om een nieuwe paragraaf te beginnen.<br>
+</li>
+<li>Woorden binnen een code moeten aan beide kanten zo’n kommateken kennen: `<br>
+</li>
+<li>Om iets tot superscript te maken moet je een <code>^</code> aan beide zijden plaatsen. Super<sup>script</sup> werd gevormd door <code>Super^script^</code> te typen.<br>
+</li>
+<li>Vergelijkingen kunnen in een inline code worden geplaatst met <code>$</code> en als blok gecentreerd binnen het document door <code>$$</code>. Bijvoorbeeld <span class="math inline">\(E = mc^2\)</span> staat tussen de regels terwijl het volgende geblokt wordt opgenomen: <span class="math display">\[E = mc^2\]</span>
+<ul>
+<li><strong>Opgelet:</strong> Om met <code>$</code> en <code>$$</code> een superscript <code>^</code> te maken, is het nodig om voor elk aLFAnumeriEK dat superscript te gebruiken.<br>
+</li>
+<li>Ander wiskundig materiaal:
+<ul>
+<li>Vierkantswortel: <code>$\sqrt{b}$</code> zal <span class="math inline">\(\sqrt{b}\)</span> maken</li>
+<li>Breuken: <code>$\frac{1}{2}$</code> = <span class="math inline">\(\frac{1}{2}\)</span>
+<ul>
+<li><ul>
+<li>Vergelijkingen met breuken: <code>$f(x)=\frac{P(x)}{Q(x)}$</code> = <span class="math inline">\(f(x)=\frac{P(x)}{Q(x)}\)</span><br>
+</li>
+</ul></li>
+</ul></li>
+<li>Binomiale Coefficienten: <code>$\binom{k}{n}$</code> = <span class="math inline">\(\binom{k}{n}\)</span><br>
+</li>
+<li>Integralen: <code>$$\int_{a}^{b} x^2 dx$$</code> = <span class="math display">\[\int_{a}^{b} x^2 dx\]</span></li>
+</ul></li>
+<li><a href="https://www.sharelatex.com/learn/Main_Page">ShareLaTeX</a> is een prachtige bron voor LaTeX-codes.</li>
+</ul></li>
+</ul>
+<p><strong>Nog wat wiskundig materiaal:</strong></p>
+<table class="table">
+<colgroup>
+<col style="width: 22%">
+<col style="width: 36%">
+<col style="width: 41%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Beschrijving</th>
+<th>Code</th>
+<th style="text-align: center;">Voorbeelden</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">Griekse letters</td>
+<td><code>$\alpha$</code> <code>$\beta$</code> <code>$\gamma$</code> <code>$\rho$</code> <code>$\sigma$</code> <code>$\delta$</code> <code>$\epsilon$</code> <code>$mu$</code></td>
+<td style="text-align: center;"><span class="math inline">\(\alpha\)</span> <span class="math inline">\(\beta\)</span> <span class="math inline">\(\gamma\)</span> <span class="math inline">\(\rho\)</span> <span class="math inline">\(\sigma\)</span> <span class="math inline">\(\delta\)</span> <span class="math inline">\(\epsilon\)</span> <span class="math inline">\(\mu\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">Binaire handelingen</td>
+<td><code>$\times$</code> <code>$\otimes$</code> <code>$\oplus$</code> <code>$\cup$</code> <code>$\cap$</code></td>
+<td style="text-align: center;"><span class="math inline">\(\times\)</span> <span class="math inline">\(\otimes\)</span> <span class="math inline">\(\oplus\)</span> <span class="math inline">\(\cup\)</span> <span class="math inline">\(\cap\)</span> <span class="math inline">\(\times\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">Relationele handelingen</td>
+<td><code>$&lt; &gt;$</code> <code>$\subset$</code> <code>$\supset$</code> <code>$\subseteq$</code> <code>$\supseteq$</code></td>
+<td style="text-align: center;"><span class="math inline">\(&lt; &gt;\)</span> <span class="math inline">\(\subset\)</span> <span class="math inline">\(\supset\)</span> <span class="math inline">\(\subseteq\)</span> <span class="math inline">\(\supseteq\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">Verder</td>
+<td><code>$\int$</code> <code>$\oint$</code> <code>$\sum$</code> <code>$\prod$</code></td>
+<td style="text-align: center;"><span class="math inline">\(\int\)</span> <span class="math inline">\(\oint\)</span> <span class="math inline">\(\sum\)</span> <span class="math inline">\(\prod\)</span></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<blockquote class="blockquote">
+<p><strong>Uitdaging:</strong> Probeer de volgende output te maken:</p>
+</blockquote>
+<ol type="1">
+<li><p>Vandaag voel ik mij <strong>vet</strong> omdat ik <em>RMarkdown</em> leer.</p></li>
+<li><p><em>honing</em> is <strong>heel</strong> <em>zoet</em>.</p></li>
+<li><p>YAS!!!<sup>!!!</sup></p></li>
+<li><p>R<sup>2</sup> waarden zijn <strong>informatief</strong>!</p></li>
+<li><p><span class="math inline">\(R^{2}\)</span> beschrijft de <em>variantie</em> verklaard door het model.</p></li>
+<li><p><del>Ik kende geen RMarkdown</del> <code>Vandaag heb ik RMarkdown geleerd</code></p></li>
+<li><p><a href="www.rstudio.com">RStudio link</a></p></li>
+<li><p>Output van het volgende:<br>
+</p></li>
+</ol>
+<pre><code># RMarkdown   
+## R   
+### Knitr   
+#### Pandoc  
+##### HTML  </code></pre>
+<ol start="9" type="1">
+<li><p><span class="math inline">\(\sqrt{b^2 - 4ac}\)</span></p></li>
+<li><p><span class="math display">\[\sqrt{b^2 - 4ac}\]</span></p></li>
+<li><p><span class="math inline">\(X_{i,j}\)</span></p></li>
+</ol>
+<blockquote class="blockquote">
+<ol start="12" type="1">
+<li>Vandaag maak ik een dynamisch document!</li>
+</ol>
+</blockquote>
+<ol start="13" type="1">
+<li>Het volgende lijstje:</li>
+</ol>
+<p><strong>Chocolade Chips Kook Recept</strong></p>
+<ol type="1">
+<li>boter</li>
+<li>suiker
+<ul>
+<li>Een mengsel van bruine en witte suiker maakt het lekkerder
+<ul>
+<li>mix dat met boter voordat je de <em>eieren</em> eraan toevoegt</li>
+</ul></li>
+</ul></li>
+<li>eieren</li>
+<li>vanille<br>
+</li>
+<li>Mix wat droge ingredienten:
+<ul>
+<li>meel, zout, bak soda<br>
+</li>
+</ul></li>
+<li>chocolade chips</li>
+</ol>
+<hr>
+<p><strong>Fijn feitje!</strong> De inhoudsopgave van deze website is gemaakt met koppen met 1-3 pond symbolen! (Daarover dadelijk meer)</p>
+</section>
+<section id="een-code-in-het-document" class="level2">
+<h2 class="anchored" data-anchor-id="een-code-in-het-document">Een Code in het document</h2>
+<p>Er zijn twee manieren om een code in een RMarkdown document op te nemen.</p>
+<ol type="1">
+<li><p><strong>Code in het document:</strong> Korte code als een onderdeel van het geschreven document.</p></li>
+<li><p><strong>Code Chunks:</strong> Delen van het document die verschillende programmeer of analyse codes omvatten. Daarmee kan een figuur of tabel worden gemaakt, statistieken worden berekend, pakketten worden geladen, etc.</p></li>
+</ol>
+<section id="r-code-in-het-document" class="level3">
+<h3 class="anchored" data-anchor-id="r-code-in-het-document">R Code in het document</h3>
+<p>Een R code kan in het document wordt gemaakt door een komma hoog achterwaarts (`) en de letter r gevolgd door nog zo’n komma.</p>
+<ul>
+<li>Bijvoorbeeld: 2<sup>11</sup> is 2048.</li>
+</ul>
+<p>Stel dat je een p-waarde rapporteert en je wilt niet terug om de statistische test steeds weer uit te voeren. De p-waarde was eerder <code>0.0045</code>.<br>
+Dit is echt handig als de resultaten op papier moeten worden gezet. Bijvoorbeeld, je hebt een aantal statistieken uitgevoerd voor jouw wetenschappelijke vragen is dit een manier waarop <strong>R</strong> die waarde in a variabele naam bewaart. Bijvoorbeeld: Wijkt het brandstofverbruik van de automaat significant af de auto met handtransmissie significant af binnen de <code>mtcars</code> data set?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>mpg_auto <span class="ot">&lt;-</span> mtcars[mtcars<span class="sc">$</span>am <span class="sc">==</span> <span class="dv">0</span>,]<span class="sc">$</span>mpg <span class="co"># automatic transmission mileage</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>mpg_manual <span class="ot">&lt;-</span> mtcars[mtcars<span class="sc">$</span>am <span class="sc">==</span> <span class="dv">1</span>,]<span class="sc">$</span>mpg <span class="co"># manual transmission mileage</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>transmission_ttest <span class="ot">&lt;-</span> <span class="fu">t.test</span>(mpg_auto, mpg_manual)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Om de p-waarde vast te stellen kunnen we <code>transmission_ttest$p.value</code> als R code in het document gebruiken.</p>
+<p>De p-waarde is dan 0.0013736.</p>
+</section>
+<section id="r-code-chunks" class="level3">
+<h3 class="anchored" data-anchor-id="r-code-chunks">R Code Chunks</h3>
+<p>R code chunks (nogmaals ik gebruik maar de Engelse benaming hier, sorry)kunnen worden gebruikt om de R output in het document te krijgen of om de code als illustratie zichtbaar te maken.</p>
+<p><strong>De anatomie van een code chunk:</strong></p>
+<p>Om een R code chunk te plaatsen, kun je met de hand typen door <code>```{r}</code> gevolgd door <code>```</code> op een volgende regel. Je kunt ook de <code>Insert a new code chunk</code> knop gebruiken of de ‘shortcut key’. Dat geeft dan de volgende code chunk:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Images/insert_code_chunk.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Een code chunk invoeren</figcaption><p></p>
+</figure>
+</div>
+<pre><code>```{r}
+n &lt;- 10
+seq(n)
+```</code></pre>
+<p>Geef de code chunk een betekenisvolle naam die samenhangt met wat het doet. Hieronder heb ik code chunk <code>10-random-numbers</code> genoemd:</p>
+<pre><code>```{r 10-random-numbers}
+n &lt;- 10
+seq(n)
+```</code></pre>
+<p>De code chunk input en output zien er dan als volgt uit:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">10</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+</div>
+</div>
+<hr>
+</section>
+</section>
+</section>
+<section id="knitr" class="level1">
+<h1>Knitr</h1>
+<p><strong>Knitr</strong> is een R-pakket dat werkt met</p>
+<ol type="1">
+<li><strong>Identificeren van de code</strong> zowel van de chunks als in de tekst zelf</li>
+<li><strong>Evalueren van</strong> de hele code en geeft de resultaten terug</li>
+<li><strong>Teruggeven van</strong> de geformuleerde resultaten en combineert met de orginele file.</li>
+</ol>
+<p><strong>Knitr</strong> draait de code zoals die in de R console zou draaien.</p>
+<p><strong>Knitr</strong> werkt vooral met code chunks.</p>
+<p>Een code chunk ziet er als volgt uit:</p>
+<pre><code>::: {.cell}
+
+```{.r .cell-code}
+x &lt;- rnorm(100)  
+y &lt;- 2*x + rnorm(100)
+```
+:::</code></pre>
+<p><strong>Goede praktijken met betrekking tot code chunks:</strong></p>
+<ol type="1">
+<li>Benoem/label jouw code chunks!<br>
+</li>
+<li>In plaats van de chunk opties te specificeren in iedere chunk, kun je de algemene chunk opties aan het begin van het document vastzetten. Hierover meer in een minuut!</li>
+</ol>
+<section id="chunk-labels" class="level2">
+<h2 class="anchored" data-anchor-id="chunk-labels">Chunk Labels</h2>
+<p>Chunk labels krijgen <strong>unieke IDs</strong> in een document en zijn goed voor:</p>
+<ul>
+<li>Om externe files te genereren zoals plaatjes en ‘cached’ documenten.<br>
+</li>
+<li>Chunk labels zijn vaak output als fouten omhoog komen(vaker voor codes in het document).<br>
+</li>
+<li><strong>Navigeren door lange <code>.Rmd</code> documenten.</strong></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Images/label_navigation.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Een methode om door lange <code>.Rmd</code> files te navigeren</figcaption><p></p>
+</figure>
+</div>
+<p>Als je de code chunk een naam geef, gebruik dan <code>-</code> of <code>_</code> tussen woorden voor code chunks labels in plaats van ruimtes. Dat helpt jou en andere gebruikers bij het navigeren in het document.</p>
+<p>Chunk labels moeten uniek zijn in het document - anders zal er een fout optreden!</p>
+</section>
+<section id="chunk-opties" class="level2">
+<h2 class="anchored" data-anchor-id="chunk-opties">Chunk Opties</h2>
+<p>Druk tab als tussen de haakjes code chunk opties omhoog komen.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Images/chunk_options.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Enkele Knitr Chunk Opties</figcaption><p></p>
+</figure>
+</div>
+<ul>
+<li><code>results = "asis"</code> staat voor “as is” en geeft de output van een niet geformateerde versie.</li>
+<li><code>collapse</code> is een andere chunk optie die handig kan zijn, zeker als een code chunk veel korte R uitdrukking heeft met wat output.</li>
+</ul>
+<p>Er zijn teveel chunk opties om hier te behandelen. Kijk na deze workshop nog eens wat rond voor deze opties.</p>
+<p>Een mooie website om dat op te doen is <a href="http://yihui.name/knitr/options/#chunk_options">Knitr Chunk Options</a>.</p>
+<blockquote class="blockquote">
+<p><strong>Uitdaging</strong><br>
+Draai de code chunk hieronder en speel wat met de volgende knitr code chunk opties:</p>
+</blockquote>
+<blockquote class="blockquote">
+<ul>
+<li><code>eval = TRUE/FALSE</code><br>
+</li>
+<li><code>echo = TRUE/FALSE</code><br>
+</li>
+<li><code>collapse = TRUE/FALSE</code><br>
+</li>
+<li><code>results = "asis","markup</code> en <code>"hide</code></li>
+</ul>
+</blockquote>
+<blockquote class="blockquote">
+<p>Sla je resultaten op in markdown.<br>
+<strong>Opgelet:</strong> Wees er zeker van dat je jouw chunks een naam geeft!</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">*</span><span class="dv">5</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">21</span>, <span class="at">by =</span> <span class="dv">3</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mtcars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Enkele voorbeelden voortbouwend op de chunk hierboven</strong></p>
+<p>Resultaten van <code>results="markup", collapse = TRUE}</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 2</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">*</span><span class="dv">5</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 10</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">21</span>, <span class="at">by =</span> <span class="dv">3</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="do">## [1]  1  4  7 10 13 16 19</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mtcars)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="do">##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="do">## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="do">## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="do">## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="do">## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="do">## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Resultaten van <code>results="asis", collapse = TRUE}</code>:</p>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">+</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>[1] 2</p>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">*</span><span class="dv">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>[1] 10</p>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">21</span>, <span class="at">by =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>[1] 1 4 7 10 13 16 19</p>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mtcars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>               mpg cyl disp  hp drat    wt  qsec vs am gear carb</code></pre>
+<p>Mazda RX4 21.0 6 160 110 3.90 2.620 16.46 0 1 4 4 Mazda RX4 Wag 21.0 6 160 110 3.90 2.875 17.02 0 1 4 4 Datsun 710 22.8 4 108 93 3.85 2.320 18.61 1 1 4 1 Hornet 4 Drive 21.4 6 258 110 3.08 3.215 19.44 1 0 3 1 Hornet Sportabout 18.7 8 360 175 3.15 3.440 17.02 0 0 3 2 Valiant 18.1 6 225 105 2.76 3.460 20.22 1 0 3 1</p>
+</section>
+<section id="globale-opties" class="level2">
+<h2 class="anchored" data-anchor-id="globale-opties">Globale opties</h2>
+<p>Het kan zijn dat je dezelfde chunk settings wilt handhaven voor het gehele document. Het kan daarom handig zijn om de opties in een keer te typen in plaats van het iedere keer weer voor een chunk te moeten doen. Om dat te doen kun je de globale chunk opties bovenaan het document vaststellen.</p>
+<pre><code>knitr::opts_chunk$set(echo = FALSE, 
+                      eval = TRUE, 
+                      message = FALSE,
+                      warning = FALSE, 
+                      fig.path = "Figures/",
+                      fig.width = 12, 
+                      fig.height = 8)</code></pre>
+<p>Als je bijvoorbeeld met iemand samenwerkt die de code niet wil zien, kun je schrijven <code>eval = TRUE</code> en <code>echo = FALSE</code> gebruiken zodat de code wel gedraaid wordt maar niet getoond. In aanvulling wil je misschien <code>message = FALSE</code> en <code>warning = FALSE</code> gebruiken zodat jouw samenwerkingspartner geen enkele boodschap of waarschuwing van R ziet.</p>
+<p>Als je figuren wilt opslaan en bewaren in een subdirectory binnen het project, gebruik dan <code>fig.path = "Figures/"</code>. Hier verwijst de <code>"Figures/"</code> naar een folder <em>Figures</em> binnen de huidige directory waar de figuur die gemaakt wordt in het document wordt opgeslagen.<br>
+<strong>Opgelet:</strong> de figuren worden niet standaard opgeslagen.</p>
+<p>Globale chunk opties zullen voor de rest van het documenten worden vastgezet. Als je wilt dat een bepaalde chunk afwijkt van de globale opties, maak dat aan het begin van die bepaalde chunk duidelijk.</p>
+</section>
+<section id="figuren" class="level2">
+<h2 class="anchored" data-anchor-id="figuren">Figuren</h2>
+<p><strong>Knitr</strong> maakt vrij eenvoudig figuren. Als een analyse code binnen een chunk een bepaald figuur moet produceren, dan zal hij dat in het document afdrukken.</p>
+<p>Enkele knitr chunk opties gerelateerd aan figuren:</p>
+<ul>
+<li><code>fig.width</code> en <code>fig.height</code>
+<ul>
+<li><em>Standaard:</em> <code>fig.width = 7</code>, <code>fig.height = 7</code><br>
+</li>
+</ul></li>
+<li><code>fig.align</code>: Hoe het figuur uit te lijnen
+<ul>
+<li><em>Opties omvatten:</em> <code>"left"</code>, <code>"right"</code> en <code>"center"</code><br>
+</li>
+</ul></li>
+<li><code>fig.path</code>: Een file pad naar de directory waar knitr de grafische output moet opslaan die er met de chunk wordt gemaakt.
+<ul>
+<li><em>Standaard:</em> <code>'figure/'</code><br>
+</li>
+</ul></li>
+<li>Er is zelfs een <code>fig.retina</code>(alleen voor HTML output) voor hogere figuur resoluties met retina afdrukken.</li>
+</ul>
+<div class="cell">
+
+</div>
+<p>Een enkelvoudig figuur maken:</p>
+<p>Met <code>fig.align = "center"</code></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="at">x =</span> mpg)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Miles per Gallon"</span>) <span class="sc">+</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">"cornflowerblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept=</span><span class="fu">mean</span>(mtcars<span class="sc">$</span>mpg), <span class="at">col=</span><span class="st">"red"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/single-fig-center-1.png" class="img-fluid figure-img" width="384"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Met <code>fig.align = "right"</code></p>
+<div class="cell" data-layout-align="right">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="at">x =</span> mpg)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Miles per Gallon"</span>) <span class="sc">+</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">"cornflowerblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept=</span><span class="fu">mean</span>(mtcars<span class="sc">$</span>mpg), <span class="at">col=</span><span class="st">"red"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-right">
+<figure class="figure">
+<p><img src="index_files/figure-html/single-fig-right-1.png" class="img-fluid figure-img" width="384"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Met <code>fig.align = "left"</code></p>
+<div class="cell" data-layout-align="left">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="at">x =</span> mpg)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Miles per Gallon"</span>) <span class="sc">+</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">"cornflowerblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept=</span><span class="fu">mean</span>(mtcars<span class="sc">$</span>mpg), <span class="at">col=</span><span class="st">"red"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="index_files/figure-html/single-fig-left-1.png" class="img-fluid figure-img" width="384"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Met <code>fig.width = 2, fig.height = 2</code></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="at">x =</span> mpg)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Miles per Gallon"</span>) <span class="sc">+</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">"cornflowerblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept=</span><span class="fu">mean</span>(mtcars<span class="sc">$</span>mpg), <span class="at">col=</span><span class="st">"red"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/single-fig-size2-1.png" class="img-fluid figure-img" width="192"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Met <code>fig.width = 10, fig.height = 10</code></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="at">x =</span> mpg)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Miles per Gallon"</span>) <span class="sc">+</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">"cornflowerblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept=</span><span class="fu">mean</span>(mtcars<span class="sc">$</span>mpg), <span class="at">col=</span><span class="st">"red"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/single-fig-size10-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>myplots <span class="ot">&lt;-</span> <span class="fu">list</span>()  <span class="co"># new empty list</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(mtcars)){</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  col <span class="ot">&lt;-</span> <span class="fu">names</span>(mtcars)[i]</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  ggp <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(mtcars, <span class="fu">aes_string</span>(<span class="at">x =</span> col)) <span class="sc">+</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">"cornflowerblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(mtcars[[col]]), <span class="at">col =</span> <span class="st">"red"</span>) </span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  myplots[[i]] <span class="ot">&lt;-</span> ggp  <span class="co"># add each plot into plot list</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="fu">multiplot</span>(<span class="at">plotlist =</span> myplots, <span class="at">cols =</span> <span class="dv">4</span>) <span class="co"># must load in multiplot function from the Rcookbook see http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/many-figs-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="tabellen" class="level2">
+<h2 class="anchored" data-anchor-id="tabellen">Tabellen</h2>
+<p>Tabellen kunnen in Markdown voor nogal wat hoofdpijn kosten. We gaan er hier verder niet op in. Als je meer wilt leren over Markdown-tabellen kijk naar <a href="http://rmarkdown.rstudio.com/authoring_pandoc_markdown.html#tables">documentation on tables</a> op de RMarkdown website.</p>
+<p>Er zijn enkele tabeltypen die handig kunnen zijn. Hier zullen we ons vorig voorbeeld gebruiken van de <code>mtcars</code> data</p>
+<p>In zijn <a href="http://kbroman.org/knitr_knutshell/pages/figs_tables.html">Knitr in a Knutshell</a> introduceert Dr.&nbsp;Karl Broman: <code>kable</code>, <code>pander</code>en <code>xtable</code> en vooral die eerste twee deden mij plezier:</p>
+<ul>
+<li><code>kable</code>: Binnen het <strong>knitr</strong> pakket - niet veel opties maar het ziet er goed uit.</li>
+<li><code>pander</code>: Binnen het <strong>pander</strong> pakket - heeft veel opties en handigheden. Makkelijk voor het vetmaken van waarden (bv. waarden onder een bepaalde waarde).</li>
+</ul>
+<p><code>kable</code> en <code>pander</code> tabellen zijn mooi en handig bij het maken van niet-interactieve tabellen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(mtcars, <span class="at">n =</span> <span class="dv">4</span>)) <span class="co"># kable table with 4 rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 22%">
+<col style="width: 7%">
+<col style="width: 6%">
+<col style="width: 7%">
+<col style="width: 6%">
+<col style="width: 7%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 7%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">mpg</th>
+<th style="text-align: right;">cyl</th>
+<th style="text-align: right;">disp</th>
+<th style="text-align: right;">hp</th>
+<th style="text-align: right;">drat</th>
+<th style="text-align: right;">wt</th>
+<th style="text-align: right;">qsec</th>
+<th style="text-align: right;">vs</th>
+<th style="text-align: right;">am</th>
+<th style="text-align: right;">gear</th>
+<th style="text-align: right;">carb</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Mazda RX4</td>
+<td style="text-align: right;">21.0</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">160</td>
+<td style="text-align: right;">110</td>
+<td style="text-align: right;">3.90</td>
+<td style="text-align: right;">2.620</td>
+<td style="text-align: right;">16.46</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Mazda RX4 Wag</td>
+<td style="text-align: right;">21.0</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">160</td>
+<td style="text-align: right;">110</td>
+<td style="text-align: right;">3.90</td>
+<td style="text-align: right;">2.875</td>
+<td style="text-align: right;">17.02</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Datsun 710</td>
+<td style="text-align: right;">22.8</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">108</td>
+<td style="text-align: right;">93</td>
+<td style="text-align: right;">3.85</td>
+<td style="text-align: right;">2.320</td>
+<td style="text-align: right;">18.61</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Hornet 4 Drive</td>
+<td style="text-align: right;">21.4</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">258</td>
+<td style="text-align: right;">110</td>
+<td style="text-align: right;">3.08</td>
+<td style="text-align: right;">3.215</td>
+<td style="text-align: right;">19.44</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pander table</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("pander") # install pander first</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pander)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="fu">pander</span>(<span class="fu">head</span>(mtcars, <span class="at">n =</span> <span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<caption>Table continues below</caption>
+<colgroup>
+<col style="width: 26%">
+<col style="width: 8%">
+<col style="width: 7%">
+<col style="width: 8%">
+<col style="width: 7%">
+<col style="width: 8%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 6%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">&nbsp;</th>
+<th style="text-align: center;">mpg</th>
+<th style="text-align: center;">cyl</th>
+<th style="text-align: center;">disp</th>
+<th style="text-align: center;">hp</th>
+<th style="text-align: center;">drat</th>
+<th style="text-align: center;">wt</th>
+<th style="text-align: center;">qsec</th>
+<th style="text-align: center;">vs</th>
+<th style="text-align: center;">am</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><strong>Mazda RX4</strong></td>
+<td style="text-align: center;">21</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">160</td>
+<td style="text-align: center;">110</td>
+<td style="text-align: center;">3.9</td>
+<td style="text-align: center;">2.62</td>
+<td style="text-align: center;">16.46</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><strong>Mazda RX4 Wag</strong></td>
+<td style="text-align: center;">21</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">160</td>
+<td style="text-align: center;">110</td>
+<td style="text-align: center;">3.9</td>
+<td style="text-align: center;">2.875</td>
+<td style="text-align: center;">17.02</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><strong>Datsun 710</strong></td>
+<td style="text-align: center;">22.8</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">108</td>
+<td style="text-align: center;">93</td>
+<td style="text-align: center;">3.85</td>
+<td style="text-align: center;">2.32</td>
+<td style="text-align: center;">18.61</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><strong>Hornet 4 Drive</strong></td>
+<td style="text-align: center;">21.4</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">258</td>
+<td style="text-align: center;">110</td>
+<td style="text-align: center;">3.08</td>
+<td style="text-align: center;">3.215</td>
+<td style="text-align: center;">19.44</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+</tr>
+</tbody>
+</table>
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 9%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">&nbsp;</th>
+<th style="text-align: center;">gear</th>
+<th style="text-align: center;">carb</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><strong>Mazda RX4</strong></td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><strong>Mazda RX4 Wag</strong></td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><strong>Datsun 710</strong></td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><strong>Hornet 4 Drive</strong></td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="html-widgets" class="level2">
+<h2 class="anchored" data-anchor-id="html-widgets">HTML Widgets</h2>
+<p>Met de uitgave van de nieuwe RMarkdown v2 is het makkelijker dan ooit tevoren om <a href="http://www.htmlwidgets.org/showcase_datatables.html">HTML Widgets</a> te gebruiken. Volg de link om uit te zoeken in welke widgets jij ge?nteresseerd bent!</p>
+<p>Onlangs ontdekte ik bijvoorbeeld het <strong>DT</strong> pakket waarmee tabellen interactief kunnen worden gemaakt in de HTML output. Daarbij levert <a href="https://plot.ly/r/">Plotly for R</a> echt mooie interactieve grafieken op, welke gebaseerd zijn op <strong>Plotly</strong>.</p>
+<p>Cool, of niet?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># DT table = interactive</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("DT") # install DT first</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DT)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(<span class="fu">head</span>(mtcars, <span class="at">n =</span> <span class="fu">nrow</span>(mtcars)), <span class="at">options =</span> <span class="fu">list</span>(<span class="at">pageLength =</span> <span class="dv">5</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-925053d38f27c23d3532" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-925053d38f27c23d3532">{"x":{"filter":"none","vertical":false,"data":[["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant","Duster 360","Merc 240D","Merc 230","Merc 280","Merc 280C","Merc 450SE","Merc 450SL","Merc 450SLC","Cadillac Fleetwood","Lincoln Continental","Chrysler Imperial","Fiat 128","Honda Civic","Toyota Corolla","Toyota Corona","Dodge Challenger","AMC Javelin","Camaro Z28","Pontiac Firebird","Fiat X1-9","Porsche 914-2","Lotus Europa","Ford Pantera L","Ferrari Dino","Maserati Bora","Volvo 142E"],[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],[6,6,4,6,8,6,8,4,4,6,6,8,8,8,8,8,8,4,4,4,4,8,8,8,8,4,4,4,8,6,8,4],[160,160,108,258,360,225,360,146.7,140.8,167.6,167.6,275.8,275.8,275.8,472,460,440,78.7,75.7,71.1,120.1,318,304,350,400,79,120.3,95.1,351,145,301,121],[110,110,93,110,175,105,245,62,95,123,123,180,180,180,205,215,230,66,52,65,97,150,150,245,175,66,91,113,264,175,335,109],[3.9,3.9,3.85,3.08,3.15,2.76,3.21,3.69,3.92,3.92,3.92,3.07,3.07,3.07,2.93,3,3.23,4.08,4.93,4.22,3.7,2.76,3.15,3.73,3.08,4.08,4.43,3.77,4.22,3.62,3.54,4.11],[2.62,2.875,2.32,3.215,3.44,3.46,3.57,3.19,3.15,3.44,3.44,4.07,3.73,3.78,5.25,5.424,5.345,2.2,1.615,1.835,2.465,3.52,3.435,3.84,3.845,1.935,2.14,1.513,3.17,2.77,3.57,2.78],[16.46,17.02,18.61,19.44,17.02,20.22,15.84,20,22.9,18.3,18.9,17.4,17.6,18,17.98,17.82,17.42,19.47,18.52,19.9,20.01,16.87,17.3,15.41,17.05,18.9,16.7,16.9,14.5,15.5,14.6,18.6],[0,0,1,1,0,1,0,1,1,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0,1,0,1,0,0,0,1],[1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1],[4,4,4,3,3,3,3,4,4,4,4,3,3,3,3,3,3,4,4,4,3,3,3,3,3,4,5,5,5,5,5,4],[4,4,1,1,2,1,4,2,2,4,4,3,3,3,4,4,4,1,2,1,1,2,2,4,2,1,2,2,4,6,8,2]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>mpg<\/th>\n      <th>cyl<\/th>\n      <th>disp<\/th>\n      <th>hp<\/th>\n      <th>drat<\/th>\n      <th>wt<\/th>\n      <th>qsec<\/th>\n      <th>vs<\/th>\n      <th>am<\/th>\n      <th>gear<\/th>\n      <th>carb<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7,8,9,10,11]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plotly</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("plotly")</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="co">#library(plotly)</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="co">#mtcars$car &lt;- row.names(mtcars)</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="co">#plot_ly(mtcars, x = wt, y = mpg, </span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="co">#        text = paste("Car: ", car),</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="co">#       mode = "markers", color = wt, size = wt)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="spelling-controleren" class="level2">
+<h2 class="anchored" data-anchor-id="spelling-controleren">Spelling controleren</h2>
+<p>In de spelling kunnen natuurlijk altijd fouten zitten en daarom kan het nodig zijn dat we onze spelling in het document willen controleren. Er zijn twee manieren om de spelling te controleren:</p>
+<ol type="1">
+<li>Druk op de “ABC check mark” <img src="Images/spell_check.png" class="img-fluid"> links van de vergrootglasknop in RStudio.</li>
+<li>Gebruik de <code>aspell()</code> functie van het <strong>utils</strong> pakket. Je kunt dan echter beter de code chunks overslaan. De <code>aspell()</code> functie kan een filter functie overnemen om bepaalde regels in de files over te slaan en kan worden gebruikt met de <code>knit_filter()</code> die ontworpen is om de code chunks in een file over te slaan.</li>
+</ol>
+</section>
+<section id="knitr-themas" class="level2">
+<h2 class="anchored" data-anchor-id="knitr-themas">Knitr Thema’s</h2>
+<p>Het knitr-syntax-thema kan worden aangepast of helemaal naar de hand worden gezet. Als je de standaardthema’s niet wilt, gebruik dan het <code>knit_theme</code> om het te veranderen. Er zijn <strong>80 thema’s</strong> opgenomen binnen <code>knitr</code> en we kunnen de namen ervan zien door <code>knit_theme$get()</code>.</p>
+<p>Wat zijn de eerste 30 <code>knitr</code> thema’s?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(knit_theme<span class="sc">$</span><span class="fu">get</span>(), <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "acid"          "aiseered"      "andes"         "anotherdark"  
+ [5] "autumn"        "baycomb"       "bclear"        "biogoo"       
+ [9] "bipolar"       "blacknblue"    "bluegreen"     "breeze"       
+[13] "bright"        "camo"          "candy"         "clarity"      
+[17] "dante"         "darkblue"      "darkbone"      "darkness"     
+[21] "darkslategray" "darkspectrum"  "default"       "denim"        
+[25] "dusk"          "earendel"      "easter"        "edit-anjuta"  
+[29] "edit-eclipse"  "edit-emacs"   </code></pre>
+</div>
+</div>
+<p>Wij kunnen <code>knit_theme$set()</code> gebruiken om het thema vast te zetten. Om het thema op <em>fruit</em> vast te zetten, kunnen we de bijvoorbeeld de volgende code gebruiken:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>knit_theme<span class="sc">$</span><span class="fu">set</span>(<span class="st">"fruit"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Hier is de link naar jouw favoriete thema <a href="http://animation.r-forge.r-project.org/knitr/">80 knitr highlight themes</a>.</p>
+</section>
+<section id="andere-programmeer-talen" class="level2">
+<h2 class="anchored" data-anchor-id="andere-programmeer-talen">Andere programmeer talen</h2>
+<p>Terwijl knitr binnen een R omgeving moet draaien, ondersteunt het ook andere programmeertalen waaronder:</p>
+<ul>
+<li>Python<br>
+</li>
+<li>Ruby<br>
+</li>
+<li>Haskell<br>
+</li>
+<li>awk/gawk<br>
+</li>
+<li>sed<br>
+</li>
+<li>shell scripts<br>
+</li>
+<li>Perl<br>
+</li>
+<li>SAS<br>
+</li>
+<li>TikZ<br>
+</li>
+<li>Graphviz<br>
+</li>
+<li>C++<br>
+</li>
+<li>En andere talen…</li>
+</ul>
+<p>We moeten echter het corresponderende software pakket installeren om een taal te gebruiken.</p>
+<p>Gebruik de <code>engine</code> functie in Knitr. Deze functie laat de gebruiker de taal van een chunk specificeren.</p>
+<ul>
+<li><code>engine = "bash"</code> zal de boel in bash laden and stelt de gebruiker in staat de scripts zo binnen de code chunk te schrijven .</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="prsance" class="level1">
+<h1>Pr?sance</h1>
+<p>Er zijn verschillende opties die we kunnen controleren binnen ons <code>.Rmd</code> document. Dit onderdeel helpt bij het introduceren en verkennen van sommige van deze opties waarmee je HTML documenten kunt aanpassen.</p>
+<section id="code-folding" class="level2">
+<h2 class="anchored" data-anchor-id="code-folding">Code Folding</h2>
+<p>Zoals het je misschien is opgevallen heeft elk van de code chunks in dit document een interactieve <img src="Images/hide.png" class="img-fluid"> knop. Deze wordt gecontroleerd in de YAML kop and is nieuw in RMarkdown v2.</p>
+<p>Wanneer de knitr code chunk optie <code>echo = TRUE</code> is gespecificeerd (default = TRUE) zal de R code in het output document verschijnen. Echter, er zijn momenten waarin de gebruiker de code helemaal niet wil laten zien (<code>echo = FALSE</code>).</p>
+<p>-<code>code_folding:</code><br>
+- <code>code_folding: hide</code>: Kan de R code meenemen maar deze is standaard verborgen.<br>
+- <code>code_folding: show</code>: Laat de R code zien. De lezers kunnen dan op de <img src="Images/hide.png" class="img-fluid"> knop drukken om de chunk te verstoppen als ze dat willen.</p>
+<pre><code>output: html_document
+    code_folding: show</code></pre>
+</section>
+<section id="inhoudsopgave" class="level2">
+<h2 class="anchored" data-anchor-id="inhoudsopgave">Inhoudsopgave</h2>
+<p>Een inhoudsopgave kan aan het gerenderd document worden toegevoegd door de <code>toc</code> optie in de YAML kop te gebruiken.</p>
+<p>Opties hierbij:</p>
+<ul>
+<li><code>toc</code>: of de inhoudsopgave moeten worden meegenomen:
+<ul>
+<li><code>toc: true</code>: hier wordt de inhoudsopgave meegenomen<br>
+</li>
+<li><strong>Default:</strong><code>toc: false</code>: Hier wordt de inhoudsopgave niet meegenomen<br>
+</li>
+</ul></li>
+<li><code>toc_depth:</code>: Hoeveel niveau’s moeten in de inhoudsopgave worden worden meegenomen?
+<ul>
+<li><strong>Default:</strong> <code>doc_depth: 3</code> zal koppen tot en met <code>###</code> meenemen.<br>
+</li>
+</ul></li>
+<li><code>number_sections:</code> Voegt sectienummers toe aan de koppen. Bijvoorbeeld, dit document heeft <code>number_sections: true</code>
+<ul>
+<li><strong>Default:</strong> <code>number_sections: false</code><br>
+</li>
+<li>Opgelet: Met elk <code>#</code> zal er een decimaal punt worden toegevoegd aan alle koppen.<br>
+</li>
+</ul></li>
+<li><code>toc_float:</code>
+<ul>
+<li>2 andere mogelijke parameters binnen <code>toc_float:</code>
+<ul>
+<li><code>collapsed:</code> Controleert of de inhoudsopgave alleen aan het begin verschijnt. Het zal met de cursor erover verschijnen.
+<ul>
+<li><strong>Default:</strong> <code>collapsed: TRUE</code></li>
+</ul></li>
+<li><code>smooth_scroll:</code> Controleert of de pagina scrolls werken wanneer op de onderdelen van de inhoudsopgave wordt geklikt.
+<ul>
+<li><strong>Default:</strong> <code>smooth_scroll: true</code></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+<p>Bijvoorbeeld:</p>
+<pre><code>output:
+  html_document:
+    toc: true
+    toc_depth: 2
+---</code></pre>
+<blockquote class="blockquote">
+<p><strong>Uitdaging:</strong> Maak de YAML kop voor een HTML document die het volgende inhoudt:</p>
+</blockquote>
+<blockquote class="blockquote">
+<ul>
+<li>Inhoudsopgave</li>
+<li>Laat de inhoudsopgave vloeien<br>
+</li>
+<li>Sectie koppen met twee hashtags (<code>##</code>)<br>
+</li>
+<li>Genummerde secties<br>
+</li>
+<li>Geen makkelijke scrolling</li>
+</ul>
+</blockquote>
+</section>
+<section id="themas" class="level2">
+<h2 class="anchored" data-anchor-id="themas">Thema’s</h2>
+<p>RMarkdown heeft verschillende opties die de pr?sance van de HTML documenten controleren. Enkele mogelijkheden waaruit kan worden gekozen, hier met de Engelse termen:</p>
+<ul>
+<li><strong>theme</strong><br>
+</li>
+<li><strong>highlight</strong><br>
+</li>
+<li><strong>smart</strong></li>
+</ul>
+<p>De HTML output thema’s komen van <a href="http://bootswatch.com/">Bootswatch</a> library. Valide <strong>HTML themes</strong> omvatten de volgende:</p>
+<ul>
+<li><code>cerulean</code>, <code>cosmo</code>,<code>flatly</code>, <code>journal</code>, <code>readable</code>,<code>spacelab</code> en <code>united</code>.
+<ul>
+<li>Bijvoorbeeld, het thema van de pagina is <code>readable</code>.</li>
+</ul></li>
+<li>Zet het op nul voor geen thema (in dit geval kun je de css parameter gebruiken om jouw eigen stijl te gebruiken).</li>
+</ul>
+<p><strong>Highlight</strong> specificeert de wijze waarop de syntax stijl oplicht. Stijlen die mogelijk zijn omvatten de volgende:</p>
+<ul>
+<li><code>default</code>, <code>espresso</code>, <code>haddock</code>, <code>kate</code>, <code>monochrome</code>, <code>pygments</code>, <code>tango</code>, <code>textmate</code> en <code>zenburn</code>.<br>
+</li>
+<li>Ook hier, plaats nul om syntax oplichting te voorkomen.</li>
+</ul>
+<p><strong>Smart</strong> indiceert of de typografisch correcte output wordt weergegeven, zet rechte aanhalingstekens om in gekru, — rechte aanhalingstekens, – om in gekrulde aanhalingstekens en … in ellipsen. <strong>Smart</strong> is standaard ingesteld.</p>
+<p>Bijvoorbeeld:</p>
+<pre><code>---
+output:
+  html_document:
+    theme: slate
+    highlight: tango
+---</code></pre>
+<p>Als je wilt kun je ook jouw eigen stijl-thema produceren en gebruiken. Als je dat zou doen, zou de output sectie van jouw YAML kop er z’on beetje zo uitzien:</p>
+<pre><code>output:
+  html_document:
+    css: styles.css</code></pre>
+<p>Als je nog wat verder wilt gaan en jouw eigen thema wilt schrijven in aanvulling op het oplichten, zou de YAML kop er beetje zo uitzien:</p>
+<pre><code>---
+output:
+  html_document:
+    theme: null
+    highlight: null
+    css: styles.css
+---</code></pre>
+<p>Hier is een link naar <a href="http://rmarkdown.rstudio.com/html_document_format.html#appearance_and_style">Pr?sance en Stijl</a> in de HTML output.</p>
+<hr>
+</section>
+</section>
+<section id="verbergen" class="level1">
+<h1>Verbergen</h1>
+<p><strong>Probleem:</strong> Sommige code chunks nemen <strong><em>veel</em></strong> tijd in beslag en hoeven niet vaak te worden ververst.</p>
+<p><strong>Oplossing:</strong> Verbergen (Caching)! Als een code chunk niet is aangepast sinds de laatste keer dat het document is gerenderd, zullen de oude resultaten worden gebruik inplaats van de chunk nogmaals te draaien.</p>
+<p><strong>Een hele simpele oplossing:</strong> Stop ‘knitting’ voortijdig -&gt; als de rest van het document niet hoeft te worden gedraaid, zet je eenvoudig een <code>knit_exit()</code> vast en de rest van het document wordt genegeerd. Daarvoor in de plaats komen de resultaten en de code chunk uit de vorige tekst terug.</p>
+<p><strong>sloom-laden</strong> wordt over gesproken als een object niet in het geheugen wordt geladen totdat het wordt gebruikt. Daarvoor in de plaats wordt er een “belofte” gemaakt, die makkelijk is voor de computer makkelijk is (om daar meer van te leren, tik <code>?promise</code>).</p>
+<p>Als het document wordt gerenderd, worden verborgen chunks overgeslagen en de output die eerder gecre?erd met de chunks die sloom laden, worden geladen van de <code>cache</code> folder. Echter als er een kleine verandering in de chunk wordt aangebracht (zelfs een witte ruimte telt!) zal <code>knitr</code> deze verandering opmerken en zal ze de chunk draaien als het document wordt gerenderd.</p>
+<p>De gebruiker kan ook het pad instellen voor waar de verborgen files zijn door <code>cache.path</code> te gebruiken.</p>
+<ul>
+<li><strong>Standaard:</strong> <code>cache.path = "file_name_cache/"</code>
+<ul>
+<li>Bijvoorbeeld: Probeer de github repo voor de vorige les waar de verborgen chunks in de <code>RMarkdown_Lesson_cache</code> directory staan.</li>
+</ul></li>
+</ul>
+<p>Enkele zaken met betrekking tot verbergen:</p>
+<ol type="1">
+<li>R wordt om de paar maanden ververst. <code>R.version.string</code><br>
+</li>
+<li>Aan externe files van knitr kunnen deze veranderingen voorbij gaan, het kan zijn dat ze ververst moeten worden en dat de resultaten opnieuw gedraaid moeten worden.<br>
+</li>
+<li>Soms kan een verborgen chunk vertrouwen op objecten van een ander verborgen chunk. Dit kan een serieus probleem zijn - dus <strong><font color="red">wees voorzichtig</font></strong>! We moeten de chunk afhankelijkheden dus dekken!</li>
+</ol>
+<section id="chunk-afhankelijkheden" class="level2">
+<h2 class="anchored" data-anchor-id="chunk-afhankelijkheden">Chunk afhankelijkheden</h2>
+<section id="met-de-hand" class="level3">
+<h3 class="anchored" data-anchor-id="met-de-hand">Met de hand</h3>
+<p>We kunnen met de hand specificeren of chunks van elkaar afhankelijk zijn.</p>
+<ul>
+<li><code>dependson</code> specificeert van welke chunk de huidige chunk afhankelijk is.
+<ul>
+<li>Voorbeelden hiervan:
+<ul>
+<li><code>depesndson = 1</code>: Chunk vertrouwt op de eerste Chunk<br>
+</li>
+<li><code>dependson = c(6,8)</code>: Chunk vertrouwt op de 6<sup>de</sup> en 8<sup>ste</sup> chunks<br>
+</li>
+<li><code>dependson = -1</code>: Chunk vertrouwt op de vorige chunk.</li>
+<li><code>dependson = c(-1, -2)</code>: Chunk vertrouwt op de twee vorige chunks.<br>
+</li>
+<li><strong>Opgelet:</strong> Als <code>dependson</code> een bepaalde waarde aanneemt, kan het niet afhankelijk zijn van een <em>latere</em> chunk - alleen van <em>vorige</em> chunks. Daarom is het makkelijk om chunks namen te geven.<br>
+</li>
+</ul></li>
+<li>Voorbeelden:
+<ul>
+<li><code>dependson = c("Chunk-1", "Chunk-2", "Chunk-3")</code><br>
+</li>
+<li><code>dependson = c("data-generation", "data-transforamtion")</code><br>
+</li>
+</ul></li>
+</ul></li>
+<li>Als resultaat, elke keer als de verborgen chunks <code>"Chunk-1"</code>, <code>"Chunk-2"</code> en <code>"Chunk-3"</code> opnieuw worden opgebouwd, zal de huidige chunk zijn verborgenheid verliezen en zal het opnieuw worden gedraaid!</li>
+</ul>
+</section>
+<section id="automatisch" class="level3">
+<h3 class="anchored" data-anchor-id="automatisch">Automatisch</h3>
+<p>Voeg in: <code>autodep</code> chunk optie en de functie <code>dep_auto()</code></p>
+<ul>
+<li><code>autodep</code> en <code>dep_auto()</code> staan er voor dat de objecten in de huidige chunk door vorige chunks zijn gemaakt. Dus de huidige chunk hangt af van de vorige chunk.</li>
+</ul>
+<p>Voor een meer conservatieve benadering voeg <code>dep_prev()</code> in.</p>
+<ul>
+<li><code>dep_prev</code> staat er voor dat een gevouwen chunk afhangt van al zijn vorige chunks. Dus als vorige chunks zijn ververst, zullen ook alle latere chunks worden ververst.</li>
+</ul>
+<p>Knitr indentificeert alleen veranderingen in de opgevouwen chunks, <strong>niet in de niet opgevouwen chunks!</strong> Gelukkig geeft knitr een waarschuwing wanneer het een afhankelijkheid ziet met een niet opgevouwen chunk.</p>
+</section>
+<section id="cache-met-de-hand-laden" class="level3">
+<h3 class="anchored" data-anchor-id="cache-met-de-hand-laden">Cache met de hand laden</h3>
+<p>Stel dat je aan het eind van een document een <em>z</em> berekent, maar je wilt de <em>z</em> in een eerdere chunk gebruiken. Dit is <strong>onmogelijk omdat knitr het document op een liniarie manier samenvoegt en het geen objecten kan gebruiken die in de toekomst worden gemaakt.</strong></p>
+<p>Voeg in: <code>load_cache</code>, die de chunk label zoekt in de ‘cache’ database</p>
+<pre><code>load_cache(label, object, notfound = "NOT AVAILABLE", 
+  path = opts_chunk$get("cache.path"), lazy = TRUE)</code></pre>
+<p>Als jij dan een <em>z</em> in een ‘’inline R expressie’ gebruikt, geeft het <code>NOT AVAILABLE</code> terug en omdat je hebt gespecificeerd <code>notfound = "NOT AVAILALBE"</code> zal het naar het einde teruggaan en de waarde <em>z</em> verplaatsen.</p>
+<p>Zo handig!</p>
+</section>
+</section>
+<section id="zijeffecten" class="level2">
+<h2 class="anchored" data-anchor-id="zijeffecten">Zijeffecten</h2>
+<p>Een <strong>zijeffect</strong> refereert naar een statusverandering die optreedt buiten een functie die de teruggeven waarde niet representeert.</p>
+<ul>
+<li><code>par()</code> en <code>options()</code> zijn zijeffecten in de betekenis dat ze niet opgevouwen zijn.<br>
+</li>
+<li>Stel globale opties van de eerste chunk in en vouw deze chunk <strong>nooit</strong> op.</li>
+</ul>
+<p>We moeten voorzichtig zijn met de chunk opties om er zeker van te zijn dat de resultaten van de opgevouwen chunks worden ververst.</p>
+<p>We kunnen ook het sloom-laden afzetten met <code>cache.lazy = FALSE</code>.</p>
+</section>
+</section>
+<section id="bibliografie" class="level1">
+<h1>Bibliografie</h1>
+<p>Het is ook mogelijk om een bibliografie file in de YAML kop mee te nemen. Bibliografie formats die door Pandoc gelezen kunnen worden zijn:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Format</th>
+<th>File extension</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>MODS</td>
+<td>.mods</td>
+</tr>
+<tr class="even">
+<td>BibLaTeX</td>
+<td>.bib</td>
+</tr>
+<tr class="odd">
+<td>BibTeX</td>
+<td>.bibtex</td>
+</tr>
+<tr class="even">
+<td>RIS</td>
+<td>.ris</td>
+</tr>
+<tr class="odd">
+<td>EndNote</td>
+<td>.enl</td>
+</tr>
+<tr class="even">
+<td>EndNote XML</td>
+<td>.xml</td>
+</tr>
+<tr class="odd">
+<td>ISI</td>
+<td>.wos</td>
+</tr>
+<tr class="even">
+<td>MEDLINE</td>
+<td>.medline</td>
+</tr>
+<tr class="odd">
+<td>Copac</td>
+<td>.copac</td>
+</tr>
+<tr class="even">
+<td>JSON citeproc</td>
+<td>.json</td>
+</tr>
+</tbody>
+</table>
+<p>Om een bibliografie in RMarkdown te maken, zijn er twee files nodig:</p>
+<ol type="1">
+<li>Een bibliografie file met <strong>informatie</strong> over elke referentie.<br>
+</li>
+<li>Een citaat stijl taal (CSL) om het <strong>format</strong> de referentie te bepalen.</li>
+</ol>
+<p>Een voorbeeld YAML kop met een bibliografie en een citaat stijl taal (CSL) file is:</p>
+<pre><code>output: html_document
+bibliography: bibliography.bib
+csl: nature.csl</code></pre>
+<p>Bekijk de erg behulpzame webpagina van het R Core team op <a href="http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html" target="_blank">bibliographies and citations</a>.</p>
+<p>Als je R pakketten wilt citeren, heeft <strong>knitr</strong> zelfs een functie die <code>write_bib()</code> heet en die <code>.bib</code> overzicht van R pakketten kan leveren. Het wordt zelfs in een file geschreven!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_bib</span>(<span class="at">file =</span> <span class="st">"r-packages.bib"</span>) <span class="co"># will write all packages  </span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write_bib</span>(<span class="fu">c</span>(<span class="st">"knitr"</span>, <span class="st">"ggplot2"</span>), <span class="at">file =</span> <span class="st">"r-packages2.bib"</span>) <span class="co"># Only writes knitr and ggplot2 packages</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="plaatsen" class="level2">
+<h2 class="anchored" data-anchor-id="plaatsen">Plaatsen</h2>
+<p>De bibliografie wordt automatisch aan het einde van het document geplaatst. Daarom moet je jouw <code>.Rmd</code> document met <code># Referenties</code> eindigen zodat de bibliografie naar de kop voor bibliografie komt.</p>
+<pre><code>laatste woorden...
+
+# Referenties</code></pre>
+</section>
+<section id="stylen-van-citeren" class="level2">
+<h2 class="anchored" data-anchor-id="stylen-van-citeren">Stylen van citeren</h2>
+<p><strong>Citation Sylte Language (CSL)</strong> is een op XML-gebaseerde taal die het format van citaten en bibliografie?n vaststelt. Referentie management programma’s zoals Zotero, Mendeley en Papers gebruiken allemaal CSL.</p>
+<p>Zoek jouw favcoriete tijdschrift en CSL in de <a href="https://www.zotero.org/styles" target="_blank">Zotero Style Repository</a>, waar nu meer dan 8,152 CSLs inzitten. Is er een stijl waar je naar zoekt en die er niet in zit?</p>
+<pre><code>output: html_document
+bibliography: bibliography.bib
+csl: nature.csl</code></pre>
+<p>In de github repo voor deze workshop heb ik de <code>nature.csl</code> en <code>the-isme-journal.csl</code> toegevoegd om mee te spelen. Download anders een stijl van de Zotero Style Repository!</p>
+</section>
+<section id="citaten" class="level2">
+<h2 class="anchored" data-anchor-id="citaten">Citaten</h2>
+<p>Citaten gaan tussen vierkante haakjes <code>[ ]</code> en worden afgescheiden door punt-komma’s’ <code>;</code>. Elk citaat moet een sleutel hebben, samen de <code>@ + de citaat identificatie</code> van de database vormen en die optioneel a prefix, a locator en a suffix hebben. Om te controleren wat de citaatsleutel is van een referentie, werp dan een blik op de <code>.bib</code> file. Hier in die file, kun je de sleutel voor elke referentie veranderen. Echter, wees er wel van bewust dat elke ID uniek is!</p>
+<p>Hier zijn wat voorbeelden met bijpassende code in het Engels:</p>
+<ul>
+<li>Microbes control Earth’s biogeochemical cycles <span class="citation" data-cites="Falkowski2008">[@Falkowski2008]</span>.
+<ul>
+<li>Code: <code>Microbes contorl Earth's biogeochemical cycles  [@Falkowski2008].</code><br>
+</li>
+</ul></li>
+<li>I love making beautiful plots with ggplot2 <span class="citation" data-cites="R-ggplot2">[@R-ggplot2]</span>
+<ul>
+<li>Code: <code>I love making beautiful plots with ggplot2 [@R-ggplot2]</code><br>
+</li>
+</ul></li>
+<li>Dr.&nbsp;Yuhui Xie’s book about Dynamic Documents <span class="citation" data-cites="Xie2015">[@Xie2015]</span> inspired me to host this workshop.
+<ul>
+<li>Code: <code>Dr. Yuhui Xie's book about Dynamic Documents [@Xie2015] inspired me to host this workshop.</code><br>
+</li>
+</ul></li>
+<li>A great article in <em>Science</em> regarding biogeography of microbes asks readers to imagine their Alice in Wonderland to shrink down to understand the microbial world <span class="citation" data-cites="Green2008">[@Green2008]</span>.
+<ul>
+<li>Code: <code>A great article in *Science* regarding biogeography of microbes asks readers to imagine they are Alice in Wonderland to and shrink down to understand the microbial world [@Green2008].</code></li>
+</ul></li>
+</ul>
+<p>Het is cool dat de enige refenties die aan het document worden toegevoegd degene zijn die jijzelf citeert!</p>
+</section>
+</section>
+<section id="publiceren-via-rpubs" class="level1">
+<h1>Publiceren via RPubs</h1>
+<p>Als je een keer een mooi dynamisch document hebt gemaakt wil je dat mogelijk delen met anderen. Een mogelijkheid om het te delen met de wereld is om het te hosten op <a href="https://rpubs.com/" target="_blank">RPubs</a>. Met RStudio kan dit heel makkelijk! Doe het volgende:</p>
+<ol type="1">
+<li>Maak een aansprekend <code>.Rmd</code> document.<br>
+</li>
+<li>Klik op de <img src="Images/knit.png" class="img-fluid"> knop om jouw gerenderd HTML document te puliceren.<br>
+</li>
+<li>In de rechter bovenhoek van het previewscherm klik je op de publiceer <img src="Images/publish.png" class="img-fluid"> knop en volgt de aanwijzingen.
+<ul>
+<li><em>Opgelet:</em> Je moet een RPubs profiel hebben aangemaakt.<br>
+</li>
+</ul></li>
+<li>Als je het profiel hebt let dan op het volgende:
+<ul>
+<li>De titel van het document.<br>
+</li>
+<li>Een beschrijving van het document.<br>
+</li>
+<li>De URL waar de website wordt gehost.
+<ul>
+<li><em>Opgelet:</em> Het begin van de URL zal zijn: <strong>www.rpubs.com/your_username/name_of_your_choice</strong></li>
+</ul></li>
+</ul></li>
+</ol>
+<section id="rpubs-vernieuwen" class="level2">
+<h2 class="anchored" data-anchor-id="rpubs-vernieuwen">RPubs vernieuwen</h2>
+<p>Als je veranderingen in het document wilt aanbrengen is het makkelijk om de webpagina te vernieuwen. Als je een keer jouw aangepaste documentg hebt gerenderd klik je op de <img src="Images/republish.png" class="img-fluid"> knop rechtsboven in de hoek van de preview scherm. Het aangepaste document zal dezelfde URL hebben als het orginele document.</p>
+</section>
+</section>
+<section id="dank" class="level1">
+<h1>Dank</h1>
+<p>Bedankt dat je aan deze tutorial hebt meegedaan.</p>
+<p>Als je updates van deze les wilt maken, stuur dan <a href="https://github.com/marschmi/RMarkdown_May11_2016" target="_blank">me</a> een ‘pull request’. Wat je ook kunt doen is een e-mail sturen naar:</p>
+<p><strong>Marian Schmidt</strong><br>
+<strong>E-mail:</strong> <em>marschmi at umich.edu</em><br>
+<strong>Twitter</strong> <code>@micro_marian</code></p>
+<p>Veel succes met de voortgang van dynamische documenten!</p>
+</section>
+<section id="informatie-over-de-sessie" class="level1">
+<h1>Informatie over de sessie</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">session_info</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>- Session info ---------------------------------------------------------------
+ setting  value
+ version  R version 4.1.2 (2021-11-01)
+ os       Windows 10 x64 (build 19043)
+ system   x86_64, mingw32
+ ui       RTerm
+ language (EN)
+ collate  Dutch_Netherlands.1252
+ ctype    Dutch_Netherlands.1252
+ tz       Europe/Berlin
+ date     2022-05-30
+ pandoc   2.17.1.1 @ C:/Program Files/RStudio/bin/quarto/bin/ (via rmarkdown)
+
+- Packages -------------------------------------------------------------------
+ package     * version date (UTC) lib source
+ assertthat    0.2.1   2019-03-21 [1] CRAN (R 4.1.2)
+ bslib         0.3.1   2021-10-06 [1] CRAN (R 4.1.2)
+ cachem        1.0.6   2021-08-19 [1] CRAN (R 4.1.2)
+ callr         3.7.0   2021-04-20 [1] CRAN (R 4.1.2)
+ cli           3.2.0   2022-02-14 [1] CRAN (R 4.1.2)
+ colorspace    2.0-3   2022-02-21 [1] CRAN (R 4.1.2)
+ crayon        1.5.1   2022-03-26 [1] CRAN (R 4.1.3)
+ crosstalk     1.2.0   2021-11-04 [1] CRAN (R 4.1.2)
+ data.table    1.14.2  2021-09-27 [1] CRAN (R 4.1.2)
+ DBI           1.1.2   2021-12-20 [1] CRAN (R 4.1.2)
+ desc          1.4.1   2022-03-06 [1] CRAN (R 4.1.3)
+ devtools      2.4.3   2021-11-30 [1] CRAN (R 4.1.2)
+ digest        0.6.29  2021-12-01 [1] CRAN (R 4.1.2)
+ dplyr       * 1.0.8   2022-02-08 [1] CRAN (R 4.1.3)
+ DT          * 0.22    2022-03-28 [1] CRAN (R 4.1.3)
+ ellipsis      0.3.2   2021-04-29 [1] CRAN (R 4.1.2)
+ evaluate      0.15    2022-02-18 [1] CRAN (R 4.1.3)
+ fansi         1.0.3   2022-03-24 [1] CRAN (R 4.1.3)
+ farver        2.1.0   2021-02-28 [1] CRAN (R 4.1.2)
+ fastmap       1.1.0   2021-01-25 [1] CRAN (R 4.1.2)
+ fs            1.5.2   2021-12-08 [1] CRAN (R 4.1.3)
+ generics      0.1.2   2022-01-31 [1] CRAN (R 4.1.3)
+ ggplot2     * 3.3.5   2021-06-25 [1] CRAN (R 4.1.3)
+ glue          1.6.2   2022-02-24 [1] CRAN (R 4.1.2)
+ gtable        0.3.0   2019-03-25 [1] CRAN (R 4.1.2)
+ highr         0.9     2021-04-16 [1] CRAN (R 4.1.2)
+ htmltools     0.5.2   2021-08-25 [1] CRAN (R 4.1.2)
+ htmlwidgets   1.5.4   2021-09-08 [1] CRAN (R 4.1.2)
+ httr          1.4.2   2020-07-20 [1] CRAN (R 4.1.2)
+ jquerylib     0.1.4   2021-04-26 [1] CRAN (R 4.1.2)
+ jsonlite      1.8.0   2022-02-22 [1] CRAN (R 4.1.3)
+ knitr       * 1.38    2022-03-25 [1] CRAN (R 4.1.3)
+ labeling      0.4.2   2020-10-20 [1] CRAN (R 4.1.1)
+ lattice       0.20-45 2021-09-22 [2] CRAN (R 4.1.2)
+ lazyeval      0.2.2   2019-03-15 [1] CRAN (R 4.1.2)
+ lifecycle     1.0.1   2021-09-24 [1] CRAN (R 4.1.2)
+ magrittr      2.0.2   2022-01-26 [1] CRAN (R 4.1.2)
+ Matrix        1.3-4   2021-06-01 [2] CRAN (R 4.1.2)
+ memoise       2.0.1   2021-11-26 [1] CRAN (R 4.1.2)
+ mgcv          1.8-38  2021-10-06 [2] CRAN (R 4.1.2)
+ munsell       0.5.0   2018-06-12 [1] CRAN (R 4.1.2)
+ nlme          3.1-153 2021-09-07 [2] CRAN (R 4.1.2)
+ pander      * 0.6.4   2021-06-13 [1] CRAN (R 4.1.2)
+ pillar        1.7.0   2022-02-01 [1] CRAN (R 4.1.2)
+ pkgbuild      1.2.1   2021-11-30 [1] CRAN (R 4.1.2)
+ pkgconfig     2.0.3   2019-09-22 [1] CRAN (R 4.1.2)
+ pkgload       1.2.4   2021-11-30 [1] CRAN (R 4.1.2)
+ plotly      * 4.10.0  2021-10-09 [1] CRAN (R 4.1.2)
+ prettyunits   1.1.1   2020-01-24 [1] CRAN (R 4.1.2)
+ processx      3.5.2   2021-04-30 [1] CRAN (R 4.1.2)
+ ps            1.6.0   2021-02-28 [1] CRAN (R 4.1.2)
+ purrr         0.3.4   2020-04-17 [1] CRAN (R 4.1.2)
+ R6            2.5.1   2021-08-19 [1] CRAN (R 4.1.2)
+ Rcpp          1.0.8.3 2022-03-17 [1] CRAN (R 4.1.3)
+ remotes       2.4.2   2021-11-30 [1] CRAN (R 4.1.2)
+ rlang         1.0.2   2022-03-04 [1] CRAN (R 4.1.3)
+ rmarkdown   * 2.14    2022-04-25 [1] CRAN (R 4.1.2)
+ rprojroot     2.0.3   2022-04-02 [1] CRAN (R 4.1.3)
+ rstudioapi    0.13    2020-11-12 [1] CRAN (R 4.1.2)
+ sass          0.4.1   2022-03-23 [1] CRAN (R 4.1.3)
+ scales        1.2.0   2022-04-13 [1] CRAN (R 4.1.3)
+ sessioninfo   1.2.2   2021-12-06 [1] CRAN (R 4.1.2)
+ stringi       1.7.6   2021-11-29 [1] CRAN (R 4.1.2)
+ stringr       1.4.0   2019-02-10 [1] CRAN (R 4.1.2)
+ testthat      3.1.1   2021-12-03 [1] CRAN (R 4.1.2)
+ tibble        3.1.6   2021-11-07 [1] CRAN (R 4.1.2)
+ tidyr         1.2.0   2022-02-01 [1] CRAN (R 4.1.3)
+ tidyselect    1.1.2   2022-02-21 [1] CRAN (R 4.1.3)
+ usethis       2.1.5   2021-12-09 [1] CRAN (R 4.1.2)
+ utf8          1.2.2   2021-07-24 [1] CRAN (R 4.1.2)
+ vctrs         0.4.1   2022-04-13 [1] CRAN (R 4.1.3)
+ viridisLite   0.4.0   2021-04-13 [1] CRAN (R 4.1.2)
+ withr         2.5.0   2022-03-03 [1] CRAN (R 4.1.2)
+ xfun          0.30    2022-03-02 [1] CRAN (R 4.1.3)
+ yaml          2.3.5   2022-02-21 [1] CRAN (R 4.1.2)
+
+ [1] C:/RFolder/R/win-library/4.1
+ [2] C:/Program Files/R/R-4.1.2/library
+
+------------------------------------------------------------------------------</code></pre>
+</div>
+</div>
+</section>
+<section id="referentie" class="level1">
+<h1>Referentie</h1>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

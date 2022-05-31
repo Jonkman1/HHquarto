@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.345">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Harrie Jonkman">
+<meta name="dcterms.date" content="2020-05-01">
+
+<title>Harrie’s Hoekje - Bayes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Harrie’s Hoekje</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">Harrie’s Hoekje</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Jonkman1"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Bayes</h1>
+                          <div class="quarto-categories">
+                <div class="quarto-category">analyseren</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Harrie Jonkman </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">May 1, 2020</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p><em>“Als de feiten veranderen, verander ik mijn mening. Wat doe jij dan, meneer?” (Keynes)</em></p>
+<p>Thomas Bayes was een Engels wiskundige en presbyteriaans predikant die zichzelf in de tweede helft van de 18e eeuw enkele belangrijke vragen stelde, zoals hoe moeten we onze overtuigingen aanpassen als we nieuwe informatie krijgen en hoe houden we vast aan oude veronderstellingen, ook als ze onhoudbaar zijn geworden. Of laten we die overtuigingen heel makkelijk los, ook als we een klein beetje gaan twijfelen?</p>
+<p>Bayes maakt ons ervan bewust dat we onze opvattingen steeds geleidelijk aan passen aan de werkelijkheid. Zijn stelling, of theorema, is een belangrijk instrument geworden voor allerlei wetenschappers en de Bayesiaanse regel staat niet zelden heel stoer op een t-shirt afgebeeld:</p>
+<p><span class="math display">\[P(A|B) = \frac {P(A) \times P(B|A)}{P(B)}\]</span></p>
+<p>Bayes draaide dingen om en wilde iets zeggen over een hypothese gegeven het bewijsmateriaal dat we hebben. Hoe moet je een veronderstelling begrijpen in het licht van empirisch materiaal? Bayes’ theorie kent vervolgens een lange, ingewikkelde en verrassende geschiedenis die tot op de dag van vandaag doorgaat. Die geschiedenis heeft Sharon Bertsch McGrayne, een Amerikaanse wetenschapsjournalist, heel mooi in beeld gebracht. Maar het was niet Bayes zelf, maar zijn vriend Richard Price, een amateur wiskundige, die deze ideeën openbaar maakte na Bayes’ dood. Zonder Price had die theorie helemaal niet bestaan. Price stuurde Bayes wetenschappelijke werk in en zorgde er zo voor dat er een publicatie van kwam. Naar die stelling werd vervolgens helemaal niet meer omgekeken tot de beroemde Franse wiskundige Pierre Simon Laplace in het begin van de 19e eeuw deze ideeën uitbreidde en op slimme manieren toepaste. Daarna was het maatschappelijk aan en uit met die theorie, werd het gebruikt en raakte het ook weer uit de mode. De ideeën werden op het ene na het andere gebied toegepast, om vervolgens weer te worden veroordeeld omdat het zou werken met vage, subjectieve of onwetenschappelijke uitgangspunten. Rivaliserende kampen (Frequentisten en Baysianen) voerden hier lange tijd grote strijd over.</p>
+<p>De theorie zelf kan eenvoudig worden uitgelegd. Je hebt een bepaalde hypothese, bijvoorbeeld over een munt. Je denkt dat de kans op kop of munt hetzelde is. Daar ga je van te voren van uit. Als je vijf keer gooit en je gooit steeds kop dan denk je nog dat het toeval is en je past jouw veronderstelling nog niet aan. Anders wordt het als dit 100 keer gebeurt, dan ga je toch echt twijfelen over de munt en ga je denken dat het misschien wel alleen maar kop kent. Bij waarschijnlijkheid gaat het om uitsluitende mogelijkheden die je toekent. Je hebt van tevoren een idee over iets (prior), vervolgens heb je de data (likelihood) en dat zorgt vervolgens voor jouw geupdated kennis (posterior). Bayes’ theorie is een manier om de waarschijnlijkheid steeds op een consistent en logische manier te herberekenen. Dat herberekenen van de hypothese (of kennis die we hebben) vindt dus steeds plaats in het licht van nieuwe bewijzen. Deze geupdated of aangepaste waarschijnlijkheid wordt de posterior probability of gewoon de posterior genoemd.</p>
+<p>Om het iets ingewikkelder te zeggen, de stelling van Bayes’s houdt nu in dat de posterior waarschijnlijkheid van een hypothese gelijk is aan het product van de voorafgaande waarschijnlijkheid van de hypothese (dus wat je weet al, de prior) en de waarschijnlijkheid van het bewijs gegeven de hypothese (de data, de likelihood). Dit deel je vervolgens door de waarschijnlijkheid van alle bewijzen. Dat laatste gebeurt omdat je zo steeds een waarde tussen 0 en 1 te krijgen, en hoe dichter bij 1 hoe groter de kans. Dat is precies wat op dat stoere t-shirt staat.</p>
+<p>Heel veel kennis is er opgebouwd met munten, kaarten en dergelijke. Moeilijker wordt het wanneer je de stelling van Bayes toepast op het echte leven. Maar ook hier gebeurt het op een zelfde manier. Stel dat je naar buitenloopt en ziet dat jouw tuinpad nat is. Dan denk je misschien dat het geregend heeft. Als je verder loopt en ziet dat de straten droog zijn, ga je toch denken dat jouw vrouw misschien de tuin heeft gesproeid. Wanneer je het weerbericht hebt gehoord (waarin regen wordt voorspeld) voordat je naar buitenloopt, denk je nog eerder dat het geregend heeft als je over het natte tuinpad loopt. Met dat weersbericht en dat natte tuinpad word je minder snel van jouw regengedachte afgehaald als je de droge straat ziet. In het dagelijks leven worden gedachten en veronderstellingen voortdurend geüpdated. Kennis wordt gebruikt en nieuw bewijsmateriaal wordt voortdurend daarmee gefilterd en verwerkt in jouw Bayesiaanse hoofd. Steeds meer doen we kennis op over hoe kansen zijn toe te wijzen en bewijs kan worden geëvalueerd in situaties die veel ingewikkelder zijn dan het gooien van munten of het inschatten van regen.</p>
+<p>McGrayne besteedt veel aandacht aan allerlei bijdragen van individuele wetenschappers aan die boeiende geschiedenis van de Bayesiaanse theorie. Zo bespreekt ze uitgebreid hoe het in oorlogsvoering is gebruikt, in het proces van kolonel Dreyfus, hoe Alan Turing met deze theorie Duitse codes kraakte en er met dat kleine groepje slimme mensen voor zorgde dat de Tweede Wereldoorlog minder lang duurde. Maar veel meer voorbeelden komen aan de orde.</p>
+<p>Bayesiaanse theorie wordt tegenwoordig op allerlei gebieden van wetenschap toegepast. Ook in onze dagelijks leven hebben we ermee te maken via vertaalmachines, spamfilters en stuurloze auto’s bijvoorbeeld. We zijn er onszelf nauwelijks van bewust. McGrayne heeft niet alleen oog voor statistici die zich succesvol wijdden aan Bayesiaanse statistiek. Ze laat ook zien hoe deze door andere statici (zoals Fischer, als vertegenwoordiger van de zogenaamde Frequentisten) heftig worden tegengewerkt. De kern van de verschillen tussen deze twee groepen is dat volgens Bayesianen de prior een subjectieve uitdrukking kan zijn van de mate van geloof in een hypothese. Je moet de kennis gebruiken die je al hebt, het is vreemd om steeds maar opnieuw en van voren af aan te beginnen. Frequentisten erkennen dit subjectieve element niet. Voor hen moet wetenschap een objectieve basis hebben, liefste in relatieve frequentie van gebeurtenissen in herhaalbare, welomschreven experimenten.Dat subjectieve element staat daar ver van.</p>
+<p>McGrayne’s boek is een prachtig wetenschapshistorisch boek <a href="https://www.youtube.com/watch?v=8oD6eBkjF9o">Zie ook haar presentatie hier</a>. Ze laat zien dat de Bayesiaanse theorie weer helemaal terug is en dat komt natuurlijk vooral ook door de ontwikkeling van de computer en moderne algoritmen waarmee de theorie niet enkel theorie blijft maar ook praktisch kan worden toegepast. David Spiegelhalter en zijn biostatistische onderzoeksgroep hebben daar op een ongekende manier aan bijgedragen. De Bayesiaanse methode wordt in allerlei onderzoek gebruikt en in verschillende omstandigheden heeft het grote voordelen zien ten opzichte van de frequentistische statistiek. Er wordt vandaag de dag veel pragmatischer mee hiermee omgegaan. De tegenwoordige wetenschapper loopt steeds vaker met twee gereedschapskisten rond en op basis van het probleem besluit hij of zij tot een onderzoekswijze.</p>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

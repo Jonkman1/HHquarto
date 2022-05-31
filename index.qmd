@@ -1,5 +1,5 @@
 ---
-title: "quarto-blog"
+title: "Harrie's Hoekje"
 listing:
   contents: posts
   sort: "date desc"

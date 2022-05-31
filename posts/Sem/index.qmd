@@ -1,0 +1,11 @@
+---
+title: "SEM"
+subtitle:  
+  In de sociale wetenschappen kunnen sommige constructen, zoals intelligentie, vertrouwen, motivatie, vervreemding of conservatisme, niet direct worden geobserveerd. Het zijn in essentie constructen of concepten waarvoor geen methode bestaat om ze direct te meten. Onderzoekers gebruiken hiervoor geobserveerde maten die indicatoren zijn voor een latente variabele. Structural equation modeling is een onderzoeks-raamwerk dat rekening kan houden met de meetfouten in de geobserveerde variabelen die in het model zitten. SEM is een flexibel en krachtige methode om tegelijkertijd op een goede manier de kwaliteit van het meten in de gaten te houden als om causale relaties tussen de constructen vast te stellen. In de map vind je een korte presentatie over SEM 
+author: "Harrie Jonkman"
+date: "29-08-2018"
+categories: [analyse]
+image: "img/sem.PNG"
+---
+
+De presentatie vind je [hier](http://www.harriejonkman.nl/wp-content/uploads/2017/06/SEM.pdf)

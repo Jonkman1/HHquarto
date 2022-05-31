@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Bewerking geografische data in R: Nieuwe ontwikkelingen</title>
+  
+  <meta property="description" itemprop="description" content="Het nieuwe R sf-pakket, dat sp vervangt om met geografische objecten om te gaan, is  ontworpen om makkelijk met Tidyverse om te gaan. Hier laat ik zien hoe sf-objecten als data-frames worden opgeslagen en jou in staat stelt om met  ggplot2, dplyr en tidyr te werken. Ook het R-pakket tmap biedt veel nieuwe mogelijkheden."/>
+  
+  
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2018-11-14"/>
+  <meta property="article:created" itemprop="dateCreated" content="2018-11-14"/>
+  <meta name="article:author" content="Harrie Jonkman"/>
+  
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Bewerking geografische data in R: Nieuwe ontwikkelingen"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="Het nieuwe R sf-pakket, dat sp vervangt om met geografische objecten om te gaan, is  ontworpen om makkelijk met Tidyverse om te gaan. Hier laat ik zien hoe sf-objecten als data-frames worden opgeslagen en jou in staat stelt om met  ggplot2, dplyr en tidyr te werken. Ook het R-pakket tmap biedt veel nieuwe mogelijkheden."/>
+  <meta property="og:locale" content="en_US"/>
+  
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Bewerking geografische data in R: Nieuwe ontwikkelingen"/>
+  <meta property="twitter:description" content="Het nieuwe R sf-pakket, dat sp vervangt om met geografische objecten om te gaan, is  ontworpen om makkelijk met Tidyverse om te gaan. Hier laat ik zien hoe sf-objecten als data-frames worden opgeslagen en jou in staat stelt om met  ggplot2, dplyr en tidyr te werken. Ook het R-pakket tmap biedt veel nieuwe mogelijkheden."/>
+  
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Bewerking geografische data in R: Nieuwe ontwikkelingen"]},{"type":"character","attributes":{},"value":["Het nieuwe R sf-pakket, dat sp vervangt om met geografische objecten om te gaan, is  ontworpen om makkelijk met Tidyverse om te gaan. Hier laat ik zien hoe sf-objecten als data-frames worden opgeslagen en jou in staat stelt om met  ggplot2, dplyr en tidyr te werken. Ook het R-pakket tmap biedt veel nieuwe mogelijkheden.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Harrie Jonkman"]},{"type":"character","attributes":{},"value":["https://Harriejonkman.nl"]}]}]},{"type":"character","attributes":{},"value":["11-14-2018"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["simple-features_files/bowser-1.9.3/bowser.min.js","simple-features_files/distill-2.2.21/template.v2.js","simple-features_files/figure-html5/ggplot-1.png","simple-features_files/figure-html5/ggplot-proj-1.png","simple-features_files/figure-html5/joins-1.png","simple-features_files/figure-html5/summarize-1.png","simple-features_files/figure-html5/unnamed-chunk-10-1.png","simple-features_files/figure-html5/unnamed-chunk-12-1.png","simple-features_files/figure-html5/unnamed-chunk-13-1.png","simple-features_files/figure-html5/unnamed-chunk-14-1.png","simple-features_files/figure-html5/unnamed-chunk-5-1.png","simple-features_files/figure-html5/unnamed-chunk-6-1.png","simple-features_files/figure-html5/unnamed-chunk-8-1.png","simple-features_files/figure-html5/unnamed-chunk-9-1.png","simple-features_files/jquery-1.11.3/jquery.min.js","simple-features_files/webcomponents-2.0.0/webcomponents.js"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+  
+  <style type="text/css">
+  
+  body {
+    background-color: white;
+  }
+  
+  .pandoc-table {
+    width: 100%;
+  }
+  
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+  
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+  
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+  
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+  
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+  
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+  
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .shaded-content {
+    background: white;
+  }
+  
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  d-article {
+    padding-bottom: 30px;
+  }
+  
+  d-appendix {
+    padding-top: 30px;
+  }
+  
+  d-article>p>img {
+    width: 100%;
+  }
+  
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for table of contents */
+  
+  .d-toc {
+    color: rgba(0,0,0,0.8);
+    font-size: 0.8em;
+    line-height: 1em;
+  }
+  
+  .d-toc-header {
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 1.3em;
+  }
+  
+  .d-toc a {
+    border-bottom: none;
+  }
+  
+  .d-toc ul {
+    padding-left: 0;
+  }
+  
+  .d-toc li>ul {
+    padding-top: 0.8em;
+    padding-left: 16px;
+    margin-bottom: 0.6em;
+  }
+  
+  .d-toc ul,
+  .d-toc li {
+    list-style-type: none;
+  }
+  
+  .d-toc li {
+    margin-bottom: 0.9em;
+  }
+  
+  .d-toc-separator {
+    margin-top: 20px;
+    margin-bottom: 2em;
+  }
+  
+  .d-article-with-toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  
+  
+  
+  /* Tweak code blocks (note that this CSS is repeated above in an injection
+     into the d-code shadow dom) */
+  
+  d-code {
+    overflow-x: auto !important;
+  }
+  
+  pre.d-code code.d-code {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+  
+  pre.text-output {
+  
+    font-size: 12px;
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  @media(min-width: 768px) {
+  
+  d-code {
+    overflow-x: visible !important;
+  }
+  
+  pre.d-code code.d-code  {
+      padding-left: 18px;
+      font-size: 14px;
+  }
+  pre.text-output {
+    font-size: 14px;
+  }
+  }
+  
+  /* Figure */
+  
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+  
+  .figure img {
+    width: 100%;
+  }
+  
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+  
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+  
+  
+  
+  /* Tweak 1000px media break to show more text */
+  
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+  
+    .grid {
+      grid-column-gap: 16px;
+    }
+  
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+  
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+  
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+  
+  
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+  
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  
+  /* Social footer */
+  
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+  
+  .disqus-comments {
+    margin-right: 30px;
+  }
+  
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+  
+  #disqus_thread {
+    margin-top: 30px;
+  }
+  
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+  
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+  
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+  
+  
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+  
+  
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+  
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+  
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+  
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+  
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+  
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+  
+  
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+  
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+  
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+  
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+  
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  </style>
+  
+  <script type="application/javascript">
+  
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+  
+  // show body when load is complete
+  function on_load_complete() {
+  
+    // set body to visible
+    document.body.style.visibility = 'visible';
+  
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+  
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+  
+  function init_distill() {
+  
+    init_common();
+  
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+  
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+  
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+  
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+  
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+  
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+  
+    // create d-bibliography
+    var bibliography = $('<d-bibliography></d-bibliography>');
+    $('#distill-bibliography').wrap(bibliography);
+  
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+  
+    // replace citations with <d-cite>
+    $('.citation').each(function(i, val) {
+      appendix = true;
+      var cites = $(this).attr('data-cites').split(" ");
+      var dt_cite = $('<d-cite></d-cite>');
+      dt_cite.attr('key', cites.join());
+      $(this).replaceWith(dt_cite);
+    });
+    // remove refs
+    $('#refs').remove();
+  
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+  
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+  
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+  
+    // replace code blocks with d-code
+    $('pre>code').each(function(i, val) {
+      var code = $(this);
+      var pre = code.parent();
+      var clz = "";
+      var language = pre.attr('class');
+      if (language) {
+        // map unknown languages to "clike" (without this they just dissapear)
+        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                                 "javascript", "js", "julia", "lua", "markdown",
+                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
+          language = "clike";
+        language = ' language="' + language + '"';
+        var dt_code = $('<d-code block' + language + clz + '></d-code>');
+        dt_code.text(code.text());
+        pre.replaceWith(dt_code);
+      } else {
+        code.addClass('text-output').unwrap().changeElementType('pre');
+      }
+    });
+  
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+  
+      // capture layout
+      var layout = $(this).attr('data-layout');
+  
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('d-code, pre.text-output, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+  
+  
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+  
+    // load distill framework
+    load_distill_framework();
+  
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+  
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+  
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+  
+      // table of contents
+      if (have_authors) // adjust border if we are in authors
+        $('.d-toc').parent().addClass('d-article-with-toc');
+  
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+  
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+  
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+  
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+  
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+  
+      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+      $('d-code').each(function(i, val) {
+        var style = document.createElement('style');
+        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+        if (this.shadowRoot)
+          this.shadowRoot.appendChild(style);
+      });
+  
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+  
+      // clear polling timer
+      clearInterval(tid);
+  
+      // show body now that everything is ready
+      on_load_complete();
+    }
+  
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+  
+  }
+  
+  function init_downlevel() {
+  
+    init_common();
+  
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+  
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+  
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+  
+    // remove toc
+    $('.d-toc-header').remove();
+    $('.d-toc').remove();
+    $('.d-toc-separator').remove();
+  
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+  
+  
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+  
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+  
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+  
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+  
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+  
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+  
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+  
+    $('body').addClass('downlevel');
+  
+    on_load_complete();
+  }
+  
+  
+  function init_common() {
+  
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+  
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+  
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+  
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+  
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+  
+      }
+    });
+  
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+  
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+  
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+  
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+  
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+  
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+  
+  </script>
+  
+  <!--/radix_placeholder_distill-->
+  <script src="simple-features_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="simple-features_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="simple-features_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="simple-features_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Bewerking geografische data in R: Nieuwe ontwikkelingen","description":"Het nieuwe R sf-pakket, dat sp vervangt om met geografische objecten om te gaan, is  ontworpen om makkelijk met Tidyverse om te gaan. Hier laat ik zien hoe sf-objecten als data-frames worden opgeslagen en jou in staat stelt om met  ggplot2, dplyr en tidyr te werken. Ook het R-pakket tmap biedt veel nieuwe mogelijkheden.","authors":[{"author":"Harrie Jonkman","authorURL":"https://Harriejonkman.nl","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2018-11-14T00:00:00.000+01:00","citationText":"Jonkman, 2018"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Bewerking geografische data in R: Nieuwe ontwikkelingen</h1>
+<p>Het nieuwe R sf-pakket, dat sp vervangt om met geografische objecten om te gaan, is ontworpen om makkelijk met Tidyverse om te gaan. Hier laat ik zien hoe sf-objecten als data-frames worden opgeslagen en jou in staat stelt om met ggplot2, dplyr en tidyr te werken. Ook het R-pakket tmap biedt veel nieuwe mogelijkheden.</p>
+</div>
+
+<div class="d-byline">
+  Harrie Jonkman <a href="https://Harriejonkman.nl" class="uri">https://Harriejonkman.nl</a> 
+  
+<br/>11-14-2018
+</div>
+
+<div class="d-article">
+<p>Oorspronkelijk was <code>sp</code> het standaardpakket om in R met geografische data om te gaan. Dit pakket(samen met andere pakketten zoals <code>raster</code>) maakt van R een krachtig GIS-gereedschap. Echter, <code>sp</code>is vandaag de dag wat gedateerd. Ik heb wat gelezen en gewerkt met <a href="https://github.com/edzer/sfr">R package <code>sf</code></a> dat bedoeld is om <code>sp</code> op te volgen. Dit pakket is onderdeel van R <a href="https://en.wikipedia.org/wiki/Simple_Features">Simple Features</a>, kan files makkelijk inlezen, topologische handelingen uitvoeren en files schrijven.</p>
+<p>Ik ben erg onder de indruk van wat<code>sf</code>kan; het lijkt alles te kunnen wat <code>sp</code>, <code>rgdal</code>en <code>rgeos</code> kunnen, maar op een meer moderne intuïtieve manier. Maar wat vooral aantrekkelijk is van<code>sf</code>is dat de ontwikkelaars van dit pakket aansluiten bij de ontwerp principes van Hadley Wickhams <a href="http://tidyverse.org/">Tidyverse</a>. Het zijn de volgende zaken die opvallen:</p>
+<ul>
+<li>Geografische objecten worden opgeslagen als data frames, waarbij de geometrische kenmerken in één list worden opgeslagen;</li>
+<li>Alle functies beginnen met <code>st_</code> om het eenvoudig te maken;</li>
+<li>Functies zijn ‘pipe-vriendelijk’;</li>
+<li><code>dplyr</code> en <code>tidyr</code> werken met de <code>sf</code> objecten;</li>
+<li><code>ggplot2</code> is binnenkort in staat om <code>sf</code> objecten direct te plotten.</li>
+</ul>
+<p>Met deze kenmerken past<code>sf</code> veel beter bij moderne data analyse-opzet dan <code>sp</code>. Je kunt nu direct met<code>dplyr</code> functies als <code>mutate()</code> of <code>select()</code> werken.</p>
+<h2 id="pakketten-die-je-voor-onderstaande-nodig-hebt">Pakketten die je voor onderstaande nodig hebt</h2>
+<p>Natuurlijk moeten we <code>sf</code> en <code>tidyverse</code> (waarin <code>ggplot2</code>, <code>dplyr</code> en <code>tidyr</code> zitten) openen. Daarnaast openen we ook <code>viridis</code> (voor palette-kleuren) en <code>rvest</code>pakket (om html-data van het web te halen).</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(sf)
+library(tidyverse)
+library(viridis)
+library(rvest)</code></pre>
+</div>
+<h2 id="simple-features-as-data-frames">Simple Features as data frames</h2>
+<p><a href="https://en.wikipedia.org/wiki/Simple_Features">Simple Features</a> is een open source standaard voor de weergave van objecten (d.w.z. functies). Het <a href="https://edzer.github.io/sfr/articles/sf1.html">eerste vignet</a> voor het <code>sf</code> pakket beschrijft in detail de verschillende soorten functies die kunnen worden weergegeven (bijvoorbeeld <code>POINT</code>, <code>LINESTRING</code>, <code>POLYGON</code>, etc.) en hoe ermee te werken met de functies in <code>sf</code>.<code>sf</code> maakt gebruik van het bekende data frame om functies op te slaan. Het allereerste materiaal hieronder komt van van het <a href="https://edzer.github.io/sfr/articles/sf1.html">eerste vignet</a>.</p>
+<p>In dit pakket worden functies opgeslagen als data frames van de <code>sf</code> klasse. Elke rij bestaat uit een functie/eenheid en elke kolom uit een attribuut/kenmerk. Het verschil met een normaal dataframe is dat er een extra ‘list’-kolom van de klasse <code>sfc</code> is toegevoegd waarin de geometrische kenmerken zijn opgeslagen.</p>
+<p>Laten we beginnen met het laden van wat voorbeeldgegevens die in het pakket zitten. Dit is een vormbestand van provincies in North Carolina. Ik zal dit ook omzetten naar een <code>sp</code> object ter vergelijking.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Het resulterende <code>sf</code> object is in wezen slechts een <code>data.frame</code> met een extra kolom voor de geografische informatie.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+[1] &quot;sf&quot;         &quot;data.frame&quot;</code></pre>
+<pre><code>
+Observations: 2
+Variables: 15
+$ AREA      &lt;dbl&gt; 0.114, 0.061
+$ PERIMETER &lt;dbl&gt; 1.442, 1.231
+$ CNTY_     &lt;dbl&gt; 1825, 1827
+$ CNTY_ID   &lt;dbl&gt; 1825, 1827
+$ NAME      &lt;fct&gt; Ashe, Alleghany
+$ FIPS      &lt;fct&gt; 37009, 37005
+$ FIPSNO    &lt;dbl&gt; 37009, 37005
+$ CRESS_ID  &lt;int&gt; 5, 3
+$ BIR74     &lt;dbl&gt; 1091, 487
+$ SID74     &lt;dbl&gt; 1, 0
+$ NWBIR74   &lt;dbl&gt; 10, 10
+$ BIR79     &lt;dbl&gt; 1364, 542
+$ SID79     &lt;dbl&gt; 0, 3
+$ NWBIR79   &lt;dbl&gt; 19, 12
+$ geometry  &lt;MULTIPOLYGON [Â°]&gt; MULTIPOLYGON (((-81.47276 3..., M...</code></pre>
+<pre><code>
+# A tibble: 2 x 15
+   AREA PERIMETER CNTY_ CNTY_ID NAME  FIPS  FIPSNO CRESS_ID BIR74
+  &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt;  &lt;dbl&gt;    &lt;int&gt; &lt;dbl&gt;
+1 0.114      1.44  1825    1825 Ashe  37009  37009        5  1091
+2 0.061      1.23  1827    1827 Alle~ 37005  37005        3   487
+# ... with 6 more variables: SID74 &lt;dbl&gt;, NWBIR74 &lt;dbl&gt;, BIR79 &lt;dbl&gt;,
+#   SID79 &lt;dbl&gt;, NWBIR79 &lt;dbl&gt;, geometry &lt;MULTIPOLYGON [Â°]&gt;</code></pre>
+</div>
+<p>Het mooie hiervan is dat iedereen weet hoe te werken met data-frames in R. Dus deze <code>sf</code> objecten zijn eenvoudig te inspecteren en mee te spelen. Bovendien houdt dit de geometrie en attribuutgegevens bij elkaar op één plaats, d.w.z. ze staan in dezelfde rij van het gegevensframe. Vergelijk dat maar met <code>sp</code>, dat deze gegevens deze gegevens heel anders opslaat:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+[1] &quot;SpatialPolygonsDataFrame&quot;
+attr(,&quot;package&quot;)
+[1] &quot;sp&quot;</code></pre>
+<pre><code>
+Formal class &#39;SpatialPolygonsDataFrame&#39; [package &quot;sp&quot;] with 5 slots
+  ..@ data       :&#39;data.frame&#39;: 2 obs. of  14 variables:
+  .. ..$ AREA     : num [1:2] 0.114 0.061
+  .. ..$ PERIMETER: num [1:2] 1.44 1.23
+  .. ..$ CNTY_    : num [1:2] 1825 1827
+  .. ..$ CNTY_ID  : num [1:2] 1825 1827
+  .. ..$ NAME     : Factor w/ 100 levels &quot;Alamance&quot;,&quot;Alexander&quot;,..: 5 3
+  .. ..$ FIPS     : Factor w/ 100 levels &quot;37001&quot;,&quot;37003&quot;,..: 5 3
+  .. ..$ FIPSNO   : num [1:2] 37009 37005
+  .. ..$ CRESS_ID : int [1:2] 5 3
+  .. ..$ BIR74    : num [1:2] 1091 487
+  .. ..$ SID74    : num [1:2] 1 0
+  .. ..$ NWBIR74  : num [1:2] 10 10
+  .. ..$ BIR79    : num [1:2] 1364 542
+  .. ..$ SID79    : num [1:2] 0 3
+  .. ..$ NWBIR79  : num [1:2] 19 12
+  ..@ polygons   :List of 2
+  .. ..$ :Formal class &#39;Polygons&#39; [package &quot;sp&quot;] with 5 slots
+  .. .. .. ..@ Polygons :List of 1
+  .. .. .. .. ..$ :Formal class &#39;Polygon&#39; [package &quot;sp&quot;] with 5 slots
+  .. .. .. .. .. .. ..@ labpt  : num [1:2] -81.5 36.4
+  .. .. .. .. .. .. ..@ area   : num 0.114
+  .. .. .. .. .. .. ..@ hole   : logi FALSE
+  .. .. .. .. .. .. ..@ ringDir: int 1
+  .. .. .. .. .. .. ..@ coords : num [1:27, 1:2] -81.5 -81.5 -81.6 -81.6 -81.7 ...
+  .. .. .. ..@ plotOrder: int 1
+  .. .. .. ..@ labpt    : num [1:2] -81.5 36.4
+  .. .. .. ..@ ID       : chr &quot;1&quot;
+  .. .. .. ..@ area     : num 0.114
+  .. ..$ :Formal class &#39;Polygons&#39; [package &quot;sp&quot;] with 5 slots
+  .. .. .. ..@ Polygons :List of 1
+  .. .. .. .. ..$ :Formal class &#39;Polygon&#39; [package &quot;sp&quot;] with 5 slots
+  .. .. .. .. .. .. ..@ labpt  : num [1:2] -81.1 36.5
+  .. .. .. .. .. .. ..@ area   : num 0.0614
+  .. .. .. .. .. .. ..@ hole   : logi FALSE
+  .. .. .. .. .. .. ..@ ringDir: int 1
+  .. .. .. .. .. .. ..@ coords : num [1:26, 1:2] -81.2 -81.2 -81.3 -81.3 -81.3 ...
+  .. .. .. ..@ plotOrder: int 1
+  .. .. .. ..@ labpt    : num [1:2] -81.1 36.5
+  .. .. .. ..@ ID       : chr &quot;2&quot;
+  .. .. .. ..@ area     : num 0.0614
+  ..@ plotOrder  : int [1:2] 1 2
+  ..@ bbox       : num [1:2, 1:2] -81.7 36.2 -80.9 36.6
+  .. ..- attr(*, &quot;dimnames&quot;)=List of 2
+  .. .. ..$ : chr [1:2] &quot;x&quot; &quot;y&quot;
+  .. .. ..$ : chr [1:2] &quot;min&quot; &quot;max&quot;
+  ..@ proj4string:Formal class &#39;CRS&#39; [package &quot;sp&quot;] with 1 slot
+  .. .. ..@ projargs: chr &quot;+proj=longlat +datum=NAD27 +no_defs +ellps=clrk66 +nadgrids=@conus,@alaska,@ntv2_0.gsb,@ntv1_can.dat&quot;</code></pre>
+</div>
+<p>Merk hier op dat de attribuutgegevens worden opgeslagen als een <code>data.frame</code> in het <code>data</code> slot en dat de functies afzonderlijk worden opgeslagen. Dit kan heel verwarrend zijn om direct mee te werken.</p>
+<p>De geometrie lijst-kolom van een <code>sf</code> object is een object van klasse <code>sfc</code> en een extra klasse die overeenkomt met het geometrietype, in dit geval <code>sfc_MULTIPOLYGON</code>. Het is toegankelijk met <code>st_geometrie()</code>. Aanvullende informatie over de kenmerken, zoals het coördinatensysteem, wordt als attributen opgeslagen:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+Geometry set for 2 features 
+geometry type:  MULTIPOLYGON
+dimension:      XY
+bbox:           xmin: -81.74107 ymin: 36.23436 xmax: -80.90344 ymax: 36.58965
+epsg (SRID):    4267
+proj4string:    +proj=longlat +datum=NAD27 +no_defs</code></pre>
+<pre><code>
+[1] &quot;sfc_MULTIPOLYGON&quot; &quot;sfc&quot;             </code></pre>
+<pre><code>
+$class
+[1] &quot;sfc_MULTIPOLYGON&quot; &quot;sfc&quot;             
+
+$precision
+[1] 0
+
+$bbox
+     xmin      ymin      xmax      ymax 
+-81.74107  36.23436 -80.90344  36.58965 
+
+$crs
+Coordinate Reference System:
+  EPSG: 4267 
+  proj4string: &quot;+proj=longlat +datum=NAD27 +no_defs&quot;
+
+$n_empty
+[1] 0</code></pre>
+</div>
+<p>Tot slot zijn er individuele eenvoudige kenmerken <code>sfg</code> objecten met extra klassen die overeenkomen met het specifieke type eigenschap. De klassen <code>XY</code> en <code>MULTIPOLYGON</code> geven aan dat dit een tweedimensionale <code>MULTIPOLYGON</code> geometrie is.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+[1] &quot;XY&quot;           &quot;MULTIPOLYGON&quot; &quot;sfg&quot;         </code></pre>
+</div>
+<p>Intern zijn deze <code>sfg</code> objecten vectoren voor punten, matrices voor <code>LINESTRING</code> objecten, en lijsten voor al het andere. Meer details zijn beschikbaar in de vignetten van het pakket.</p>
+<h2 id="ondersteuning-van-tidyverse">Ondersteuning van Tidyverse</h2>
+<p>Wat we vooral van de vorige sectie hebben geleerd is dat <strong><code>sf</code>-objecten data frames zijn!</strong> Aangezien data frames de kern vormen van de Tidyverse-pakketten, mag je veronderstellen dat de functies van Tidyverse pakketten van toepassing zouden moeten zijn op de geografische objecten van <code>sf</code>. Zeker, de makers van <code>sf</code> hebben methoden geleverd voor alle standaard <code>dplyr</code> en <code>tidyr</code> handelingen die we kennen en liefhebben. Verder ondersteunt de ontwikkelingsversie van <code>ggpplot2</code> het plotten van <code>sf</code> objecten.</p>
+<h2 id="ggplot"><code>ggplot</code></h2>
+<p>Met <code>sp</code> moesten geografische objecten eerst worden geconverteerd naar dataframes (bijv. met <code>fortify()</code>)) voordat ze met <code>ggplot2</code> werden geplot (dat was betrekkelijk ingewikkeld allemaal). Maar omdat<code>sf</code>-objecten al dataframes zijn, kunnen ze met behulp van de nieuwe <code>geom_sf()</code> direct worden geplot.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="simple-features_files/figure-html5/ggplot-1.png" width="700" /></p>
+</div>
+<p>Daarnaast kan de nieuwe <code>coord_sf()</code> gebruikt worden om deze kenmerken in een andere projectie te plotten, bijvoorbeeld een Albers equal area projectie (in de geografie worden verschillende systemen gebruikt).</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="simple-features_files/figure-html5/ggplot-proj-1.png" width="700" /></p>
+</div>
+<h2 id="dplyr"><code>dplyr</code></h2>
+<p><code>dplyr</code> is de gouden standaard voor datamanipulatie en biedt een verscheidenheid aan voordelen ten opzichte van basis R-functies. Het is speciaal ontworpen voor het werken met <code>data.frame</code>-achtige objecten zoals die uit het <code>sf</code> pakket. De volgende werkwoorden werken alleen op de attribuutgegevens en laten de geometrieën onaangeroerd:</p>
+<ul>
+<li><code>select()</code> behoudt de gespecificeerde variabelen, eventueel onder een andere naam</li>
+<li><code>rename()</code> een variabele een andere naam geven en alle andere ongewijzigd laten</li>
+<li><code>filter()</code> returns the rows that match the given conditions</li>
+<li><code>mutate()</code> voegt nieuwe variabelen toe op basis van bestaande variabelen</li>
+<li><code>transmute()</code> creëert nieuwe variabelen en laat bestaande variabelen vallen</li>
+<li><code>arrange()</code> sorteert op basis van de gegeven variabelen</li>
+<li><code>slice()</code> selecteert rijen op basis van rijnummer</li>
+<li><code>sample_n()</code> trekt steekproeven met n kenmerken willekeurig</li>
+</ul>
+<p>Hieronder zien we enkele voorbeelden:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+Simple feature collection with 3 features and 2 fields
+geometry type:  MULTIPOLYGON
+dimension:      XY
+bbox:           xmin: -79.45597 ymin: 33.94867 xmax: -78.11374 ymax: 35.31512
+epsg (SRID):    4267
+proj4string:    +proj=longlat +datum=NAD27 +no_defs
+      name area_km2                       geometry
+1  Sampson     2410 MULTIPOLYGON (((-78.11377 3...
+2  Robeson     2400 MULTIPOLYGON (((-78.86451 3...
+3 Columbus     2400 MULTIPOLYGON (((-78.65572 3...</code></pre>
+</div>
+<p>Merk op dat de geometrie steeds ongewijzigd blijft.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+[1] &quot;area_km2&quot; &quot;geom&quot;    </code></pre>
+</div>
+<p>We kunnen een willekeurige steekproef van functies uit de set nemen met behulp van <code>sample_n()</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+# A tibble: 4 x 2
+   AREA                                                       geometry
+  &lt;dbl&gt;                                            &lt;MULTIPOLYGON [Â°]&gt;
+1 0.111 (((-79.24619 35.86815, -79.23799 35.83725, -79.54099 35.83699~
+2 0.219 (((-78.92107 35.57886, -78.99881 35.60132, -78.93889 35.76144~
+3 0.203 (((-77.10377 35.55019, -77.11939 35.5855, -77.14835 35.598, -~
+4 0.121 (((-79.68596 34.80526, -79.91995 34.80792, -79.90142 34.85241~</code></pre>
+</div>
+<p>Het is ook mogelijk om functies uit <code>sf</code> te gebruiken die inwerken op de geometrie-kolom binnen een mutatie-instructie. Als er bijvoorbeeld nog geen gebiedskolom bestaat, kan men een gebiedskolom maken met behulp van <code>st_area()</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+# A tibble: 6 x 4
+  name     area_m2     area                                   geometry
+  &lt;fct&gt;    &lt;S3: unit&gt; &lt;dbl&gt;                        &lt;MULTIPOLYGON [Â°]&gt;
+1 Ashe     113738860~ 0.114 (((-81.47276 36.23436, -81.54084 36.27251~
+2 Allegha~  61107726~ 0.061 (((-81.23989 36.36536, -81.24069 36.37942~
+3 Surry    142348991~ 0.143 (((-80.45634 36.24256, -80.47639 36.25473~
+4 Curritu~  69454629~ 0.07  (((-76.00897 36.3196, -76.01735 36.33773,~
+5 Northam~ 152074053~ 0.153 (((-77.21767 36.24098, -77.23461 36.2146,~
+6 Hertford  96772795~ 0.097 (((-76.74506 36.23392, -76.98069 36.23024~</code></pre>
+</div>
+<h3 id="gegroepeerde-handelingen">Gegroepeerde handelingen</h3>
+<p><code>dplyr</code> staat ook toe om in groepen te werken op <code>sf</code> objecten. <code>group_by()</code>groepeert een gegevensframe op basis van variabelen in de tabel. Vervolgens wordt <code>summarise()</code> gebruikt om groepssamenvattingen van de gegevens uit te voeren. Laten we beginnen met het toevoegen van een willekeurige groeperingsvariabele en vervolgens het gemiddelde van de gebieden over deze variabele berekenen.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="simple-features_files/figure-html5/summarize-1.png" width="700" /></p>
+</div>
+<p>Merk op dat naast de attribuutgegevens die worden geaggregeerd, ook de geometrieën zijn geaggregeerd. Alle geometrieën in elke groep zijn samengevoegd en de grenzen tussen aangrenzende geometrieën zijn opgelost. Intern wordt de functie <code>st_union()</code> gebruikt om dit te bereiken.</p>
+<p>Net als bij een normaal gegevensframe kunnen gegroepeerde filtering en mutatie worden uitgevoerd op <code>sf</code> objecten. Bijvoorbeeld, om de proportionele verdeling van geboorten tussen provincies binnen elke groep te berekenen, gebruikt u een gegroepeerde <code>mutate()</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+# A tibble: 100 x 4
+   group  AREA area_prop                                      geometry
+   &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;                           &lt;MULTIPOLYGON [Â°]&gt;
+ 1 A     0.114      12.6 (((-81.47276 36.23436, -81.54084 36.27251, -~
+ 2 C     0.061      12.6 (((-81.23989 36.36536, -81.24069 36.37942, -~
+ 3 C     0.143      12.6 (((-80.45634 36.24256, -80.47639 36.25473, -~
+ 4 B     0.07       12.6 (((-76.00897 36.3196, -76.01735 36.33773, -7~
+ 5 B     0.153      12.6 (((-77.21767 36.24098, -77.23461 36.2146, -7~
+ 6 A     0.097      12.6 (((-76.74506 36.23392, -76.98069 36.23024, -~
+ 7 A     0.062      12.6 (((-76.00897 36.3196, -75.95718 36.19377, -7~
+ 8 A     0.091      12.6 (((-76.56251 36.34057, -76.60424 36.31498, -~
+ 9 C     0.118      12.6 (((-78.30876 36.26004, -78.28293 36.29188, -~
+10 B     0.124      12.6 (((-80.02567 36.25023, -80.45301 36.25709, -~
+# ... with 90 more rows</code></pre>
+</div>
+<p>Om alleen landen te behouden binnen groepen die een groter gebied hebben dan een bepaalde drempel, kan een gegroepeerde <code>filter()</code> worden gebruikt:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+# A tibble: 38 x 3
+   group  AREA                                                geometry
+   &lt;chr&gt; &lt;dbl&gt;                                     &lt;MULTIPOLYGON [Â°]&gt;
+ 1 B     0.07  (((-76.00897 36.3196, -76.01735 36.33773, -76.03288 36~
+ 2 B     0.153 (((-77.21767 36.24098, -77.23461 36.2146, -77.29861 36~
+ 3 B     0.124 (((-80.02567 36.25023, -80.45301 36.25709, -80.43531 3~
+ 4 B     0.153 (((-79.53051 36.24614, -79.53058 36.23616, -80.02567 3~
+ 5 B     0.072 (((-78.49252 36.17359, -78.51472 36.17522, -78.51709 3~
+ 6 B     0.081 (((-81.80622 36.10456, -81.81715 36.10939, -81.82231 3~
+ 7 B     0.064 (((-81.94135 35.95498, -81.9614 35.93922, -81.94495 35~
+ 8 B     0.128 (((-78.25455 35.81553, -78.26685 35.84838, -78.30841 3~
+ 9 B     0.17  (((-79.53782 35.89097, -80.0426 35.91681, -80.0381 36.~
+10 B     0.111 (((-79.24619 35.86815, -79.23799 35.83725, -79.54099 3~
+# ... with 28 more rows</code></pre>
+</div>
+<h3 id="samenvoegen">Samenvoegen</h3>
+<p><code>dplyr</code> heeft een reeks functies voor het samenvoegen van gegevensframes op basis van gedeelde kolommen. Deze functies zijn allemaal geïmplementeerd in <code>sf</code> en zijn een geweldige manier om extra attribuutgegevens uit andere bronnen aan uw ruimtelijke gegevens toe te voegen. Het is echter alleen mogelijk om een <code>sf</code> object te verbinden met een gewoon <code>data.frame</code>. Je kunt niet twee <code>sf</code> objecten met elkaar verbinden.</p>
+<p>Laten we beginnen met enkele county-level populatiegegevens van Wikipedia af te halen.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Nu voegen we deze populatiegegevens samen met onze ruimtelijke gegevens en plotten ze.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="simple-features_files/figure-html5/joins-1.png" width="700" /></p>
+</div>
+<p>Alle andere verbindingsfuncties (bijv. <code>left_join()</code>, <code>anti_join()</code>, etc.) werken op dezelfde manier. Als het tweede argument van een van deze functies een <code>sf</code> object is, en geen normaal gegevensframe, zal er een fout optreden. Vermoedelijk komt dit omdat het onduidelijk is hoe de twee verschillende geometrieën gecombineerd moeten worden, hoewel er wel wat <a href="https://github.com/edzer/sfr/issues/42">discussie</a> lijkt te zijn over hoe je verbindingen met twee sets van geometrieën kunt implementeren:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+Error: y should be a data.frame; for spatial joins, use st_join</code></pre>
+</div>
+<p>Deze <code>dplyr</code> functies zijn allemaal voor het verbinden op basis van attribuutgegevens. Als je op zoek bent naar een ruimtelijke verbinding (bijv. twee <code>sf</code> objecten op basis van een snijpunt van geometrieën) dan moet je de functie <code>st_join()</code>gebruiken.</p>
+<h2 id="tidyr-handelingen"><code>tidyr</code> handelingen</h2>
+<p>De <code>tidyr</code> werkwoorden <code>gather()</code> en <code>spread()</code> worden gebruikt om de data frames te transformeren van breed naar lang formaat of vice versa. Bijvoorbeeld, zeg dat u gegevens wilt opslaan over het BBP voor alle landen en een set van jaren. Dit kan worden opgeslagen in een lang formaat (met kolommen <code>land</code>, <code>jaar</code> en <code>gdp</code>), wat als een “tidy” formaat wordt beschouwd, of in een breed formaat (met kolommen <code>land</code>, <code>gdp2000</code>, <code>gdp2001</code>, ….), wat beter is voor weergavedoeleinden. <code>tidyr</code> kan overstappen naar een ander format en nu kan dit ook worden gedaan met <code>sf</code> objecten.</p>
+<p>Als we de North Carolina dataset als voorbeeld nemen, zijn <code>BIR74</code> en <code>BIR79</code> het aantal geboorten in de provincie in respectievelijk 1974 en 1979. Met <code>gather()</code> kunnen we dit gemakkelijk omzetten in een lang formaat:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+Simple feature collection with 6 features and 3 fields
+geometry type:  MULTIPOLYGON
+dimension:      XY
+bbox:           xmin: -81.74107 ymin: 36.23388 xmax: -80.43531 ymax: 36.58965
+epsg (SRID):    4267
+proj4string:    +proj=longlat +datum=NAD27 +no_defs
+     county  year births                       geometry
+1      Ashe BIR74   1091 MULTIPOLYGON (((-81.47276 3...
+2 Alleghany BIR74    487 MULTIPOLYGON (((-81.23989 3...
+3     Surry BIR74   3188 MULTIPOLYGON (((-80.45634 3...
+4      Ashe BIR79   1364 MULTIPOLYGON (((-81.47276 3...
+5 Alleghany BIR79    542 MULTIPOLYGON (((-81.23989 3...
+6     Surry BIR79   3616 MULTIPOLYGON (((-80.45634 3...</code></pre>
+</div>
+<p>Merk op dat de attribuutgegevens mooi getransponeerd zijn. Het resultaat hiervan is dat elke functie twee rijen heeft en dat de functiegeometrieën gedupliceerd zijn. Voor mij lijkt dit vreemd om dezelfde geometrie op meerdere plaatsen op te slaan, dus ik ben niet zeker van wat deze <code>gather()</code> functie op <code>sf</code> objecten oplevert.</p>
+<p>We kunnen dit terugzetten naar het originele brede formaat met <code>spread()</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+Simple feature collection with 3 features and 3 fields
+geometry type:  MULTIPOLYGON
+dimension:      XY
+bbox:           xmin: -81.74107 ymin: 36.23388 xmax: -80.43531 ymax: 36.58965
+epsg (SRID):    4267
+proj4string:    +proj=longlat +datum=NAD27 +no_defs
+     county BIR74 BIR79                       geometry
+1 Alleghany   487   542 MULTIPOLYGON (((-81.23989 3...
+2      Ashe  1091  1364 MULTIPOLYGON (((-81.47276 3...
+3     Surry  3188  3616 MULTIPOLYGON (((-80.45634 3...</code></pre>
+</div>
+<p>De blog (hier verwijzingHJ) biedt een aanvullende introductie op het <code>sf</code>-pakket. Het bevat een tutorial die jou door een aantal basisprincipes van het pakket leidt, waaronder lezen en schrijven van/naar shapefiles, herprojecten, afdrukken met ggplot, filteren en andere datavormen vinden met dplyr. Het maakt gebruik van een dataset van <em>FiveThirtyEight</em> die bijhoudt hoe vaak elk lid van het Amerikaanse Congres heeft gestemd in lijn met President Trumps. We zullen <code>sf</code> gebruiken om deze gegevens samen te voegen met een ander bestand om ze ruimtelijk te verkennen. Voordat u begint, moet u de benodigde datasets downloaden en in uw werkmap plaatsen. Laad vervolgens de benodigde pakketten voor deze tutorial.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Het lezen van gegevens in R met <code>sf</code> is een relatief eenvoudige taak. Het ondersteunt het direct importeren van eenvoudige functies uit een PostGIS database met verschillende R database tools. In dit geval lezen we gewoon uit een shapefile in onze werkmap.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+Reading layer `congressional_districts&#39; from data source `H:\MapsinR\congressional-trump-scores-master\congressional_districts.shp&#39; using driver `ESRI Shapefile&#39;
+Simple feature collection with 433 features and 2 fields
+geometry type:  MULTIPOLYGON
+dimension:      XY
+bbox:           xmin: -124.7631 ymin: 24.5231 xmax: -66.9499 ymax: 49.38436
+epsg (SRID):    4269
+proj4string:    +proj=longlat +datum=NAD83 +no_defs</code></pre>
+<pre><code>
+Simple feature collection with 6 features and 2 fields
+geometry type:  MULTIPOLYGON
+dimension:      XY
+bbox:           xmin: -124.4096 ymin: 33.87981 xmax: -114.0428 ymax: 42.00105
+epsg (SRID):    4269
+proj4string:    +proj=longlat +datum=NAD83 +no_defs
+  district state                       geometry
+1       40    CA MULTIPOLYGON (((-118.281 34...
+2        2    CA MULTIPOLYGON (((-122.4463 3...
+3       31    CA MULTIPOLYGON (((-117.7044 3...
+4       10    CA MULTIPOLYGON (((-121.557 37...
+5        9    CA MULTIPOLYGON (((-121.8513 3...
+6        4    NV MULTIPOLYGON (((-119.4398 3...</code></pre>
+</div>
+<p>Om de attributen geassocieerd met deze polygonen te bekijken of te manipuleren, kunnen we het object eenvoudigweg behandelen als een conventioneel R data frame. De basisplotfunctie geeft u een snel en handig overzicht van elk attribuut dat in kaart is gebracht over alle polygonen. Vervolgens moeten we de stemgegevens van elk lid van het Huis van Afgevaardigden laden. Deze gegevens zitten in een ander databestand.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+  X.1 X             name chamber party state district trump_score
+1   1 1 David G. Valadao   House     R    CA       21       1.000
+2   2 2   Carlos Curbelo   House     R    FL       26       0.935
+3   3 3     Erik Paulsen   House     R    MN        3       1.000
+4   4 4 Barbara Comstock   House     R    VA       10       0.970
+5   5 5  Darrell E. Issa   House     R    CA       49       1.000
+6   6 6  Edward R. Royce   House     R    CA       39       0.970
+  trump_margin predicted_score trump_plus_minus
+1       -0.155           0.296            0.704
+2       -0.161           0.284            0.652
+3       -0.094           0.428            0.572
+4       -0.100           0.413            0.556
+5       -0.075           0.478            0.522
+6       -0.086           0.449            0.521</code></pre>
+</div>
+<p>De mensen van <strong>‘FiveThirtyEight’</strong> hebben een reeks samenvattende statistieken berekend die bij elke Vertegenwoordiger hoort en gekoppeld aan de stemrealiteit van Trump’s standpunt over die maatregel. Zij hebben zo een Trump Score (Trump_score) berekend die ons vertelt welk deel van de tijd elke wetgever in lijn met de president heeft gestemd. We zijn vooral geinteresseerd in het visualiseren van deze variabele. Om deze variabele in kaart te brengen zullen we de tabelvormige stemgegevens moeten samenvoegen met onze districtspolygonen. Omdat we <code>sf</code> objecten kunnen behandelen als data frames, is het eenvoudig om dit te doen met behulp van de join-functies van <code>dplyr</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Nu we beide datasets hebben gecombineerd tot een <code>sf</code>-object, kunnen we ze in kaart brengen met <code>ggplot</code>. Wanneer je <code>ggplot</code> een <code>sf</code>-object geeft, weet het commando <code>geom_sf</code> de punten, lijnen of veelhoeken te tekenen op basis van het bekende tekstgeometrieveld in het object. Het andere <code>sf</code>-specifieke <code>ggplot</code> commando in dit voorbeeld is <code>coord_sf</code>, waarmee je een alternatieve projectie voor je kaart kunt specificeren. Je kunt een co?rdinatensysteem selecteren aan de hand van zijn epsg-code, die te vinden is op spatialreference.org.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="simple-features_files/figure-html5/unnamed-chunk-5-1.png" width="624" /></p>
+</div>
+<p>De kaart versterkt ons begrip van het sterk partijdige karakter van het Congres. De meeste troefscores liggen aan de uitersten, omdat maar weinig wetgevers zich bereid hebben getoond om met hun partijlijnen te breken.</p>
+<p>Onze volgende stap zal zijn om in te zoomen op een bepaald deel van het land. We zullen <code>dplyr</code> gebruiken om slechts drie staten in het hoger gelegen Midwesten (Minnesota, Wisconsin en Iowa) in kaart te brengen. Onderweg zullen we ook een <code>sf</code> object opnieuw projecteren, polygon centroiden extraheren, en die centroiden gebruiken om elk district van een label te voorzien.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="simple-features_files/figure-html5/unnamed-chunk-6-1.png" width="624" /></p>
+</div>
+<p>Dit voorbeeld laat zien hoe je <code>sf</code>-functies in <code>magrittr</code> pijpleidingen kunt nestelen met behulp van de <em>%&gt;%</em> operator waarmee een gebruiker van een ander pakket waarschijnlijk bekend is. Vervolgens zul je zien hoe je <code>dplyr</code> kunt gebruiken om polygonen op te lossen. Laten we eens kijken naar de originele kaart van de hele Verenigde Staten, maar deze keer voegen we de Trump Scores samen tot het niveau van de Staat.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+Simple feature collection with 6 features and 3 fields
+geometry type:  GEOMETRY
+dimension:      XY
+bbox:           xmin: -124.4096 ymin: 30.22333 xmax: -71.78699 ymax: 42.05059
+epsg (SRID):    4269
+proj4string:    +proj=longlat +datum=NAD83 +no_defs
+# A tibble: 6 x 4
+  state avg_trump_score districts                             geometry
+  &lt;chr&gt;           &lt;dbl&gt;     &lt;int&gt;                      &lt;GEOMETRY [Â°]&gt;
+1 AL              0.861         7 MULTIPOLYGON (((-88.05338 30.50699,~
+2 AR              0.992         4 POLYGON ((-94.48558 33.65331, -94.4~
+3 AZ              0.650         9 POLYGON ((-109.0476 32.42638, -109.~
+4 CA              0.377        53 MULTIPOLYGON (((-119.5773 33.27858,~
+5 CO              0.615         7 POLYGON ((-104.9434 40.99808, -104.~
+6 CT              0.147         5 MULTIPOLYGON (((-73.63057 40.98071,~</code></pre>
+</div>
+<p>We kunnen de bekende <code>dplyr</code>-syntax gebruiken om de districten te groeperen op staat en samenvattende statistieken te berekenen. Omdat <code>sf</code>-objecten zo goed integreren met <code>dplyr</code>, groepeert de functie automatisch de ruimtelijke gegevens samen met de tabel. Het eindresultaat is vergelijkbaar met dat van de geoprocessing dissolve tool in een traditioneel desktop GIS.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="simple-features_files/figure-html5/unnamed-chunk-8-1.png" width="624" /></p>
+</div>
+<h2 id="tmap">tmap</h2>
+<p>Naast <code>sf</code>is <code>tmap</code>een ander R-pakket dat jou kan ondersteunen bij het maken van geografische kaarten. Met het tmap-pakket kunnen thematische kaarten met grote flexibiliteit worden gegenereerd. De syntaxis voor het maken van plots is ook hier vergelijkbaar met die van <code>ggplot2</code>, maar dan op maat gemaakt voor kaarten. Het pakket <code>tmap</code>biedt een instructief vignet dat is bedoeld voor degenen die binnen een paar minuten aan de slag willen met tmap. Een meer gedetailleerde beschrijving van tmap is te vinden in een <a href="https://www.jstatsoft.org/article/view/v084i06">artikel</a> gepubliceerd in het Journal of Statistical Software (<a href="https://www.jstatsoft.org/index">JSS</a>), dat tmap versie 1.11-2 beschrijft. De wijzigingen in versie 2.0 worden beschreven in <a href="../doc/tmap-changes-v2.html"><code>vignette(&quot;tmap-changes-v2&quot;)</code></a>.</p>
+<p>Een goede plek om te beginnen is om een kaart van de wereld te maken. Na <a href="https://github.com/mtennekes/tmap#installation">installeren</a> tmap, moeten we met de volgende coderegels de onderstaande kaart maken:</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="simple-features_files/figure-html5/unnamed-chunk-9-1.png" width="624" /></p>
+</div>
+<p>Het object <code>Wereld</code> is een ruimtelijk object van klasse <code>sf</code> uit het [sf-pakket] (<a href="https://CRAN.R-project.org/package=sf" class="uri">https://CRAN.R-project.org/package=sf</a>); het is een <code>data.frame</code> met een speciale kolom die een geometrie voor elke rij bevat, in dit geval polygonen. Om het in tmap te tekenen, moet je het eerst specificeren met <code>tm_shape</code>. Plot-lagen kunnen worden toegevoegd met de <code>+</code> operator, in dit geval <code>tm_polygonen</code>. Er zijn veel laagfuncties in tmap, die gemakkelijk te vinden zijn in de documentatie door hun <code>tm_</code> prefix. Zie ook `?‘tmap-element’``.</p>
+<h3 id="meerdere-vormen-en-lagen">Meerdere vormen en lagen</h3>
+<p>Een vorm is een ruimtelijk object (met een klasse van <code>sf</code>, <code>sp</code> of <code>raster</code>). Meerdere vormen en ook meerdere lagen per vorm kunnen worden uitgezet:</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="simple-features_files/figure-html5/unnamed-chunk-10-1.png" width="624" /></p>
+</div>
+<h3 id="facetten">Facetten</h3>
+<p>Facetten kunnen op drie manieren worden gemaakt:</p>
+<ol type="1">
+<li>Door meerdere variabele namen toe te kennen aan één esthetiek:</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<ol start="2" type="1">
+<li>Door de ruimtelijke gegevens te splitsen met het <code>by</code> argument van <code>tm_facets</code>:</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="simple-features_files/figure-html5/unnamed-chunk-12-1.png" width="624" /></p>
+</div>
+<ol start="3" type="1">
+<li>Door gebruik te maken van de <code>tmap_arrange</code> functie:</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="simple-features_files/figure-html5/unnamed-chunk-13-1.png" width="624" /></p>
+</div>
+<h3 id="snelle-thematische-kaart">Snelle thematische kaart</h3>
+<p>Kaarten kunnen snell worden gemaakt met slechts één functie op te roepen. Deze functie is <code>qtm</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="simple-features_files/figure-html5/unnamed-chunk-14-1.png" width="624" /></p>
+</div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>

@@ -1,0 +1,510 @@
+---
+title: "Statistisch omdenken"
+description: |
+  Over 'Statistical rethinking' van Richard McElreath (2016).
+author:
+  - name: Harrie Jonkman met dan aan Solomon Kurz.
+    url: https://Harriejonkman.nl
+date: 12-23-2018
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Over Bayesiaanse statistiek zijn ondertussen verschillende boeken geschreven die jou leren om hiermee te werken. Het boek van Nzoufras (**Bayesian modeling using WinBUGS**), Lunn et al. (**The BUGS Book. A Practical Introduction to Bayesian Analysis**), Kéry (**Introduction to WinBUGS for ecologists**), Broemeling (**Bayesian Methods in Epidemiology**) en Cowles (**Applied Bayesian Statistics**) introduceren niet alleen het concept maar laten ook zien hoe je hier als onderzoeker mee kunt werken. Deze wetenschappers gebruiken het programma WinBUGS of OpenBUGS. Jim Alberts (**Bayesian Computation with R**) en John Kruschke's (**Doing Bayesian Data Analysis**) zijn ook wetenschappelijke boeken die deze vorm van onderzoek introduceren, maar zij beiden werken met R. In de serie cursusboeken Bayesiaanse statistiek is het boek van Richard McElreath (**Statistical Rethinking. A Bayesian Course with Examples in R and Stan**) het meest recent. Het is een echt cursusboek waar je onder begeleiding of zelf mee aan de slag kunt. Het boek zit vol met codes want McElreath is ervan overtuigd dat als je met deze analysetechniek wilt kunnen werken, je ook moet weten hoe je er mee kunt werken. Interessant zoals hij vaststelt dat tegenwoordig studenten computerwijs maar dat zij van computercodes zelf weer betrekkelijk weinig weten. Om daarmee verder te komen, is het nodig dat ze dat wel leren. McElreaths boek is een oefenboek en de lezer wordt expliciet uitgenodigd problemen met de computer uit te werken. Om ermee te werken moet je R en RStudio op de computer installeren, het pakket binnen halen en je moet rstan (een C++ compiler) installeren. McElreath levert er de codes bij en via internet kun je ook nog zijn interesssante colleges volgen. Allemaal geen eenvoudige kost maar degene die er de moeite voor neemt krijgt veel terug voor zijn of haar inspanningen. 
+
+# Een algemene introductie
+De eerste drie hoofdstukken van **Statistical rethinking** zijn een algemene introductie op Bayesiaanse statistiek. Wetenschappers maken wetenschappelijke modellen die hij ziet als golems, Joodse kleibeeldjes die na de middeleeuwen voor de waarheid stonden en deden wat hen werd opgedragen, althans dat dachten mensen. Wetenschappelijke modellen zijn ook constructen die voor de waarheid staan en een duidelijk doel hebben. Ze berekenen zaken voor ons, voeren indrukwekkende calculaties uit en vinden patronen die anders voor ons onder de oppervlakte zouden blijven. Volgens McElreath is het huidige statistisch instrumentarium te beperkt om antwoorden te geven op complexere zaken waar we tegenwoordig mee worden geconfronteerd. Wetenschap kan deductieve falsificatie, waar wetenschappers na Popper steeds op gewezen hebben, nauwelijks waar maken omdat hypotheses toch iets anders zijn dan modellen die wel te onderzoeken zijn. Modellen kun je toetsen en hypothesen eigenlijk niet. Hoe je de modellen onderzoekt, doet er dan wel toe. In die nieuwe gereedschapskist die ons ter beschikking staat, zitten voor McElreath drie hele duidelijke gereedschappen:      
+- *Baysiaanse data analyse* waarbij het gaat om waarschijnlijkheid en waarbij je het aantal mogelijkheden die volgens onze aannames kunnen gebeuren steeds moet tellen. Het is de meest logische en consistente manier om met informatie om te gaan.      
+- *Multilevel modellen* waarbij clusters of groepen worden onderscheiden en waarbij steeds andere waarden kunnen gelden juist omdat ze zo bij elkaar horen.     
+- *Model vergelijkingen en informatiecriteria* waarbij het gaat om criteria waarmee vergelijkingen worden gemaakt en accuratesse wordt ingeschat.    
+
+McElreath begint zijn boek heel eenvoudig. Stel, zo legt hij voor, dat we plastic aardbol hebben (een opblaasbol, zeg maar) en deze een aantal keren in de lucht gooien. We vangen het met een vinger op en kijken wat er onder die vinger zit (water of land). Stel dat we dat negen keer achter elkaar doen en dat deze activiteit dan de volgende gegevens oplevert.
+
+```{r}
+library(tidyverse)
+(d <- tibble(toss = c("w", "l", "w", "w", "w", "l", "w", "l", "w")))
+```
+
+Stel dat water het succes is en we negen keer gooien en laten we uitdrukken wat we gevonden hebben:
+
+
+```{r}
+(
+  d <-
+  d %>% 
+  mutate(n_trials  = 1:9,
+         n_success = cumsum(toss == "w"))
+  )
+```
+
+
+Als we dat dan vervolgens ook nog in tekeningen uitdrukken, zien die er achtereenvolgens zo een beetje uit:
+
+
+
+```{r, fig.width = 6, fig.height = 5}
+sequence_length <- 50
+
+d %>% 
+  expand(n_trials, 
+         p_water = seq(from = 0, to = 1, length.out = sequence_length)) %>% 
+  left_join(d, by = "n_trials") %>%
+  group_by(p_water) %>% 
+  # you can learn more about lagging here: https://www.rdocumentation.org/packages/stats/versions/3.5.1/topics/lag or here: https://dplyr.tidyverse.org/reference/lead-lag.html
+  mutate(lagged_n_success = lag(n_success, k = 1),
+         lagged_n_trials  = lag(n_trials,  k = 1)) %>% 
+  ungroup() %>% 
+  mutate(prior = ifelse(n_trials == 1, .5,
+                                     dbinom(x    = lagged_n_success, 
+                                            size = lagged_n_trials, 
+                                            prob = p_water)),
+         strip = str_c("n = ", n_trials),
+         likelihood = dbinom(x    = n_success, 
+                             size = n_trials, 
+                             prob = p_water),
+         ) %>% 
+  # the next three lines allow us to normalize the prior and the likelihood, putting them both in a probability metric 
+  group_by(n_trials) %>% 
+  mutate(prior      = prior      / sum(prior),
+         likelihood = likelihood / sum(likelihood)) %>%   
+  
+  ggplot(aes(x = p_water)) +
+  geom_line(aes(y = prior), linetype = 2) +
+  geom_line(aes(y = likelihood)) +
+  scale_x_continuous("proportion water", breaks = c(0, .5, 1)) +
+  scale_y_continuous("plausibility", breaks = NULL) +
+  theme(panel.grid = element_blank()) +
+  facet_wrap(~strip, scales = "free_y")
+```
+
+
+De Bayesiaanse techniek bestaat steeds uit een vast aantal componenten. Allereerst is er de *likelihood* en dat zijn de data waar je mee te maken hebt. Hier boven is dat bijvoorbeeld het aantal keren dat je gegooid hebt en de keren dat de vinger water raakt. Dan heb je de *parameters* waarmee je werkt (bv. aantal keren water en de kans op water). Dan heb je de *prior*, de inschatting die je van te voren maakt. Als je niks weet kun je zeggen dat de kans op water=.5 (net zo groot als de kans op land). Maar als je weet dat er meer water is dan land kun je zeggen dat de kans op water tussen .5 en .9 ligt. Tot slot is er de *posterior*, de combinatie van alle drie (likelihood, parameters en prior) en veelal uitgedrukt wordt als:
+
+$$\text{Posterior} = \frac{\text{Likelihood} \times \text{Prior}}{\text{Average Likelihood}}$$
+
+Nu zijn er verschillende technieken om deze posterior uit te rekenen. Om met complexe modellen te kunnen werken,worden MCMC-technieken gebruikt en daar maakt Richard Elreath in zijn boek ruim gebruik van. Als het model dat is gekozen een posterior distributie maakt, is eigenlijk het werk gedaan en kunnen hiermee verschillende vragen worden beantwoord als:   
+- wat is de kans dat een bepaalde waarde voorkomt?   
+- wat is de kans dat de waarde tussen 50% en 80% in ligt?   
+- welke waarde heeft de hoogste posterior waarschijnlijkheid?   
+etc. 
+Met Bayesiaanse technieken maak je samples die je weer gebruikt om intervallen te definiëren, om puntschattingen te maken, om voorspellingen te doen, om de gegevens op een andere manier te simuleren of wat je ook maar wilt. 
+
+
+# Eenvoudige Regressies
+Nadat McElreath in het eerste deel van het boek de basis heeft uitgelegd, begint hij in het tweede deel verschillende modellen uit te leggen. Hij begint met betrekkelijk simpele lineaire modellen. Stel dat we een dataset nemen die in het pakket zit. De meest simpele vorm druk je zo uit:
+
+$$
+\begin{eqnarray}
+\text{outcome}_i & \sim & \text{Normal}(\mu_i, \sigma) \\
+\mu_i & = & \beta \times \text{predictor}_i \\
+\beta & \sim & \text{Normal}(0, 10) \\
+\sigma & \sim & \text{HalfCauchy}(0, 1)
+\end{eqnarray}
+$$
+Stel dat we een dataset nemen die in het pakket zit, bv.;
+
+```{r, message = F}
+library(rethinking)
+data(Howell1)
+d <- Howell1
+```
+We openen een ander pakket, waar ik in de conclusie op terug kom.
+```{r, message = F}
+rm(Howell1)
+detach(package:rethinking, unload = T)
+library(brms)
+```
+
+We kijken eens even hoe het data bestand eruit ziet:
+```{r}
+d %>%
+  str()
+```
+
+Dan halen we alleen de variabele lengte eruit:
+
+```{r}
+d %>%
+  select(height) %>%
+  head()
+```
+
+Vervolgens gebruiken we alleen de data van de volwassenen:
+
+```{r}
+d2 <- 
+  d %>%
+  filter(age >= 18)
+```
+
+Hieronder draaien we dan een analyse. En dit wordt steeds op dezelfde manier gedefinieerd. Je definieert het model, dan gebruik je brm en zegt welke data je gebruikt en welke statistische familie je gebruikt, vervolgens definieer je het statistische model, je definieert de parameters die gebruikt, je definieert het aantal iteraties en hoeveel je daarbij als warming up gebruikt, je definieert het aantallen kettingen en het aantal computerdelen.
+
+```{r b4.1_half_cauchy, cache = T, message = F, warning = F}
+b4.1_half_cauchy <- 
+  brm(data = d2, family = gaussian,
+      height ~ 1,
+      prior = c(prior(normal(178, 20), class = Intercept),
+                prior(cauchy(0, 1), class = sigma)),
+      iter = 2000, warmup = 1000, chains = 4, cores = 4)
+```
+
+Laten we zien wat het grafische oplevert: 
+
+```{r, fig.width = 6, fig.height = 2.5}
+plot(b4.1_half_cauchy)
+```
+
+Laten we de gegevens ook in een tabel samenvatten:
+
+```{r}
+print(b4.1_half_cauchy)
+```
+
+
+Als we aan deze simpele regressie nog een andere, onafhankelijke variabele toevoegen (gewicht), krijgen we de volgende analyse:
+
+```{r b4.3, cache = T, message = F, warning = F}
+b4.3 <- 
+  brm(data = d2, family = gaussian,
+      height ~ 1 + weight,
+      prior = c(prior(normal(156, 100), class = Intercept),
+                prior(normal(0, 10), class = b),
+                prior(uniform(0, 50), class = sigma)),
+      iter = 41000, warmup = 40000, chains = 4, cores = 4)
+```
+
+Ook hier eerst het grafische:
+
+```{r, fig.width = 6, fig.height = 3.5}
+plot(b4.3)
+```
+
+En vervolgens de gegevens voor de tabel:
+```{r}
+print(b4.3)
+```
+
+Nadat McElreath heeft laten zien hoe het werkt met eenvoudige regressies (inclusief interacties dat in het volgende hoofdstuk aan de orde komt), gaat hij in op het gebruik van informatie criteria. Dat zijn criteria waarmee je modellen met elkaar kunt vergelijken. De DIC en WAIC zijn informatiecriteria die in deze techniek het beste te gebruiken zijn. 
+
+
+Laten we eens zien. Haal een dataset binnen, bv. de dataset `milk` die in het pakket rethinking zit. Daar gebruiken we alleen de complete gegevens van en we passen de variabele neocortex aan.
+
+```{r, message = F}
+library(rethinking)
+data(milk)
+
+d <- 
+  milk %>%
+  filter(complete.cases(.))
+rm(milk)
+
+d <-
+  d %>%
+  mutate(neocortex = neocortex.perc / 100)
+```
+
+Hoeveel dimensies `d` zitten er in:
+
+```{r}
+dim(d)
+```
+
+Laad dan weer het pakket brms.
+
+```{r, message = F, warning = F}
+detach(package:rethinking, unload = T)
+library(brms)
+```
+
+We onderzoeken vier verschillende `kcal.per.g` modellen . 
+
+```{r b6.11_through_b6.14, cache = T, message = F, warning = F, results = 'hide'}
+inits <- list(Intercept = mean(d$kcal.per.g),
+              sigma     = sd(d$kcal.per.g))
+
+inits_list <-list(inits, inits, inits, inits)
+
+b6.11 <- 
+  brm(data = d, family = gaussian,
+      kcal.per.g ~ 1,
+      prior = c(prior(uniform(-1000, 1000), class = Intercept),
+                prior(uniform(0, 100), class = sigma)),
+      iter = 2000, warmup = 1000, chains = 4, cores = 4,
+      inits = inits_list)
+
+inits <- list(Intercept = mean(d$kcal.per.g),
+              neocortex = 0,
+              sigma     = sd(d$kcal.per.g))
+b6.12 <- 
+  brm(data = d, family = gaussian,
+      kcal.per.g ~ 1 + neocortex,
+      prior = c(prior(uniform(-1000, 1000), class = Intercept),
+                prior(uniform(-1000, 1000), class = b),
+                prior(uniform(0, 100), class = sigma)),
+      iter = 2000, warmup = 1000, chains = 4, cores = 4,
+      inits = inits_list)
+
+inits <- list(Intercept   = mean(d$kcal.per.g),
+              `log(mass)` = 0,
+              sigma       = sd(d$kcal.per.g))
+b6.13 <-
+  update(b6.12, 
+         newdata = d,
+         formula = kcal.per.g ~ 1 + log(mass),
+         inits   = inits_list)
+
+inits <- list(Intercept   = mean(d$kcal.per.g),
+              neocortex   = 0,
+              `log(mass)` = 0,
+              sigma       = sd(d$kcal.per.g))
+b6.14 <- 
+  update(b6.13, 
+         newdata = d,
+         formula = kcal.per.g ~ 1 + neocortex + log(mass),
+         inits   = inits_list)
+```
+
+Vervolgens kun je deze vier modellen met elkaar vergelijken en de modellen met de laagste waic-score laat de beste balans zien tussen eenvoud en complexiteit. 
+
+
+```{r waic, cache = T, message = F, warning = F}
+waic(b6.11, b6.12, b6.13, b6.14)
+```
+
+# Andere regressies
+Voor Bayesiaanse technieken worden tegenwoordig MCMC-technieken gebruikt die met ingewikkelde random berekeningen als het ware het complexe geheel kunnen opsplitsen in kleinere eenheden. Door dit heel vaak te draaien kunnen de posterior samples worden gemaakt. Met Gibbs en Metropolitan wordt al sinds de negentiger jaren gewerkt. Gelman en anderen hebben de laatste jaren de Hamiltonian Monte Carlo ontwikkelt die nog weer beter werkt in complexe modellen (Stan). Stan heeft weer een eigen taal. Maar met McElreaths MAP en met Brueckners brms pakket kan hier makkelijker mee worden gewerkt. Het betrekkelijke ingewikkelde HMC werkt in deze pakketten achter de coulissen. Laten we een voorbeeld nemen:
+
+
+We laden eerst de `rugged` data in.
+
+
+```{r}
+library(rethinking)
+data(rugged)
+d <- rugged
+```
+
+
+Dan gaan we over naar brms.
+
+```{r}
+detach(package:rethinking)
+library(brms)
+rm(rugged)
+```
+
+
+We doen wat data manipulatie.
+
+```{r}
+d <- 
+  d %>%
+  mutate(log_gdp = log(rgdppc_2000))
+
+dd <-
+  d %>%
+  filter(complete.cases(rgdppc_2000))
+```
+
+
+Vervolgens werken we met HMC en we zien bij het brm-pakket ook weer dezelfde volgorde. Eerst het model definiëren, dan brm en vaststellen welke data je gebruikt en welke statistische familie. Dan schrijf je het model uit en vervolgens definieer je de priors.
+
+```{r}
+b8.1 <-
+  brm(data = dd, family = gaussian,
+      log_gdp ~ 1 + rugged + cont_africa + rugged:cont_africa,
+      prior = c(prior(normal(0, 100), class = Intercept),
+                prior(normal(0, 10), class = b),
+                prior(cauchy(0, 2), class = sigma)))
+```
+
+En dan, in dit geval alleen, de resultaten voor de tabel. 
+
+```{r}
+print(b8.1)
+```
+
+
+
+Als we met deze MCMC-techniek kunnen werken, kunnen we vervolgens ook andere statistische modellen (GLM-modellen) draaien. Denk aan exponentiële, gamma en poisson distributies en daarmee zijn andere regressies (andere families) mogelijk. 
+
+Laten we een logistische regressie als voorbeeld nemen en de `chimpanzees` data laden.
+
+```{r, message = F, warning = F}
+library(rethinking)
+data(chimpanzees)
+d <- chimpanzees
+```
+
+Dan weer naar brms.
+
+```{r, message = F, warning = F}
+detach(package:rethinking)
+library(brms)
+rm(chimpanzees)
+```
+ 
+Eerst een logistische regressie met alleen een intercept.
+
+$$
+\begin{eqnarray}
+\text{pulled_left}_i & \sim & \text{Binomial} (1, p_i) \\
+\text{logit} (p_i) & = & \alpha \\
+\alpha & \sim & \text{Normal} (0, 10)
+\end{eqnarray}
+$$
+En dan weer het model draaien.
+
+```{r b10.1, cache = T, warning = F, message = F, results = "hide"}
+b10.1 <-
+  brm(data = d, family = binomial,
+      pulled_left ~ 1,
+      prior(normal(0, 10), class = Intercept))
+```
+
+Laten we alleen eens naar het intercept kijken.
+
+```{r, message = F, warning = F}
+library(tidyverse)
+ 
+fixef(b10.1) %>%
+  round(digits = 2)
+```
+
+Deze resultaten kunnen ook omgevormd worden tot de logistische functie.
+
+```{r}
+c(.18, .46) %>%
+  inv_logit_scaled()
+
+fixef(b10.1) %>%
+  inv_logit_scaled()
+```
+
+Vervolgens voegen we aan het logistisch model enkele predictoren aan toe en draaien nog eens twee modellen.
+
+```{r b10.2_and b10.3, cache = T, warning = F, message = F, results = "hide"}
+b10.2 <-
+  brm(data = d, family = binomial,
+      pulled_left ~ 1 + prosoc_left,
+      prior = c(prior(normal(0, 10), class = Intercept),
+                prior(normal(0, 10), class = b)))
+
+b10.3 <-
+  update(b10.2,
+         newdata = d,
+         formula = pulled_left ~ 1 + prosoc_left + condition:prosoc_left)
+```
+
+En dan vergelijken we de drie modellen die we tot dan toe hebben gemaakt met elkaar:
+
+```{r w_b10.1_through_w_b10.3, cache = T, warning = F, message = F}
+w_b10.1 <- waic(b10.1)
+w_b10.2 <- waic(b10.2)
+w_b10.3 <- waic(b10.3)
+```
+
+```{r}
+compare_ic(w_b10.1, w_b10.2, w_b10.3)
+```
+
+Op dezelfde manier werkt McElreath ook andere count-regressies en dergelijke uit, waar we hier verder niet op ingaan.
+
+# Multilevel en andere zaken
+Wanneer hij heeft uitgelegd hoe Bayesiaanse analyse werkt en je ook kunt werken met informatiecriteria, komt hij bij de de multilevel modellen uit (zijn derde uitgangspunt). Multilevel analyse is toch wel zo'n beetje de 'state of art' in regressie analyses omdat het enkele voordelen heeft, waaronder:    
+- het maakt betere schattingen over herhaalde metingen;    
+- het verbetert de schattingen als er verschillen zijn tussen subsamples en;    - het kan variaties en gemiddelden over deze subsamples beter inschatten en het voorkomt zo versimpelen.
+
+Om dit duidelijk te maken onderzoeken we de overleving van kikkers in verschillende omgevingen en definiëren enkele modellen. We werken met de `reedfrogs` data van het rethinking pakket.
+
+```{r, message = F}
+library(rethinking)
+data(reedfrogs)
+d <- reedfrogs
+```
+
+We laten rethinking los en laden brms.
+
+```{r, message = F}
+rm(reedfrogs)
+detach(package:rethinking, unload = T)
+library(brms)
+```
+
+Wat zit er in het `reedfrogs`-data bestand? Laten we dat eens onderzoeken we met tidyverse pakket.
+
+```{r, message = F, warning = F}
+library(tidyverse)
+
+d %>%
+  glimpse()
+```
+
+We maken de tank variabele (hogere orde variabele, de omgevingen van de kikker).
+
+```{r}
+d <- 
+  d %>%
+  mutate(tank = 1:nrow(d))
+```
+
+Hier is de formule voor het model zonder multilevel karakter nog.
+
+$$
+\begin{eqnarray}
+\text{surv}_i & \sim & \text{Binomial} (n_i, p_i) \\
+\text{logit} (p_i) & = & \alpha_{\text{tank}_i} \\
+\alpha_{\text{tank}} & \sim & \text{Normal} (0, 5)
+\end{eqnarray}
+$$
+
+Hier is de code daarvan:
+
+```{r b12.1, message=FALSE, warning=FALSE, cache=T}
+b12.1 <- 
+  brm(data = d, family = binomial,
+      surv | trials(density) ~ 0 + factor(tank),
+      prior(normal(0, 5), class = b),
+      iter = 2000, warmup = 500, chains = 4, cores = 4)
+```
+
+Vervolgens is hier het multilevel model
+
+$$
+\begin{eqnarray}
+\text{surv}_i & \sim & \text{Binomial} (n_i, p_i) \\
+\text{logit} (p_i) & = & \alpha_{\text{tank}_i} \\
+\alpha_{\text{tank}} & \sim & \text{Normal} (\alpha, \sigma) \\
+\alpha & \sim & \text{Normal} (0, 1) \\
+\sigma & \sim & \text{HalfCauchy} (0, 1)
+\end{eqnarray}
+$$
+
+En dat multilevel model specificeer je weer zo (inclusief hyperparameter `tank`:
+
+```{r b12.2, cache = T, message = F, warning = F}
+b12.2 <- 
+  brm(data = d, family = binomial,
+      surv | trials(density) ~ 1 + (1 | tank),
+      prior = c(prior(normal(0, 1), class = Intercept),
+                prior(cauchy(0, 1), class = sd)),
+      iter = 4000, warmup = 1000, chains = 4, cores = 4)
+```
+
+Laten we de twee modellen (geen en wel multilvel) eens naast elkaar zetten: 
+```{r ic_b12.1_and_b12.2, cache = T}
+waic(b12.1, b12.2)
+```
+
+Naast dat intercept model laat je ook zien dat er verschillen in de slope kunnen zitten. Want qua drukte zijn café's niet alleen verschillend van elkaar, ook is de drukte over de dag heen (drukte*tijdstip) verschillend. Ook dat kun je in jouw modellen op nemen.
+
+# Tot slot
+Met het OpenBugs programma weet ikzelf goed te werken en ook werken met het Bayesiaanse MLwiN-deel gaat mij goed af. De laatste jaren wordt er steeds weer met steeds beterem, nieuwe programma's gewerkt (zoals nu met Stan). Voor mensen die dagelijks met deze programma's werken is het geen probleem om zich dat eigen te maken. Ikzelf werk er soms mee maar niet dagelijks en dan is het wel een grote inspanning om bij te blijven. Ik heb het idee dat de ontwikkelaars daar niet altijd bij stil staan. In dit blog heb ik gebruik gemaakt van het nieuwe brms-programma van Bürkner. Salomon Kurz heeft dit heel goed voor het boek van McElreath verwerkt (https://bookdown.org/ajkurz/Statistical_Rethinking_recoded/). Toch heb ik van het boek van Richard McElreath heel veel geleerd en ik raad het mensen aan het te lezen.   
+
+
+

@@ -1,0 +1,12 @@
+---
+title: "Tufte"
+subtitle: 
+   De Tufte-stijl is een stijl die Edward Tufte gebruikt in zijn boeken en handouts. Tufte's stijl is bekend vanwege zijn veelvuldig gebruik van opmerkingen aan de zijkant (sidenotes), strakke integratie van zijn grafieken met tekst en zijn duidelijk gezette typografie. Deze stijl is geimplementeerd in repectievelijk PDF en HTML. respectively. Beide implementaties zitten nu ook in het `tufte`-pakket. Als je een LaTeX/PDF output wilt, gebruik dan `tufte_handout` format voor handouts en `tufte_book` voor boeken. Voor HTML output, gebruik je `tufte_html`. 
+author: "Harrie Jonkman"
+date: "10/28/2018"
+categories: [visualisatie, communicatie]
+image: "img/Tufte.PNG"
+---
+
+
+[Hier](http://www.harriejonkman.nl/wp-content/uploads/2018/01/TufteProberen.pdf) vind je een document over het werken in de Tufte stijl

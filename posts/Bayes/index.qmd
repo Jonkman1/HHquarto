@@ -1,8 +1,8 @@
 ---
 title: "Bayes"
 author: "Harrie Jonkman"
-date: "2018-29-01"
-categories: [analyseren]
+date: "1/29/2018"
+categories: [analyse]
 image: "img/Voorkant.PNG"
 ---
 

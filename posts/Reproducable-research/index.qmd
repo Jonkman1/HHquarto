@@ -3,7 +3,7 @@ title: "Dynamische documenten maken met RMarkdown en knitr"
 subtitle:
     RMarkdown en Knitr zijn pakketten die je in staat stellen om reproduceerbare en dynamische documenten te maken. In deze blog wordt uitgelegd hoe je hiermee kunt werken.
 author: "Marian L. Schmidte, bewerkte Harrie Jonkman"
-date: "28 juni 2018"
+date: "6/28/2018"
 categories: [communicatie]
 image: "img/RR.PNG"
 ---

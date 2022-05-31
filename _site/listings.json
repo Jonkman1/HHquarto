@@ -2,15 +2,20 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/Bayes/index.html",
-      "/posts/SimpleFeatures/simple-features.html",
-      "/posts/Rstudiormarkdown/index.html",
-      "/posts/Exploreren/index.html",
-      "/posts/Latex/index.html",
-      "/posts/Op-weg-naar-infografieken/index.html",
-      "/posts/Psm/index.html",
+      "/posts/Communiceren_met_rmarkdown/CommunicatieRmarkdownTwee.html",
+      "/posts/Statistisch-omdenken/statistisch-omdenken.html",
+      "/posts/Communiceren_met_rmarkdown/communiceren-met-rmarkdown.html",
+      "/posts/Communiceren_met_rmarkdown/index.html",
+      "/posts/Visualisatiegapminder/index.html",
+      "/posts/Tufte/index.html",
       "/posts/Sem/index.html",
-      "/posts/Reproducable-research/index.html"
+      "/posts/Rstudiormarkdown/index.html",
+      "/posts/Reproducable-research/index.html",
+      "/posts/Psm/index.html",
+      "/posts/Op-weg-naar-infografieken/index.html",
+      "/posts/Latex/index.html",
+      "/posts/Exploreren/index.html",
+      "/posts/Bayes/index.html"
     ]
   }
 ]

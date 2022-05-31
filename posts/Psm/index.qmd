@@ -3,7 +3,7 @@ title: "Propensity Score Matching"
 subtitle: 
    Om precies het effect van een aanpak of politieke keuze vast te stellen is een ingewikkelde kwestie. Toch is er dat soort onderzoek nodig om de keuze voor programma's te legitimeren. Tegenwoordig is er een heel spectrum van technieken om de impact van programma's vast te stellen. Hier stellen we zo'n matchingsmethode voor (PSM) die goed gebruikt kan worden in verschillende soorten impactstudies en laten we zien hoe deze uitgevoerd kan worden. 
 author: "Harrie Jonkman"
-date: "31 mei 2018"
+date: "5/28/2018"
 categories: [analyse]
 image: "img/psm.png"
 ---

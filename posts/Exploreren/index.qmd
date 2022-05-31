@@ -1,7 +1,7 @@
 ---
 title: "Exploreren"
 author: "Harrie Jonkman"
-date: "28 februari 2018"
+date: "2/28/2018"
 categories: [analyse]
 image: "img/explore.jpg"
 ---

@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.345">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Harrie Jonkman">
+<meta name="dcterms.date" content="2018-11-28">
+
+<title>Harrie’s Hoekje - Gapmindervisualisatie</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Harrie’s Hoekje</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">Harrie’s Hoekje</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Jonkman1"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Gapmindervisualisatie</h1>
+            <p class="subtitle lead">Een voorbeeld van datavisualisatie, trends op het gebied van de wereldgezondheid en de economie</p>
+                          <div class="quarto-categories">
+                <div class="quarto-category">visualisatie</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Harrie Jonkman </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">November 28, 2018</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="een-praktijkvoorbeeld-trends-op-het-gebied-van-de-wereldgezondheid-en-de-economie" class="level2">
+<h2 class="anchored" data-anchor-id="een-praktijkvoorbeeld-trends-op-het-gebied-van-de-wereldgezondheid-en-de-economie">Een praktijkvoorbeeld: Trends op het gebied van de wereldgezondheid en de economie</h2>
+<p>In dit deel laten we zien hoe relatief eenvoudig de <code>ggplot</code> -code inzichtelijke en esthetisch aangename plots kan maken die ons helpen trends in de wereldgezondheid en economie beter te begrijpen. Later breiden we de code iets uit om de plots te perfectioneren en beschrijven we enkele algemene principes als leidraad voor datavisualisatie.</p>
+</section>
+<section id="voorbeeld-1-levensverwachting-en-vruchtbaarheidcijfers" class="level2">
+<h2 class="anchored" data-anchor-id="voorbeeld-1-levensverwachting-en-vruchtbaarheidcijfers">Voorbeeld 1: Levensverwachting en vruchtbaarheidcijfers</h2>
+<p><a href="https://en.wikipedia.org/wiki/Hans_Rosling">Hans Rosling</a> was medeoprichter van de <a href="http://www.gapminder.org/">Gapminder Foundation</a>, een organisatie die het publiek wil stimuleren om gegevens te gebruiken om veelvoorkomende mythes over de zogenaamde ontwikkelingswereld te verdrijven. De organisatie gebruikt gegevens om aan te tonen hoe de daadwerkelijke tendensen in gezondheid en economie de verhalen tegenspreken die van de media komen en sensationeel berichten over catastrofes, tragedies en andere ongelukkige gebeurtenissen, zoals die op de website van de Gapminder Foundation staan.</p>
+<blockquote class="blockquote">
+<blockquote class="blockquote">
+<blockquote class="blockquote">
+<p>Journalisten en lobbyisten vertellen dramatische verhalen. Dat moeten ze want dat is hun taak. Ze vertellen verhalen over bijzondere gebeurtenissen en ongewone mensen. De stapels dramatische verhalen die een al te dramatisch wereldbeeld vormen en zorgen voor sterke negatieve stressgevoelens: “De wereld wordt erger”, “Wij vs.&nbsp;zij! , ,,Andere mensen zijn vreemd”, “De bevolking blijft maar groeien” en “Het maakt niemand wat uit”!</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>Hans Rosling bracht actuele data-gebaseerde trends op een eigen dramatische manier over aan de hand van effectieve datavisualisatie. Dit hoofdstuk is gebaseerd op twee gesprekken die deze benadering van onderwijs illustreren: <a href="https://www.ted.com/talks/hans_rosling_reveals_new_insights_on_poverty?language=en">Nieuwe inzichten in armoede</a> en <a href="https://www.ted.com/talks/hans_rosling_shows_the_best_stats_you_ve_ever_seen">De beste Statistiek die je gezien hebt</a>.</p>
+<p>In deze paragraaf willen we aan de hand van gegevens een antwoord geven op de volgende twee vragen:</p>
+<ol type="1">
+<li><p>Is het een eerlijke typering van de wereld van vandaag om te zeggen dat ze verdeeld is in westerse rijke naties en de ontwikkelingslanden in Afrika, Azi? en Latijns-Amerika?</p></li>
+<li><p>Is de inkomensongelijkheid tussen landen de afgelopen 40 jaar toegenomen?</p></li>
+</ol>
+<p>Om deze vraag te beantwoorden zullen we gebruik maken van de <code>gapminder</code> dataset in <code>dslabs</code>. Deze dataset is gemaakt met behulp van een aantal spreadsheets die beschikbaar zijn bij de Stichting [Gapminder] (http://www.gapminder.org/). U kunt op deze manier toegang krijgen tot de tafel:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'dslabs' was built under R version 4.1.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(gapminder)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gapminder)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              country year infant_mortality life_expectancy fertility
+1             Albania 1960           115.40           62.87      6.19
+2             Algeria 1960           148.20           47.50      7.65
+3              Angola 1960           208.00           35.98      7.32
+4 Antigua and Barbuda 1960               NA           62.97      4.43
+5           Argentina 1960            59.87           65.39      3.11
+6             Armenia 1960               NA           66.86      4.55
+  population          gdp continent          region
+1    1636054           NA    Europe Southern Europe
+2   11124892  13828152297    Africa Northern Africa
+3    5270844           NA    Africa   Middle Africa
+4      54681           NA  Americas       Caribbean
+5   20619075 108322326649  Americas   South America
+6    1867396           NA      Asia    Western Asia</code></pre>
+</div>
+</div>
+<section id="de-quiz-van-hans-rosling" class="level4">
+<h4 class="anchored" data-anchor-id="de-quiz-van-hans-rosling">De quiz van Hans Rosling</h4>
+<p>Zoals gedaan in de <em>New Insights on Poverty</em> video, beginnen we met het testen van onze kennis over verschillen in kindersterfte tussen verschillende landen.</p>
+<p>Voor elk van de zes onderstaande paren landenparen, willen we weten welk land volgens u de hoogste kindersterfte in 2015 had? Welke paren lijken volgens jou het meest op elkaar?</p>
+<ol type="1">
+<li>Sri Lanka of Turkije</li>
+<li>Polen of Zuid-Korea</li>
+<li>Maleisi? of Rusland</li>
+<li>Pakistan of Vietnam</li>
+<li>Thailand of Zuid-Afrika</li>
+</ol>
+<p>Wanneer deze vragen zonder gegevens worden beantwoord, worden de niet-Europese landen doorgaans gekozen als landen met hogere sterftecijfers: Sri Lanka boven Turkije, Zuid-Korea boven Polen en Maleisi? boven Rusland. Ook in landen die als ontwikkelingslanden worden beschouwd, Pakistan, Vietnam, Thailand en Zuid-Afrika, is het sterftecijfer even hoog.</p>
+<p>Om deze vragen __ met data__ te beantwoorden kunnen we het R-pakket <code>dplyr</code> gebruiken. Voor de eerste vergelijking zien we bijvoorbeeld dat</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyverse' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'ggplot2' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'readr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'dplyr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2015</span> <span class="sc">&amp;</span> country <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Sri Lanka"</span>,<span class="st">"Turkey"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, infant_mortality)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    country infant_mortality
+1 Sri Lanka              8.4
+2    Turkey             11.6</code></pre>
+</div>
+</div>
+<p>Turkije heeft een hogere score.</p>
+<p>We kunnen deze code op alle vergelijkingen plakken en dan zien we het volgende:</p>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: `data_frame()` was deprecated in tibble 1.1.0.
+Please use `tibble()` instead.
+This warning is displayed once every 8 hours.
+Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>New names:
+* `country` -&gt; `country...1`
+* `infant_mortality` -&gt; `infant_mortality...2`
+* `country` -&gt; `country...3`
+* `infant_mortality` -&gt; `infant_mortality...4`</code></pre>
+</div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">country…1</th>
+<th style="text-align: right;">infant_mortality…2</th>
+<th style="text-align: left;">country…3</th>
+<th style="text-align: right;">infant_mortality…4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Sri Lanka</td>
+<td style="text-align: right;">8.4</td>
+<td style="text-align: left;">Turkey</td>
+<td style="text-align: right;">11.6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Poland</td>
+<td style="text-align: right;">4.5</td>
+<td style="text-align: left;">South Korea</td>
+<td style="text-align: right;">2.9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Malaysia</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: left;">Russia</td>
+<td style="text-align: right;">8.2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pakistan</td>
+<td style="text-align: right;">65.8</td>
+<td style="text-align: left;">Vietnam</td>
+<td style="text-align: right;">17.3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Thailand</td>
+<td style="text-align: right;">10.5</td>
+<td style="text-align: left;">South Africa</td>
+<td style="text-align: right;">33.6</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>We zien dat de Europese landen hogere cijfers hebben: Polen heeft een hoger percentage dan Zuid-Korea en Rusland een hoger percentage dan Maleisi?. We zien ook dat Pakistan een veel hoger percentage heeft dan Vietnam en Zuid-Afrika een veel hoger percentage dan Thailand. Het blijkt dat de meeste mensen het slechter doen dan wanneer ze zouden raden. We lijken wel onwetend zijn en we zijn verkeerd ge?nformeerd.</p>
+</section>
+<section id="levensverwachting-en-vruchtbaarheidscijfers" class="level3">
+<h3 class="anchored" data-anchor-id="levensverwachting-en-vruchtbaarheidscijfers">Levensverwachting en vruchtbaarheidscijfers</h3>
+<p>De reden hiervoor is het idee dat de wereld in twee groepen te verdelen is: de Westerse wereld (West-Europa en Noord-Amerika), met z’n lange levensduur en kleine gezinnen, tegenover de ontwikkelingslanden (Afrika, Azi? en Latijns-Amerika), gekenmerkt door een korte levensduur en grote gezinnen. Maar rechtvaardigen de gegevens deze dichotomie van twee groepen wel?</p>
+<p>De nodige gegevens om deze vraag te beantwoorden zitten ook in onze <code>gapminder</code> tabel. Met behulp van onze nieuw aangeleerde vaardigheden om data te visualiseren, zullen we in staat zijn om deze vraag te beantwoorden.</p>
+<p>De eerste plot die we maken om te zien wat de gegevens zeggen over dit wereldbeeld is een spreidingplot van levensverwachting versus vruchtbaarheidscijfers (gemiddeld aantal kinderen per vrouw). We kijken eerst naar gegevens van zo’n vijftig jaar geleden, toen dit standpunt misschien nog te rechtvaardigen was.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_theme_set</span>()</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(gapminder, year<span class="sc">==</span><span class="dv">1962</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>( <span class="fu">aes</span>(fertility, life_expectancy)) <span class="sc">+</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>De meeste punten vallen in twee verschillende categorie?n uiteen:</p>
+<ol type="1">
+<li>Levensverwachting rond 70 jaar en 3 of minder kinderen per gezin</li>
+<li>Levensverwachting lager dan 65 jaar en met meer dan 5 kinderen per gezin.</li>
+</ol>
+<p>Om te bevestigen dat de landen inderdaad afkomstig zijn uit de regio’s die wij verwachten, kunnen wij kleur gebruiken om het continent te vertegenwoordigen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(gapminder, year<span class="sc">==</span><span class="dv">1962</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>( <span class="fu">aes</span>(fertility, life_expectancy, <span class="at">color =</span> continent)) <span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Dus de visie in 1962, “het westen versus de ontwikkelingslanden”, was gebaseerd op een of andere realiteit. Maar is dat 50 jaar later nog steeds het geval?</p>
+</section>
+<section id="facetteren" class="level3">
+<h3 class="anchored" data-anchor-id="facetteren">Facetteren</h3>
+<p>We konden de gegevens voor 2012 gemakkelijk in kaart brengen op dezelfde manier als voor 1962. Maar om de gegevens te vergelijken, kunnen we de inzichten het beste naast elkaar zetten. In <code>ggplot</code> kunnen we dit doen met’ <em>faceting variabelen</em>’: we stratificeren de gegevens met een of andere variabele en maken dezelfde plot voor elke groep.</p>
+<p>Om te facetteren (ik weet niet of het een Nederlands woord is, maar goed) voegen we een laag toe met de functie <code>facet_grid</code>, die automatisch de groepen scheidt. Met deze functie kunt u maximaal twee variabelen facetteren met behulp van kolommen om de ene variabele weer te geven en rijen om de andere weer te geven. De functie verwacht de rij- en kolomvariabelen die door een <code>~</code> van elkaar zijn gescheiden. Hier is een voorbeeld van een verstrooiingsplot met een <code>facet_grid</code> als laatste laag toegevoegd:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(gapminder, year<span class="sc">%in%</span><span class="fu">c</span>(<span class="dv">1962</span>, <span class="dv">2012</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(fertility, life_expectancy, <span class="at">col =</span> continent)) <span class="sc">+</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(continent<span class="sc">~</span>year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We zien een plot voor elk continent/jaarpaar. Maar dit is slechts een voorbeeld en is al meer dan wat we willen, want dat is gewoon om 1962 en 2012 te vergelijken. In dit geval is er maar ??n variabele en gebruiken we <code>.</code> om de facet te laten weten dat we geen van de variabelen gebruiken:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(gapminder, year<span class="sc">%in%</span><span class="fu">c</span>(<span class="dv">1962</span>, <span class="dv">2012</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(fertility, life_expectancy, <span class="at">col =</span> continent)) <span class="sc">+</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>( . <span class="sc">~</span> year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Deze plot laat duidelijk zien dat de meerderheid van de landen zich heeft ontwikkeld van <em>ontwikkelingslandcluster</em> naar het <em>ontwikkeldlandcluster</em>. In 2012 heeft het oude perspectief geen zin meer. Dit wordt vooral duidelijk bij een vergelijking van Europa en Azi?, want vooral binnen dat laatste continent zijn er verschillende landen waarbinnen grote verbeteringen hebben doorgevoerd.</p>
+<section id="facet_wrap" class="level4">
+<h4 class="anchored" data-anchor-id="facet_wrap"><code>facet_wrap</code></h4>
+<p>Om te onderzoeken hoe deze transformatie door de jaren heen is gegaan, kunnen we het perceel voor meerdere jaren maken. We kunnen bijvoorbeeld 1970, 1980, 1990, 2000 toevoegen. Als we dit doen, willen we niet dat alle percelen op dezelfde rij staan, het standaard gedrag van <code>facet_grid</code>, omdat ze te dun worden om de gegevens weer te geven. In plaats daarvan zullen we meerdere rijen en kolommen gebruiken. Dat kan met de functie <code>facet_wrap</code> , waarmee automatisch een reeks percelen onstaat met ded juiste afmetingen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>years <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1962</span>, <span class="dv">1980</span>, <span class="dv">1990</span>, <span class="dv">2000</span>, <span class="dv">2012</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>continents <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Europe"</span>, <span class="st">"Asia"</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span> </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> years <span class="sc">&amp;</span> continent <span class="sc">%in%</span> continents) <span class="sc">%&gt;%</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>( <span class="fu">aes</span>(fertility, life_expectancy, <span class="at">col =</span> continent)) <span class="sc">+</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>year) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Dit plot toont duidelijk aan hoe de meeste Aziatische landen zich veel sneller hebben verbeterd dan de Europese.</p>
+</section>
+</section>
+<section id="vaste-schalen-voor-betere-vergelijkingen" class="level3">
+<h3 class="anchored" data-anchor-id="vaste-schalen-voor-betere-vergelijkingen">Vaste schalen voor betere vergelijkingen</h3>
+<p>Merk op dat de standaard keuze van het bereik van de assen een belangrijke is. Wanneer geen <code>facet' wordt gebruikt, wordt het bereik bepaald door de gegevens die in de grafiek worden getoond. Bij gebruik van</code>facet’ wordt dit bereik bepaald door de gegevens die op alle percelen worden weergegeven en wordt het dus voor alle percelen vastgehouden. Dit maakt vergelijkingen tussen percelen veel gemakkelijker. In bovenstaand perceel zien we bijvoorbeeld dat de levensverwachting in de meeste landen is gestegen en de vruchtbaarheid is afgenomen. We zien dit omdat de puntenwolk beweegt. Dit is niet het geval als we de schalen aanpassen:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>In de plot hierboven moeten we speciale aandacht besteden aan het bereik om op te merken dat de rechter plot aan de rechter kant een grotere levensverwachting vertoont.</p>
+</section>
+<section id="animatie" class="level3">
+<h3 class="anchored" data-anchor-id="animatie">Animatie</h3>
+<p>Met het <code>gganimate</code> pakket kunt u eenvoudig facetten omzetten in een animatie:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>west <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Western Europe"</span>,<span class="st">"Northern Europe"</span>,<span class="st">"Southern Europe"</span>,</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>          <span class="st">"Northern America"</span>,<span class="st">"Australia and New Zealand"</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>gapminder <span class="ot">&lt;-</span> gapminder <span class="sc">%&gt;%</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">group =</span> <span class="fu">case_when</span>(</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    .<span class="sc">$</span>region <span class="sc">%in%</span> west <span class="sc">~</span> <span class="st">"The West"</span>,</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    .<span class="sc">$</span>region <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Eastern Asia"</span>, <span class="st">"South-Eastern Asia"</span>) <span class="sc">~</span> <span class="st">"East Asia"</span>,</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    .<span class="sc">$</span>region <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Caribbean"</span>, <span class="st">"Central America"</span>, <span class="st">"South America"</span>) <span class="sc">~</span> <span class="st">"Latin Am</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="st">erica"</span>,</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    .<span class="sc">$</span>continent <span class="sc">==</span> <span class="st">"Africa"</span> <span class="sc">&amp;</span> .<span class="sc">$</span>region <span class="sc">!=</span> <span class="st">"Northern Africa"</span> <span class="sc">~</span> <span class="st">"Sub-Saharan Afric</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="st">a"</span>,</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Others"</span>))</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>gapminder <span class="ot">&lt;-</span> gapminder <span class="sc">%&gt;%</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">group =</span> <span class="fu">factor</span>(group, <span class="at">levels =</span> <span class="fu">rev</span>(<span class="fu">c</span>(<span class="st">"Others"</span>, <span class="st">"Latin America"</span>, <span class="st">"East A</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="st">sia"</span>,<span class="st">"Sub-Saharan Africa"</span>, <span class="st">"The West"</span>))))</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gganimate)</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">16</span>))</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>years <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1962</span>, <span class="dv">2013</span>)</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">filter</span>(gapminder, year<span class="sc">%in%</span>years <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(group) <span class="sc">&amp;</span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>         <span class="sc">!</span><span class="fu">is.na</span>(fertility) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(life_expectancy)) <span class="sc">%&gt;%</span></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">population_in_millions =</span> population<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>( <span class="fu">aes</span>(fertility, <span class="at">y=</span>life_expectancy, <span class="at">col =</span> group, <span class="at">frame =</span> year, <span class="at">size =</span> population_in_millions)) <span class="sc">+</span></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">size=</span><span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_blank</span>(), <span class="at">legend.title =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">30</span>, <span class="dv">85</span>)) <span class="sc">+</span></span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Fertility rate (births per woman)"</span>) <span class="sc">+</span></span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Life Expectancy"</span>) <span class="sc">+</span></span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="dv">7</span>, <span class="at">y=</span><span class="dv">82</span>, <span class="at">label=</span>year), <span class="at">cex=</span><span class="dv">20</span>, <span class="at">color=</span><span class="st">"grey"</span>)</span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>  <span class="co">#, legend.position = "top") +</span></span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a><span class="fu">gganimate</span>(p, <span class="at">filename =</span> <span class="st">"animation-example.html"</span>, <span class="at">title_frame =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="tijdreeksfiguren" class="level3">
+<h3 class="anchored" data-anchor-id="tijdreeksfiguren">Tijdreeksfiguren</h3>
+<p>Bovenstaande visualisaties laten duidelijk zien dat data het oude beeld van het westen tegenover ontwikkelingslanden niet meer ondersteunen. Als we deze figuren eenmaal hebben gezien, rijzen er nieuwe vragen. Welke landen verbeteren bijvoorbeeld meer en welke minder? Was de verbetering de afgelopen 50 jaar constant of was er in bepaalde perioden sprake van een versnelling? Om deze vraag beter te kunnen beantwoorden, gaan we dieper in op de <em>tijdreeksfiguren</em>.</p>
+<p>In tijdreeksfiguren staat tijd op de x-as en een uitkomst of meting die van belang is op de y-as. Hier is bijvoorbeeld een trendfiguur voor de vruchtbaarheidscijfers van Nederland:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span> <span class="fu">filter</span>(country <span class="sc">==</span> <span class="st">"Netherlands"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(year,fertility)) <span class="sc">+</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We zien dat de trend helemaal niet lineair is. In plaats daarvan zien we een scherpe daling tijdens de jaren ’60 en ’70 naar onder de 2. Dan komt de trend terug op 2 en stabiliseert zich tijdens de jaren ’90.</p>
+<p>Wanneer de punten regelmatig en dicht op elkaar liggen, zoals hier, maken we krommen door de punten als lijnen met elkaar te verbinden om aan te geven dat deze gegevens uit ??n land afkomstig zijn. Hiervoor gebruiken we de functie <code>geom_line</code> in plaats van <code>geom_point</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span> <span class="fu">filter</span>(country <span class="sc">==</span> <span class="st">"Netherlands"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(year,fertility)) <span class="sc">+</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Dit is met name nuttig wanneer we naar twee landen kijken. Als we de gegevens zo onderverdelen in twee landen, ??n uit Europa en ??n uit Azi?, dan kopieer je de gegevens naar de bovenstaande code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>countries <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"South Korea"</span>,<span class="st">"Netherlands"</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span> <span class="fu">filter</span>(country <span class="sc">%in%</span> countries) <span class="sc">%&gt;%</span> </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(year,fertility)) <span class="sc">+</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Merk op dat dit <strong>niet</strong> de figuur is die we willen. In plaats van een lijn voor elk land, worden de punten voor beide landen samengevoegd. Dit wordt eigenlijk verwacht omdat we <code>ggplot</code> niets hebben verteld over het willen hebben van twee aparte lijnen. Om <code>ggplot</code> te laten weten dat we twee afzonderlijke curven willen hebben, wijzen we elk punt toe aan een ‘groep’, ??n voor elk land:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>countries <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"South Korea"</span>,<span class="st">"Netherlands"</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span> <span class="fu">filter</span>(country <span class="sc">%in%</span> countries) <span class="sc">%&gt;%</span> </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(year,fertility, <span class="at">group =</span> country)) <span class="sc">+</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 row(s) containing missing values (geom_path).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Maar welke lijn gaat over welk land? We kunnen kleuren toewijzen om dat onderscheid te maken. Een nuttig neveneffect van het gebruik van het ‘kleur’-argument om verschillende kleuren toe te wijzen aan de verschillende landen, is dat de gegevens automatisch worden gegroepeerd:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>countries <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"South Korea"</span>,<span class="st">"Netherlands"</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span> <span class="fu">filter</span>(country <span class="sc">%in%</span> countries) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(year,fertility, <span class="at">col =</span> country)) <span class="sc">+</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 row(s) containing missing values (geom_path).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Uit het perceel blijkt duidelijk dat het vruchtbaarheidscijfer van Zuid-Korea in de jaren ’60 en ’70 drastisch is gedaald en in 1990 even hoog was als in Duitsland.</p>
+<section id="de-voorkeur-van-labels-boven-legendas" class="level4">
+<h4 class="anchored" data-anchor-id="de-voorkeur-van-labels-boven-legendas">De voorkeur van labels boven legenda’s</h4>
+<p>Voor trendplots raden we aan om de lijnen te labelen in plaats van legenda’s te gebruiken omdat de kijker snel kan zien welke lijn welk land is. Deze suggestie is eigenlijk van toepassing op de meeste figuren: labeling heeft meestal de voorkeur boven legenda’s.</p>
+<p>Aan de hand van de gegevens over de levensverwachting laten we zien hoe we dit kunnen doen. We defini?ren een datatabel met de labellocaties en gebruiken dan een tweede mapping alleen voor deze labels:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>labels <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">country =</span> countries, <span class="at">x =</span> <span class="fu">c</span>(<span class="dv">1975</span>,<span class="dv">1965</span>), <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">60</span>,<span class="dv">72</span>))</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span> <span class="fu">filter</span>(country <span class="sc">%in%</span> countries) <span class="sc">%&gt;%</span> </span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(year, life_expectancy, <span class="at">col =</span> country)) <span class="sc">+</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> labels, <span class="fu">aes</span>(x, y, <span class="at">label =</span> country), <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>De figuur toont duidelijk aan hoe een verbetering van levensverwachting de dalingen in vruchtbaarheidscijfers volgde. Terwijl de Duitsers in 1960 meer dan 15 jaar meer Zuid-Koreanen woonden, is de kloof in 2010 volledig gedicht. Het is een voorbeeld van de verbetering die veel niet-westerse landen in de afgelopen veertig jaar hebben bereikt.</p>
+</section>
+</section>
+<section id="voorbeeld-2-inkomensverdeling" class="level3">
+<h3 class="anchored" data-anchor-id="voorbeeld-2-inkomensverdeling">Voorbeeld 2: Inkomensverdeling</h3>
+<p>Een andere veelgehoorde opmerking is dat de verdeling van de welvaart over de wereld de laatste decennia is verslechterd. Wanneer het algemene publiek wordt gevraagd of arme landen armer zijn geworden en rijke landen rijker, antwoordt de meerderheid ja. Door gebruik te maken van stratificatie, histogrammen, vloeiende verdeling en boxplots zullen we in staat zijn om te begrijpen of dit inderdaad het geval is. We leren dan ook hoe transformaties soms kunnen helpen om meer informatieve samenvattingen en figuren aan te bieden.</p>
+</section>
+<section id="transformaties" class="level3">
+<h3 class="anchored" data-anchor-id="transformaties">Transformaties</h3>
+<p>De `gapminder’-gegevenstabel bevat een kolom met het bruto binnenlands product (BBP) van de landen. Het BBP meet de marktwaarde van de goederen en diensten die een land in een jaar produceert. Het BBP per persoon wordt vaak gebruikt als een ruwe samenvatting van hoe rijk een land is. Hier delen we deze hoeveelheid door 365 om de meer interpreteerbare maat <em>dollars per dag</em> te krijgen. Wanneer we de huidige US-dollar als eenheid gebruiken, wordt een persoon die met een inkomen van minder dan $ 2 per dag overleeft, gedefinieerd als een persoon die in <em>absloute armoede</em> leeft. Deze variabele voegen we toe aan de datatabel:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="ot">&lt;-</span> gapminder <span class="sc">%&gt;%</span> </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dollars_per_day =</span> gdp<span class="sc">/</span>population<span class="sc">/</span><span class="dv">365</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Merk op dat de BBP-waarden zijn gecorrigeerd voor inflatie en staan voor de huidige US-dollar. Dus deze waarden zijn bedoeld om over de jaren heen vergelijkbaar te zijn. Merk ook op dat het hier om landsgemiddelden gaat en dat er binnen elk land veel variatie is. Alle hieronder beschreven grafieken en inzichten hebben betrekking op landsgemiddelden en staan dus niet individuele personen.</p>
+<section id="verdeling-van-het-landinkomen" class="level4">
+<h4 class="anchored" data-anchor-id="verdeling-van-het-landinkomen">Verdeling van het landinkomen</h4>
+<p>Hier is een histogram van de inkomens per dag uit 1970:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>past_year <span class="ot">&lt;-</span> <span class="dv">1970</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span> </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> past_year <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(gdp)) <span class="sc">%&gt;%</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(dollars_per_day)) <span class="sc">+</span> </span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"black"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We gebruiken het <code>color = "black"</code> om een grens te trekken en de bins (‘bakjes’) duidelijk van elkaar te onderscheiden.</p>
+<p>In dit diagram zien we dat voor de meeste landen gemiddelden zijn onder $10 per dag. Het grootste deel van de x-as is echter gewijd aan de 35 landen met gemiddelden boven $10. De grafiek is dus niet erg informatief over landen met waarden onder $10 per dag.</p>
+<p>Het is misschien informatiever om snel te kunnen zien hoeveel landen een gemiddeld daginkomen hebben van ongeveer $1 (extreem arm), $2 (zeer arm), $4 (arm), $8 (midden), $16 (welgesteld), $32 (rijk), $64 (zeer rijk) per dag. Deze veranderingen zijn vermenigvuldigend en logtransformaties.</p>
+<p>Hier is de verdeling als we een log2 transformatie toepassen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> past_year <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(gdp)) <span class="sc">%&gt;%</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">log2</span>(dollars_per_day))) <span class="sc">+</span> </span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"black"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>In zekere zin geeft dit een <em>close up</em> van de landen met een gemiddeld tot lager inkomen.</p>
+</section>
+<section id="welke-basis" class="level4">
+<h4 class="anchored" data-anchor-id="welke-basis">Welke basis?</h4>
+<p>In het bovenstaande geval hebben we basis 2 gebruikt in de log-transformaties. Andere veelvoorkomende keuzes zijn basis <span class="math inline">\(e\)</span> (de natuurlijke log) en basis 10.</p>
+<p>Over het algemeen raden wij het gebruik van het natuurlijke logboek voor het verkennen en visualiseren van gegevens aan.Dit is omdat <span class="math inline">\(2^2, 2^3, 2^4, \dots\)</span> or <span class="math inline">\(10^1, 10^2, \dots\)</span> makkelijk zijn te berekenen in ons hoofd. Hetzelfde geldt niet voor <span class="math inline">\(\mathrm{e}^2, \mathrm{e}^3, \dots\)</span>.</p>
+<p>In het voorbeeld dollars per dag gebruikten we basis 2 in plaats van basis 10 omdat het resulterende bereik gemakkelijker te interpreteren is. Het bereik van de waarden die worden uitgezet is 0.3269426, 48.8852142.</p>
+<p>In basis 10 verandert dit in een bereik dat zeer weinig gehele getallen omvat: slechts 0 en 1. Met basis twee omvat ons assortiment -2, -1, 0, 1, 2, 3, 4 en 5. Het is gemakkelijker om <span class="math inline">\(2^x\)</span> en <span class="math inline">\(10^x\)</span> te berekenen wanneer <span class="math inline">\(x\)</span> een geheel getal is en tussen -10 en 10 ligt. Dus geven we de voorkeur aan meer kleine gehele getallen in de schaal. Een ander gevolg van een beperkt bereik is dat het kiezen van de ‘bin’-breedte een grotere uitdaging is. Met log base 2 weten we dat een ‘bin’-breedte van 1 zal vertalen naar een bin met bereik van <span class="math inline">\(x\)</span> tot <span class="math inline">\(2x\)</span>.</p>
+<p>Als voorbeeld waarbij basis 10 zinvoller is, overweeg dan de populatiegrootte. Een logbasis 10 is zinvoller omdat het bereik hiervoor ongeveer 1000 tot 10 miljard is. Hier is het histogram van de getransformeerde waarden:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span> <span class="fu">filter</span>(year <span class="sc">==</span> past_year) <span class="sc">%&gt;%</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">log10</span>(population))) <span class="sc">+</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="st">"black"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Hier zien we al snel dat de bevolking van een land varieert tussen de tienduizend en tien miljard.</p>
+</section>
+<section id="transform-the-values-or-the-scale" class="level4">
+<h4 class="anchored" data-anchor-id="transform-the-values-or-the-scale">Transform the values or the scale?</h4>
+<p>Er zijn twee manieren waarop we log-transformaties in grafieken kunnen gebruiken. We kunnen de waarden loggen voordat we ze plotten of gebruik maken van logschalen in de assen. Beide benaderingen zijn nuttig en hebben verschillende sterke punten. Als we de gegevens loggen, kunnen we gemakkelijker tussenliggende waarden interpreteren in de schaal. Bijvoorbeeld als we zien</p>
+<blockquote class="blockquote">
+<blockquote class="blockquote">
+<p>—-1—-x—-2——–3—-</p>
+</blockquote>
+</blockquote>
+<p>voor log getransformeerde gegevens weten we dat de waarde van <span class="math inline">\(x\)</span> is ongeveer 1,5. Als de weegschalen gelogd zijn</p>
+<blockquote class="blockquote">
+<blockquote class="blockquote">
+<p>—-1—-x—-10——100—</p>
+</blockquote>
+</blockquote>
+<p>om <code>x</code> te bepalen, moeten we <span class="math inline">\(10^{1.5}\)</span> berekenen. Dat is niet gemakkelijk te doen in onze hoofden. Het voordeel van het tonen van gelogde schalen is echter dat de originele waarden worden weergegeven in de plot, die gemakkelijker te interpreteren zijn. Bijvoorbeeld, we zouden “32 dollar per dag” zien in plaats van “5 log basis 2 dollar per dag”.</p>
+<p>Zoals we eerder leerden, als we de as willen schalen met logs kunnen we de functie ‘schaal_x_ccontinue’ gebruiken. Dus in plaats van eerst de waarden te loggen, passen we deze laag toe:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span> </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> past_year <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(gdp)) <span class="sc">%&gt;%</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(dollars_per_day)) <span class="sc">+</span> </span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">trans =</span> <span class="st">"log2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Merk op dat de log base 10 transformatie zijn eigen functie heeft: <code>scale_x_log10()</code>, maar momenteel base 2 niet. Hoewel we dit zelf gemakkelijk konden defini?ren.</p>
+<p>Merk op dat er andere transformatie beschikbaar zijn via het <code>trans</code> argument. Zoals we later leren, is bijvoorbeeld de vierkantsworteltransformatie (<code>sqrt</code>) nuttig bij het tellen. De logistieke transformatie (<code>logit</code>) is nuttig bij het plotten van proporties tussen 0 en 1. De <code>omgekeerde</code> transformatie is nuttig als we willen dat kleinere waarden rechts of bovenop staan.</p>
+</section>
+</section>
+<section id="modus" class="level3">
+<h3 class="anchored" data-anchor-id="modus">Modus</h3>
+<p>In de statistieken wordt deze hobbel ook wel <em>modus</em> genoemd. De modus van een verdeling is de waarde met de hoogste frequentie. De modus van de normale verdeling is het gemiddelde. Wanneer een distributie, zoals de bovenstaande, niet eentonig afneemt van de modus, noemen we de locaties waar het op en neer gaat weer lokale modi en zeggen dat de distributie meerdere modi heeft.</p>
+<p>Het histogram hierboven suggereert dat de inkomensverdeling van het land in 1970 twee modi kent: ??n met ongeveer 2 dollar per dag (1 in de log 2 schaal) en ??n met ongeveer 32 dollar per dag (5 in de log 2 schaal). Deze <em>bimodaliteit</em> is consistent met een dichotome wereld die bestaat uit landen met een gemiddeld inkomen van minder dan $8 (3 in de log 2 schaal) per dag en landen daarboven.</p>
+</section>
+<section id="stratificeren-en-boxplot" class="level3">
+<h3 class="anchored" data-anchor-id="stratificeren-en-boxplot">Stratificeren en boxplot</h3>
+<p>Het histogram liet zien dat de inkomensverdelingswaarden een tweedeling vertonen. Het histogram laat echter niet zien of de twee groepen landen <em>west</em> tegenover de <em>ontwikkelings</em> wereld zijn.</p>
+<p>Om de verdeling naar geografische regio te zien, stratificeren we eerst de gegevens naar regio’s en onderzoeken we vervolgens de verdeling voor elke regio.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">levels</span>(gapminder<span class="sc">$</span>region))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 22</code></pre>
+</div>
+</div>
+<p>Vanwege het aantal regio’s zijn histogrammen of gladde dichtheden voor elk niet nuttig. In plaats daarvan kunnen we boxplots naast elkaar stapelen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> gapminder <span class="sc">%&gt;%</span> </span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> past_year <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(gdp)) <span class="sc">%&gt;%</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(region, dollars_per_day)) </span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">geom_boxplot</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Merk op dat we de regionamen niet kunnen lezen omdat het standaard ggplot-gedrag is om de labels horizontaal te schrijven en hier lopen we dan de ruimte uit. We kunnen dit eenvoudig repareren door de etiketten te draaien. In de sheetuitleg vinden we dat we de namen kunnen roteren door het <code>thema</code> te veranderen via <code>element_text</code>. Het <code>just=1</code> zorgt ervoor dat deze zich naast de as bevindt.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We zien nu dat er inderdaad een tweedeling is tussen het westen en de rest.</p>
+<section id="orden-niet-alfabetisch" class="level4">
+<h4 class="anchored" data-anchor-id="orden-niet-alfabetisch">Orden niet alfabetisch</h4>
+<p>Er zijn nog een paar aanpassingen die we kunnen maken om in de grafiek deze realiteit beter bloot te leggen. Ten eerste helpt het om de regio’s in de boxplots te ordenen van arm naar rijk in plaats van alfabetisch. Dit kan worden gedaan met behulp van de <code>reorder</code> functie. Deze functie laat ons de orde van de niveaus van een factorvariabele op basis van een samenvatting veranderen die op een numerieke vector wordt berekend. Een karaktervector wordt in een factor gedwongen:</p>
+<p>Hieronder staat een voorbeeld. Merk op hoe de volgorde van de niveaus verandert:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>fac <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"Asia"</span>, <span class="st">"Asia"</span>, <span class="st">"West"</span>, <span class="st">"West"</span>, <span class="st">"West"</span>))</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(fac)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Asia" "West"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>value <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">11</span>, <span class="dv">12</span>, <span class="dv">6</span>, <span class="dv">4</span>)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>fac <span class="ot">&lt;-</span> <span class="fu">reorder</span>(fac, value, <span class="at">FUN =</span> mean)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(fac)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "West" "Asia"</code></pre>
+</div>
+</div>
+<p>Ten tweede kunnen we kleur gebruiken om de verschillende continenten te onderscheiden, een visuele kleurschakering die helpt om specifieke regio’s te vinden. Hier is de code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> gapminder <span class="sc">%&gt;%</span> </span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> past_year <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(gdp)) <span class="sc">%&gt;%</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">region =</span> <span class="fu">reorder</span>(region, dollars_per_day, <span class="at">FUN =</span> median)) <span class="sc">%&gt;%</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(region, dollars_per_day, <span class="at">fill =</span> continent)) <span class="sc">+</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">""</span>)</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Dit figuur toont twee duidelijke groepen, met de rijke groep bestaande uit Noord-Amerika, Noord- en West-Europa, Nieuw-Zeeland en Australi?. Net als met het histogram, als we de plot herschikken met behulp van een logschaal zijn we in staat om verschillen binnen de deconcentratiewereld beter te zien.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">trans =</span> <span class="st">"log2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="de-data-tonen" class="level4">
+<h4 class="anchored" data-anchor-id="de-data-tonen">De data tonen</h4>
+<p>In veel gevallen tonen we de gegevens niet omdat het rommel aan het figuur toevoegt en het bericht vertroebelt. In bovenstaand voorbeeld hebben we niet zoveel punten. Dan kunnen deze laag toevoegen met behulp van geom_point() en door punten toe te voegen kunnen we eigenlijk alle gegevens zien</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">trans =</span> <span class="st">"log2"</span>) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="verdelingen-vergelijken" class="level3">
+<h3 class="anchored" data-anchor-id="verdelingen-vergelijken">Verdelingen vergelijken</h3>
+<p>De bovenstaande verkennende gegevensanalyse heeft twee kenmerken van de gemiddelde inkomensverdeling in 1970 aan het licht gebracht. Aan de hand van een histogram vonden we een bimodale verdeling met de modi voor arme en rijke landen. Door in het onderzoek stratificatie per regio toe te passen zagen we met boxplots dat de rijke landen meestal in Europa, Noord-Amerika, Australi? en Nieuw-Zeelandm lagen. Met deze regio’s defini?ren we een vector:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>west <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Western Europe"</span>,<span class="st">"Northern Europe"</span>,<span class="st">"Southern Europe"</span>,</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>          <span class="st">"Northern America"</span>,<span class="st">"Australia and New Zealand"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Nu willen we ons richten op het vergelijken van de verschillen in verdelingen in de tijd.</p>
+<p>We bevestigen eerst de bimodaliteit die we in 1970 waarnamen en dat deze wordt verklaard door de westelijk tegenover de ontwikkelingswereld- dichotomie. Dit doen we door histogrammen te maken voor de groepen die we hebben ge?dentificeerd. Merk op dat we de twee groepen maken met <code>ifelse</code> binnen een <code>mutaat</code> en dat we <code>facet_grid</code> gebruiken om een histogram te maken voor elke groep:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span> </span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> past_year <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(gdp)) <span class="sc">%&gt;%</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">group =</span> <span class="fu">ifelse</span>(region<span class="sc">%in%</span>west, <span class="st">"West"</span>, <span class="st">"Developing"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(dollars_per_day)) <span class="sc">+</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">trans =</span> <span class="st">"log2"</span>) <span class="sc">+</span> </span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(. <span class="sc">~</span> group)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Nu kunnen we kijken of de scheiding vandaag de dag slechter is dan veertig jaar geleden. Dit doen we door zowel per regio als per jaar te facetteren:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>past_year <span class="ot">&lt;-</span> <span class="dv">1970</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>present_year <span class="ot">&lt;-</span> <span class="dv">2010</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span> </span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="fu">c</span>(past_year, present_year) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(gdp)) <span class="sc">%&gt;%</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">group =</span> <span class="fu">ifelse</span>(region<span class="sc">%in%</span>west, <span class="st">"West"</span>, <span class="st">"Developing"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(dollars_per_day)) <span class="sc">+</span></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">trans =</span> <span class="st">"log2"</span>) <span class="sc">+</span> </span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(year <span class="sc">~</span> group)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Voordat we de bevindingen van deze plot interpreteren, stellen we vast dat er meer landen vertegenwoordigd zijn in de histogrammen van 2010 dan in 1970: het aantal tellingen is groter. Een van de redenen hiervoor is dat verschillende landen na 1970 zijn opgericht. De Sovjet-Unie is in de jaren negentig is veranderd in verschillende landen, waaronder Rusland en Oekra?ne. Een andere reden is dat in 2010 voor meer landen gegevens beschikbaar zijn.</p>
+<p>We hebben de figuren opnieuw gemaakt met behulp van alleen landen met gegevens die beschikbaar zijn voor beide jaren. In het hoofdstuk over datawisselingen leren we <code>tidyverse</code> tools waarmee we hiervoor effici?nte codes kunnen schrijven, maar hier een eenvoudige code met behulp van de <code>kruispunt</code> functie:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>country_list_1 <span class="ot">&lt;-</span> gapminder <span class="sc">%&gt;%</span> </span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> past_year <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(dollars_per_day)) <span class="sc">%&gt;%</span> .<span class="sc">$</span>country</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>country_list_2 <span class="ot">&lt;-</span> gapminder <span class="sc">%&gt;%</span> </span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> present_year <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(dollars_per_day)) <span class="sc">%&gt;%</span> .<span class="sc">$</span>country</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>country_list <span class="ot">&lt;-</span> <span class="fu">intersect</span>(country_list_1, country_list_2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>These 108 account for 86 % of the world population, so this subset should be representative.</p>
+<p>Laten we de plot opnieuw maken, maar alleen voor deze subset door simpelweg <code>land % in% country_list</code> aan de filterfunctie toe te voegen:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We zien nu dat terwijl de rijke landen procentueel wat rijker zijn geworden, de arme landen meer lijken te zijn verbeterd. We zien vooral dat het aandeel van <em>ontwikkelingslanden</em> waar mensen meer dan $16 per dag verdienen aanzienlijk toeneemt.</p>
+<p>Om te zien welke specifieke regio’s het meest verbeterden, kunnen we de boxplots die we hierboven hebben gemaakt met nu 2010 toegevoegd, opnieuw maken</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> gapminder <span class="sc">%&gt;%</span> </span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="fu">c</span>(past_year, present_year) <span class="sc">&amp;</span> country <span class="sc">%in%</span> country_list) <span class="sc">%&gt;%</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">region =</span> <span class="fu">reorder</span>(region, dollars_per_day, <span class="at">FUN =</span> median)) <span class="sc">%&gt;%</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">trans =</span> <span class="st">"log2"</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>en dan met behulp van facet om de twee jaar te vergelijken:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(region, dollars_per_day, <span class="at">fill =</span> continent)) <span class="sc">+</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(year<span class="sc">~</span>.)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Hier pauzeren we om nog een krachtige ggplot2-functie te introduceren. Omdat we elke regio voor en na willen vergelijken, zou het handig zijn om de 1970 boxplot naast de 2010 boxplot voor elke regio te hebben. Over het algemeen zijn vergelijkingen gemakkelijker wanneer gegevens naast elkaar worden uitgezet.</p>
+<p>Dus in plaats van facetteren houden we de gegevens van elk jaar bij elkaar, maar vragen we ggplot om ze afhankelijk van het jaar te kleuren (of te vullen). Ggplot scheidt ze automatisch en plaatst de twee boxplots naast elkaar. Omdat jaar een getal is, maken we er een factor van omdat ggplot automatisch een kleur toewijst aan elke categorie van een factor:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(region, dollars_per_day, <span class="at">fill =</span> <span class="fu">factor</span>(year)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Tot slot wijzen we erop dat als wat we het meest ge?nteresseerd zijn in het vergelijken van voor en na waarden, kan het zinvoller zijn om de verhoudingen, of verschil in de log schaal plot te zetten. We zijn nog steeds niet klaar om te leren om dit te leren coderen, maar hier hoe het figuur eruit zou zien:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="subtiele-verdelingplots" class="level3">
+<h3 class="anchored" data-anchor-id="subtiele-verdelingplots">Subtiele verdelingplots</h3>
+<p>Met behulp van dataverkenning hebben we ontdekt dat de inkomenskloof tussen rijke en arme landen de afgelopen veertig jaar aanzienlijk is gedicht. We gebruikten een reeks histogrammen en boxplots om dit te laten zien. Hier suggereren we een beknopte manier om deze boodschap over te brengen met slechts een plot. We zullen hiervoor subtiele verdelingplots gebruiken.</p>
+<p>Laten we beginnen met op te merken dat verdelingplots voor inkomensverdeling in 1970 en 2010 de boodschap afgeven dat de kloof aan het dichten is:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span> </span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="fu">c</span>(past_year, present_year) <span class="sc">&amp;</span> country <span class="sc">%in%</span> country_list) <span class="sc">%&gt;%</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(dollars_per_day)) <span class="sc">+</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">fill =</span> <span class="st">"grey"</span>) <span class="sc">+</span> </span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">trans =</span> <span class="st">"log2"</span>) <span class="sc">+</span> </span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(year<span class="sc">~</span>.)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>In de 1970 plot zien we twee heldere modi, arme en rijke landen. In 2010 lijkt het erop dat sommige arme landen naar rechts zijn verschoven, dat aangeeft dat de kloof is gedicht.</p>
+<p>De volgende boodschap die we moeten uitdragen is dat de reden voor deze verandering in de verdeling is dat arme landen rijker werden in plaats van dat sommige rijke landen armer werden. Om dit te doen hoeven we alleen een kleur toe te wijzen aan de groepen die we hebben ge?dentificeerd tijdens de dataverkenning.</p>
+<p>Voordat we dit echter kunnen doen, moeten we leren hoe we deze vlotte dichtheden zo kunnen maken dat de informatie over het aantal landen in elke groep behouden blijft. Om te begrijpen waarom we dit nodig hebben, let dan op de discrepantie in de grootte van elke groep:</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">group</th>
+<th style="text-align: right;">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Developing</td>
+<td style="text-align: right;">87</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">West</td>
+<td style="text-align: right;">21</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>maar als twee verdelingen overlappen, is de standaardinstelling dat het gebied dat door elke distributie wordt weergegeven tot 1 wordt opgeteld, ongeacht de grootte van elke groep:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span> </span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="fu">c</span>(past_year, present_year) <span class="sc">&amp;</span> country <span class="sc">%in%</span> country_list) <span class="sc">%&gt;%</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">group =</span> <span class="fu">ifelse</span>(region <span class="sc">%in%</span> west, <span class="st">"West"</span>, <span class="st">"Developing"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(dollars_per_day, <span class="at">fill =</span> group)) <span class="sc">+</span></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">trans =</span> <span class="st">"log2"</span>) <span class="sc">+</span></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span> </span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(year <span class="sc">~</span> .)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-39-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>waardoor het lijkt alsof er in elke groep evenveel landen zitten. Om dit te veranderen, zullen we moeten leren om berekende variabelen met de <code>geom_density</code> functie te benaderen.</p>
+</section>
+<section id="toegang-tot-computervariabelen" class="level3">
+<h3 class="anchored" data-anchor-id="toegang-tot-computervariabelen">Toegang tot computervariabelen</h3>
+<p>Om de oppervlakten van deze verdelingen evenredig te laten zijn met de grootte van de groepen, kunnen we de y-aswaarden eenvoudig vermenigvuldigen met de grootte van de groep. Vanuit de <code>geom_density</code> help-file zien we dat de functie, die een variabele genaamd <code>count</code> berekenen, precies dit doet. We willen dat deze variabele op de y-as komt te staan.</p>
+<p>In ggplot krijgen we toegang tot deze variabelen door ze te omringen met de naam <code>..</code>. Daarom zullen we de volgende mapping gebruiken:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aes</span>(<span class="at">x =</span> dollars_per_day, <span class="at">y =</span> ..count..)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Nu kunnen we de gewenste plot maken door simpelweg de mapping in het vorige codebrok te veranderen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> gapminder <span class="sc">%&gt;%</span> </span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="fu">c</span>(past_year, present_year) <span class="sc">&amp;</span> country <span class="sc">%in%</span> country_list) <span class="sc">%&gt;%</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">group =</span> <span class="fu">ifelse</span>(region <span class="sc">%in%</span> west, <span class="st">"West"</span>, <span class="st">"Developing"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(dollars_per_day, <span class="at">y =</span> ..count.., <span class="at">fill =</span> group)) <span class="sc">+</span></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">trans =</span> <span class="st">"log2"</span>)</span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span> <span class="fu">facet_grid</span>(year <span class="sc">~</span> .)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-41-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Als we willen dat de verdelingen wordt subtieler worden, gebruiken we het ‘bw’-argument. We probeerden er een paar en kozen voor 0,75:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">bw =</span> <span class="fl">0.75</span>) <span class="sc">+</span> <span class="fu">facet_grid</span>(year <span class="sc">~</span> .)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-42-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Dee plot laat nu heel duidelijk zien wat er aan de hand is. De verdeling in de ontwikkelingslanden is aan het veranderen. Een derde modus lijkt te bestaan en bestaat uit de landen die de kloof het meest hebben gedicht.</p>
+</section>
+<section id="case_when" class="level3">
+<h3 class="anchored" data-anchor-id="case_when">case_when</h3>
+<p>We kunnen dit cijfer zelfs iets informatiever maken. Uit de verkennende gegevensanalyse merkten we dat veel van de landen die het meest verbeterden, afkomstig waren uit Azi?. We kunnen de plot gemakkelijk wijzigen door belangrijke regio’s afzonderlijk weer te geven.</p>
+<p>We introduceren de <code>case_when</code> functie die handig is voor het defini?ren van groepen. Het heeft momenteel geen data-argument (dit kan veranderen), dus we moeten de onderdelen van onze gegevenstabel benaderen met behulp van de stip plaatsbewerker:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="ot">&lt;-</span> gapminder <span class="sc">%&gt;%</span> </span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">group =</span> <span class="fu">case_when</span>(</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>    .<span class="sc">$</span>region <span class="sc">%in%</span> west <span class="sc">~</span> <span class="st">"West"</span>,</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>    .<span class="sc">$</span>region <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Eastern Asia"</span>, <span class="st">"South-Eastern Asia"</span>) <span class="sc">~</span> <span class="st">"East Asia"</span>,</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>    .<span class="sc">$</span>region <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Caribbean"</span>, <span class="st">"Central America"</span>, <span class="st">"South America"</span>) <span class="sc">~</span> <span class="st">"Latin America"</span>,</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>    .<span class="sc">$</span>continent <span class="sc">==</span> <span class="st">"Africa"</span> <span class="sc">&amp;</span> .<span class="sc">$</span>region <span class="sc">!=</span> <span class="st">"Northern Africa"</span> <span class="sc">~</span> <span class="st">"Sub-Saharan Africa"</span>,</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Others"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We maken van deze ‘groep’-variabele een factor om de volgorde van de niveaus te bepalen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="ot">&lt;-</span> gapminder <span class="sc">%&gt;%</span> </span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">group =</span> <span class="fu">factor</span>(group, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Others"</span>, <span class="st">"Latin America"</span>, <span class="st">"East Asia"</span>,<span class="st">"Sub-Saharan Africa"</span>, <span class="st">"West"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We kiezen deze specifieke volgorde vanwege een reden die later duidelijk wordt.</p>
+<p>Nu kunnen we eenvoudig de verdeling voor elk in kaart brengen. We gebruiken <code>kleur' en</code>grootte’ om de toppen duidelijk te laten zien:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> gapminder <span class="sc">%&gt;%</span> </span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="fu">c</span>(past_year, present_year) <span class="sc">&amp;</span> country <span class="sc">%in%</span> country_list) <span class="sc">%&gt;%</span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(dollars_per_day, <span class="at">y =</span> ..count.., <span class="at">fill =</span> group, <span class="at">color =</span> group)) <span class="sc">+</span></span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">trans =</span> <span class="st">"log2"</span>)</span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">bw =</span> <span class="fl">0.75</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">facet_grid</span>(year <span class="sc">~</span> .)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-45-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>De plot is rommelig en wat moeilijk te lezen. Soms krijg je een duidelijker beeld door de dichtheden op elkaar te stapelen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">bw =</span> <span class="fl">0.75</span>, <span class="at">position =</span> <span class="st">"stack"</span>) <span class="sc">+</span> <span class="fu">facet_grid</span>(year <span class="sc">~</span> .)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-46-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Hier zien we duidelijk dat de verdelingen voor Oost-Azi?, Latijns-Amerika e.a. duidelijk naar rechts verschuiven. Terwijl Afrika bezuiden de Sahara blijft stagneren.</p>
+<p>Merk op dat we de niveaus van de groep zo ordenen dat de West verdeling eerst wordt uitgezet, dan Sub-Sahara Afrika. Als we eerst de twee uitersten in kaart brengen, zien we de resterende bimodaliteit beter.</p>
+<section id="gewogen-verdelingen" class="level4">
+<h4 class="anchored" data-anchor-id="gewogen-verdelingen">Gewogen verdelingen</h4>
+<p>Tot slot merken we op dat deze uitkeringen in alle landen hetzelfde wegen. Dus als het grootste deel van de bevolking zich verbetert, maar in een heel groot land woont, zoals China, zullen we dit misschien niet op prijs stellen. We kunnen de vloeiende verdelingen eigenlijk wegen met behulp van het <code>gewicht</code> in kaart brengen argument. Het plot ziet er dan als volgt uit:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-47-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Deze specifieke figuur laat heel duidelijk zien hoe de inkomenskloof wordt gedicht, waarbij de meeste armen in Afrika bezuiden de Sahara blijven.</p>
+</section>
+</section>
+</section>
+<section id="ecologische-denkfout" class="level2">
+<h2 class="anchored" data-anchor-id="ecologische-denkfout">Ecologische denkfout</h2>
+<p>In deze sectie hebben we regio’s van de wereld met elkaar vergeleken. We hebben gezien dat sommige regio’s het gemiddeld beter doen dan andere. Hier richten we ons op het beschrijven van het belang van verschillen binnen de groepen.</p>
+<p>Hier richten we ons op de relatie tussen de overlevingskans van kinderen in een land en het gemiddelde inkomen. We beginnen met het vergelijken van deze hoeveelheden tussen regio’s. We defini?ren nog een paar regio’s:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="ot">&lt;-</span> gapminder <span class="sc">%&gt;%</span> </span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">group =</span> <span class="fu">case_when</span>(</span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>    .<span class="sc">$</span>region <span class="sc">%in%</span> west <span class="sc">~</span> <span class="st">"The West"</span>,</span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>    .<span class="sc">$</span>region <span class="sc">%in%</span> <span class="st">"Northern Africa"</span> <span class="sc">~</span> <span class="st">"Northern Africa"</span>,</span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>    .<span class="sc">$</span>region <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Eastern Asia"</span>, <span class="st">"South-Eastern Asia"</span>) <span class="sc">~</span> <span class="st">"East Asia"</span>,</span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>    .<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Southern Asia"</span><span class="sc">~</span> <span class="st">"Southern Asia"</span>,</span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>    .<span class="sc">$</span>region <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Central America"</span>, <span class="st">"South America"</span>, <span class="st">"Caribbean"</span>) <span class="sc">~</span> <span class="st">"Latin America"</span>,</span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a>    .<span class="sc">$</span>continent <span class="sc">==</span> <span class="st">"Africa"</span> <span class="sc">&amp;</span> .<span class="sc">$</span>region <span class="sc">!=</span> <span class="st">"Northern Africa"</span> <span class="sc">~</span> <span class="st">"Sub-Saharan Africa"</span>,</span>
+<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a>    .<span class="sc">$</span>region <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Melanesia"</span>, <span class="st">"Micronesia"</span>, <span class="st">"Polynesia"</span>) <span class="sc">~</span> <span class="st">"Pacific Islands"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Vervolgens berekenen we deze hoeveelheden per regio.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>surv_income <span class="ot">&lt;-</span> gapminder <span class="sc">%&gt;%</span> </span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> present_year <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(gdp) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(infant_mortality) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(group)) <span class="sc">%&gt;%</span></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(group) <span class="sc">%&gt;%</span></span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">income =</span> <span class="fu">sum</span>(gdp)<span class="sc">/</span><span class="fu">sum</span>(population)<span class="sc">/</span><span class="dv">365</span>,</span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">infant_survival_rate =</span> <span class="dv">1</span><span class="sc">-</span><span class="fu">sum</span>(infant_mortality<span class="sc">/</span><span class="dv">1000</span><span class="sc">*</span>population)<span class="sc">/</span><span class="fu">sum</span>(population)) </span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>surv_income <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(income)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 x 3
+  group              income infant_survival_rate
+  &lt;chr&gt;               &lt;dbl&gt;                &lt;dbl&gt;
+1 Sub-Saharan Africa   1.76                0.936
+2 Southern Asia        2.07                0.952
+3 Pacific Islands      2.70                0.956
+4 Northern Africa      4.94                0.970
+5 Latin America       13.2                 0.983
+6 East Asia           13.4                 0.985
+7 The West            77.1                 0.995</code></pre>
+</div>
+</div>
+<p>Dit laat een dramatisch verschil zien. Terwijl in het westen minder dan 0,5 procent van de kinderen sterft, is dat in Afrika bezuiden de Sahara meer dan 6 procent! De relatie tussen deze twee variabelen is bijna perfect lineair</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>surv_income <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(income, infant_survival_rate, <span class="at">label =</span> group, <span class="at">color =</span> group)) <span class="sc">+</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">trans =</span> <span class="st">"log2"</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="dv">150</span>)) <span class="sc">+</span></span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">trans =</span> <span class="st">"logit"</span>, <span class="at">limit =</span> <span class="fu">c</span>(<span class="fl">0.875</span>, .<span class="dv">9981</span>), </span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">breaks =</span> <span class="fu">c</span>(.<span class="dv">85</span>,.<span class="dv">90</span>,.<span class="dv">95</span>,.<span class="dv">99</span>,.<span class="dv">995</span>,.<span class="dv">998</span>)) <span class="sc">+</span></span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-50-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>In deze plot introduceren we het gebruik van het <code>limit</code> argument dat laat het bereik van de assen veranderen. We maken het bereik groter dan de gegevensbehoeften omdat we dit plot later zullen vergelijken met een plot met meer variabiliteit; we willen dat de bereiken hetzelfde zijn. We introduceren ook het `breaks’ argument, waarmee we de locatie van de aslabels kunnen instellen. Eindelijk introduceren we een nieuwe transformatie, de logistieke transformatie.</p>
+<section id="logistische-transformatie" class="level4">
+<h4 class="anchored" data-anchor-id="logistische-transformatie">Logistische transformatie</h4>
+<p>De logistische of logistieke transformatie voor een deel of een koers van <span class="math inline">\(p\)</span> wordt gedefinieerd als</p>
+<p><span class="math display">\[f(p) = \log \left( \frac{p}{1-p} \right)\]</span></p>
+<p>Wanneer <span class="math inline">\(p\)</span> een proportie of waarschijnlijkheid is, wordt de hoeveelheid die wordt gelogd, <span class="math inline">\(p/(1-p)\)</span> de <em>odds</em> genoemd. In het geval <span class="math inline">\(p\)</span> is het aandeel van een kind dat overleefde. De kansen vertellen ons hoeveel meer kinderen worden uitgedreven om te overleven dan om te sterven. De logtransformatie maakt dit symmetrisch. Als de snelheden gelijk zijn, dan is de log odds 0. Bij toe- of afname verandert het in positieve en negatieve stappen.</p>
+<p>Deze schaal is handig als we verschillen in de buurt van 0 of 1 willen markeren. Voor overlevingskansen is dit van belang omdat een overlevingsgraad van 90% onaanvaardbaar is, terwijl een overlevingsgraad van 99% relatief goed is. We zouden veel liever een overlevingskans hebben die dichter bij 99,9 procent ligt. We willen dat onze schaal dit verschil benadrukt en de logit doet dit. Merk op dat 99.9/0.1 ongeveer 10 keer groter is dan 99/1, wat ongeveer 10 keer groter is dan 90/10. En door gebruik te maken van de log worden deze wissels steeds groter.</p>
+</section>
+<section id="toon-de-gegevens" class="level3">
+<h3 class="anchored" data-anchor-id="toon-de-gegevens">Toon de gegevens</h3>
+<p>Nu, terug naar onze plot. Kan nu geconcludeerd worden dat op basis van het bovenstaande een land met een laag inkomen een lage overlevingskans zal hebben? Kunnen we concluderen dat alle overlevingskansen in Afrika bezuiden de Sahara lager zijn dan in Zuid-Azi?, dat op zijn beurt lager is dan op de eilanden in de Stille Oceaan, enzovoort?</p>
+<p>De conclusie gebaseerd op een plot dat weer wordt gebaseerd op gemiddelden wordt <em>ecologische denkfout</em> genoemd. De bijna perfecte relatie tussen overlevingskansen en inkomen zien we alleen bij de gemiddelden op regionaal niveau. Als we alle gegevens eenmaal hebben getoond, krijgen we een wat ingewikkelder verhaal:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>highlight <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Sierra Leone"</span>, <span class="st">"Mauritius"</span>,  <span class="st">"Sudan"</span>, <span class="st">"Botswana"</span>, <span class="st">"Tunisia"</span>,</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>               <span class="st">"Cambodia"</span>,<span class="st">"Singapore"</span>,<span class="st">"Chile"</span>, <span class="st">"Haiti"</span>, <span class="st">"Bolivia"</span>,</span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>               <span class="st">"United States"</span>,<span class="st">"Sweden"</span>, <span class="st">"Angola"</span>, <span class="st">"Serbia"</span>)</span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span> <span class="fu">filter</span>(year <span class="sc">%in%</span> present_year <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(gdp) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(infant_mortality) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(group) ) <span class="sc">%&gt;%</span></span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(dollars_per_day, <span class="dv">1</span> <span class="sc">-</span> infant_mortality<span class="sc">/</span><span class="dv">1000</span>, <span class="at">col =</span> group, <span class="at">label =</span> country)) <span class="sc">+</span></span>
+<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">trans =</span> <span class="st">"log2"</span>, <span class="at">limits=</span><span class="fu">c</span>(<span class="fl">0.25</span>, <span class="dv">150</span>)) <span class="sc">+</span></span>
+<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">trans =</span> <span class="st">"logit"</span>,<span class="at">limit=</span><span class="fu">c</span>(<span class="fl">0.875</span>, .<span class="dv">9981</span>),</span>
+<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a>                     <span class="at">breaks=</span><span class="fu">c</span>(.<span class="dv">85</span>,.<span class="dv">90</span>,.<span class="dv">95</span>,.<span class="dv">99</span>,.<span class="dv">995</span>,.<span class="dv">998</span>)) <span class="sc">+</span> </span>
+<span id="cb65-11"><a href="#cb65-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb65-12"><a href="#cb65-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(<span class="at">size =</span> <span class="dv">4</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb65-13"><a href="#cb65-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">filter</span>(gapminder, year <span class="sc">%in%</span> present_year <span class="sc">&amp;</span> country <span class="sc">%in%</span> highlight))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-51-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We zien we een grote mate van variabiliteit. We zien dat landen uit dezelfde regio’s heel verschillend kunnen zijn en dat landen met hetzelfde inkomen verschillende overlevingskansen kunnen hebben. Terwijl Afrika bezuiden de Sahara bijvoorbeeld gemiddeld de slechtste gezondheids- en economische resultaten had, is er binnen die groep sprake van grote variabiliteit. Merk bijvoorbeeld op dat Mauritius en Botswana het beter doen dan Angola en Sierra Leone en Mauritius zelfs vergelijkbaar is met Westerse landen.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

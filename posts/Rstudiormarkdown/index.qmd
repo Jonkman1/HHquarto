@@ -3,7 +3,7 @@ title: "RMarkdown"
 subtitle: 
    Hier een klein boekje om jou te laten wennen aan reproduceerbaar onderzoek. Het introduceert het programma R, de RStudio-schil en de programmeertaal RMarkdown.
 author: "Chester Ismay, bewerking Harrie Jonkman"
-date: "28 juli 2018"
+date: "7/28/2018"
 categories: [communicatie]
 image: "img/RMarkdown.PNG"
 ---

@@ -2,7 +2,7 @@
 title: "Op weg naar infografieken"
 subtitle:  Hier gaat het om een korte handleiding voor R_gebruikers die omwille van de leesbaarheid en esthetiek hun figuren in het populaire grafische design programma Illustrator willen 'oppoetsen'. Als het op visualisatie aankomt blijven de meeste R-gebruikers binnen dit programma werken. Dat is natuurlijk prima als het gaat om figuren die de analyse moeten ondersteunen en jij degene bent die er alleen naar moet kijken. Dan hoef je ook niets over de context te vermelden, niets verder uit te leggen of ervoor te zorgen dat het er allemaal mooi uitziet. Het doel dan is vooral snel figuren maken zodat je gevoel bij jouw data krijgt. R biedt je ook heel veel mogelijkheden, ook voor goede visualisatie. Echter, als het gaat om het maken van figuren die voor een breder publiek toegankelijk en leesbaar zijn en die zelf een verhaal moeten vertellen, kan het wel eens bruikbaarder en efficiënter zijn om dit R-figuur als PDF op te slaan en aanpassingen door te voeren in een vector georienteerd programma zoals Adobe Illustrator (https://www.adobe.com/nl/) of zijn open-source alternatief Inkscape (https://www.inkscape.org/nl/). Inkscape is vrij toegankelijk maar hier besteden wij enkel aandacht aan het bewerken in Adobe Illustrator.   
 author: "Harrie Jonkman"
-date: "28 april 2018"
+date: "4/28/2018"
 categories: [visualisatie]
 image: "img/infografiek.jpg"
 ---

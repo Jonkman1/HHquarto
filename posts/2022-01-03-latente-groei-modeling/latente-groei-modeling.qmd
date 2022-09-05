@@ -1,0 +1,222 @@
+
+---
+title: "Latente Groei Modeling"
+description: |
+  Dit is een blog over Latente Groei Modeling van longitudinale data van alcoholgebruik van jongeren
+author: "Alexander Cernat, bewerking Harrie Jonkman"
+date: "2022-01-03"
+categories: [analyse]
+image: "Screenshot1.png"
+---
+
+## Schatten en visualiseren van verandering in de tijd met behulp van Latente Groeimodellen met R
+
+Longitudinale gegevens zijn zo interessant omdat ze ons in staat stellen te kijken naar verandering in de tijd, je krijgt er een beter inzicht mee in causale verbanden en je kunt gebeurtenissen en hun timing ermee verklaren. Om gebruik te maken van dit soort gegevens, moeten we verder gaan dan de klassieke statistische methoden, zoals OLS regressie en ANOVA. Dan moeten we gebruik maken van modellen die de extra complexiteit van de gegevens ook echt aan kunnen. Alexandru Cernat schreef ook [hier](https://www.alexcernat.com/estimating-and-visualizing-change-in-time-using-latent-growth-models-with-r/) een duidelijke blog over dat ik heb bewerkt en waarbij ik ook de alcoholdata van Singer en Willet heb gebruik.  
+
+Een populair model voor de analyse van longitudinale gegevens is het Latente Groei Model (Latent Growth Model, LGM). Hiermee kan de verandering in de tijd worden geschat, terwijl rekening wordt gehouden met de hiërarchische aard van de gegevens (meerdere punten in de tijd die genest zijn binnen individuen). Het is vergelijkbaar met het multilevel model van verandering, maar hier wordt de schatting gedaan met behulp van het Structural Equation Modeling (SEM)-raamwerk. Dit raamwerk maakt gebruik van gegevens in het brede formaat (elke rij is een individu en de diverse metingen in de tijd verschijnen als verschillende kolommen).
+
+Meer in het bijzonder kan het LGM helpen   
+- te begrijpen hoe verandering in de tijd verloopt;     
+- verandering verklaren met behulp van tijdvariërende en tijdconstante voorspellers;      
+- variantie ontleden in tussen- en binnenvariatie;      
+- en het model kan makkelijk worden uitgebreid naar andere analysemodellen.   
+
+Hieronder volgt een korte inleiding op LGM, hoe de uitkomsten zijn te schatten en hoe de schattingen van verandering zijn te visualiseren.
+
+Laten we eerst de benodigde pakketten eens laden. We zullen `tidyverse` gebruiken voor het opschonen en visualiseren van de gegevens en `lavaan` voor het uitvoeren van de LGM in `R`.
+
+
+```{r}
+library(tidyverse)
+library(lavaan)
+```
+
+Laten we, voordat we aan de LGM beginnen, eens kijken naar het soort gegevens dat we zouden willen analyseren. Hier gebruik ik alcoholdata van jongeren met de drie metingen van Singer en Willet voor die vrij toegankelijk zijn op internet.
+
+Stel dat we geïnteresseerd zijn in hoe alcoholscore in de tijd verandert. Om het preciezer te formuleren willen laten zien hoe alcoholgebruik onder jongeren gemiddeld verandert, en tegelijk willen we een onderscheid maken tussen variatie, hoe jongeren veranderen ten opzichte van anderen. Maar tegelijk willen we ook iets zeggen over binnenvariatie en hoe jongeren veranderen ten opzichte van hun eigen gemiddelde/trend.
+
+Laten we eerst eens kijken hoe de gegevens eruit zien. Laten we eens kijken naar de brede gegevens, dit zijn de gegevens die gebruikt worden om LGM uit te voeren en laten we ook maar meteen het lange bestand bekijken:
+
+
+```{r}
+alcohol1 <- read.table("https://stats.idre.ucla.edu/stat/r/examples/alda/data/alcohol1_pp.txt", header=T, sep=",")
+attach(alcohol1)
+
+
+```
+
+We beginnen met het lange formaat, waar elke rij een combinatie is van individu en tijd. Dit is het formaat dat we nodig hebben voor visualisatie met `ggplot2`, en voor andere modellen (zoals het multilevel model voor verandering).
+
+```{r}
+head(alcohol1)
+```
+
+Om een idee te krijgen van wat we gaan modelleren, maken we een eenvoudige grafiek met de gemiddelde verandering in de tijd en de trend voor elk individu.
+
+```{r}
+ggplot(alcohol1, aes(age_14, alcuse, group = id)) + 
+  geom_line(alpha = 0.1) + # add individual line with transparency
+  stat_summary( # add average line
+    aes(group = 1),
+    fun = mean,
+    geom = "line",
+    size = 1.5,
+    color = "red"
+  ) +
+  theme_bw() + # nice theme
+  labs(x = "Leeftijd", y = "Alcoholgebruik") # nice labels
+```
+
+We zien hier een gemiddelde verandering in de tijd. Tegelijk willen we ook zichtbaar maken wat variatie is in de manier waarop mensen veranderen. LGM is in staat beide tegelijk te schatten!
+
+## Wat is Latente Groei Modellering?
+Nu we een idee hebben van de gegevens en het soort onderzoeksvragen dat we zouden kunnen hebben, kunnen we overgaan tot de uitvoering van LGM. De formule voor het LGM is eigenlijk zeer gelijkaardig aan die voor het multilevel model van verandering:
+
+$Y_j=\alpha_0 + \alpha_1*\gamma_j + \zeta_{00} + \zeta_{11}*\gamma_j + \epsilon_j$
+
+Waarbij:
+
+- $Y_j$ is de variabele van belang (`alcuse`, alchoholgebruik van jongeren) die verandert in tijd, j.    
+- $\alpha_0$ is de gemiddelde waarde bij het begin van de gegevensverzameling (het beginpunt van de rode lijn hierboven).   
+- $\alpha_1*\gamma_j$ is de gemiddelde snelheid van verandering in de tijd (de helling van de rode lijn in de grafiek hierboven). Hier is $gamma_j$ gewoon een maat voor de tijd.   
+- $\zeta_{00}$ is de **tussenvariatie** aan het begin van de gegevens. Het vat samen hoe verschillend de individuele startpunten zijn ten opzichte van het gemiddelde startpunt.    
+- $\zeta_{11}\gamma_j$ is de **tussen variatie in de snelheid van verandering**. Samenvattend hoe verschillend de individuele veranderingsversnellingen zijn ten opzichte van de gemiddelde verandering (rode lijn hierboven).   
+- De $\epsilon_j$ is de **binnenvariatie** of hoeveel individuen variëren rond hun voorspelde trend.
+Met de onderstaande grafiek kunnen we een beter idee krijgen van de verschillende variatiebronnen:
+
+
+```{r}
+alcohol1 %>% 
+  filter(id %in% 1:2) %>% # selecteer twee individuen
+  ggplot(aes(age_14, alcuse, color = id)) +
+  geom_point() + # punten voor VeerkrachtTotaal
+  geom_smooth(method = lm, se = FALSE) + # liniaire lijn
+  theme_bw() + # mooi thema
+  labs(x = "Leeftijd", y = "Alcoholgebruik") # nice labels
+```
+
+
+De interne variatie wordt weergegeven door de afstand tussen de lijn en de punten. Dit wordt voor elk individu afzonderlijk gedaan (door de kleur in de grafiek). De tussenvariatie verwijst naar hoe verschillend de lijnen zijn. Dit kan zowel het beginpunt als de helling zijn.
+
+Omdat deze techniek met brede databestanden werkt, zetten we de data over van lang naar wijd
+```{r}
+library(tidyr)
+library(dplyr)
+
+alcwide<-alcohol1 %>%
+  select(id, alcuse, age_14) %>%
+  pivot_wider(names_from = age_14, 
+              values_from = alcuse) %>%
+  rename(
+    "age_14"="0",
+    "age_15"="1",         
+    "age_16"="2"
+    )
+
+
+```
+
+
+```
+ i =~ 1*Meting.0 +  1*Meting.1 +  1*Meting.2 
+  s =~ 0*Meting.0 +  1*Meting.1 +  2*Meting.2 
+  i ~~ s
+```
+
+Structural Equation Modeling heeft zijn eigen manier om deze statistische relaties weer te geven. Hieronder is afgebeeld hoe we ons het hierboven beschreven model zouden moeten voorstellen:
+
+
+![**Fig.1**, LGM grafisch verbeeld](Screenshot1.png)
+
+In de figuur worden de latente variabelen voorgesteld door cirkels (de twee $\eta$-variabelen, intercept en slope), terwijl de waargenomen variabelen worden voorgesteld door vierkanten (de vier y-variabelen). Wij krijgen ook de residuen (kleine cirkels die $\epsilon$ voorstellen). Voor de latente variabelen hebben wij gemiddelden ($\alpha$) en varianties ($\zeta$). Deze zijn geschat en hebben de hierboven beschreven interpretatie. De pijlen tussen de latente en de geobserveerde variabelen (die gewoon regressiehellingen of ladingen zijn) liggen van tevoren vast. Voor de latente interceptvariabele (weergegeven door $\eta_0$) zijn de ladingen vastgesteld op 1 (daarom is er in bovenstaande formule niets vermenigvuldigd met $\alpha_0$ en $\eta_{00}$). De ladingen voor de hellende latente variabele (weergegeven door $\eta_1$) worden vastgesteld naar gelang van de verandering in tijd ($\gamma_j$ in bovenstaande formule). In dit geval gaat het eenvoudig van 0 naar 2. Er is ook een correlatie tussen het beginpunt en de verandering in tijd, weergegeven door de dubbele pijl $\zeta_{01}$. Dit wordt niet vaak geïnterpreteerd, maar het geeft je in feite een idee of mensen convergeren (of meer op elkaar gaan lijken in de tijd) of divergeren (meer van elkaar gaan verschillen).
+
+Nu het technische deel duidelijk is gemaakt, kunnen we wat modelleren en meer grafieken maken!
+
+```{r}
+# first LGM 
+model <- 'i =~ 1*age_14 + 1*age_15 + 1*age_16
+          s =~ 0*age_14 + 1*age_15 + 2*age_16 '
+                  
+
+fit1 <- growth(model, data = alcwide)
+
+summary(fit1, standardized = TRUE)
+```
+
+Er zijn in principe zes soorten coëfficiënten die hier interessant zijn:
+
+- **intercept i**: de waarde 0.634 staat voor de gemiddelde verwachte alcoholgebruik aan het begin van het onderzoek voor alle respondenten wanneer ze 14 jaar zijn.   
+- **slope s**: de waarde 0.277 vertegenwoordigt de gemiddelde verandering voor alle respondenten. Dus bij elke meting stijgt het gebruik van alcohol met met 0.277.   
+- **variantie i**: de waarde 0.807 vertegenwoordigt de tussenvariatie aan het begin van het onderzoek. Dus hoe verschillend zijn mensen vergeleken met het gemiddelde.   
+- **variantie s**: de waarde 0.234 staat voor de tussenvariatie in de veranderingssnelheid. Het laat zien hoe verschillend veranderingshellingen zijn voor verschillende mensen.   
+- **Variantie alcoholgebruik**: de waarden tussen 0.064 en 0.420 geven de interne variatie op elk punt in de tijd weer.   
+- **correlatie tussen i en s**: de waarde -0.187 laat zien dat het alcohol niet in de tijd convergeert (althans niet significant).
+
+### Hoe kunnen we de verandering visualiseren?
+Een goede manier om te begrijpen wat je modelleert, is de voorspelde scores van het model visualiseren. We zullen het `predict()` commando gebruiken om een nieuw object op te slaan met de voorspelde scores op individueel niveau voor het intercept en de helling.
+
+```{r}
+# voorspellen van twee latente variabelen
+pred_lgm <- predict(fit1) 
+```
+
+Dit heeft de voorspelde score voor het intercept en de helling voor elk individu:
+
+```{r}
+head(pred_lgm)
+```
+
+Deze zijn gebaseerd op ons model. Wij zouden dus bijvoorbeeld het gemiddelde van deze variabelen kunnen schatten en dat gemiddelde voor intercept en slope zou achtereenvolgens dezelfde resultaten moeten geven als hierboven:
+
+```{r}
+# gemiddelde van het intercept (eerste kolom)
+mean(pred_lgm[, 1]) 
+```
+
+
+```{r}
+# gemiddelde slope (tweede kolom)
+mean(pred_lgm[, 2])
+```
+
+Om de resultaten te plotten, willen wij deze gegevens (intercept ($\zeta_0$) en helling ($\zeta_1$)) omzetten in verwachte scores bij elke meting ($\gamma_j$j). We kunnen deze transformatie doen op basis van het padmodel dat we hierboven hebben gezien:
+
+$Y_1=\eta_0 + \eta_1\gamma_j$
+
+Voor de eerste meting (time=0) is de verwachte waarde dus alleen het intercept ($\eta_0$) omdat $\gamma_j$ gelijk is aan 0. Voor de meting zou de verwachte waarde het intercept ($\eta_0$) en de helling ($\eta_1$) zijn. Voor meting drie zou het intercept + 2*helling zijn, enzovoort.
+
+In `R` zouden we al deze metingen met de hand kunnen berekenen of we zouden het automatisch kunnen doen met behulp van functioneel programmeren. Op basis van de bovenstaande formule kunnen we een tegenhanger in `R` maken:
+
+```
+pred_lgm[, 1] + x*pred_lgm[, 2]
+``` 
+Voor de eerste meting (alc_14=0) krijgen we deze scores
+
+```{r}
+pred_lgm[, 1] + 0*pred_lgm[, 2]
+```
+
+Voor de tweede meting (alc_14=1) ziet het er zo uit
+
+```{r}
+pred_lgm[, 1] + 1*pred_lgm[, 2]
+```
+
+Bij de derde meting ziet het alcoholgebruik er zo uit.
+
+```{r}
+pred_lgm[, 1] + 2*pred_lgm[, 2]
+```
+
+waarbij `x` onze codering van tijd voorstelt (of $\gamma_j$). We kunnen deze functie meerdere keren toepassen met het `map()` commando. De onderstaande syntaxis past deze formule toe voor de getallen 0, 1, 2 (onze codering van meting (variabele `alc_14`).
+
+```{r}
+map(0:2, # loop over, in ons geval 1,2,3
+    function(x) pred_lgm[, 1] + x * pred_lgm[, 2]) # formule die gebruikt wordt
+```
+
+
+### Conclusies
+Hopelijk geeft dit je een idee over wat LGM is, hoe je het kan schatten in `R` en hoe je deze verandering kan visualiseren. 
+
+[Met dank aan Alexandru Cernat}(https://www.alexcernat.com/estimating-and-visualizing-change-in-time-using-latent-growth-models-with-r/)

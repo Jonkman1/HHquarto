@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.345">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Alexander Cernat, bewerking Harrie Jonkman">
+<meta name="dcterms.date" content="2022-01-03">
+<meta name="description" content="Dit is een blog over Latente Groei Modeling van longitudinale data van alcoholgebruik van jongeren">
+
+<title>Harrie’s Hoekje - Latente Groei Modeling</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Harrie’s Hoekje</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">Harrie’s Hoekje</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Jonkman1"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Latente Groei Modeling</h1>
+                          <div class="quarto-categories">
+                <div class="quarto-category">analyse</div>
+              </div>
+                  </div>
+  </div>
+    
+  <div>
+    <div class="description">
+      <p>Dit is een blog over Latente Groei Modeling van longitudinale data van alcoholgebruik van jongeren</p>
+    </div>
+  </div>
+
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Alexander Cernat, bewerking Harrie Jonkman </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">January 3, 2022</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="schatten-en-visualiseren-van-verandering-in-de-tijd-met-behulp-van-latente-groeimodellen-met-r" class="level2">
+<h2 class="anchored" data-anchor-id="schatten-en-visualiseren-van-verandering-in-de-tijd-met-behulp-van-latente-groeimodellen-met-r">Schatten en visualiseren van verandering in de tijd met behulp van Latente Groeimodellen met R</h2>
+<p>Longitudinale gegevens zijn zo interessant omdat ze ons in staat stellen te kijken naar verandering in de tijd, je krijgt er een beter inzicht mee in causale verbanden en je kunt gebeurtenissen en hun timing ermee verklaren. Om gebruik te maken van dit soort gegevens, moeten we verder gaan dan de klassieke statistische methoden, zoals OLS regressie en ANOVA. Dan moeten we gebruik maken van modellen die de extra complexiteit van de gegevens ook echt aan kunnen. Alexandru Cernat schreef ook <a href="https://www.alexcernat.com/estimating-and-visualizing-change-in-time-using-latent-growth-models-with-r/">hier</a> een duidelijke blog over dat ik heb bewerkt en waarbij ik ook de alcoholdata van Singer en Willet heb gebruik.</p>
+<p>Een populair model voor de analyse van longitudinale gegevens is het Latente Groei Model (Latent Growth Model, LGM). Hiermee kan de verandering in de tijd worden geschat, terwijl rekening wordt gehouden met de hiërarchische aard van de gegevens (meerdere punten in de tijd die genest zijn binnen individuen). Het is vergelijkbaar met het multilevel model van verandering, maar hier wordt de schatting gedaan met behulp van het Structural Equation Modeling (SEM)-raamwerk. Dit raamwerk maakt gebruik van gegevens in het brede formaat (elke rij is een individu en de diverse metingen in de tijd verschijnen als verschillende kolommen).</p>
+<p>Meer in het bijzonder kan het LGM helpen<br>
+- te begrijpen hoe verandering in de tijd verloopt;<br>
+- verandering verklaren met behulp van tijdvariërende en tijdconstante voorspellers;<br>
+- variantie ontleden in tussen- en binnenvariatie;<br>
+- en het model kan makkelijk worden uitgebreid naar andere analysemodellen.</p>
+<p>Hieronder volgt een korte inleiding op LGM, hoe de uitkomsten zijn te schatten en hoe de schattingen van verandering zijn te visualiseren.</p>
+<p>Laten we eerst de benodigde pakketten eens laden. We zullen <code>tidyverse</code> gebruiken voor het opschonen en visualiseren van de gegevens en <code>lavaan</code> voor het uitvoeren van de LGM in <code>R</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyverse' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>-- Attaching packages --------------------------------------- tidyverse 1.3.1 --</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>v ggplot2 3.3.6     v purrr   0.3.4
+v tibble  3.1.7     v dplyr   1.0.9
+v tidyr   1.2.0     v stringr 1.4.1
+v readr   2.1.2     v forcats 0.5.1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'ggplot2' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tibble' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'readr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'dplyr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'stringr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>-- Conflicts ------------------------------------------ tidyverse_conflicts() --
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lavaan)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'lavaan' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>This is lavaan 0.6-11
+lavaan is FREE software! Please report any bugs.</code></pre>
+</div>
+</div>
+<p>Laten we, voordat we aan de LGM beginnen, eens kijken naar het soort gegevens dat we zouden willen analyseren. Hier gebruik ik alcoholdata van jongeren met de drie metingen van Singer en Willet voor die vrij toegankelijk zijn op internet.</p>
+<p>Stel dat we geïnteresseerd zijn in hoe alcoholscore in de tijd verandert. Om het preciezer te formuleren willen laten zien hoe alcoholgebruik onder jongeren gemiddeld verandert, en tegelijk willen we een onderscheid maken tussen variatie, hoe jongeren veranderen ten opzichte van anderen. Maar tegelijk willen we ook iets zeggen over binnenvariatie en hoe jongeren veranderen ten opzichte van hun eigen gemiddelde/trend.</p>
+<p>Laten we eerst eens kijken hoe de gegevens eruit zien. Laten we eens kijken naar de brede gegevens, dit zijn de gegevens die gebruikt worden om LGM uit te voeren en laten we ook maar meteen het lange bestand bekijken:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>alcohol1 <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"https://stats.idre.ucla.edu/stat/r/examples/alda/data/alcohol1_pp.txt"</span>, <span class="at">header=</span>T, <span class="at">sep=</span><span class="st">","</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(alcohol1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We beginnen met het lange formaat, waar elke rij een combinatie is van individu en tijd. Dit is het formaat dat we nodig hebben voor visualisatie met <code>ggplot2</code>, en voor andere modellen (zoals het multilevel model voor verandering).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(alcohol1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  id age coa male age_14   alcuse      peer      cpeer  ccoa
+1  1  14   1    0      0 1.732051 1.2649111  0.2469111 0.549
+2  1  15   1    0      1 2.000000 1.2649111  0.2469111 0.549
+3  1  16   1    0      2 2.000000 1.2649111  0.2469111 0.549
+4  2  14   1    1      0 0.000000 0.8944272 -0.1235728 0.549
+5  2  15   1    1      1 0.000000 0.8944272 -0.1235728 0.549
+6  2  16   1    1      2 1.000000 0.8944272 -0.1235728 0.549</code></pre>
+</div>
+</div>
+<p>Om een idee te krijgen van wat we gaan modelleren, maken we een eenvoudige grafiek met de gemiddelde verandering in de tijd en de trend voor elk individu.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(alcohol1, <span class="fu">aes</span>(age_14, alcuse, <span class="at">group =</span> id)) <span class="sc">+</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.1</span>) <span class="sc">+</span> <span class="co"># add individual line with transparency</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>( <span class="co"># add average line</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">group =</span> <span class="dv">1</span>),</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">fun =</span> mean,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">geom =</span> <span class="st">"line"</span>,</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">1.5</span>,</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"red"</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="co"># nice theme</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Leeftijd"</span>, <span class="at">y =</span> <span class="st">"Alcoholgebruik"</span>) <span class="co"># nice labels</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="latente-groei-modeling_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We zien hier een gemiddelde verandering in de tijd. Tegelijk willen we ook zichtbaar maken wat variatie is in de manier waarop mensen veranderen. LGM is in staat beide tegelijk te schatten!</p>
+</section>
+<section id="wat-is-latente-groei-modellering" class="level2">
+<h2 class="anchored" data-anchor-id="wat-is-latente-groei-modellering">Wat is Latente Groei Modellering?</h2>
+<p>Nu we een idee hebben van de gegevens en het soort onderzoeksvragen dat we zouden kunnen hebben, kunnen we overgaan tot de uitvoering van LGM. De formule voor het LGM is eigenlijk zeer gelijkaardig aan die voor het multilevel model van verandering:</p>
+<p><span class="math inline">\(Y_j=\alpha_0 + \alpha_1*\gamma_j + \zeta_{00} + \zeta_{11}*\gamma_j + \epsilon_j\)</span></p>
+<p>Waarbij:</p>
+<ul>
+<li><span class="math inline">\(Y_j\)</span> is de variabele van belang (<code>alcuse</code>, alchoholgebruik van jongeren) die verandert in tijd, j.<br>
+</li>
+<li><span class="math inline">\(\alpha_0\)</span> is de gemiddelde waarde bij het begin van de gegevensverzameling (het beginpunt van de rode lijn hierboven).<br>
+</li>
+<li><span class="math inline">\(\alpha_1*\gamma_j\)</span> is de gemiddelde snelheid van verandering in de tijd (de helling van de rode lijn in de grafiek hierboven). Hier is <span class="math inline">\(gamma_j\)</span> gewoon een maat voor de tijd.<br>
+</li>
+<li><span class="math inline">\(\zeta_{00}\)</span> is de <strong>tussenvariatie</strong> aan het begin van de gegevens. Het vat samen hoe verschillend de individuele startpunten zijn ten opzichte van het gemiddelde startpunt.<br>
+</li>
+<li><span class="math inline">\(\zeta_{11}\gamma_j\)</span> is de <strong>tussen variatie in de snelheid van verandering</strong>. Samenvattend hoe verschillend de individuele veranderingsversnellingen zijn ten opzichte van de gemiddelde verandering (rode lijn hierboven).<br>
+</li>
+<li>De <span class="math inline">\(\epsilon_j\)</span> is de <strong>binnenvariatie</strong> of hoeveel individuen variëren rond hun voorspelde trend. Met de onderstaande grafiek kunnen we een beter idee krijgen van de verschillende variatiebronnen:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>alcohol1 <span class="sc">%&gt;%</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(id <span class="sc">%in%</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>) <span class="sc">%&gt;%</span> <span class="co"># selecteer twee individuen</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(age_14, alcuse, <span class="at">color =</span> id)) <span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="co"># punten voor VeerkrachtTotaal</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> <span class="co"># liniaire lijn</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="co"># mooi thema</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Leeftijd"</span>, <span class="at">y =</span> <span class="st">"Alcoholgebruik"</span>) <span class="co"># nice labels</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="latente-groei-modeling_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>De interne variatie wordt weergegeven door de afstand tussen de lijn en de punten. Dit wordt voor elk individu afzonderlijk gedaan (door de kleur in de grafiek). De tussenvariatie verwijst naar hoe verschillend de lijnen zijn. Dit kan zowel het beginpunt als de helling zijn.</p>
+<p>Omdat deze techniek met brede databestanden werkt, zetten we de data over van lang naar wijd</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>alcwide<span class="ot">&lt;-</span>alcohol1 <span class="sc">%&gt;%</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, alcuse, age_14) <span class="sc">%&gt;%</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> age_14, </span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">values_from =</span> alcuse) <span class="sc">%&gt;%</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"age_14"</span><span class="ot">=</span><span class="st">"0"</span>,</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"age_15"</span><span class="ot">=</span><span class="st">"1"</span>,         </span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"age_16"</span><span class="ot">=</span><span class="st">"2"</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code> i =~ 1*Meting.0 +  1*Meting.1 +  1*Meting.2 
+  s =~ 0*Meting.0 +  1*Meting.1 +  2*Meting.2 
+  i ~~ s</code></pre>
+<p>Structural Equation Modeling heeft zijn eigen manier om deze statistische relaties weer te geven. Hieronder is afgebeeld hoe we ons het hierboven beschreven model zouden moeten voorstellen:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Screenshot1.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption"><strong>Fig.1</strong>, LGM grafisch verbeeld</figcaption><p></p>
+</figure>
+</div>
+<p>In de figuur worden de latente variabelen voorgesteld door cirkels (de twee <span class="math inline">\(\eta\)</span>-variabelen, intercept en slope), terwijl de waargenomen variabelen worden voorgesteld door vierkanten (de vier y-variabelen). Wij krijgen ook de residuen (kleine cirkels die <span class="math inline">\(\epsilon\)</span> voorstellen). Voor de latente variabelen hebben wij gemiddelden (<span class="math inline">\(\alpha\)</span>) en varianties (<span class="math inline">\(\zeta\)</span>). Deze zijn geschat en hebben de hierboven beschreven interpretatie. De pijlen tussen de latente en de geobserveerde variabelen (die gewoon regressiehellingen of ladingen zijn) liggen van tevoren vast. Voor de latente interceptvariabele (weergegeven door <span class="math inline">\(\eta_0\)</span>) zijn de ladingen vastgesteld op 1 (daarom is er in bovenstaande formule niets vermenigvuldigd met <span class="math inline">\(\alpha_0\)</span> en <span class="math inline">\(\eta_{00}\)</span>). De ladingen voor de hellende latente variabele (weergegeven door <span class="math inline">\(\eta_1\)</span>) worden vastgesteld naar gelang van de verandering in tijd (<span class="math inline">\(\gamma_j\)</span> in bovenstaande formule). In dit geval gaat het eenvoudig van 0 naar 2. Er is ook een correlatie tussen het beginpunt en de verandering in tijd, weergegeven door de dubbele pijl <span class="math inline">\(\zeta_{01}\)</span>. Dit wordt niet vaak geïnterpreteerd, maar het geeft je in feite een idee of mensen convergeren (of meer op elkaar gaan lijken in de tijd) of divergeren (meer van elkaar gaan verschillen).</p>
+<p>Nu het technische deel duidelijk is gemaakt, kunnen we wat modelleren en meer grafieken maken!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># first LGM </span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="st">'i =~ 1*age_14 + 1*age_15 + 1*age_16</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="st">          s =~ 0*age_14 + 1*age_15 + 2*age_16 '</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>                  </span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">growth</span>(model, <span class="at">data =</span> alcwide)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit1, <span class="at">standardized =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>lavaan 0.6-11 ended normally after 22 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                         8
+                                                      
+  Number of observations                            82
+                                                      
+Model Test User Model:
+                                                      
+  Test statistic                                 0.636
+  Degrees of freedom                                 1
+  P-value (Chi-square)                           0.425
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Latent Variables:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+  i =~                                                                  
+    age_14            1.000                               0.898    0.963
+    age_15            1.000                               0.898    0.862
+    age_16            1.000                               0.898    0.796
+  s =~                                                                  
+    age_14            0.000                               0.000    0.000
+    age_15            1.000                               0.484    0.464
+    age_16            2.000                               0.967    0.857
+
+Covariances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+  i ~~                                                                  
+    s                -0.187    0.102   -1.841    0.066   -0.431   -0.431
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+   .age_14            0.000                               0.000    0.000
+   .age_15            0.000                               0.000    0.000
+   .age_16            0.000                               0.000    0.000
+    i                 0.634    0.103    6.163    0.000    0.706    0.706
+    s                 0.277    0.062    4.481    0.000    0.573    0.573
+
+Variances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+   .age_14            0.064    0.147    0.436    0.663    0.064    0.073
+   .age_15            0.420    0.094    4.463    0.000    0.420    0.387
+   .age_16            0.280    0.180    1.556    0.120    0.280    0.220
+    i                 0.807    0.193    4.177    0.000    1.000    1.000
+    s                 0.234    0.083    2.803    0.005    1.000    1.000</code></pre>
+</div>
+</div>
+<p>Er zijn in principe zes soorten coëfficiënten die hier interessant zijn:</p>
+<ul>
+<li><strong>intercept i</strong>: de waarde 0.634 staat voor de gemiddelde verwachte alcoholgebruik aan het begin van het onderzoek voor alle respondenten wanneer ze 14 jaar zijn.<br>
+</li>
+<li><strong>slope s</strong>: de waarde 0.277 vertegenwoordigt de gemiddelde verandering voor alle respondenten. Dus bij elke meting stijgt het gebruik van alcohol met met 0.277.<br>
+</li>
+<li><strong>variantie i</strong>: de waarde 0.807 vertegenwoordigt de tussenvariatie aan het begin van het onderzoek. Dus hoe verschillend zijn mensen vergeleken met het gemiddelde.<br>
+</li>
+<li><strong>variantie s</strong>: de waarde 0.234 staat voor de tussenvariatie in de veranderingssnelheid. Het laat zien hoe verschillend veranderingshellingen zijn voor verschillende mensen.<br>
+</li>
+<li><strong>Variantie alcoholgebruik</strong>: de waarden tussen 0.064 en 0.420 geven de interne variatie op elk punt in de tijd weer.<br>
+</li>
+<li><strong>correlatie tussen i en s</strong>: de waarde -0.187 laat zien dat het alcohol niet in de tijd convergeert (althans niet significant).</li>
+</ul>
+<section id="hoe-kunnen-we-de-verandering-visualiseren" class="level3">
+<h3 class="anchored" data-anchor-id="hoe-kunnen-we-de-verandering-visualiseren">Hoe kunnen we de verandering visualiseren?</h3>
+<p>Een goede manier om te begrijpen wat je modelleert, is de voorspelde scores van het model visualiseren. We zullen het <code>predict()</code> commando gebruiken om een nieuw object op te slaan met de voorspelde scores op individueel niveau voor het intercept en de helling.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># voorspellen van twee latente variabelen</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>pred_lgm <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit1) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Dit heeft de voorspelde score voor het intercept en de helling voor elk individu:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pred_lgm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              i          s
+[1,] 1.67339200 0.15061147
+[2,] 0.01577357 0.41987762
+[3,] 1.03717373 0.89157072
+[4,] 0.15472328 0.80763226
+[5,] 0.01182452 0.09588422
+[6,] 2.85697940 0.05794456</code></pre>
+</div>
+</div>
+<p>Deze zijn gebaseerd op ons model. Wij zouden dus bijvoorbeeld het gemiddelde van deze variabelen kunnen schatten en dat gemiddelde voor intercept en slope zou achtereenvolgens dezelfde resultaten moeten geven als hierboven:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># gemiddelde van het intercept (eerste kolom)</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(pred_lgm[, <span class="dv">1</span>]) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.634417</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># gemiddelde slope (tweede kolom)</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(pred_lgm[, <span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2773233</code></pre>
+</div>
+</div>
+<p>Om de resultaten te plotten, willen wij deze gegevens (intercept (<span class="math inline">\(\zeta_0\)</span>) en helling (<span class="math inline">\(\zeta_1\)</span>)) omzetten in verwachte scores bij elke meting (<span class="math inline">\(\gamma_j\)</span>j). We kunnen deze transformatie doen op basis van het padmodel dat we hierboven hebben gezien:</p>
+<p><span class="math inline">\(Y_1=\eta_0 + \eta_1\gamma_j\)</span></p>
+<p>Voor de eerste meting (time=0) is de verwachte waarde dus alleen het intercept (<span class="math inline">\(\eta_0\)</span>) omdat <span class="math inline">\(\gamma_j\)</span> gelijk is aan 0. Voor de meting zou de verwachte waarde het intercept (<span class="math inline">\(\eta_0\)</span>) en de helling (<span class="math inline">\(\eta_1\)</span>) zijn. Voor meting drie zou het intercept + 2*helling zijn, enzovoort.</p>
+<p>In <code>R</code> zouden we al deze metingen met de hand kunnen berekenen of we zouden het automatisch kunnen doen met behulp van functioneel programmeren. Op basis van de bovenstaande formule kunnen we een tegenhanger in <code>R</code> maken:</p>
+<pre><code>pred_lgm[, 1] + x*pred_lgm[, 2]</code></pre>
+<p>Voor de eerste meting (alc_14=0) krijgen we deze scores</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>pred_lgm[, <span class="dv">1</span>] <span class="sc">+</span> <span class="dv">0</span><span class="sc">*</span>pred_lgm[, <span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 1.67339200 0.01577357 1.03717373 0.15472328 0.01182452 2.85697940
+ [7] 1.70002148 0.01182452 0.09353383 0.95999586 0.02431252 0.89485737
+[13] 0.01972262 2.74652531 1.69122663 0.98981031 0.07985392 1.88598973
+[19] 0.01182452 3.16706021 1.01268775 2.68643747 0.96288677 0.07985392
+[25] 2.71888080 0.08543872 2.64724315 0.01182452 0.01577357 1.03091617
+[31] 1.77626546 1.62959225 0.08543872 0.08380297 0.95604681 0.96394491
+[37] 1.09292161 0.13755300 0.01182452 0.01182452 1.25884647 0.01182452
+[43] 0.01182452 0.11987977 2.13501694 0.01740932 0.07985392 0.01182452
+[49] 0.01182452 0.01182452 0.01182452 0.07985392 0.01182452 0.01577357
+[55] 0.01182452 0.11848083 0.01182452 0.99389867 0.02227273 0.08543872
+[61] 1.92422677 0.01182452 0.01182452 0.15671367 0.08543872 1.49845628
+[67] 0.88801741 0.07985392 0.01182452 1.83223971 0.01182452 0.01182452
+[73] 0.01182452 0.13848524 0.01182452 0.01182452 0.11920222 0.01182452
+[79] 1.04572058 0.96288677 0.01182452 0.11198167</code></pre>
+</div>
+</div>
+<p>Voor de tweede meting (alc_14=1) ziet het er zo uit</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>pred_lgm[, <span class="dv">1</span>] <span class="sc">+</span> <span class="dv">1</span><span class="sc">*</span>pred_lgm[, <span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 1.8240035 0.4356512 1.9287445 0.9623555 0.1077087 2.9149240 1.5604805
+ [8] 0.1077087 1.3870516 1.0257079 1.1447539 1.1224615 0.7635937 2.8155774
+[15] 2.0052428 1.2209099 0.2510256 1.5773629 0.1077087 2.4340560 1.3706937
+[22] 2.1045835 1.2657784 0.2510256 2.4588992 0.7148063 2.0159411 0.1077087
+[29] 0.4356512 1.4090953 2.3055104 1.4121079 0.7148063 0.5789681 0.6977654
+[36] 1.3536504 1.9968551 1.0118258 0.1077087 0.1077087 1.3953791 0.1077087
+[43] 0.1077087 1.2942168 2.4109430 0.5714894 0.2510256 0.1077087 0.1077087
+[50] 0.1077087 0.1077087 0.2510256 0.1077087 0.4356512 0.1077087 1.1780436
+[57] 0.1077087 1.5604210 0.9753629 0.7148063 1.9775396 0.1077087 0.1077087
+[64] 1.1276442 0.7148063 2.2197859 0.5544485 0.2510256 0.1077087 1.1445052
+[71] 0.1077087 0.1077087 0.1077087 1.0892425 0.1077087 0.1077087 1.2379508
+[78] 0.1077087 1.3386955 1.2657784 0.1077087 0.6383319</code></pre>
+</div>
+</div>
+<p>Bij de derde meting ziet het alcoholgebruik er zo uit.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>pred_lgm[, <span class="dv">1</span>] <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>pred_lgm[, <span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 1.9746149 0.8555288 2.8203152 1.7699878 0.2035930 2.9728685 1.4209395
+ [8] 0.2035930 2.6805694 1.0914199 2.2651952 1.3500657 1.5074647 2.8846296
+[15] 2.3192590 1.4520095 0.4221974 1.2687361 0.2035930 1.7010517 1.7286996
+[22] 1.5227296 1.5686701 0.4221974 2.1989176 1.3441739 1.3846391 0.2035930
+[29] 0.8555288 1.7872745 2.8347553 1.1946236 1.3441739 1.0741332 0.4394841
+[36] 1.7433558 2.9007885 1.8860986 0.2035930 0.2035930 1.5319118 0.2035930
+[43] 0.2035930 2.4685539 2.6868691 1.1255695 0.4221974 0.2035930 0.2035930
+[50] 0.2035930 0.2035930 0.4221974 0.2035930 0.8555288 0.2035930 2.2376064
+[57] 0.2035930 2.1269432 1.9284531 1.3441739 2.0308524 0.2035930 0.2035930
+[64] 2.0985747 1.3441739 2.9411155 0.2208797 0.4221974 0.2035930 0.4567708
+[71] 0.2035930 0.2035930 0.2035930 2.0399998 0.2035930 0.2035930 2.3566993
+[78] 0.2035930 1.6316705 1.5686701 0.2035930 1.1646821</code></pre>
+</div>
+</div>
+<p>waarbij <code>x</code> onze codering van tijd voorstelt (of <span class="math inline">\(\gamma_j\)</span>). We kunnen deze functie meerdere keren toepassen met het <code>map()</code> commando. De onderstaande syntaxis past deze formule toe voor de getallen 0, 1, 2 (onze codering van meting (variabele <code>alc_14</code>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">2</span>, <span class="co"># loop over, in ons geval 1,2,3</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">function</span>(x) pred_lgm[, <span class="dv">1</span>] <span class="sc">+</span> x <span class="sc">*</span> pred_lgm[, <span class="dv">2</span>]) <span class="co"># formule die gebruikt wordt</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+ [1] 1.67339200 0.01577357 1.03717373 0.15472328 0.01182452 2.85697940
+ [7] 1.70002148 0.01182452 0.09353383 0.95999586 0.02431252 0.89485737
+[13] 0.01972262 2.74652531 1.69122663 0.98981031 0.07985392 1.88598973
+[19] 0.01182452 3.16706021 1.01268775 2.68643747 0.96288677 0.07985392
+[25] 2.71888080 0.08543872 2.64724315 0.01182452 0.01577357 1.03091617
+[31] 1.77626546 1.62959225 0.08543872 0.08380297 0.95604681 0.96394491
+[37] 1.09292161 0.13755300 0.01182452 0.01182452 1.25884647 0.01182452
+[43] 0.01182452 0.11987977 2.13501694 0.01740932 0.07985392 0.01182452
+[49] 0.01182452 0.01182452 0.01182452 0.07985392 0.01182452 0.01577357
+[55] 0.01182452 0.11848083 0.01182452 0.99389867 0.02227273 0.08543872
+[61] 1.92422677 0.01182452 0.01182452 0.15671367 0.08543872 1.49845628
+[67] 0.88801741 0.07985392 0.01182452 1.83223971 0.01182452 0.01182452
+[73] 0.01182452 0.13848524 0.01182452 0.01182452 0.11920222 0.01182452
+[79] 1.04572058 0.96288677 0.01182452 0.11198167
+
+[[2]]
+ [1] 1.8240035 0.4356512 1.9287445 0.9623555 0.1077087 2.9149240 1.5604805
+ [8] 0.1077087 1.3870516 1.0257079 1.1447539 1.1224615 0.7635937 2.8155774
+[15] 2.0052428 1.2209099 0.2510256 1.5773629 0.1077087 2.4340560 1.3706937
+[22] 2.1045835 1.2657784 0.2510256 2.4588992 0.7148063 2.0159411 0.1077087
+[29] 0.4356512 1.4090953 2.3055104 1.4121079 0.7148063 0.5789681 0.6977654
+[36] 1.3536504 1.9968551 1.0118258 0.1077087 0.1077087 1.3953791 0.1077087
+[43] 0.1077087 1.2942168 2.4109430 0.5714894 0.2510256 0.1077087 0.1077087
+[50] 0.1077087 0.1077087 0.2510256 0.1077087 0.4356512 0.1077087 1.1780436
+[57] 0.1077087 1.5604210 0.9753629 0.7148063 1.9775396 0.1077087 0.1077087
+[64] 1.1276442 0.7148063 2.2197859 0.5544485 0.2510256 0.1077087 1.1445052
+[71] 0.1077087 0.1077087 0.1077087 1.0892425 0.1077087 0.1077087 1.2379508
+[78] 0.1077087 1.3386955 1.2657784 0.1077087 0.6383319
+
+[[3]]
+ [1] 1.9746149 0.8555288 2.8203152 1.7699878 0.2035930 2.9728685 1.4209395
+ [8] 0.2035930 2.6805694 1.0914199 2.2651952 1.3500657 1.5074647 2.8846296
+[15] 2.3192590 1.4520095 0.4221974 1.2687361 0.2035930 1.7010517 1.7286996
+[22] 1.5227296 1.5686701 0.4221974 2.1989176 1.3441739 1.3846391 0.2035930
+[29] 0.8555288 1.7872745 2.8347553 1.1946236 1.3441739 1.0741332 0.4394841
+[36] 1.7433558 2.9007885 1.8860986 0.2035930 0.2035930 1.5319118 0.2035930
+[43] 0.2035930 2.4685539 2.6868691 1.1255695 0.4221974 0.2035930 0.2035930
+[50] 0.2035930 0.2035930 0.4221974 0.2035930 0.8555288 0.2035930 2.2376064
+[57] 0.2035930 2.1269432 1.9284531 1.3441739 2.0308524 0.2035930 0.2035930
+[64] 2.0985747 1.3441739 2.9411155 0.2208797 0.4221974 0.2035930 0.4567708
+[71] 0.2035930 0.2035930 0.2035930 2.0399998 0.2035930 0.2035930 2.3566993
+[78] 0.2035930 1.6316705 1.5686701 0.2035930 1.1646821</code></pre>
+</div>
+</div>
+</section>
+<section id="conclusies" class="level3">
+<h3 class="anchored" data-anchor-id="conclusies">Conclusies</h3>
+<p>Hopelijk geeft dit je een idee over wat LGM is, hoe je het kan schatten in <code>R</code> en hoe je deze verandering kan visualiseren.</p>
+<p>[Met dank aan Alexandru Cernat}(https://www.alexcernat.com/estimating-and-visualizing-change-in-time-using-latent-growth-models-with-r/)</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

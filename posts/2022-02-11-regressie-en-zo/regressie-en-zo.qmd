@@ -1,20 +1,12 @@
 ---
 title: "Regressie en nog zo iets"
 description: |
-  Dit is een blog naar aanleiding van Gelman/Hill/Vehtari nieuwe boek Regresion and other stories
-author:
-  - name: Harrie Jonkman en Mr.X
-    url: {}
-date: 2022-02-10
-output:
-  distill::distill_article:
-    self_contained: false
+     Dit is een blog naar aanleiding van Gelman/Hill/Vehtari nieuwe boek Regresion and other stories
+author: "Harrie Jonkman"
+date: "2022-02-10"
+categories: [analyse]
+image: "Screenshot.png"
 ---
-
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-```
 
 ## Regression and other stories
 Vijftien jaar geleden schreven Gelman en Hill **Data analysis using regression and multilevel/hierarchical models**, een klassieker over moderne data-analyse. Ze gebruikte R en WinBugs voor lineaire en logistische, hierarchische regressieanalyse en causale inferentie. Ze lieten zien hoe je dat op de frequentistische en Bayesiaanse manier kunt doen. Het boek werd voor mij een naslagwerk dat ik steeds maar weer uit de kast trok. Vorig jaar  dacht ik, laat ik eens zien of Gelman al weer iets nieuws heeft geschreven en toen zag ik dat **Regression and other stories** [hier](https://www.cambridge.org/fi/academic/subjects/statistics-probability/statistical-theory-and-methods/regression-and-other-stories)net uit was is. Dat heeft Andrew Gelman weer met Jennifer Hill geschreven maar nu ook met de Fin Aki Vehtari. Ik was er nog niet aan toe gekomen om het te lezen. Dat heb ik deze maand gedaan. Ook dit boek zal ik vaker uit de kast trekken. Dit boek gaat over allerlei aspecten van regressie. Het is een theoretisch én praktisch boek. Je leert, wat ze noemen, voorspellende modellen beter begrijpen, toepassen in verschillende praktische problemen en je leert het simuleren. Je leert het opbouwen vanaf de basis en daarna kun je het in verschillende situaties toepassen. Het wil kritisch zijn, zonder nihilistisch te worden en vooral laten zien dat je van statistische analyse kunt leren. Ook dit boek staat op twee benen: frequentisch en Bayesiaans en laat zien hoe informatie wordt gebruikt in het schattingsproces, de assumpties die eraan ten grondslag liggen en hoe schattingen en voorspellingen kunnen worden geïnterpreteerd in beide raamwerken. Beide kunnen worden gebruikt, maar het is ook duidelijk dat de voorkeur bij Bayesiaanse benadering ligt. Dan kun je ook andere informatie gebruiken om te schatten of te voorspellen. En omdat je simuleert (het model duizenden keren draait) kunt je met de Bayesiaanse techniek meer zeggen over onzekerheid. Dat maakt deze techniek zeer geschikt voor regressieanalyses zoals in dit boek gepresenteerd. 

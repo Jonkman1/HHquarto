@@ -5,7 +5,7 @@ description: |
 author: "Alexander Cernat, bewerking Harrie Jonkman"
 date: "2022-01-04"
 categories: [analyse]
-image: "Screenshot1.png"
+image: "Screenshot.png"
 ---
 
 

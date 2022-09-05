@@ -1,25 +1,23 @@
 <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.345">
 
-<head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
-  <meta name="generator" content="distill" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-  <style type="text/css">
-  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
-  body {
-    visibility: hidden;
-  }
-  </style>
+<meta name="author" content="Johnson e.a. en Harrie Jonkman">
+<meta name="dcterms.date" content="2022-03-07">
+<meta name="description" content="Een blog over de principes van de Bayesiaanse theorie">
 
- <!--radix_placeholder_import_source-->
- <!--/radix_placeholder_import_source-->
-
-<style type="text/css">code{white-space: pre;}</style>
-<style type="text/css" data-origin="pandoc">
+<title>Harrie’s Hoekje - Bayes’ principes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -54,1620 +52,269 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ad0000; } /* Alert */
-code span.an { color: #5e5e5e; } /* Annotation */
-code span.at { } /* Attribute */
-code span.bn { color: #ad0000; } /* BaseN */
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
 code span.bu { } /* BuiltIn */
-code span.cf { color: #007ba5; } /* ControlFlow */
-code span.ch { color: #20794d; } /* Char */
-code span.cn { color: #8f5902; } /* Constant */
-code span.co { color: #5e5e5e; } /* Comment */
-code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
-code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
-code span.dt { color: #ad0000; } /* DataType */
-code span.dv { color: #ad0000; } /* DecVal */
-code span.er { color: #ad0000; } /* Error */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
-code span.fl { color: #ad0000; } /* Float */
-code span.fu { color: #4758ab; } /* Function */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
 code span.im { } /* Import */
-code span.in { color: #5e5e5e; } /* Information */
-code span.kw { color: #007ba5; } /* Keyword */
-code span.op { color: #5e5e5e; } /* Operator */
-code span.ot { color: #007ba5; } /* Other */
-code span.pp { color: #ad0000; } /* Preprocessor */
-code span.sc { color: #5e5e5e; } /* SpecialChar */
-code span.ss { color: #20794d; } /* SpecialString */
-code span.st { color: #20794d; } /* String */
-code span.va { color: #111111; } /* Variable */
-code span.vs { color: #20794d; } /* VerbatimString */
-code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
-
-  <!--radix_placeholder_meta_tags-->
-  <title>Bayes' principes</title>
-
-  <meta property="description" itemprop="description" content="Een blog over de principes van de Bayesiaanse theorie"/>
-
-
-  <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2022-03-07"/>
-  <meta property="article:created" itemprop="dateCreated" content="2022-03-07"/>
-  <meta name="article:author" content="Johnson e.a. en Harrie Jonkman"/>
-
-  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Bayes&#39; principes"/>
-  <meta property="og:type" content="article"/>
-  <meta property="og:description" content="Een blog over de principes van de Bayesiaanse theorie"/>
-  <meta property="og:locale" content="en_US"/>
-
-  <!--  https://dev.twitter.com/cards/types/summary -->
-  <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Bayes&#39; principes"/>
-  <meta property="twitter:description" content="Een blog over de principes van de Bayesiaanse theorie"/>
-
-  <!--/radix_placeholder_meta_tags-->
-  <!--radix_placeholder_rmarkdown_metadata-->
-
-  <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Bayes' principes"]},{"type":"character","attributes":{},"value":["Een blog over de principes van de Bayesiaanse theorie\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Johnson e.a. en Harrie Jonkman"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":[]}},"value":[]}]}]},{"type":"character","attributes":{},"value":["2022-03-7"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
-  </script>
-  <!--/radix_placeholder_rmarkdown_metadata-->
-  
-  <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["bayes-principes_files/anchor-4.2.2/anchor.min.js","bayes-principes_files/bowser-1.9.3/bowser.min.js","bayes-principes_files/distill-2.2.21/template.v2.js","bayes-principes_files/header-attrs-2.11/header-attrs.js","bayes-principes_files/jquery-3.6.0/jquery-3.6.0.js","bayes-principes_files/jquery-3.6.0/jquery-3.6.0.min.js","bayes-principes_files/jquery-3.6.0/jquery-3.6.0.min.map","bayes-principes_files/popper-2.6.0/popper.min.js","bayes-principes_files/tippy-6.2.7/tippy-bundle.umd.min.js","bayes-principes_files/tippy-6.2.7/tippy-light-border.css","bayes-principes_files/tippy-6.2.7/tippy.css","bayes-principes_files/tippy-6.2.7/tippy.umd.min.js","bayes-principes_files/webcomponents-2.0.0/webcomponents.js","Screenshot.PNG","Screenshot1.PNG","Screenshot2.PNG"]}
-  </script>
-  <!--radix_placeholder_navigation_in_header-->
-  <!--/radix_placeholder_navigation_in_header-->
-  <!--radix_placeholder_distill-->
-
-  <style type="text/css">
-
-  body {
-    background-color: white;
-  }
-
-  .pandoc-table {
-    width: 100%;
-  }
-
-  .pandoc-table>caption {
-    margin-bottom: 10px;
-  }
-
-  .pandoc-table th:not([align]) {
-    text-align: left;
-  }
-
-  .pagedtable-footer {
-    font-size: 15px;
-  }
-
-  d-byline .byline {
-    grid-template-columns: 2fr 2fr;
-  }
-
-  d-byline .byline h3 {
-    margin-block-start: 1.5em;
-  }
-
-  d-byline .byline .authors-affiliations h3 {
-    margin-block-start: 0.5em;
-  }
-
-  .authors-affiliations .orcid-id {
-    width: 16px;
-    height:16px;
-    margin-left: 4px;
-    margin-right: 4px;
-    vertical-align: middle;
-    padding-bottom: 2px;
-  }
-
-  d-title .dt-tags {
-    margin-top: 1em;
-    grid-column: text;
-  }
-
-  .dt-tags .dt-tag {
-    text-decoration: none;
-    display: inline-block;
-    color: rgba(0,0,0,0.6);
-    padding: 0em 0.4em;
-    margin-right: 0.5em;
-    margin-bottom: 0.4em;
-    font-size: 70%;
-    border: 1px solid rgba(0,0,0,0.2);
-    border-radius: 3px;
-    text-transform: uppercase;
-    font-weight: 500;
-  }
-
-  d-article table.gt_table td,
-  d-article table.gt_table th {
-    border-bottom: none;
-  }
-
-  .html-widget {
-    margin-bottom: 2.0em;
-  }
-
-  .l-screen-inset {
-    padding-right: 16px;
-  }
-
-  .l-screen .caption {
-    margin-left: 10px;
-  }
-
-  .shaded {
-    background: rgb(247, 247, 247);
-    padding-top: 20px;
-    padding-bottom: 20px;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  }
-
-  .shaded .html-widget {
-    margin-bottom: 0;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-  }
-
-  .shaded .shaded-content {
-    background: white;
-  }
-
-  .text-output {
-    margin-top: 0;
-    line-height: 1.5em;
-  }
-
-  .hidden {
-    display: none !important;
-  }
-
-  d-article {
-    padding-top: 2.5rem;
-    padding-bottom: 30px;
-  }
-
-  d-appendix {
-    padding-top: 30px;
-  }
-
-  d-article>p>img {
-    width: 100%;
-  }
-
-  d-article h2 {
-    margin: 1rem 0 1.5rem 0;
-  }
-
-  d-article h3 {
-    margin-top: 1.5rem;
-  }
-
-  d-article iframe {
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    margin-bottom: 2.0em;
-    width: 100%;
-  }
-
-  /* Tweak code blocks */
-
-  d-article div.sourceCode code,
-  d-article pre code {
-    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-  }
-
-  d-article pre,
-  d-article div.sourceCode,
-  d-article div.sourceCode pre {
-    overflow: auto;
-  }
-
-  d-article div.sourceCode {
-    background-color: white;
-  }
-
-  d-article div.sourceCode pre {
-    padding-left: 10px;
-    font-size: 12px;
-    border-left: 2px solid rgba(0,0,0,0.1);
-  }
-
-  d-article pre {
-    font-size: 12px;
-    color: black;
-    background: none;
-    margin-top: 0;
-    text-align: left;
-    white-space: pre;
-    word-spacing: normal;
-    word-break: normal;
-    word-wrap: normal;
-    line-height: 1.5;
-
-    -moz-tab-size: 4;
-    -o-tab-size: 4;
-    tab-size: 4;
-
-    -webkit-hyphens: none;
-    -moz-hyphens: none;
-    -ms-hyphens: none;
-    hyphens: none;
-  }
-
-  d-article pre a {
-    border-bottom: none;
-  }
-
-  d-article pre a:hover {
-    border-bottom: none;
-    text-decoration: underline;
-  }
-
-  d-article details {
-    grid-column: text;
-    margin-bottom: 0.8em;
-  }
-
-  @media(min-width: 768px) {
-
-  d-article pre,
-  d-article div.sourceCode,
-  d-article div.sourceCode pre {
-    overflow: visible !important;
-  }
-
-  d-article div.sourceCode pre {
-    padding-left: 18px;
-    font-size: 14px;
-  }
-
-  d-article pre {
-    font-size: 14px;
-  }
-
-  }
-
-  figure img.external {
-    background: white;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
-    padding: 18px;
-    box-sizing: border-box;
-  }
-
-  /* CSS for d-contents */
-
-  .d-contents {
-    grid-column: text;
-    color: rgba(0,0,0,0.8);
-    font-size: 0.9em;
-    padding-bottom: 1em;
-    margin-bottom: 1em;
-    padding-bottom: 0.5em;
-    margin-bottom: 1em;
-    padding-left: 0.25em;
-    justify-self: start;
-  }
-
-  @media(min-width: 1000px) {
-    .d-contents.d-contents-float {
-      height: 0;
-      grid-column-start: 1;
-      grid-column-end: 4;
-      justify-self: center;
-      padding-right: 3em;
-      padding-left: 2em;
-    }
-  }
-
-  .d-contents nav h3 {
-    font-size: 18px;
-    margin-top: 0;
-    margin-bottom: 1em;
-  }
-
-  .d-contents li {
-    list-style-type: none
-  }
-
-  .d-contents nav > ul {
-    padding-left: 0;
-  }
-
-  .d-contents ul {
-    padding-left: 1em
-  }
-
-  .d-contents nav ul li {
-    margin-top: 0.6em;
-    margin-bottom: 0.2em;
-  }
-
-  .d-contents nav a {
-    font-size: 13px;
-    border-bottom: none;
-    text-decoration: none
-    color: rgba(0, 0, 0, 0.8);
-  }
-
-  .d-contents nav a:hover {
-    text-decoration: underline solid rgba(0, 0, 0, 0.6)
-  }
-
-  .d-contents nav > ul > li > a {
-    font-weight: 600;
-  }
-
-  .d-contents nav > ul > li > ul {
-    font-weight: inherit;
-  }
-
-  .d-contents nav > ul > li > ul > li {
-    margin-top: 0.2em;
-  }
-
-
-  .d-contents nav ul {
-    margin-top: 0;
-    margin-bottom: 0.25em;
-  }
-
-  .d-article-with-toc h2:nth-child(2) {
-    margin-top: 0;
-  }
-
-
-  /* Figure */
-
-  .figure {
-    position: relative;
-    margin-bottom: 2.5em;
-    margin-top: 1.5em;
-  }
-
-  .figure img {
-    width: 100%;
-  }
-
-  .figure .caption {
-    color: rgba(0, 0, 0, 0.6);
-    font-size: 12px;
-    line-height: 1.5em;
-  }
-
-  .figure img.external {
-    background: white;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
-    padding: 18px;
-    box-sizing: border-box;
-  }
-
-  .figure .caption a {
-    color: rgba(0, 0, 0, 0.6);
-  }
-
-  .figure .caption b,
-  .figure .caption strong, {
-    font-weight: 600;
-    color: rgba(0, 0, 0, 1.0);
-  }
-
-  /* Citations */
-
-  d-article .citation {
-    color: inherit;
-    cursor: inherit;
-  }
-
-  div.hanging-indent{
-    margin-left: 1em; text-indent: -1em;
-  }
-
-  /* Citation hover box */
-
-  .tippy-box[data-theme~=light-border] {
-    background-color: rgba(250, 250, 250, 0.95);
-  }
-
-  .tippy-content > p {
-    margin-bottom: 0;
-    padding: 2px;
-  }
-
-
-  /* Tweak 1000px media break to show more text */
-
-  @media(min-width: 1000px) {
-    .base-grid,
-    distill-header,
-    d-title,
-    d-abstract,
-    d-article,
-    d-appendix,
-    distill-appendix,
-    d-byline,
-    d-footnote-list,
-    d-citation-list,
-    distill-footer {
-      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
-      grid-column-gap: 16px;
-    }
-
-    .grid {
-      grid-column-gap: 16px;
-    }
-
-    d-article {
-      font-size: 1.06rem;
-      line-height: 1.7em;
-    }
-    figure .caption, .figure .caption, figure figcaption {
-      font-size: 13px;
-    }
-  }
-
-  @media(min-width: 1180px) {
-    .base-grid,
-    distill-header,
-    d-title,
-    d-abstract,
-    d-article,
-    d-appendix,
-    distill-appendix,
-    d-byline,
-    d-footnote-list,
-    d-citation-list,
-    distill-footer {
-      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
-      grid-column-gap: 32px;
-    }
-
-    .grid {
-      grid-column-gap: 32px;
-    }
-  }
-
-
-  /* Get the citation styles for the appendix (not auto-injected on render since
-     we do our own rendering of the citation appendix) */
-
-  d-appendix .citation-appendix,
-  .d-appendix .citation-appendix {
-    font-size: 11px;
-    line-height: 15px;
-    border-left: 1px solid rgba(0, 0, 0, 0.1);
-    padding-left: 18px;
-    border: 1px solid rgba(0,0,0,0.1);
-    background: rgba(0, 0, 0, 0.02);
-    padding: 10px 18px;
-    border-radius: 3px;
-    color: rgba(150, 150, 150, 1);
-    overflow: hidden;
-    margin-top: -12px;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-  }
-
-  /* Include appendix styles here so they can be overridden */
-
-  d-appendix {
-    contain: layout style;
-    font-size: 0.8em;
-    line-height: 1.7em;
-    margin-top: 60px;
-    margin-bottom: 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    color: rgba(0,0,0,0.5);
-    padding-top: 60px;
-    padding-bottom: 48px;
-  }
-
-  d-appendix h3 {
-    grid-column: page-start / text-start;
-    font-size: 15px;
-    font-weight: 500;
-    margin-top: 1em;
-    margin-bottom: 0;
-    color: rgba(0,0,0,0.65);
-  }
-
-  d-appendix h3 + * {
-    margin-top: 1em;
-  }
-
-  d-appendix ol {
-    padding: 0 0 0 15px;
-  }
-
-  @media (min-width: 768px) {
-    d-appendix ol {
-      padding: 0 0 0 30px;
-      margin-left: -30px;
-    }
-  }
-
-  d-appendix li {
-    margin-bottom: 1em;
-  }
-
-  d-appendix a {
-    color: rgba(0, 0, 0, 0.6);
-  }
-
-  d-appendix > * {
-    grid-column: text;
-  }
-
-  d-appendix > d-footnote-list,
-  d-appendix > d-citation-list,
-  d-appendix > distill-appendix {
-    grid-column: screen;
-  }
-
-  /* Include footnote styles here so they can be overridden */
-
-  d-footnote-list {
-    contain: layout style;
-  }
-
-  d-footnote-list > * {
-    grid-column: text;
-  }
-
-  d-footnote-list a.footnote-backlink {
-    color: rgba(0,0,0,0.3);
-    padding-left: 0.5em;
-  }
-
-
-
-  /* Anchor.js */
-
-  .anchorjs-link {
-    /*transition: all .25s linear; */
-    text-decoration: none;
-    border-bottom: none;
-  }
-  *:hover > .anchorjs-link {
-    margin-left: -1.125em !important;
-    text-decoration: none;
-    border-bottom: none;
-  }
-
-  /* Social footer */
-
-  .social_footer {
-    margin-top: 30px;
-    margin-bottom: 0;
-    color: rgba(0,0,0,0.67);
-  }
-
-  .disqus-comments {
-    margin-right: 30px;
-  }
-
-  .disqus-comment-count {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
-    cursor: pointer;
-  }
-
-  #disqus_thread {
-    margin-top: 30px;
-  }
-
-  .article-sharing a {
-    border-bottom: none;
-    margin-right: 8px;
-  }
-
-  .article-sharing a:hover {
-    border-bottom: none;
-  }
-
-  .sidebar-section.subscribe {
-    font-size: 12px;
-    line-height: 1.6em;
-  }
-
-  .subscribe p {
-    margin-bottom: 0.5em;
-  }
-
-
-  .article-footer .subscribe {
-    font-size: 15px;
-    margin-top: 45px;
-  }
-
-
-  .sidebar-section.custom {
-    font-size: 12px;
-    line-height: 1.6em;
-  }
-
-  .custom p {
-    margin-bottom: 0.5em;
-  }
-
-  /* Styles for listing layout (hide title) */
-  .layout-listing d-title, .layout-listing .d-title {
-    display: none;
-  }
-
-  /* Styles for posts lists (not auto-injected) */
-
-
-  .posts-with-sidebar {
-    padding-left: 45px;
-    padding-right: 45px;
-  }
-
-  .posts-list .description h2,
-  .posts-list .description p {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
-  }
-
-  .posts-list .description h2 {
-    font-weight: 700;
-    border-bottom: none;
-    padding-bottom: 0;
-  }
-
-  .posts-list h2.post-tag {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-    padding-bottom: 12px;
-  }
-  .posts-list {
-    margin-top: 60px;
-    margin-bottom: 24px;
-  }
-
-  .posts-list .post-preview {
-    text-decoration: none;
-    overflow: hidden;
-    display: block;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    padding: 24px 0;
-  }
-
-  .post-preview-last {
-    border-bottom: none !important;
-  }
-
-  .posts-list .posts-list-caption {
-    grid-column: screen;
-    font-weight: 400;
-  }
-
-  .posts-list .post-preview h2 {
-    margin: 0 0 6px 0;
-    line-height: 1.2em;
-    font-style: normal;
-    font-size: 24px;
-  }
-
-  .posts-list .post-preview p {
-    margin: 0 0 12px 0;
-    line-height: 1.4em;
-    font-size: 16px;
-  }
-
-  .posts-list .post-preview .thumbnail {
-    box-sizing: border-box;
-    margin-bottom: 24px;
-    position: relative;
-    max-width: 500px;
-  }
-  .posts-list .post-preview img {
-    width: 100%;
-    display: block;
-  }
-
-  .posts-list .metadata {
-    font-size: 12px;
-    line-height: 1.4em;
-    margin-bottom: 18px;
-  }
-
-  .posts-list .metadata > * {
-    display: inline-block;
-  }
-
-  .posts-list .metadata .publishedDate {
-    margin-right: 2em;
-  }
-
-  .posts-list .metadata .dt-authors {
-    display: block;
-    margin-top: 0.3em;
-    margin-right: 2em;
-  }
-
-  .posts-list .dt-tags {
-    display: block;
-    line-height: 1em;
-  }
-
-  .posts-list .dt-tags .dt-tag {
-    display: inline-block;
-    color: rgba(0,0,0,0.6);
-    padding: 0.3em 0.4em;
-    margin-right: 0.2em;
-    margin-bottom: 0.4em;
-    font-size: 60%;
-    border: 1px solid rgba(0,0,0,0.2);
-    border-radius: 3px;
-    text-transform: uppercase;
-    font-weight: 500;
-  }
-
-  .posts-list img {
-    opacity: 1;
-  }
-
-  .posts-list img[data-src] {
-    opacity: 0;
-  }
-
-  .posts-more {
-    clear: both;
-  }
-
-
-  .posts-sidebar {
-    font-size: 16px;
-  }
-
-  .posts-sidebar h3 {
-    font-size: 16px;
-    margin-top: 0;
-    margin-bottom: 0.5em;
-    font-weight: 400;
-    text-transform: uppercase;
-  }
-
-  .sidebar-section {
-    margin-bottom: 30px;
-  }
-
-  .categories ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .categories li {
-    color: rgba(0, 0, 0, 0.8);
-    margin-bottom: 0;
-  }
-
-  .categories li>a {
-    border-bottom: none;
-  }
-
-  .categories li>a:hover {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
-  }
-
-  .categories .active {
-    font-weight: 600;
-  }
-
-  .categories .category-count {
-    color: rgba(0, 0, 0, 0.4);
-  }
-
-
-  @media(min-width: 768px) {
-    .posts-list .post-preview h2 {
-      font-size: 26px;
-    }
-    .posts-list .post-preview .thumbnail {
-      float: right;
-      width: 30%;
-      margin-bottom: 0;
-    }
-    .posts-list .post-preview .description {
-      float: left;
-      width: 45%;
-    }
-    .posts-list .post-preview .metadata {
-      float: left;
-      width: 20%;
-      margin-top: 8px;
-    }
-    .posts-list .post-preview p {
-      margin: 0 0 12px 0;
-      line-height: 1.5em;
-      font-size: 16px;
-    }
-    .posts-with-sidebar .posts-list {
-      float: left;
-      width: 75%;
-    }
-    .posts-with-sidebar .posts-sidebar {
-      float: right;
-      width: 20%;
-      margin-top: 60px;
-      padding-top: 24px;
-      padding-bottom: 24px;
-    }
-  }
-
-
-  /* Improve display for browsers without grid (IE/Edge <= 15) */
-
-  .downlevel {
-    line-height: 1.6em;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
-    margin: 0;
-  }
-
-  .downlevel .d-title {
-    padding-top: 6rem;
-    padding-bottom: 1.5rem;
-  }
-
-  .downlevel .d-title h1 {
-    font-size: 50px;
-    font-weight: 700;
-    line-height: 1.1em;
-    margin: 0 0 0.5rem;
-  }
-
-  .downlevel .d-title p {
-    font-weight: 300;
-    font-size: 1.2rem;
-    line-height: 1.55em;
-    margin-top: 0;
-  }
-
-  .downlevel .d-byline {
-    padding-top: 0.8em;
-    padding-bottom: 0.8em;
-    font-size: 0.8rem;
-    line-height: 1.8em;
-  }
-
-  .downlevel .section-separator {
-    border: none;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-  }
-
-  .downlevel .d-article {
-    font-size: 1.06rem;
-    line-height: 1.7em;
-    padding-top: 1rem;
-    padding-bottom: 2rem;
-  }
-
-
-  .downlevel .d-appendix {
-    padding-left: 0;
-    padding-right: 0;
-    max-width: none;
-    font-size: 0.8em;
-    line-height: 1.7em;
-    margin-bottom: 0;
-    color: rgba(0,0,0,0.5);
-    padding-top: 40px;
-    padding-bottom: 48px;
-  }
-
-  .downlevel .footnotes ol {
-    padding-left: 13px;
-  }
-
-  .downlevel .base-grid,
-  .downlevel .distill-header,
-  .downlevel .d-title,
-  .downlevel .d-abstract,
-  .downlevel .d-article,
-  .downlevel .d-appendix,
-  .downlevel .distill-appendix,
-  .downlevel .d-byline,
-  .downlevel .d-footnote-list,
-  .downlevel .d-citation-list,
-  .downlevel .distill-footer,
-  .downlevel .appendix-bottom,
-  .downlevel .posts-container {
-    padding-left: 40px;
-    padding-right: 40px;
-  }
-
-  @media(min-width: 768px) {
-    .downlevel .base-grid,
-    .downlevel .distill-header,
-    .downlevel .d-title,
-    .downlevel .d-abstract,
-    .downlevel .d-article,
-    .downlevel .d-appendix,
-    .downlevel .distill-appendix,
-    .downlevel .d-byline,
-    .downlevel .d-footnote-list,
-    .downlevel .d-citation-list,
-    .downlevel .distill-footer,
-    .downlevel .appendix-bottom,
-    .downlevel .posts-container {
-    padding-left: 150px;
-    padding-right: 150px;
-    max-width: 900px;
-  }
-  }
-
-  .downlevel pre code {
-    display: block;
-    border-left: 2px solid rgba(0, 0, 0, .1);
-    padding: 0 0 0 20px;
-    font-size: 14px;
-  }
-
-  .downlevel code, .downlevel pre {
-    color: black;
-    background: none;
-    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-    text-align: left;
-    white-space: pre;
-    word-spacing: normal;
-    word-break: normal;
-    word-wrap: normal;
-    line-height: 1.5;
-
-    -moz-tab-size: 4;
-    -o-tab-size: 4;
-    tab-size: 4;
-
-    -webkit-hyphens: none;
-    -moz-hyphens: none;
-    -ms-hyphens: none;
-    hyphens: none;
-  }
-
-  .downlevel .posts-list .post-preview {
-    color: inherit;
-  }
-
-
-
-  </style>
-
-  <script type="application/javascript">
-
-  function is_downlevel_browser() {
-    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
-                                   window.navigator.userAgent)) {
-      return true;
-    } else {
-      return window.load_distill_framework === undefined;
-    }
-  }
-
-  // show body when load is complete
-  function on_load_complete() {
-
-    // add anchors
-    if (window.anchors) {
-      window.anchors.options.placement = 'left';
-      window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
-    }
-
-
-    // set body to visible
-    document.body.style.visibility = 'visible';
-
-    // force redraw for leaflet widgets
-    if (window.HTMLWidgets) {
-      var maps = window.HTMLWidgets.findAll(".leaflet");
-      $.each(maps, function(i, el) {
-        var map = this.getMap();
-        map.invalidateSize();
-        map.eachLayer(function(layer) {
-          if (layer instanceof L.TileLayer)
-            layer.redraw();
-        });
-      });
-    }
-
-    // trigger 'shown' so htmlwidgets resize
-    $('d-article').trigger('shown');
-  }
-
-  function init_distill() {
-
-    init_common();
-
-    // create front matter
-    var front_matter = $('<d-front-matter></d-front-matter>');
-    $('#distill-front-matter').wrap(front_matter);
-
-    // create d-title
-    $('.d-title').changeElementType('d-title');
-
-    // create d-byline
-    var byline = $('<d-byline></d-byline>');
-    $('.d-byline').replaceWith(byline);
-
-    // create d-article
-    var article = $('<d-article></d-article>');
-    $('.d-article').wrap(article).children().unwrap();
-
-    // move posts container into article
-    $('.posts-container').appendTo($('d-article'));
-
-    // create d-appendix
-    $('.d-appendix').changeElementType('d-appendix');
-
-    // flag indicating that we have appendix items
-    var appendix = $('.appendix-bottom').children('h3').length > 0;
-
-    // replace footnotes with <d-footnote>
-    $('.footnote-ref').each(function(i, val) {
-      appendix = true;
-      var href = $(this).attr('href');
-      var id = href.replace('#', '');
-      var fn = $('#' + id);
-      var fn_p = $('#' + id + '>p');
-      fn_p.find('.footnote-back').remove();
-      var text = fn_p.html();
-      var dtfn = $('<d-footnote></d-footnote>');
-      dtfn.html(text);
-      $(this).replaceWith(dtfn);
-    });
-    // remove footnotes
-    $('.footnotes').remove();
-
-    // move refs into #references-listing
-    $('#references-listing').replaceWith($('#refs'));
-
-    $('h1.appendix, h2.appendix').each(function(i, val) {
-      $(this).changeElementType('h3');
-    });
-    $('h3.appendix').each(function(i, val) {
-      var id = $(this).attr('id');
-      $('.d-contents a[href="#' + id + '"]').parent().remove();
-      appendix = true;
-      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
-    });
-
-    // show d-appendix if we have appendix content
-    $("d-appendix").css('display', appendix ? 'grid' : 'none');
-
-    // localize layout chunks to just output
-    $('.layout-chunk').each(function(i, val) {
-
-      // capture layout
-      var layout = $(this).attr('data-layout');
-
-      // apply layout to markdown level block elements
-      var elements = $(this).children().not('details, div.sourceCode, pre, script');
-      elements.each(function(i, el) {
-        var layout_div = $('<div class="' + layout + '"></div>');
-        if (layout_div.hasClass('shaded')) {
-          var shaded_content = $('<div class="shaded-content"></div>');
-          $(this).wrap(shaded_content);
-          $(this).parent().wrap(layout_div);
-        } else {
-          $(this).wrap(layout_div);
-        }
-      });
-
-
-      // unwrap the layout-chunk div
-      $(this).children().unwrap();
-    });
-
-    // remove code block used to force  highlighting css
-    $('.distill-force-highlighting-css').parent().remove();
-
-    // remove empty line numbers inserted by pandoc when using a
-    // custom syntax highlighting theme
-    $('code.sourceCode a:empty').remove();
-
-    // load distill framework
-    load_distill_framework();
-
-    // wait for window.distillRunlevel == 4 to do post processing
-    function distill_post_process() {
-
-      if (!window.distillRunlevel || window.distillRunlevel < 4)
-        return;
-
-      // hide author/affiliations entirely if we have no authors
-      var front_matter = JSON.parse($("#distill-front-matter").html());
-      var have_authors = front_matter.authors && front_matter.authors.length > 0;
-      if (!have_authors)
-        $('d-byline').addClass('hidden');
-
-      // article with toc class
-      $('.d-contents').parent().addClass('d-article-with-toc');
-
-      // strip links that point to #
-      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
-
-      // add orcid ids
-      $('.authors-affiliations').find('.author').each(function(i, el) {
-        var orcid_id = front_matter.authors[i].orcidID;
-        if (orcid_id) {
-          var a = $('<a></a>');
-          a.attr('href', 'https://orcid.org/' + orcid_id);
-          var img = $('<img></img>');
-          img.addClass('orcid-id');
-          img.attr('alt', 'ORCID ID');
-          img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
-          a.append(img);
-          $(this).append(a);
-        }
-      });
-
-      // hide elements of author/affiliations grid that have no value
-      function hide_byline_column(caption) {
-        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
-      }
-
-      // affiliations
-      var have_affiliations = false;
-      for (var i = 0; i<front_matter.authors.length; ++i) {
-        var author = front_matter.authors[i];
-        if (author.affiliation !== "&nbsp;") {
-          have_affiliations = true;
-          break;
-        }
-      }
-      if (!have_affiliations)
-        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
-
-      // published date
-      if (!front_matter.publishedDate)
-        hide_byline_column("Published");
-
-      // document object identifier
-      var doi = $('d-byline').find('h3:contains("DOI")');
-      var doi_p = doi.next().empty();
-      if (!front_matter.doi) {
-        // if we have a citation and valid citationText then link to that
-        if ($('#citation').length > 0 && front_matter.citationText) {
-          doi.html('Citation');
-          $('<a href="#citation"></a>')
-            .text(front_matter.citationText)
-            .appendTo(doi_p);
-        } else {
-          hide_byline_column("DOI");
-        }
-      } else {
-        $('<a></a>')
-           .attr('href', "https://doi.org/" + front_matter.doi)
-           .html(front_matter.doi)
-           .appendTo(doi_p);
-      }
-
-       // change plural form of authors/affiliations
-      if (front_matter.authors.length === 1) {
-        var grid = $('.authors-affiliations');
-        grid.children('h3:contains("Authors")').text('Author');
-        grid.children('h3:contains("Affiliations")').text('Affiliation');
-      }
-
-      // remove d-appendix and d-footnote-list local styles
-      $('d-appendix > style:first-child').remove();
-      $('d-footnote-list > style:first-child').remove();
-
-      // move appendix-bottom entries to the bottom
-      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
-      $('.appendix-bottom').remove();
-
-      // hoverable references
-      $('span.citation[data-cites]').each(function() {
-        var refs = $(this).attr('data-cites').split(" ");
-        var refHtml = refs.map(function(ref) {
-          return "<p>" + $('#ref-' + ref).html() + "</p>";
-        }).join("\n");
-        window.tippy(this, {
-          allowHTML: true,
-          content: refHtml,
-          maxWidth: 500,
-          interactive: true,
-          interactiveBorder: 10,
-          theme: 'light-border',
-          placement: 'bottom-start'
-        });
-      });
-
-      // clear polling timer
-      clearInterval(tid);
-
-      // show body now that everything is ready
-      on_load_complete();
-    }
-
-    var tid = setInterval(distill_post_process, 50);
-    distill_post_process();
-
-  }
-
-  function init_downlevel() {
-
-    init_common();
-
-     // insert hr after d-title
-    $('.d-title').after($('<hr class="section-separator"/>'));
-
-    // check if we have authors
-    var front_matter = JSON.parse($("#distill-front-matter").html());
-    var have_authors = front_matter.authors && front_matter.authors.length > 0;
-
-    // manage byline/border
-    if (!have_authors)
-      $('.d-byline').remove();
-    $('.d-byline').after($('<hr class="section-separator"/>'));
-    $('.d-byline a').remove();
-
-    // remove toc
-    $('.d-contents').remove();
-
-    // move appendix elements
-    $('h1.appendix, h2.appendix').each(function(i, val) {
-      $(this).changeElementType('h3');
-    });
-    $('h3.appendix').each(function(i, val) {
-      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
-    });
-
-
-    // inject headers into references and footnotes
-    var refs_header = $('<h3></h3>');
-    refs_header.text('References');
-    $('#refs').prepend(refs_header);
-
-    var footnotes_header = $('<h3></h3');
-    footnotes_header.text('Footnotes');
-    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
-
-    // move appendix-bottom entries to the bottom
-    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
-    $('.appendix-bottom').remove();
-
-    // remove appendix if it's empty
-    if ($('.d-appendix').children().length === 0)
-      $('.d-appendix').remove();
-
-    // prepend separator above appendix
-    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
-
-    // trim code
-    $('pre>code').each(function(i, val) {
-      $(this).html($.trim($(this).html()));
-    });
-
-    // move posts-container right before article
-    $('.posts-container').insertBefore($('.d-article'));
-
-    $('body').addClass('downlevel');
-
-    on_load_complete();
-  }
-
-
-  function init_common() {
-
-    // jquery plugin to change element types
-    (function($) {
-      $.fn.changeElementType = function(newType) {
-        var attrs = {};
-
-        $.each(this[0].attributes, function(idx, attr) {
-          attrs[attr.nodeName] = attr.nodeValue;
-        });
-
-        this.replaceWith(function() {
-          return $("<" + newType + "/>", attrs).append($(this).contents());
-        });
-      };
-    })(jQuery);
-
-    // prevent underline for linked images
-    $('a > img').parent().css({'border-bottom' : 'none'});
-
-    // mark non-body figures created by knitr chunks as 100% width
-    $('.layout-chunk').each(function(i, val) {
-      var figures = $(this).find('img, .html-widget');
-      if ($(this).attr('data-layout') !== "l-body") {
-        figures.css('width', '100%');
-      } else {
-        figures.css('max-width', '100%');
-        figures.filter("[width]").each(function(i, val) {
-          var fig = $(this);
-          fig.css('width', fig.attr('width') + 'px');
-        });
-
-      }
-    });
-
-    // auto-append index.html to post-preview links in file: protocol
-    // and in rstudio ide preview
-    $('.post-preview').each(function(i, val) {
-      if (window.location.protocol === "file:")
-        $(this).attr('href', $(this).attr('href') + "index.html");
-    });
-
-    // get rid of index.html references in header
-    if (window.location.protocol !== "file:") {
-      $('.distill-site-header a[href]').each(function(i,val) {
-        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
-      });
-    }
-
-    // add class to pandoc style tables
-    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
-    $('.kable-table').children('table').addClass('pandoc-table');
-
-    // add figcaption style to table captions
-    $('caption').parent('table').addClass("figcaption");
-
-    // initialize posts list
-    if (window.init_posts_list)
-      window.init_posts_list();
-
-    // implmement disqus comment link
-    $('.disqus-comment-count').click(function() {
-      window.headroom_prevent_pin = true;
-      $('#disqus_thread').toggleClass('hidden');
-      if (!$('#disqus_thread').hasClass('hidden')) {
-        var offset = $(this).offset();
-        $(window).resize();
-        $('html, body').animate({
-          scrollTop: offset.top - 35
-        });
-      }
-    });
-  }
-
-  document.addEventListener('DOMContentLoaded', function() {
-    if (is_downlevel_browser())
-      init_downlevel();
-    else
-      window.addEventListener('WebComponentsReady', init_distill);
-  });
-
-  </script>
-
-  <!--/radix_placeholder_distill-->
-  <script src="bayes-principes_files/header-attrs-2.14/header-attrs.js"></script>
-  <script src="bayes-principes_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-  <script src="bayes-principes_files/popper-2.6.0/popper.min.js"></script>
-  <link href="bayes-principes_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
-  <link href="bayes-principes_files/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
-  <script src="bayes-principes_files/tippy-6.2.7/tippy.umd.min.js"></script>
-  <script src="bayes-principes_files/anchor-4.2.2/anchor.min.js"></script>
-  <script src="bayes-principes_files/bowser-1.9.3/bowser.min.js"></script>
-  <script src="bayes-principes_files/webcomponents-2.0.0/webcomponents.js"></script>
-  <script src="bayes-principes_files/distill-2.2.21/template.v2.js"></script>
-  <!--radix_placeholder_site_in_header-->
-  <!--/radix_placeholder_site_in_header-->
-
-
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body>
+<body class="nav-fixed fullcontent">
 
-<!--radix_placeholder_front_matter-->
-
-<script id="distill-front-matter" type="text/json">
-{"title":"Bayes' principes","description":"Een blog over de principes van de Bayesiaanse theorie","authors":[{"author":"Johnson e.a. en Harrie Jonkman","authorURL":{},"affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2022-03-07T00:00:00.000+01:00","citationText":"Jonkman, 2022"}
-</script>
-
-<!--/radix_placeholder_front_matter-->
-<!--radix_placeholder_navigation_before_body-->
-<!--/radix_placeholder_navigation_before_body-->
-<!--radix_placeholder_site_before_body-->
-<!--/radix_placeholder_site_before_body-->
-
-<div class="d-title">
-<h1>Bayes’ principes</h1>
-<!--radix_placeholder_categories-->
-<!--/radix_placeholder_categories-->
-<p><p>Een blog over de principes van de Bayesiaanse theorie</p></p>
-</div>
-
-<div class="d-byline">
-  Johnson e.a. en Harrie Jonkman true 
-  
-<br/>2022-03-7
-</div>
-
-<div class="d-article">
-<figure>
-<img src="Screenshot.PNG" style="width:50.0%" alt="Bayes Rules!" />
-<figcaption aria-hidden="true">Bayes Rules!</figcaption>
-</figure>
-<h2 id="inleiding">Inleiding</h2>
-<p>Onlangs verscheen een prachtig boek van Alicia A. Johnson, Miles Q.
-Ot en Mine Dogucu onder de titel <em>Bayes Rules! An Introduction to
-Applied Bayesian Modeling</em> en het verscheen bij CRC Press (2022).
-Eerdere versies kon je al via bookdown bekijken (<a
-href="https://www.bayesrulesbook.com/"
-class="uri">https://www.bayesrulesbook.com/</a>) en vanaf de eerste keer
-dat ik het zag, was ik hier heel enthousiast over. Het boek heb ik
-direct besteld en vorige week kon ik het ophalen.</p>
-<p>Het boek bestaat uit vier duidelijke delen. Het eerste deel gaat in
-op de fundamenten van het Bayesiaanse perspectief. Het leert je denken
-als een Bayesiaan en het gaat in op die belangrijke Bayesiaanse regel
-<span
-class="math inline">\(posterior=\frac{prior.likelihood}{normaliserende
-constante}\)</span>. Aan de hand van enkele voorbeelden gaan Johnson
-e.a. in op hoe het in de praktijk werkt. Daarna gaat het in op hoe
-kennis en data op elkaar inwerken en het laat enkele basisanalyses zien
-en hoe dat in deze vorm van statistiek werkt (normaal, binair en
-poisson). Het tweede deel is een meer technisch hoofdstuk en laat je ook
-onder de moterkap van deze techniek kijken. Het gaat ook op de
-wetenschappelijke principes van de benadering, waar je hier op moet
-letten, hoe je hiermee hypothesen kunt testen (niet alleen tov van een
-nulhypothese, maar hoeveel beter de ene hypothese is ten opzichte van de
-andere hyposthese) en hoe je hiermee ook kunt voorspellen. De twee
-volgende delen (Deel drie en vier) zijn praktische delen. Deel drie gaat
-in op regressieanalyses voor continue variabelen en
-classificatieanalyses voor binaire variabelen. Het vierde deel, ten
-slotte, gaat in op geclusterde datasets en hoe je hierarchische
-Bayesiaanse regressie en classificatieanalyses uitvoert.</p>
-<p>Natuurlijk, er zijn onderhand al verschillende interessante boeken te
-krijgen die je laten zien hoe Bayesiaanse denken in de praktijk kan
-werken. De boeken van Gelman, McElreath, Spiegelhalter en Kruschke
-verschenen de afgelopen tien/vijftien jaar en leren je dit. Maar
-<em>Bayes Rules!</em> vind ik op dit moment als introductieboek mogelijk
-wel het beste.</p>
-<p>Nu het boek bij mij op het bureau ligt, kan ik er binnenkort een keer
-een korte recensie over schrijven. Voor nu heb ik uit elk deel een
-hoofdstuk genomen en het vertaald en bewerkt. Hieronder zie je een
-bewerking van het het vierde hoofdstuk van het eerste deel (<em>Balance
-and Sequentiallity in Bayesian Analysis</em>).Deze hoofdstukken zo
-overzetten is voor mij niet alleen een goede manier om het mij eigen te
-maken, maar ook een manier om het boek anderen aan te raden. Dus lezen
-en gebruiken deze <em>Bayes Rules! An Introduction to Applied Bayesian
-Modeling</em></p>
-<h2 id="balans-en-opeenvolging-in-bayesiaanse-analyses">Balans en
-opeenvolging in Bayesiaanse Analyses</h2>
-<p>In Alison Bechdels stripverhaal <em>The Rule</em> uit 1985 zegt een
-personage dat ze alleen naar een film gaan als die aan de volgende drie
-regels voldoet (Bechdel 1986):</p>
-<ul>
-<li>er moeten minstens twee vrouwen in de film voorkomen;<br />
-</li>
-<li>deze twee vrouwen praten met elkaar; en<br />
-</li>
-<li>ze praten over iets anders dan een man.<br />
-Deze criteria vormen de <strong>Bechdel-test</strong> voor de
-vertegenwoordiging van vrouwen in films. Als je aan films denkt die je
-hebt gezien, welk percentage van alle recente films slaagt dan volgens
-jou voor de Bechdel-test? Ligt dat dichter bij 10%, 50%, 80%, of
-100%?</li>
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Harrie’s Hoekje</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">Harrie’s Hoekje</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Jonkman1"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
 </ul>
-<p>Laat <span class="math inline">\(\pi\)</span>, een willekeurige
-waarde tussen 0 en 1, het onbekende aandeel van recente films zijn die
-de Bechdel test doorstaan. Drie vrienden - de feminist, de onwetende, en
-de optimist - hebben enkele vooroordelen over <span
-class="math inline">\(\pi\)</span>. Nadenkend over films die zij in het
-verleden heeft gezien, begrijpt de <em>feminist</em> dat het in de
-meeste films ontbreekt aan sterke vrouwelijke personages. De
-<em>onwetende</em> herinnert zich niet echt de films die hij gezien
-heeft, en weet dus niet zeker of het halen van de Bechdel test
-gebruikelijk of ongewoon is. De <em>optimist</em> ten slotte denkt dat
-de Bechdel-test een erg lage lat is voor de vertegenwoordiging van
-vrouwen in films, en gaat er dus van uit dat bijna alle films de test
-doorstaan. Dit alles om te zeggen dat drie vrienden drie verschillende
-voorafgaande modellen hebben van <span
-class="math inline">\(\pi\)</span>. Geen probleem! Een Beta kan
-voorafgaand aan het opstellen van een model worden afgestemd op iemands
-voorkennis (zie de figuur hieronder).</p>
-<p>Door de grootste aannemelijkheid vooraf te geven aan de waarden van
-<span class="math inline">\(\pi\)</span> die lager zijn dan 0,5,
-weerspiegelt de Beta(5,11) prior het inzicht van de feminist: de
-meerderheid van de films doorstaat de Bechdel test niet. De Beta(14,1)
-daarentegen plaatst een grotere aannemelijkheid vooraf op waarden van
-<span class="math inline">\(\pi\)</span> in de buurt van 1, en komt dus
-overeen met de vooronderstelling van de optimist. Dan blijft de
-Beta(1,1) of Unif(0,1) over die, door een gelijke aannemelijkheid te
-geven aan alle waarden van <span class="math inline">\(\pi\)</span>
-tussen 0 en 1, dat overeenkomt met het figuurlijke schouderophalen van
-de onwetende - het enige dat zij weet is dat <span
-class="math inline">\(\pi\)</span> een proportie is, en dus ergens
-tussen 0 en 1 ligt.</p>
-<p>De drie analisten komen overeen een steekproef te nemen van <span
-class="math inline">\(n\)</span> recente films en noteren <span
-class="math inline">\(Y\)</span>, het aantal dat de Bechdel test
-doorstaat. Herkenning van <span class="math inline">\(Y\)</span> als het
-aantal “successen” in een vast aantal onafhankelijke proeven,
-specificeren zij de afhankelijkheid van <span
-class="math inline">\(Y\)</span> van <span
-class="math inline">\(\pi\)</span> met behulp van een binomiaal model.
-Elke analist heeft dus een uniek Beta-Binomiaal model van <span
-class="math inline">\(\pi\)</span> met verschillende voorafgaande
-hyperparameters<br />
-<span class="math inline">\(\alpha\)</span> en <span
-class="math inline">\(\beta\)</span>:</p>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Bayes’ principes</h1>
+                          <div class="quarto-categories">
+                <div class="quarto-category">analyse</div>
+              </div>
+                  </div>
+  </div>
+    
+  <div>
+    <div class="description">
+      <p>Een blog over de principes van de Bayesiaanse theorie</p>
+    </div>
+  </div>
+
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Johnson e.a. en Harrie Jonkman </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 7, 2022</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Screenshot.PNG" class="img-fluid figure-img" style="width:50.0%"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Bayes Rules!</figcaption><p></p>
+</figure>
+</div>
+<section id="inleiding" class="level2">
+<h2 class="anchored" data-anchor-id="inleiding">Inleiding</h2>
+<p>Onlangs verscheen een prachtig boek van Alicia A. Johnson, Miles Q. Ot en Mine Dogucu onder de titel <em>Bayes Rules! An Introduction to Applied Bayesian Modeling</em> en het verscheen bij CRC Press (2022). Eerdere versies kon je al via bookdown bekijken (https://www.bayesrulesbook.com/) en vanaf de eerste keer dat ik het zag, was ik hier heel enthousiast over. Het boek heb ik direct besteld en vorige week kon ik het ophalen.</p>
+<p>Het boek bestaat uit vier duidelijke delen. Het eerste deel gaat in op de fundamenten van het Bayesiaanse perspectief. Het leert je denken als een Bayesiaan en het gaat in op die belangrijke Bayesiaanse regel <span class="math inline">\(posterior=\frac{prior.likelihood}{normaliserende constante}\)</span>. Aan de hand van enkele voorbeelden gaan Johnson e.a. in op hoe het in de praktijk werkt. Daarna gaat het in op hoe kennis en data op elkaar inwerken en het laat enkele basisanalyses zien en hoe dat in deze vorm van statistiek werkt (normaal, binair en poisson). Het tweede deel is een meer technisch hoofdstuk en laat je ook onder de moterkap van deze techniek kijken. Het gaat ook op de wetenschappelijke principes van de benadering, waar je hier op moet letten, hoe je hiermee hypothesen kunt testen (niet alleen tov van een nulhypothese, maar hoeveel beter de ene hypothese is ten opzichte van de andere hyposthese) en hoe je hiermee ook kunt voorspellen. De twee volgende delen (Deel drie en vier) zijn praktische delen. Deel drie gaat in op regressieanalyses voor continue variabelen en classificatieanalyses voor binaire variabelen. Het vierde deel, ten slotte, gaat in op geclusterde datasets en hoe je hierarchische Bayesiaanse regressie en classificatieanalyses uitvoert.</p>
+<p>Natuurlijk, er zijn onderhand al verschillende interessante boeken te krijgen die je laten zien hoe Bayesiaanse denken in de praktijk kan werken. De boeken van Gelman, McElreath, Spiegelhalter en Kruschke verschenen de afgelopen tien/vijftien jaar en leren je dit. Maar <em>Bayes Rules!</em> vind ik op dit moment als introductieboek mogelijk wel het beste.</p>
+<p>Nu het boek bij mij op het bureau ligt, kan ik er binnenkort een keer een korte recensie over schrijven. Voor nu heb ik uit elk deel een hoofdstuk genomen en het vertaald en bewerkt. Hieronder zie je een bewerking van het het vierde hoofdstuk van het eerste deel (<em>Balance and Sequentiallity in Bayesian Analysis</em>).Deze hoofdstukken zo overzetten is voor mij niet alleen een goede manier om het mij eigen te maken, maar ook een manier om het boek anderen aan te raden. Dus lezen en gebruiken deze <em>Bayes Rules! An Introduction to Applied Bayesian Modeling</em></p>
+</section>
+<section id="balans-en-opeenvolging-in-bayesiaanse-analyses" class="level2">
+<h2 class="anchored" data-anchor-id="balans-en-opeenvolging-in-bayesiaanse-analyses">Balans en opeenvolging in Bayesiaanse Analyses</h2>
+<p>In Alison Bechdels stripverhaal <em>The Rule</em> uit 1985 zegt een personage dat ze alleen naar een film gaan als die aan de volgende drie regels voldoet (Bechdel 1986):</p>
+<ul>
+<li>er moeten minstens twee vrouwen in de film voorkomen;<br>
+</li>
+<li>deze twee vrouwen praten met elkaar; en<br>
+</li>
+<li>ze praten over iets anders dan een man.<br>
+Deze criteria vormen de <strong>Bechdel-test</strong> voor de vertegenwoordiging van vrouwen in films. Als je aan films denkt die je hebt gezien, welk percentage van alle recente films slaagt dan volgens jou voor de Bechdel-test? Ligt dat dichter bij 10%, 50%, 80%, of 100%?</li>
+</ul>
+<p>Laat <span class="math inline">\(\pi\)</span>, een willekeurige waarde tussen 0 en 1, het onbekende aandeel van recente films zijn die de Bechdel test doorstaan. Drie vrienden - de feminist, de onwetende, en de optimist - hebben enkele vooroordelen over <span class="math inline">\(\pi\)</span>. Nadenkend over films die zij in het verleden heeft gezien, begrijpt de <em>feminist</em> dat het in de meeste films ontbreekt aan sterke vrouwelijke personages. De <em>onwetende</em> herinnert zich niet echt de films die hij gezien heeft, en weet dus niet zeker of het halen van de Bechdel test gebruikelijk of ongewoon is. De <em>optimist</em> ten slotte denkt dat de Bechdel-test een erg lage lat is voor de vertegenwoordiging van vrouwen in films, en gaat er dus van uit dat bijna alle films de test doorstaan. Dit alles om te zeggen dat drie vrienden drie verschillende voorafgaande modellen hebben van <span class="math inline">\(\pi\)</span>. Geen probleem! Een Beta kan voorafgaand aan het opstellen van een model worden afgestemd op iemands voorkennis (zie de figuur hieronder).</p>
+<p>Door de grootste aannemelijkheid vooraf te geven aan de waarden van <span class="math inline">\(\pi\)</span> die lager zijn dan 0,5, weerspiegelt de Beta(5,11) prior het inzicht van de feminist: de meerderheid van de films doorstaat de Bechdel test niet. De Beta(14,1) daarentegen plaatst een grotere aannemelijkheid vooraf op waarden van <span class="math inline">\(\pi\)</span> in de buurt van 1, en komt dus overeen met de vooronderstelling van de optimist. Dan blijft de Beta(1,1) of Unif(0,1) over die, door een gelijke aannemelijkheid te geven aan alle waarden van <span class="math inline">\(\pi\)</span> tussen 0 en 1, dat overeenkomt met het figuurlijke schouderophalen van de onwetende - het enige dat zij weet is dat <span class="math inline">\(\pi\)</span> een proportie is, en dus ergens tussen 0 en 1 ligt.</p>
+<p>De drie analisten komen overeen een steekproef te nemen van <span class="math inline">\(n\)</span> recente films en noteren <span class="math inline">\(Y\)</span>, het aantal dat de Bechdel test doorstaat. Herkenning van <span class="math inline">\(Y\)</span> als het aantal “successen” in een vast aantal onafhankelijke proeven, specificeren zij de afhankelijkheid van <span class="math inline">\(Y\)</span> van <span class="math inline">\(\pi\)</span> met behulp van een binomiaal model. Elke analist heeft dus een uniek Beta-Binomiaal model van <span class="math inline">\(\pi\)</span> met verschillende voorafgaande hyperparameters<br>
+<span class="math inline">\(\alpha\)</span> en <span class="math inline">\(\beta\)</span>:</p>
 <p><span class="math display">\[Y|\pi \sim (Bin(n, \pi) \\
   \pi \sim Beta(\alpha, \beta)\]</span></p>
-<p>We weten dat elke analist een <em>uniek</em> posterior model heeft
-van <span class="math inline">\(\pi\)</span> dat afhangt van zijn of
-haar <em>unieke</em> prior (via <span
-class="math inline">\(\alpha\)</span> en <span
-class="math inline">\(\beta\)</span>) en de <em>gemeenschappelijke</em>
-waargenomen gegevens (via <span class="math inline">\(Y\)</span> en
-<span class="math inline">\(n\)</span>)</p>
-<p><span class="math display">\[\pi|(Y=y) \sim Beta (\alpha + y, \beta
-+n - Y)\]</span> Als je denkt “Kan <em>iedereen</em> zijn eigen
-voorkeuren hebben?! Zal dit altijd zo subjectief zijn?!” dan stel je de
-juiste vragen! En de vragen houden daar niet op. In hoeverre zouden hun
-verschillende priors van de analisten kunnen leiden tot drie
-verschillende posterior conclusies over de Bechdel test? Hoe zou dit
-kunnen afhangen van de steekproefgrootte en de uitkomsten van de
-filmgegevens die ze verzamelen? In hoeverre zullen de posterior
-inzichten van de analisten evolueren naarmate ze meer en meer gegevens
-verzamelen? Zullen ze het ooit eens worden over de vertegenwoordiging
-van vrouwen in film? We zullen deze fundamentele vragen hier onderzoeken
-en wij kijken naar ons vermogen om het Bayesiaanse denken verder te
-ontwikkelen.</p>
-<p>Dus:<br />
-- <strong>We onderzoek de evenwichtige invloed van de prior en data op
-de posterior.</strong><br />
-- <strong>We voeren verschillende achtereenvolgende Bayesiaanse analyses
-uit.</strong></p>
-<div class="layout-chunk" data-layout="l-body">
-
+<p>We weten dat elke analist een <em>uniek</em> posterior model heeft van <span class="math inline">\(\pi\)</span> dat afhangt van zijn of haar <em>unieke</em> prior (via <span class="math inline">\(\alpha\)</span> en <span class="math inline">\(\beta\)</span>) en de <em>gemeenschappelijke</em> waargenomen gegevens (via <span class="math inline">\(Y\)</span> en <span class="math inline">\(n\)</span>)</p>
+<p><span class="math display">\[\pi|(Y=y) \sim Beta (\alpha + y, \beta +n - Y)\]</span></p>
+<p>Als je denkt “Kan <em>iedereen</em> zijn eigen voorkeuren hebben?! Zal dit altijd zo subjectief zijn?!” dan stel je de juiste vragen! En de vragen houden daar niet op. In hoeverre zouden hun verschillende priors van de analisten kunnen leiden tot drie verschillende posterior conclusies over de Bechdel test? Hoe zou dit kunnen afhangen van de steekproefgrootte en de uitkomsten van de filmgegevens die ze verzamelen? In hoeverre zullen de posterior inzichten van de analisten evolueren naarmate ze meer en meer gegevens verzamelen? Zullen ze het ooit eens worden over de vertegenwoordiging van vrouwen in film? We zullen deze fundamentele vragen hier onderzoeken en wij kijken naar ons vermogen om het Bayesiaanse denken verder te ontwikkelen.</p>
+<p>Dus:<br>
+- <strong>We onderzoek de evenwichtige invloed van de prior en data op de posterior.</strong><br>
+- <strong>We voeren verschillende achtereenvolgende Bayesiaanse analyses uit.</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Laten we eerst de pakketten openen die we in dit hoofstuk zullen gebruiken (wel eerst binnenhalen)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bayesrules)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyverse' was built under R version 4.1.3</code></pre>
 </div>
-<h3 id="verschillende-priors-verschillende-posteriors">Verschillende
-priors, verschillende posteriors</h3>
-<p>De voorafgaande modellen van <span class="math inline">\(\pi\)</span>
-(het percentage recente films dat de Bechdel test doorstaat) zijn
-afgestemd op de onwetende, de feministe, en de optimist. Niet alleen
-weerspiegelen de verschillende prior gemiddelden onenigheid over de
-vraag of <span class="math inline">\(\pi\)</span> dichter bij 0 of 1
-ligt, maar ook weerspiegelen hun verschillende niveaus van variabiliteit
-het feit dat de drie analisten niet allemaal even zeker zijn van hun
-kennis en informatie. Hoe zekerder ze daarover zijn, hoe kleiner de
-voorafgaande variabiliteit. Maar ook, hoe vager de prior-informatie, hoe
-groter de prior-variabiliteit. De priors van de optimist en de onwetende
-vertegenwoordigen hier twee uitersten. Een Beta(14,1) prior vertoont de
-kleinste variabiliteit en daarmee is de optimist het meest zeker in zijn
-prioriteitsbegrip van <span class="math inline">\(\pi\)</span> (of om
-duidelijker te zijn, dat bijna alle films de Bechdel test zullen
-doorstaan). Dergelijke priors noemen we informatief.</p>
-<blockquote>
-<p>Een <strong>informatieve</strong> prior reflecteert specifieke
-informatie over de onbekende variabele met grote zekerheid, bv. lage
-variabiliteit.</p>
+<div class="cell-output cell-output-stderr">
+<pre><code>-- Attaching packages --------------------------------------- tidyverse 1.3.1 --</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>v ggplot2 3.3.6     v purrr   0.3.4
+v tibble  3.1.7     v dplyr   1.0.9
+v tidyr   1.2.0     v stringr 1.4.1
+v readr   2.1.2     v forcats 0.5.1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'ggplot2' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tibble' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'readr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'dplyr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'stringr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>-- Conflicts ------------------------------------------ tidyverse_conflicts() --
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'janitor'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    chisq.test, fisher.test</code></pre>
+</div>
+</div>
+<section id="verschillende-priors-verschillende-posteriors" class="level3">
+<h3 class="anchored" data-anchor-id="verschillende-priors-verschillende-posteriors">Verschillende priors, verschillende posteriors</h3>
+<p>De voorafgaande modellen van <span class="math inline">\(\pi\)</span> (het percentage recente films dat de Bechdel test doorstaat) zijn afgestemd op de onwetende, de feministe, en de optimist. Niet alleen weerspiegelen de verschillende prior gemiddelden onenigheid over de vraag of <span class="math inline">\(\pi\)</span> dichter bij 0 of 1 ligt, maar ook weerspiegelen hun verschillende niveaus van variabiliteit het feit dat de drie analisten niet allemaal even zeker zijn van hun kennis en informatie. Hoe zekerder ze daarover zijn, hoe kleiner de voorafgaande variabiliteit. Maar ook, hoe vager de prior-informatie, hoe groter de prior-variabiliteit. De priors van de optimist en de onwetende vertegenwoordigen hier twee uitersten. Een Beta(14,1) prior vertoont de kleinste variabiliteit en daarmee is de optimist het meest zeker in zijn prioriteitsbegrip van <span class="math inline">\(\pi\)</span> (of om duidelijker te zijn, dat bijna alle films de Bechdel test zullen doorstaan). Dergelijke priors noemen we informatief.</p>
+<blockquote class="blockquote">
+<p>Een <strong>informatieve</strong> prior reflecteert specifieke informatie over de onbekende variabele met grote zekerheid, bv. lage variabiliteit.</p>
 </blockquote>
-<p>Met de grootste prioriteitsvariabiliteit is de onwetende het minst
-zeker over <span class="math inline">\(\pi\)</span>. In feite kent deze
-Beta(1,1) prior evenveel prior plausibiliteit toe aan elke waarde van
-<span class="math inline">\(\pi\)</span> tussen 0 en 1. Dit type prior
-model van “schouderophalen” (van “ik weet het echt niet”) heeft een
-officiële naam: het is een vage prior.</p>
-<blockquote>
-<p>Een <strong>vage</strong> of <strong>diffuse</strong> prior
-reflecteert weinig specifieke informatie over de onbekende variabele.
-Een <strong>vlakke</strong> prior die gelijke plausibiliteit toekent aan
-alle mogelijke waarden van de variabele, is een speciaal geval.</p>
+<p>Met de grootste prioriteitsvariabiliteit is de onwetende het minst zeker over <span class="math inline">\(\pi\)</span>. In feite kent deze Beta(1,1) prior evenveel prior plausibiliteit toe aan elke waarde van <span class="math inline">\(\pi\)</span> tussen 0 en 1. Dit type prior model van “schouderophalen” (van “ik weet het echt niet”) heeft een officiële naam: het is een vage prior.</p>
+<blockquote class="blockquote">
+<p>Een <strong>vage</strong> of <strong>diffuse</strong> prior reflecteert weinig specifieke informatie over de onbekende variabele. Een <strong>vlakke</strong> prior die gelijke plausibiliteit toekent aan alle mogelijke waarden van de variabele, is een speciaal geval.</p>
 </blockquote>
-<p>De volgende voor de hand liggende vraag is dan: hoe zullen hun
-verschillende priors de posterior conclusies van de feminist, de
-onwetende en de optimist beïnvloeden? Om deze vraag te beantwoorden,
-hebben we gegevens nodig. Onze analisten besluiten een willekeurige
-steekproef te nemen van <span class="math inline">\(n=20\)</span>
-recente films te bekijken, gebruikmakend van gegevens die verzameld zijn
-voor het FiveThirtyEight-artikel over de Bechdel-test Het
-<code>bayesrules</code>-pakket bevat een gedeeltelijke versie van deze
-dataset, genaamd <code>bechdel</code>. Een volledige versie wordt
-geleverd door het <code>fivethirtyeight</code> R-pakket (Kim, Ismay, and
-Chunn 2020). Samen met de <code>titel</code> en het <code>jaar</code>
-van elke film in deze dataset, geeft de <code>binaire</code> variabele
-aan of de film slaagde of niet voor de Bechdel test:</p>
-<div class="layout-chunk" data-layout="l-body">
+<p>De volgende voor de hand liggende vraag is dan: hoe zullen hun verschillende priors de posterior conclusies van de feminist, de onwetende en de optimist beïnvloeden? Om deze vraag te beantwoorden, hebben we gegevens nodig. Onze analisten besluiten een willekeurige steekproef te nemen van <span class="math inline">\(n=20\)</span> recente films te bekijken, gebruikmakend van gegevens die verzameld zijn voor het FiveThirtyEight-artikel over de Bechdel-test Het <code>bayesrules</code>-pakket bevat een gedeeltelijke versie van deze dataset, genaamd <code>bechdel</code>. Een volledige versie wordt geleverd door het <code>fivethirtyeight</code> R-pakket (Kim, Ismay, and Chunn 2020). Samen met de <code>titel</code> en het <code>jaar</code> van elke film in deze dataset, geeft de <code>binaire</code> variabele aan of de film slaagde of niet voor de Bechdel test:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Importeer data</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(bechdel, <span class="at">package =</span> <span class="st">"bayesrules"</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Neem een sample van 20 films</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">84735</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>bechdel_20 <span class="ot">&lt;-</span> bechdel <span class="sc">%&gt;%</span> </span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="dv">20</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>bechdel_20 <span class="sc">%&gt;%</span> </span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 x 3
    year title      binary
   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt; 
@@ -1675,23 +322,21 @@ aan of de film slaagde of niet voor de Bechdel test:</p>
 2  1983 Flashdance PASS  
 3  2013 The Purge  FAIL  </code></pre>
 </div>
-<p>Van de 20 films in deze steekproef slaagden er slechts 9 (45%) voor
-de test:</p>
-<div class="layout-chunk" data-layout="l-body">
+</div>
+<p>Van de 20 films in deze steekproef slaagden er slechts 9 (45%) voor de test:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>bechdel_20 <span class="sc">%&gt;%</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(binary) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_totals</span>(<span class="st">"row"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code> binary  n percent
    FAIL 11    0.55
    PASS  9    0.45
   Total 20    1.00</code></pre>
 </div>
-<p>De posterior modellen van de drie analisten voor<span
-class="math inline">\(\pi\)</span> die volgen uit de formule <span
-class="math inline">\(\pi|(Y=y) \sim Beta(\alpha+y, \beta+n-y)\)</span>
-op hun unieke voorgaande modellen en gemeenschappelijke filmgegevens,
-zijn samengevat in tabel hieronder en de figuur hierboven. Bijvoorbeeld,
-de posterior parameters van de feminist worden berekend door <span
-class="math inline">\(\alpha+y=5+9=14\)</span> en <span
-class="math inline">\(\beta+n-y=11+20-9=22\)</span></p>
-<table>
+</div>
+<p>De posterior modellen van de drie analisten voor<span class="math inline">\(\pi\)</span> die volgen uit de formule <span class="math inline">\(\pi|(Y=y) \sim Beta(\alpha+y, \beta+n-y)\)</span> op hun unieke voorgaande modellen en gemeenschappelijke filmgegevens, zijn samengevat in tabel hieronder en de figuur hierboven. Bijvoorbeeld, de posterior parameters van de feminist worden berekend door <span class="math inline">\(\alpha+y=5+9=14\)</span> en <span class="math inline">\(\beta+n-y=11+20-9=22\)</span></p>
+<table class="table">
 <thead>
 <tr class="header">
 <th>Analyst</th>
@@ -1717,97 +362,66 @@ class="math inline">\(\beta+n-y=11+20-9=22\)</span></p>
 </tr>
 </tbody>
 </table>
-<p>Had je instinct gelijk? Herinner je dat de optimist begon met het
-vasthoudend optimistisme vooraf over <span
-class="math inline">\(\pi\)</span> - zijn prior model had een hoog
-gemiddelde met lage variabiliteit. Het is dan ook niet verwonderlijk dat
-zijn posterior model niet zo synchroon loopt met de gegevens als de
-posteriors van de andere analisten. De trieste gegevens waarbij slechts
-45% van de 20 films de test doorstonden was niet genoeg om hem ervan te
-overtuigen dat er een probleem is in Hollywood - hij denkt nog steeds
-dat de waarden van <span class="math inline">\(\pi\)</span> boven 0,5
-het meest plausibel is. Aan het andere uiterste staat de onwetende die
-begon met een vlak, vaag model van <span
-class="math inline">\(\pi\)</span>. Zonder enige voorinformatie
-weerspiegelt zijn posterior model direct de inzichten die zijn verkregen
-uit de waargenomen filmgegevens. In feite is zijn posterior niet te
-onderscheiden van de geschaalde likelihood functie.</p>
-<figure>
-<img src="Screenshot1.PNG" alt="Posterior models" />
-<figcaption aria-hidden="true">Posterior models</figcaption>
+<p>Had je instinct gelijk? Herinner je dat de optimist begon met het vasthoudend optimistisme vooraf over <span class="math inline">\(\pi\)</span> - zijn prior model had een hoog gemiddelde met lage variabiliteit. Het is dan ook niet verwonderlijk dat zijn posterior model niet zo synchroon loopt met de gegevens als de posteriors van de andere analisten. De trieste gegevens waarbij slechts 45% van de 20 films de test doorstonden was niet genoeg om hem ervan te overtuigen dat er een probleem is in Hollywood - hij denkt nog steeds dat de waarden van <span class="math inline">\(\pi\)</span> boven 0,5 het meest plausibel is. Aan het andere uiterste staat de onwetende die begon met een vlak, vaag model van <span class="math inline">\(\pi\)</span>. Zonder enige voorinformatie weerspiegelt zijn posterior model direct de inzichten die zijn verkregen uit de waargenomen filmgegevens. In feite is zijn posterior niet te onderscheiden van de geschaalde likelihood functie.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Screenshot1.PNG" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Posterior models</figcaption><p></p>
 </figure>
-<h2 id="verschillende-data-verschillende-posteriors">Verschillende data,
-verschillende posteriors</h2>
-<p>Als jij je zorgen maakt over het feit dat onze drie analisten
-achteraf verschillende opvattingen hebben over <span
-class="math inline">\(\pi\)</span>, de proportie van recente films die
-de Bechdel halen, wanhoop dan nog niet. Vergeet niet dat data ook een
-rol spelen in een Bayesiaanse analyse. Om deze dynamiek te onderzoeken,
-beschouwen we drie nieuwe analisten - Morteza, Nadide, en Ursula - die
-allen de optimistische Beta(14,1) prior voor <span
-class="math inline">\(\pi\)</span> delen maar elk toegang hebben tot
-andere gegevens. Morteza beoordeelt <span
-class="math inline">\(n=13\)</span> films uit het jaar 1991, waarvan
-<span class="math inline">\(Y=6\)</span> (ongeveer 46%) door de Bechdel
-komen:</p>
-<div class="layout-chunk" data-layout="l-body">
+</div>
+</section>
+</section>
+<section id="verschillende-data-verschillende-posteriors" class="level2">
+<h2 class="anchored" data-anchor-id="verschillende-data-verschillende-posteriors">Verschillende data, verschillende posteriors</h2>
+<p>Als jij je zorgen maakt over het feit dat onze drie analisten achteraf verschillende opvattingen hebben over <span class="math inline">\(\pi\)</span>, de proportie van recente films die de Bechdel halen, wanhoop dan nog niet. Vergeet niet dat data ook een rol spelen in een Bayesiaanse analyse. Om deze dynamiek te onderzoeken, beschouwen we drie nieuwe analisten - Morteza, Nadide, en Ursula - die allen de optimistische Beta(14,1) prior voor <span class="math inline">\(\pi\)</span> delen maar elk toegang hebben tot andere gegevens. Morteza beoordeelt <span class="math inline">\(n=13\)</span> films uit het jaar 1991, waarvan <span class="math inline">\(Y=6\)</span> (ongeveer 46%) door de Bechdel komen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>bechdel <span class="sc">%&gt;%</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">1991</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(binary) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_totals</span>(<span class="st">"row"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code> binary  n   percent
    FAIL  7 0.5384615
    PASS  6 0.4615385
   Total 13 1.0000000</code></pre>
 </div>
-<p>Nadide beoordeelt <span class="math inline">\(n=63\)</span> films uit
-2000, waaronder <span class="math inline">\(Y=29\)</span> (ongeveer 46%)
-door de Bechdel komen:</p>
-<div class="layout-chunk" data-layout="l-body">
+</div>
+<p>Nadide beoordeelt <span class="math inline">\(n=63\)</span> films uit 2000, waaronder <span class="math inline">\(Y=29\)</span> (ongeveer 46%) door de Bechdel komen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>bechdel <span class="sc">%&gt;%</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2000</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(binary) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_totals</span>(<span class="st">"row"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code> binary  n   percent
    FAIL 34 0.5396825
    PASS 29 0.4603175
   Total 63 1.0000000</code></pre>
 </div>
-<p>Tot slot, beoordeelt Ursula <span class="math inline">\(n=99\)</span>
-films uit 2013, waarvan er <span class="math inline">\(Y=46\)</span>
-(ongeveer 46%) door de Bechdel komen:</p>
-<div class="layout-chunk" data-layout="l-body">
+</div>
+<p>Tot slot, beoordeelt Ursula <span class="math inline">\(n=99\)</span> films uit 2013, waarvan er <span class="math inline">\(Y=46\)</span> (ongeveer 46%) door de Bechdel komen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>bechdel <span class="sc">%&gt;%</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2013</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(binary) <span class="sc">%&gt;%</span> </span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_totals</span>(<span class="st">"row"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code> binary  n   percent
    FAIL 53 0.5353535
    PASS 46 0.4646465
   Total 99 1.0000000</code></pre>
 </div>
-<p>Wat een toeval! Hoewel Morteza, Nadide, en Ursula verschillende
-gegevens hebben verzameld, constateren ze elk een Bechdel
-slaagpercentage van ongeveer 46%. Toch is hun steekproefomvang <span
-class="math inline">\(n\)</span> verschillend - Morteza bekeek slechts
-13 films terwijl Ursula er 99 bekeek.</p>
-<p>De posterior modellen van de drie analisten voor <span
-class="math inline">\(\pi\)</span> die volgen uit de toepassing van hun
-gegevens op hun gemeenschappelijke Beta(14,1) voormodel en unieke
-filmgegevens, zijn samengevat in de figuur en tabel hieronder. Merk op
-dat hoe groter de steekproefgrootte <span
-class="math inline">\(n\)</span> hoe “indringender” de
-likelihoodfunctie. Bijvoorbeeld, de waarschijnlijkheidsfunctie die het
-slagingspercentage van 46% in Morteza’s kleine steekproef van 13 films
-weergeeft is vrij breed - deze gegevens zijn relatief plausibel voor
-elke <span class="math inline">\(\pi\)</span> tussen 15% en 75%.
-Ursula’s waarschijnlijkheidsfunctie daarentegen, met het
-slagingspercentage van 46% in een veel grotere steekproef van 99 films
-weergeeft, is smal - haar gegevens zijn onwaarschijnlijk voor <span
-class="math inline">\(\pi\)</span> waarden buiten het bereik van 35% tot
-55%. We zien dat hoe groter de waarschijnlijkheid, hoe meer invloed de
-gegevens hebben op de posterior. Morteza blijft het minst overtuigd door
-het lage Bechdel-slaagpercentage dat in zijn kleine steekproef wordt
-waargenomen, terwijl Ursula het meest overtuigd is. Haar vroege
-optimisme evolueerde naar een posterior begrip dat <span
-class="math inline">\(\p\)</span> waarschijnlijk tussen 40% en 55%
-ligt.</p>
-<figure>
-<img src="Screenshot2.PNG" alt="Posterior models" />
-<figcaption aria-hidden="true">Posterior models</figcaption>
+</div>
+<p>Wat een toeval! Hoewel Morteza, Nadide, en Ursula verschillende gegevens hebben verzameld, constateren ze elk een Bechdel slaagpercentage van ongeveer 46%. Toch is hun steekproefomvang <span class="math inline">\(n\)</span> verschillend - Morteza bekeek slechts 13 films terwijl Ursula er 99 bekeek.</p>
+<p>De posterior modellen van de drie analisten voor <span class="math inline">\(\pi\)</span> die volgen uit de toepassing van hun gegevens op hun gemeenschappelijke Beta(14,1) voormodel en unieke filmgegevens, zijn samengevat in de figuur en tabel hieronder. Merk op dat hoe groter de steekproefgrootte <span class="math inline">\(n\)</span> hoe “indringender” de likelihoodfunctie. Bijvoorbeeld, de waarschijnlijkheidsfunctie die het slagingspercentage van 46% in Morteza’s kleine steekproef van 13 films weergeeft is vrij breed - deze gegevens zijn relatief plausibel voor elke <span class="math inline">\(\pi\)</span> tussen 15% en 75%. Ursula’s waarschijnlijkheidsfunctie daarentegen, met het slagingspercentage van 46% in een veel grotere steekproef van 99 films weergeeft, is smal - haar gegevens zijn onwaarschijnlijk voor <span class="math inline">\(\pi\)</span> waarden buiten het bereik van 35% tot 55%. We zien dat hoe groter de waarschijnlijkheid, hoe meer invloed de gegevens hebben op de posterior. Morteza blijft het minst overtuigd door het lage Bechdel-slaagpercentage dat in zijn kleine steekproef wordt waargenomen, terwijl Ursula het meest overtuigd is. Haar vroege optimisme evolueerde naar een posterior begrip dat <span class="math inline">\(\p\)</span> waarschijnlijk tussen 40% en 55% ligt.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Screenshot2.PNG" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Posterior models</figcaption><p></p>
 </figure>
-<p>Tabel: De prior en posterior modellen voor <span
-class="math inline">\(\pi\)</span> zijn geconstrueerd in het licht van
-een gemeenschappelijke Beta(14,1)-prior en verschillende gegevens.</p>
-<table>
+</div>
+<p>Tabel: De prior en posterior modellen voor <span class="math inline">\(\pi\)</span> zijn geconstrueerd in het licht van een gemeenschappelijke Beta(14,1)-prior en verschillende gegevens.</p>
+<table class="table">
 <thead>
 <tr class="header">
 <th>Analyst</th>
@@ -1833,115 +447,35 @@ een gemeenschappelijke Beta(14,1)-prior en verschillende gegevens.</p>
 </tr>
 </tbody>
 </table>
-<h2 id="het-vinden-van-de-balans-tussen-de-prior-en-de-data">Het vinden
-van de balans tussen de prior en de data</h2>
-<h3 id="observaties-aan-concepten-verbinden">Observaties aan concepten
-verbinden</h3>
-<p>We hebben gekeken naar de invloed die verschillende priors en
-verschillende gegevens kunnen hebben op ons posterior begrip van een
-onbekende variabele. De posterior is echter een meer genuanceerd
-touwtrekken tussen deze twee kanten. De figuren hieronder illustreren
-het evenwicht dat het posterior model vindt tussen de prior en de
-gegevens. Elke rij komt overeen met een uniek prior model en elke kolom
-met een unieke reeks gegevens.</p>
-<p>Van links naar rechts neemt de steekproefgrootte toe van <span
-class="math inline">\(n=13\)</span> tot <span
-class="math inline">\(n=99\)</span> films met behoud van het aandeel
-films dat de Bechdel-test doorstaat: <span
-class="math inline">\(Y/n\sim0.46\)</span> . De waarschijnlijkheid en,
-dienovereenkomstig, de invloed van de gegevens op de posterior nemen toe
-met de steekproefgrootte <span class="math inline">\(n\)</span>. Dit
-betekent ook dat de invloed van onze voorkennis afneemt naarmate we
-nieuwe gegevens vergaren. Verder hangt de snelheid waarmee de posterior
-balans doorslaat in het voordeel van de gegevens af van de prior. Van
-boven naar beneden over het rooster gaan de priors van informatief
-(Beta(14,1)) naar vaag (Beta(1,1)). Het spreekt vanzelf dat hoe
-informatiever de prior is, hoe groter zijn invloed op de posterior
-is.</p>
-<p>Door deze waarnemingen te combineren levert de laatste kolom in het
-rooster een zeer belangrijke Bayesiaanse clou op: ongeacht de sterkte
-van en discrepanties tussen hun prioriteitsbegrip van <span
-class="math inline">\(\pi\)</span> zullen drie analisten tot een
-gemeenschappelijke posterior interpretatie komen in het licht van sterke
-gegevens. Deze vaststelling is een opluchting. Als Bayesiaanse modellen
-niets zouden betekenen in het licht van steeds meer gegevens, zouden we
-een probleem hebben.</p>
-<p>Met dit soort gegevens kun je spelen en kijken naar de rol die de
-prior en de data spelen in een posterior analyse, gebruik je de
-<code>plot_beta_binomial()</code> en
-<code>summarize_beta_binomial()</code> functies in het
-<code>bayesrules</code> pakket om het Beta-Binomial posterior model van
-<span class="math inline">\(\pi\)</span> onder verschillende combinaties
-van voorafgaande Beta(<span class="math inline">\(\alpha,
-\beta\)</span>) modellen en waargenomen gegevens, <span
-class="math inline">\(Y\)</span> successen in <span
-class="math inline">\(n\)</span> proeven:</p>
+</section>
+<section id="het-vinden-van-de-balans-tussen-de-prior-en-de-data" class="level2">
+<h2 class="anchored" data-anchor-id="het-vinden-van-de-balans-tussen-de-prior-en-de-data">Het vinden van de balans tussen de prior en de data</h2>
+<section id="observaties-aan-concepten-verbinden" class="level3">
+<h3 class="anchored" data-anchor-id="observaties-aan-concepten-verbinden">Observaties aan concepten verbinden</h3>
+<p>We hebben gekeken naar de invloed die verschillende priors en verschillende gegevens kunnen hebben op ons posterior begrip van een onbekende variabele. De posterior is echter een meer genuanceerd touwtrekken tussen deze twee kanten. De figuren hieronder illustreren het evenwicht dat het posterior model vindt tussen de prior en de gegevens. Elke rij komt overeen met een uniek prior model en elke kolom met een unieke reeks gegevens.</p>
+<p>Van links naar rechts neemt de steekproefgrootte toe van <span class="math inline">\(n=13\)</span> tot <span class="math inline">\(n=99\)</span> films met behoud van het aandeel films dat de Bechdel-test doorstaat: <span class="math inline">\(Y/n\sim0.46\)</span> . De waarschijnlijkheid en, dienovereenkomstig, de invloed van de gegevens op de posterior nemen toe met de steekproefgrootte <span class="math inline">\(n\)</span>. Dit betekent ook dat de invloed van onze voorkennis afneemt naarmate we nieuwe gegevens vergaren. Verder hangt de snelheid waarmee de posterior balans doorslaat in het voordeel van de gegevens af van de prior. Van boven naar beneden over het rooster gaan de priors van informatief (Beta(14,1)) naar vaag (Beta(1,1)). Het spreekt vanzelf dat hoe informatiever de prior is, hoe groter zijn invloed op de posterior is.</p>
+<p>Door deze waarnemingen te combineren levert de laatste kolom in het rooster een zeer belangrijke Bayesiaanse clou op: ongeacht de sterkte van en discrepanties tussen hun prioriteitsbegrip van <span class="math inline">\(\pi\)</span> zullen drie analisten tot een gemeenschappelijke posterior interpretatie komen in het licht van sterke gegevens. Deze vaststelling is een opluchting. Als Bayesiaanse modellen niets zouden betekenen in het licht van steeds meer gegevens, zouden we een probleem hebben.</p>
+<p>Met dit soort gegevens kun je spelen en kijken naar de rol die de prior en de data spelen in een posterior analyse, gebruik je de <code>plot_beta_binomial()</code> en <code>summarize_beta_binomial()</code> functies in het <code>bayesrules</code> pakket om het Beta-Binomial posterior model van <span class="math inline">\(\pi\)</span> onder verschillende combinaties van voorafgaande Beta(<span class="math inline">\(\alpha, \beta\)</span>) modellen en waargenomen gegevens, <span class="math inline">\(Y\)</span> successen in <span class="math inline">\(n\)</span> proeven:</p>
 <pre><code># Plot the Beta-Binomial model
 plot_beta_binomial(alpha = ___, beta = ___, y = ___, n = ___)
 
 # Obtain numerical summaries of the Beta-Binomial model
 summarize_beta_binomial(alpha = ___, beta = ___, y = ___, n = ___)</code></pre>
-<h3 id="concepten-met-theorie-verbinden">Concepten met theorie
-verbinden</h3>
-<p>De patronen die we hebben waargenomen in het posterior evenwicht
-tussen de prior en de data zijn intuïtief. Ze worden ook ondersteund
-door een elegant wiskundig resultaat. Daar moet je het boek maar voor
-lezen.</p>
-<h2 id="sequentiële-analyse-evolueren-met-dat">Sequentiële analyse:
-Evolueren met dat</h2>
-<p>We hebben de toenemende invloed van de gegevens en de afnemende
-invloed van de prior op de posterior onderzocht naarmate er meer en meer
-gegevens binnenkomen. Overweeg de nuances van dit concept. De
-uitdrukking “naarmate er meer gegevens binnenkomen” roept het idee op
-dat het verzamelen van gegevens, en daarmee de evolutie in ons begrip
-van de posterior, stapsgewijs gebeurt. Zo is het inzicht van
-wetenschappers in de klimaatverandering in de loop van tientallen jaren
-geëvolueerd naarmate zij nieuwe informatie kregen. Het inzicht van
-presidentskandidaten in hun kansen om een verkiezing te winnen evolueert
-in de loop van maanden naarmate nieuwe opiniepeilingen beschikbaar
-komen. Het bieden van een formeel kader voor deze evolutie is een van de
-meest krachtige eigenschappen van Bayesiaanse statistiek!</p>
-<p>In een eerder hoofdstuk gingen ze in op Milgram’s gedragsstudie over
-gehoorzaamheid. Daar gaat <span class="math inline">\(\pi\)</span> om
-het aandeel van de mensen die het gezag zullen gehoorzamen zelfs als dit
-betekent dat ze anderen schade toebrengen. In de studie van Milgram
-betekende gehoorzamen aan het gezag het toedienen van een zware
-elektrische schok aan een andere deelnemer (wat in feite een list was).
-Voorafgaand aan de experimenten van Milgram verwachtte een fictieve
-psycholoog dat weinig mensen gezag zouden gehoorzamen als ze een ander
-zouden schaden:<br />
-<span class="math inline">\(\pi\sim Beta(1,10)\)</span>. In het
-onderzoek stelden we vast dat 26 van de 40 deelnemers aan het onderzoek
-een schok toebrachten die zij opvatten als een zware schok.</p>
-<p>Stel nu dat de psycholoog deze gegevens stapsgewijs, dag na dag, over
-een periode van drie dagen verzamelde. Elke dag, evalueerde ze <span
-class="math inline">\(n\)</span> proefpersonen en registreerde ze <span
-class="math inline">\(Y\)</span>, het aantal dat de zwaarste schok kreeg
-(dus <span class="math inline">\(Y|\pi \sim Bin(n,\pi)\)</span>Y. Van de
-<span class="math inline">\(n=10\)</span> dag-één deelnemers, alleen
-<span class="math inline">\(Y=1\)</span> de zwaarste schok. Dus aan het
-eind van de eerste dag is het begrip van de psycholoog van <span
-class="math inline">\(\pi\)</span> al geëvolueerd en blijkt <span
-class="math display">\[\pi|Y=1) \sim Beta(2,19)\]</span></p>
-<p>Dag twee was veel drukker en de resultaten grimmiger: onder <span
-class="math inline">\(n=20\)</span> deelnemers, gaf <span
-class="math inline">\(Y=17\)</span> de zwaarste schok. Aan het eind van
-dag twee was het begrip van de psycholoog van <span
-class="math inline">\(\pi\)</span> opnieuw geëvolueerd - <span
-class="math inline">\(\pi\)</span> was waarschijnlijk groter dan zij
-hadden verwacht. Dus, het posterior model van <span
-class="math inline">\(\pi\)</span> aan het eind van dag twee is <span
-class="math inline">\(Beta(19,22)\)</span>. Op dag drie heeft <span
-class="math inline">\(Y=8\)</span> van <span
-class="math inline">\(n=10\)</span> deelnemers de zwaarste schok
-toegediend, en dus is het model geëvolueerd van een <span
-class="math inline">\(Beta(19,22)\)</span> prior naar een <span
-class="math inline">\(Beta(27,24)\)</span> posterior. De volledige
-evolutie van de oorspronkelijke <span
-class="math inline">\(Beta(1,10)\)</span> prior van de psycholoog naar
-een <span class="math inline">\(Beta(27,24)\)</span> posterior aan het
-einde van de driedaagse studie is samengevat in de tabel hieronder.</p>
-<table>
+</section>
+<section id="concepten-met-theorie-verbinden" class="level3">
+<h3 class="anchored" data-anchor-id="concepten-met-theorie-verbinden">Concepten met theorie verbinden</h3>
+<p>De patronen die we hebben waargenomen in het posterior evenwicht tussen de prior en de data zijn intuïtief. Ze worden ook ondersteund door een elegant wiskundig resultaat. Daar moet je het boek maar voor lezen.</p>
+</section>
+</section>
+<section id="sequentiële-analyse-evolueren-met-dat" class="level2">
+<h2 class="anchored" data-anchor-id="sequentiële-analyse-evolueren-met-dat">Sequentiële analyse: Evolueren met dat</h2>
+<p>We hebben de toenemende invloed van de gegevens en de afnemende invloed van de prior op de posterior onderzocht naarmate er meer en meer gegevens binnenkomen. Overweeg de nuances van dit concept. De uitdrukking “naarmate er meer gegevens binnenkomen” roept het idee op dat het verzamelen van gegevens, en daarmee de evolutie in ons begrip van de posterior, stapsgewijs gebeurt. Zo is het inzicht van wetenschappers in de klimaatverandering in de loop van tientallen jaren geëvolueerd naarmate zij nieuwe informatie kregen. Het inzicht van presidentskandidaten in hun kansen om een verkiezing te winnen evolueert in de loop van maanden naarmate nieuwe opiniepeilingen beschikbaar komen. Het bieden van een formeel kader voor deze evolutie is een van de meest krachtige eigenschappen van Bayesiaanse statistiek!</p>
+<p>In een eerder hoofdstuk gingen ze in op Milgram’s gedragsstudie over gehoorzaamheid. Daar gaat <span class="math inline">\(\pi\)</span> om het aandeel van de mensen die het gezag zullen gehoorzamen zelfs als dit betekent dat ze anderen schade toebrengen. In de studie van Milgram betekende gehoorzamen aan het gezag het toedienen van een zware elektrische schok aan een andere deelnemer (wat in feite een list was). Voorafgaand aan de experimenten van Milgram verwachtte een fictieve psycholoog dat weinig mensen gezag zouden gehoorzamen als ze een ander zouden schaden:<br>
+<span class="math inline">\(\pi\sim Beta(1,10)\)</span>. In het onderzoek stelden we vast dat 26 van de 40 deelnemers aan het onderzoek een schok toebrachten die zij opvatten als een zware schok.</p>
+<p>Stel nu dat de psycholoog deze gegevens stapsgewijs, dag na dag, over een periode van drie dagen verzamelde. Elke dag, evalueerde ze <span class="math inline">\(n\)</span> proefpersonen en registreerde ze <span class="math inline">\(Y\)</span>, het aantal dat de zwaarste schok kreeg (dus <span class="math inline">\(Y|\pi \sim Bin(n,\pi)\)</span>Y. Van de <span class="math inline">\(n=10\)</span> dag-één deelnemers, alleen <span class="math inline">\(Y=1\)</span> de zwaarste schok. Dus aan het eind van de eerste dag is het begrip van de psycholoog van <span class="math inline">\(\pi\)</span> al geëvolueerd en blijkt</p>
+<p><span class="math display">\[\pi|Y=1) \sim Beta(2,19)\]</span></p>
+<p>Dag twee was veel drukker en de resultaten grimmiger: onder <span class="math inline">\(n=20\)</span> deelnemers, gaf <span class="math inline">\(Y=17\)</span> de zwaarste schok. Aan het eind van dag twee was het begrip van de psycholoog van <span class="math inline">\(\pi\)</span> opnieuw geëvolueerd - <span class="math inline">\(\pi\)</span> was waarschijnlijk groter dan zij hadden verwacht. Dus, het posterior model van <span class="math inline">\(\pi\)</span> aan het eind van dag twee is <span class="math inline">\(Beta(19,22)\)</span>. Op dag drie heeft <span class="math inline">\(Y=8\)</span> van <span class="math inline">\(n=10\)</span> deelnemers de zwaarste schok toegediend, en dus is het model geëvolueerd van een <span class="math inline">\(Beta(19,22)\)</span> prior naar een <span class="math inline">\(Beta(27,24)\)</span> posterior. De volledige evolutie van de oorspronkelijke <span class="math inline">\(Beta(1,10)\)</span> prior van de psycholoog naar een <span class="math inline">\(Beta(27,24)\)</span> posterior aan het einde van de driedaagse studie is samengevat in de tabel hieronder.</p>
+<table class="table">
 <thead>
 <tr class="header">
 <th>Dag</th>
@@ -1972,30 +506,10 @@ einde van de driedaagse studie is samengevat in de tabel hieronder.</p>
 </tr>
 </tbody>
 </table>
-<p>Het proces dat we zojuist hebben doorlopen, het incrementeel
-bijwerken van het posterior model van de psycholoog wordt meer algemeen
-een <strong>sequentiële Bayesiaanse analyse</strong> of
-<strong>Bayesiaans leren</strong> genoemd.</p>
-<p>De mogelijkheid om te evolueren naarmate nieuwe gegevens binnenkomen,
-is een van de krachtigste kenmerken van het Bayesiaanse raamwerk. Dit
-soort sequentiële analyses heeft ook twee fundamentele en
-gemeenschappelijke sensitieve eigenschappen. Ten eerste is het
-uiteindelijke posterior model <strong>invariant t.a.v. data
-volgorde</strong>: het wordt niet beïnvloed door de volgorde waarin we
-de data observeren. Bijvoorbeeld, stel dat de psycholoog de
-studiegegevens van Milgram in omgekeerde volgorde had geobserveerd:
-<span class="math inline">\(Y=8\)</span> van<br />
-<span class="math inline">\(n=10\)</span> op dag één, <span
-class="math inline">\(Y=17\)</span> van <span
-class="math inline">\(n=20\)</span> op dag twee, en <span
-class="math inline">\(Y=1\)</span> van <span
-class="math inline">\(n=10\)</span> op dag drie. De resulterende
-evolutie in hun begrip van <span class="math inline">\(\pi\)</span> is
-samengevat in de tabel hieronder. Het evoluerende begrip van de
-psycholoog van <span class="math inline">\(\pi\)</span> verloopt een
-ander pad. Het eindigt echter nog steeds op dezelfde plaats - de
-Beta(27,24) posterior.</p>
-<table>
+<p>Het proces dat we zojuist hebben doorlopen, het incrementeel bijwerken van het posterior model van de psycholoog wordt meer algemeen een <strong>sequentiële Bayesiaanse analyse</strong> of <strong>Bayesiaans leren</strong> genoemd.</p>
+<p>De mogelijkheid om te evolueren naarmate nieuwe gegevens binnenkomen, is een van de krachtigste kenmerken van het Bayesiaanse raamwerk. Dit soort sequentiële analyses heeft ook twee fundamentele en gemeenschappelijke sensitieve eigenschappen. Ten eerste is het uiteindelijke posterior model <strong>invariant t.a.v. data volgorde</strong>: het wordt niet beïnvloed door de volgorde waarin we de data observeren. Bijvoorbeeld, stel dat de psycholoog de studiegegevens van Milgram in omgekeerde volgorde had geobserveerd: <span class="math inline">\(Y=8\)</span> van<br>
+<span class="math inline">\(n=10\)</span> op dag één, <span class="math inline">\(Y=17\)</span> van <span class="math inline">\(n=20\)</span> op dag twee, en <span class="math inline">\(Y=1\)</span> van <span class="math inline">\(n=10\)</span> op dag drie. De resulterende evolutie in hun begrip van <span class="math inline">\(\pi\)</span> is samengevat in de tabel hieronder. Het evoluerende begrip van de psycholoog van <span class="math inline">\(\pi\)</span> verloopt een ander pad. Het eindigt echter nog steeds op dezelfde plaats - de Beta(27,24) posterior.</p>
+<table class="table">
 <thead>
 <tr class="header">
 <th>Dag</th>
@@ -2026,103 +540,114 @@ Beta(27,24) posterior.</p>
 </tr>
 </tbody>
 </table>
-<p>Het tweede fundamentele kenmerk van een sequentiële analyse is dat de
-uiteindelijke posterior alleen afhangt van de <em>cumulatieve</em>
-gegevens. Bijvoorbeeld, in de <em>gecombineerde</em> drie dagen van
-Milgram’s experiment, waren er <span
-class="math inline">\(n=10+20+20=40\)</span> deelnemers die <span
-class="math inline">\(Y=1+17+8=26\)</span> de zwaarste schok opleverde.
-In paragraaf 3.6 evalueerden wij deze gegevens in één keer, niet
-stapsgewijs. Daarbij sprongen wij rechtstreeks van het oorspronkelijke
-Beta(1,10) model van de psycholoog naar het Beta(27,24) posterior model
-van <span class="math inline">\(\pi\)</span>. Dat wil zeggen, of we de
-gegevens nu incrementeel of in één keer evalueren, we komen op dezelfde
-plaats uit.</p>
-<h2 id="bewijs-van-invariantie-van-gegevensvolgorde">Bewijs van
-invariantie van gegevensvolgorde</h2>
-<p>In de vorige sectie zag je het bewijs van datavolgorde invariantie in
-actie. Hier zullen we bewijzen dat alle Bayesiaanse modellen van deze
-eigenschap genieten. Dit deel is leuk, maar hoef je niet echt te weten
-voor je toekomstige werk.Hier gaan we daar niet verder op in (ook voor
-dit meer technische deel moet je het boek lezen).</p>
-<h2 id="een-opmerking-over-subjectiviteit">Een opmerking over
-subjectiviteit</h2>
-<p>We zinspeelden eerder op een veelgehoorde kritiek op Bayesiaanse
-statistiek - het is te subjectief. In het bijzonder zijn sommigen
-bezorgd dat het “subjectief” afstemmen van een prior model een
-Bayesiaanse analist in staat stelt om tot elke conclusie te komen die
-hij wil. In het licht van wat we hier hebben geleerd, kunnen we deze
-kritiek meer rigoureus bestrijden. Voordat we dat doen, willen we eerst
-een aantal concepten nog eens nader bekijken en uitbreiden.</p>
-<p>Bevestigd is dat een Bayesiaan inderdaad een prior kan bouwen op
-basis van “subjectieve” ervaring. Heel zelden is dit een slechte zaak,
-en heel vaak is het een goede zaak! In het beste geval kan een
-subjectieve prioriteit een schat aan ervaringen uit het verleden
-weerspiegelen die in onze analyse moeten worden opgenomen - het zou
-jammer zijn dat niet te doen. Zelfs als een subjectieve prior ingaat
-tegen het feitelijk waargenomen bewijs, verdwijnt zijn invloed op de
-posterior naarmate dit bewijs zich opstapelt. We hebben één uitzondering
-gezien in het ergste geval. En het was te voorkomen. Als een subjectieve
-prioriteit koppig genoeg is om de waarschijnlijkheid van 0 toe te kennen
-aan een mogelijke parameterwaarde, zal geen hoeveelheid tegenbewijs
-genoeg zijn om het te veranderen.</p>
-<p>Tenslotte, hoewel we je aanmoedigen om kritisch te zijn in je
-toepassing van Bayesiaanse methoden, maak je alsjeblieft geen zorgen dat
-ze subjectiever zijn dan frequentistische methoden. Geen mens is in
-staat om alle subjectiviteit uit een analyse te halen. De
-levenservaringen en kennis die we met ons meedragen bepalen alles, van
-de onderzoeksvragen die we stellen tot de data die we verzamelen. Het is
-belangrijk om zowel bij Bayesiaanse als bij frequentistische analyses
-rekening te houden met de mogelijke implicaties van deze
-subjectiviteit.</p>
-<h2 id="samenvatting">Samenvatting</h2>
-<p>Wij hebben het evenwicht onderzocht dat een posterior model aanbrengt
-tussen een prior model en de gegevens. In het algemeen zagen wij de
-volgende tendensen:</p>
+<p>Het tweede fundamentele kenmerk van een sequentiële analyse is dat de uiteindelijke posterior alleen afhangt van de <em>cumulatieve</em> gegevens. Bijvoorbeeld, in de <em>gecombineerde</em> drie dagen van Milgram’s experiment, waren er <span class="math inline">\(n=10+20+20=40\)</span> deelnemers die <span class="math inline">\(Y=1+17+8=26\)</span> de zwaarste schok opleverde. In paragraaf 3.6 evalueerden wij deze gegevens in één keer, niet stapsgewijs. Daarbij sprongen wij rechtstreeks van het oorspronkelijke Beta(1,10) model van de psycholoog naar het Beta(27,24) posterior model van <span class="math inline">\(\pi\)</span>. Dat wil zeggen, of we de gegevens nu incrementeel of in één keer evalueren, we komen op dezelfde plaats uit.</p>
+</section>
+<section id="bewijs-van-invariantie-van-gegevensvolgorde" class="level2">
+<h2 class="anchored" data-anchor-id="bewijs-van-invariantie-van-gegevensvolgorde">Bewijs van invariantie van gegevensvolgorde</h2>
+<p>In de vorige sectie zag je het bewijs van datavolgorde invariantie in actie. Hier zullen we bewijzen dat alle Bayesiaanse modellen van deze eigenschap genieten. Dit deel is leuk, maar hoef je niet echt te weten voor je toekomstige werk.Hier gaan we daar niet verder op in (ook voor dit meer technische deel moet je het boek lezen).</p>
+</section>
+<section id="een-opmerking-over-subjectiviteit" class="level2">
+<h2 class="anchored" data-anchor-id="een-opmerking-over-subjectiviteit">Een opmerking over subjectiviteit</h2>
+<p>We zinspeelden eerder op een veelgehoorde kritiek op Bayesiaanse statistiek - het is te subjectief. In het bijzonder zijn sommigen bezorgd dat het “subjectief” afstemmen van een prior model een Bayesiaanse analist in staat stelt om tot elke conclusie te komen die hij wil. In het licht van wat we hier hebben geleerd, kunnen we deze kritiek meer rigoureus bestrijden. Voordat we dat doen, willen we eerst een aantal concepten nog eens nader bekijken en uitbreiden.</p>
+<p>Bevestigd is dat een Bayesiaan inderdaad een prior kan bouwen op basis van “subjectieve” ervaring. Heel zelden is dit een slechte zaak, en heel vaak is het een goede zaak! In het beste geval kan een subjectieve prioriteit een schat aan ervaringen uit het verleden weerspiegelen die in onze analyse moeten worden opgenomen - het zou jammer zijn dat niet te doen. Zelfs als een subjectieve prior ingaat tegen het feitelijk waargenomen bewijs, verdwijnt zijn invloed op de posterior naarmate dit bewijs zich opstapelt. We hebben één uitzondering gezien in het ergste geval. En het was te voorkomen. Als een subjectieve prioriteit koppig genoeg is om de waarschijnlijkheid van 0 toe te kennen aan een mogelijke parameterwaarde, zal geen hoeveelheid tegenbewijs genoeg zijn om het te veranderen.</p>
+<p>Tenslotte, hoewel we je aanmoedigen om kritisch te zijn in je toepassing van Bayesiaanse methoden, maak je alsjeblieft geen zorgen dat ze subjectiever zijn dan frequentistische methoden. Geen mens is in staat om alle subjectiviteit uit een analyse te halen. De levenservaringen en kennis die we met ons meedragen bepalen alles, van de onderzoeksvragen die we stellen tot de data die we verzamelen. Het is belangrijk om zowel bij Bayesiaanse als bij frequentistische analyses rekening te houden met de mogelijke implicaties van deze subjectiviteit.</p>
+</section>
+<section id="samenvatting" class="level2">
+<h2 class="anchored" data-anchor-id="samenvatting">Samenvatting</h2>
+<p>Wij hebben het evenwicht onderzocht dat een posterior model aanbrengt tussen een prior model en de gegevens. In het algemeen zagen wij de volgende tendensen:</p>
 <ul>
-<li><p><strong>Invloed van de prior</strong><br />
-Hoe minder vaag en hoe informatiever de prior, d.w.z. hoe groter onze
-priorzekerheid, hoe meer invloed de prior op de posterior
-heeft.</p></li>
-<li><p><strong>Invloed van de gegevens</strong><br />
-Hoe meer gegevens we hebben, hoe meer invloed de gegevens hebben op de
-posterior. Dus, als twee onderzoekers voldoende gegevens hebben, zullen
-ze met verschillende priors vergelijkbare posteriors hebben.</p></li>
+<li><p><strong>Invloed van de prior</strong><br>
+Hoe minder vaag en hoe informatiever de prior, d.w.z. hoe groter onze priorzekerheid, hoe meer invloed de prior op de posterior heeft.</p></li>
+<li><p><strong>Invloed van de gegevens</strong><br>
+Hoe meer gegevens we hebben, hoe meer invloed de gegevens hebben op de posterior. Dus, als twee onderzoekers voldoende gegevens hebben, zullen ze met verschillende priors vergelijkbare posteriors hebben.</p></li>
 </ul>
-<p>Verder hebben we gezien dat we in een <strong>sequentiële Bayesiaanse
-analyse</strong> ons posterior model incrementeel bijwerken naarmate er
-meer en meer gegevens binnenkomen. De uiteindelijke bestemming van deze
-posterior wordt niet beïnvloed door de volgorde waarin we deze gegevens
-observeren (d.w.z. de posterior is <strong>datavolgorde
-invariant</strong>) of door de vraag of we de gegevens in één keer of
-opbouwend observeren.</p>
-<div class="sourceCode" id="cb7"><pre
-class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
-<!--radix_placeholder_article_footer-->
-<!--/radix_placeholder_article_footer-->
-</div>
+<p>Verder hebben we gezien dat we in een <strong>sequentiële Bayesiaanse analyse</strong> ons posterior model incrementeel bijwerken naarmate er meer en meer gegevens binnenkomen. De uiteindelijke bestemming van deze posterior wordt niet beïnvloed door de volgorde waarin we deze gegevens observeren (d.w.z. de posterior is <strong>datavolgorde invariant</strong>) of door de vraag of we de gegevens in één keer of opbouwend observeren.</p>
 
-<div class="d-appendix">
-</div>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
 </script>
+</div> <!-- /content -->
 
-<!--radix_placeholder_site_after_body-->
-<!--/radix_placeholder_site_after_body-->
-<!--radix_placeholder_appendices-->
-<div class="appendix-bottom"></div>
-<!--/radix_placeholder_appendices-->
-<!--radix_placeholder_navigation_after_body-->
-<!--/radix_placeholder_navigation_after_body-->
 
-</body>
 
-</html>
+</body></html>

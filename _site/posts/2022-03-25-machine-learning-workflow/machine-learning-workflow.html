@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.345">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Harrie Jonkman en Mr.X">
+<meta name="dcterms.date" content="2022-03-25">
+<meta name="description" content="Deze blog is een inleiding op de workflow van Machine Learning.">
+
+<title>- Machine Learning Workflow</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="..\..\site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="..\..\site_libs/vis-9.1.0/vis-network.min.css" rel="stylesheet">
+<script src="..\..\site_libs/vis-9.1.0/vis-network.min.js"></script>
+<script src="..\..\site_libs/visNetwork-binding-2.1.0/visNetwork.js"></script>
+<script src="..\..\site_libs/FileSaver-1.1.20151003/FileSaver.min.js"></script>
+<script src="..\..\site_libs/Blob-1.0/Blob.js"></script>
+<script src="..\..\site_libs/canvas-toBlob-1.0/canvas-toBlob.js"></script>
+<script src="..\..\site_libs/html2canvas-0.5.0/html2canvas.js"></script>
+<script src="..\..\site_libs/jspdf-1.3.2/jspdf.debug.js"></script>
+<script src="..\..\site_libs/jquery-1.11.3/jquery.min.js"></script>
+<link href="..\..\site_libs/jquery-sparkline-2.1.2/jquery.sparkline.css" rel="stylesheet">
+<script src="..\..\site_libs/jquery-sparkline-2.1.2/jquery.sparkline.js"></script>
+<script src="..\..\site_libs/sparkline-binding-2.0/sparkline.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">Harrie’s Hoekje</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Jonkman1"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Machine Learning Workflow</h1>
+                          <div class="quarto-categories">
+                <div class="quarto-category">analyse</div>
+              </div>
+                  </div>
+  </div>
+    
+  <div>
+    <div class="description">
+      <p>Deze blog is een inleiding op de workflow van Machine Learning.</p>
+    </div>
+  </div>
+
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Harrie Jonkman en Mr.X </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 25, 2022</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="introduction" class="level1">
+<h1>INTRODUCTION</h1>
+<p><code>Tidymodels</code> is the relatively new package for machine learning with <code>R</code>. It is the successor to the <code>caret</code> package which is used during the <em>Introduction to Data Science</em>-course of the Harvard University (Kuhn &amp; Johnson, 2013; Irizarry, 2020). <code>Tidymodels</code> is a collection of modeling packages that, like the <code>tidyverse</code>, has consistent API and are designed to work together specifically to support predictive analytics and machine learning. I followed and looked at different books (Kuhn &amp; Silge, 2021; Kuhn en Johnson, 2019) blogs (Lendway, 2020; Roamiar (2021); Ruiz (2019), Barter (2019; Seyedia (2021) and couses/video’s (Lewis, 2020; Silge, 2021; Silge 2020). I tried to learn this new system and wrote different blogs in Dutch on this<a href="http://www.harriejonkman.nl/HarriesHoekje/">here</a>.</p>
+<p><code>Tidymodels</code> is a grammar for modeling that makes things a lot easier and provides a unified modeling and analysis interface to seamlessly access several model varities in R. <code>tidymodels</code> is a meta-package that installs and load the core packages listed below that you need for modeling and machine learning;<br>
+- <code>recipes</code> is tidy interface for to data pre-processing tools for feature/variables engineering;<br>
+- <code>rsample</code> provides infrastucture for efficient data splitting and resampling;<br>
+- <code>parsnip</code> is a tidy, unified interface to models that can be used to try a range of models without getting bagged down in the syntactical minutae of the underlying packages;<br>
+- <code>tune</code> helps you optimize the hyperparameters of your model and chose pre-processing steps;<br>
+- <code>yardstick</code> measures the effectiveness of models during performance metrics;<br>
+- <code>workflow</code> bundles your pre-processing modeling and post-processing together;<br>
+- <code>dials</code> creates and manages tuning parameters and parameters grids;<br>
+- <code>brooms</code> convert the information in common statistical R objects into user-friendly predictable formats.</p>
+<p>This year (2021) I learned working with <code>tidymodels</code>. I tried to finish the Capstone course with the use of this metapackage. I will show you the different steps in the working proces.</p>
+<p>Let us first open the packages used in this article (<code>tidymodels</code>, but also <code>tidyverse</code>, <code>finalfit</code>, <code>caret</code>, <code>rpart</code> and <code>randomforest</code>):</p>
+</section>
+<section id="problem-definition" class="level1">
+<h1>PROBLEM DEFINITION</h1>
+<p>Data mining approaches are used in this article to predict human wine taste preferences that are based on easily available analytical tests at certification steps. A data set on red wine from Portugal is used here to research quality of the wine and different predictors for the quality (Cortez et al., 2009) Supervised machine learning supports us in this. In this world two kind of algorithms are often used. One is called regression (see also Attalides, 2020) and the other is called classification (not used here).</p>
+<p>In this study we use regression for predicting quality of wine based on several predictors.The wine data used here contains the following eleven independent variables (predictors, I1-I11) and one dependent variable (outcome, D1)</p>
+<p>Independent variables: (symbol I) - I1 <em>Fixed acidity</em> (g(tartaric acid/dm3) - I2 <em>Volatile acidity</em> (g(acetic acid)/dm3) - I3 <em>Citric acid</em> (g/dm3) - I4 <em>Residual sugar</em> (g/dm3) - I5 <em>Chlorides</em> (g(sodium chloride)/dm3) - I6 <em>Free sulfar dioxide</em> (mg/dm3) - I7 <em>Total sulfar dioxide</em> (mg/dm3) - I8 <em>Density</em> (g/cm3) - I9 <em>pH</em> - I10 <em>Sulphates</em> (g(potassium sulphate)/dm3) - I11 <em>Alcohol</em> (vol%)</p>
+<p>Dependent variable: (symbol D) - D1 <em>Quality</em></p>
+</section>
+<section id="data-loading-preprocessing-exploring" class="level1">
+<h1>DATA LOADING, PREPROCESSING, EXPLORING</h1>
+<p>Let us load the data set (<code>wine.rds</code>) first.</p>
+<p>Then, we look at the column names.</p>
+<p>And defined them on a consistent way.</p>
+<p>Let us make an overview and summary now of this data frame.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(wf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 1,599
+Columns: 12
+$ fixed_acidity        &lt;dbl&gt; 7.4, 7.8, 7.8, 11.2, 7.4, 7.4, 7.9, 7.3, 7.8, 7.5~
+$ volatile_acidity     &lt;dbl&gt; 0.700, NA, 0.760, 0.280, 0.700, NA, 0.600, 0.650,~
+$ citric_acid          &lt;dbl&gt; 0.00, 0.00, 0.04, 0.56, 0.00, 0.00, 0.06, 0.00, 0~
+$ residual_sugar       &lt;dbl&gt; 1.9, 2.6, 2.3, 1.9, 1.9, 1.8, 1.6, 1.2, 2.0, 6.1,~
+$ chlorides            &lt;dbl&gt; 0.076, 0.098, 0.092, 0.075, 0.076, 0.075, 0.069, ~
+$ free_sulfur_dioxide  &lt;dbl&gt; 11, 25, 15, 17, 11, 13, 15, 15, 9, 17, 15, 17, 16~
+$ total_sulfur_dioxide &lt;dbl&gt; 34, 67, 54, 60, 34, 40, 59, 21, 18, 102, 65, 102,~
+$ density              &lt;dbl&gt; 0.9978, 0.9968, 0.9970, 0.9980, 0.9978, 0.9978, 0~
+$ pH                   &lt;dbl&gt; 3.51, 3.20, 3.26, 3.16, 3.51, 3.51, 3.30, 3.39, 3~
+$ sulphates            &lt;dbl&gt; 0.56, 0.68, 0.65, 0.58, 0.56, 0.56, 0.46, 0.47, 0~
+$ alcohol              &lt;dbl&gt; 9.4, 9.8, 9.8, 9.8, 9.4, 9.4, 9.4, NA, 9.5, 10.5,~
+$ quality              &lt;dbl&gt; 5, 5, 5, 6, 5, 5, 5, 7, 7, 5, 5, 5, 5, 5, 5, 5, 7~</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(wf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> fixed_acidity   volatile_acidity  citric_acid    residual_sugar  
+ Min.   : 4.60   Min.   :0.1200   Min.   :0.000   Min.   : 0.900  
+ 1st Qu.: 7.10   1st Qu.:0.3900   1st Qu.:0.090   1st Qu.: 1.900  
+ Median : 7.90   Median :0.5200   Median :0.260   Median : 2.200  
+ Mean   : 8.32   Mean   :0.5275   Mean   :0.271   Mean   : 2.539  
+ 3rd Qu.: 9.20   3rd Qu.:0.6400   3rd Qu.:0.420   3rd Qu.: 2.600  
+ Max.   :15.90   Max.   :1.5800   Max.   :1.000   Max.   :15.500  
+                 NA's   :3                                        
+   chlorides       free_sulfur_dioxide total_sulfur_dioxide    density      
+ Min.   :0.01200   Min.   : 1.00       Min.   :  6.00       Min.   :0.9901  
+ 1st Qu.:0.07000   1st Qu.: 7.00       1st Qu.: 22.00       1st Qu.:0.9956  
+ Median :0.07900   Median :14.00       Median : 38.00       Median :0.9968  
+ Mean   :0.08747   Mean   :15.87       Mean   : 46.47       Mean   :0.9967  
+ 3rd Qu.:0.09000   3rd Qu.:21.00       3rd Qu.: 62.00       3rd Qu.:0.9978  
+ Max.   :0.61100   Max.   :72.00       Max.   :289.00       Max.   :1.0037  
+                                                                            
+       pH          sulphates         alcohol         quality     
+ Min.   :2.740   Min.   :0.3300   Min.   : 8.40   Min.   :3.000  
+ 1st Qu.:3.210   1st Qu.:0.5500   1st Qu.: 9.50   1st Qu.:5.000  
+ Median :3.310   Median :0.6200   Median :10.20   Median :6.000  
+ Mean   :3.311   Mean   :0.6581   Mean   :10.43   Mean   :5.636  
+ 3rd Qu.:3.400   3rd Qu.:0.7300   3rd Qu.:11.10   3rd Qu.:6.000  
+ Max.   :4.010   Max.   :2.0000   Max.   :14.90   Max.   :8.000  
+                                  NA's   :5                      </code></pre>
+</div>
+</div>
+<p>We have twelve variables inside this data set which are all continuous variables.</p>
+<p>At this moment we want to know also something about the missings?</p>
+<p>We have eight missings (three on volatile.acidity and five on alcohol). We remove any missing values and kept 1591 cases. Let us show it here.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>wf <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(wf)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">missing_glimpse</span>(wf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                    label var_type    n missing_n
+fixed_acidity               fixed_acidity    &lt;dbl&gt; 1591         0
+volatile_acidity         volatile_acidity    &lt;dbl&gt; 1591         0
+citric_acid                   citric_acid    &lt;dbl&gt; 1591         0
+residual_sugar             residual_sugar    &lt;dbl&gt; 1591         0
+chlorides                       chlorides    &lt;dbl&gt; 1591         0
+free_sulfur_dioxide   free_sulfur_dioxide    &lt;dbl&gt; 1591         0
+total_sulfur_dioxide total_sulfur_dioxide    &lt;dbl&gt; 1591         0
+density                           density    &lt;dbl&gt; 1591         0
+pH                                     pH    &lt;dbl&gt; 1591         0
+sulphates                       sulphates    &lt;dbl&gt; 1591         0
+alcohol                           alcohol    &lt;dbl&gt; 1591         0
+quality                           quality    &lt;dbl&gt; 1591         0
+                     missing_percent
+fixed_acidity                    0.0
+volatile_acidity                 0.0
+citric_acid                      0.0
+residual_sugar                   0.0
+chlorides                        0.0
+free_sulfur_dioxide              0.0
+total_sulfur_dioxide             0.0
+density                          0.0
+pH                               0.0
+sulphates                        0.0
+alcohol                          0.0
+quality                          0.0</code></pre>
+</div>
+</div>
+<p>Now we have wrangeled and preprocessed the data, we can explore them. Let us first vizualise correlations within the data-set. For this you need the package <code>corrplot</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>wf <span class="sc">%&gt;%</span> <span class="fu">cor</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">corrplot.mixed</span>(<span class="at">upper =</span> <span class="st">"circle"</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">tl.cex =</span> <span class="dv">1</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">tl.pos =</span> <span class="st">'lt'</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">number.cex =</span> <span class="fl">0.75</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="machine-learning-workflow_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<section id="splitting-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="splitting-the-data">SPLITTING THE DATA</h2>
+<p>Now we understand the data we have to split the data into: a) Train set, b) Test set. Here we work on the last pre-model analysis. All functions below come from the <code>rsample</code> package, which is part of <code>tidymodels</code>. First we set the seed to fix the randomization and to make reproducabiltiy possible. We use 80% of the dataset for the trainingset. For a big dataset as this wine-data set with 1591 observations, 80:20-splitting works well. We split it and than make a training- and test-dataset.</p>
+</section>
+</section>
+<section id="modeling-and-data-analysis" class="level1">
+<h1>MODELING AND DATA ANALYSIS</h1>
+<p>Now we will compare different models with each other and want to know which one works the best for this data set with this dependent and these independent variables. This part of machine learning is called <strong>supervised learning</strong> of which the basic goal is to find a function that accurately describes how different measured explanatory variables can be combined to make a prediction about the target variable. We start with <strong>linear modelling</strong>. Regression models can help us quantify the magnitude and direction of relationships among variables.</p>
+<section id="linear-modelling" class="level2">
+<h2 class="anchored" data-anchor-id="linear-modelling">1. Linear modelling</h2>
+<p>For the outcome or target variable <code>quality</code>, we first research some different linear regression models and choose the best one based on indices. For these tasks, we store each formula in a different R object.</p>
+<p>We have to define the data: - The target variable. <code>quality</code> is the target variable and it is numeric - The features of the model (predictors) are the other (independent) variables here and they are numeric variables also.</p>
+<p>Futhermore, we design a simple formula to predict the target variable. In this formula (f1) all the available 11 predictors are used.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>formula <span class="ot">&lt;-</span> <span class="fu">formula</span>(quality <span class="sc">~</span> fixed_acidity <span class="sc">+</span> volatile_acidity <span class="sc">+</span> citric_acid <span class="sc">+</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                   residual_sugar <span class="sc">+</span> chlorides <span class="sc">+</span> free_sulfur_dioxide <span class="sc">+</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                   total_sulfur_dioxide <span class="sc">+</span> density <span class="sc">+</span> pH <span class="sc">+</span> sulphates <span class="sc">+</span> alcohol)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let us fit a linear regression model to the data. What we do: - First, we created an object that will store the model fit.<br>
+- Then, we specify the model.<br>
+- Then, We specify also that we work with regression because of the continue target variable (<code>quality</code>). - Then, we specify also the <code>lm</code> package to train the model. - And we finish in this chunck by adding the formula and the training data to fit the model.</p>
+<p>Let us see how this workflow works.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>lm_fit <span class="ot">&lt;-</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"regression"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"lm"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(formula, <span class="at">data =</span> train_data) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We present the results on different ways</p>
+<p>But this is probably the best and clearest way to show the results.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm_fit<span class="sc">$</span>fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+stats::lm(formula = quality ~ fixed_acidity + volatile_acidity + 
+    citric_acid + residual_sugar + chlorides + free_sulfur_dioxide + 
+    total_sulfur_dioxide + density + pH + sulphates + alcohol, 
+    data = data)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-2.68924 -0.37784 -0.04982  0.46247  1.89438 
+
+Coefficients:
+                       Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)           2.125e+01  2.458e+01   0.864   0.3877    
+fixed_acidity         1.515e-02  3.015e-02   0.503   0.6154    
+volatile_acidity     -9.626e-01  1.419e-01  -6.783 1.80e-11 ***
+citric_acid          -1.749e-02  1.682e-01  -0.104   0.9172    
+residual_sugar        1.879e-02  1.750e-02   1.074   0.2831    
+chlorides            -2.160e+00  4.601e-01  -4.696 2.95e-06 ***
+free_sulfur_dioxide   5.057e-03  2.477e-03   2.042   0.0414 *  
+total_sulfur_dioxide -4.053e-03  8.358e-04  -4.850 1.39e-06 ***
+density              -1.685e+01  2.511e+01  -0.671   0.5022    
+pH                   -4.781e-01  2.216e-01  -2.157   0.0312 *  
+sulphates             9.522e-01  1.256e-01   7.581 6.63e-14 ***
+alcohol               2.675e-01  3.070e-02   8.712  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.6545 on 1260 degrees of freedom
+Multiple R-squared:  0.3583,    Adjusted R-squared:  0.3527 
+F-statistic: 63.96 on 11 and 1260 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>We can also visualize the fit summary by using the <code>broom</code> package which is inside <code>tidymodels</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lm_fit<span class="sc">$</span>fit) <span class="sc">%&gt;%</span> <span class="fu">mutate_if</span>(is.numeric, round, <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 x 5
+   term                 estimate std.error statistic p.value
+   &lt;chr&gt;                   &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+ 1 (Intercept)            21.2      24.6       0.864   0.388
+ 2 fixed_acidity           0.015     0.03      0.503   0.615
+ 3 volatile_acidity       -0.963     0.142    -6.78    0    
+ 4 citric_acid            -0.017     0.168    -0.104   0.917
+ 5 residual_sugar          0.019     0.018     1.07    0.283
+ 6 chlorides              -2.16      0.46     -4.70    0    
+ 7 free_sulfur_dioxide     0.005     0.002     2.04    0.041
+ 8 total_sulfur_dioxide   -0.004     0.001    -4.85    0    
+ 9 density               -16.9      25.1      -0.671   0.502
+10 pH                     -0.478     0.222    -2.16    0.031
+11 sulphates               0.952     0.126     7.58    0    
+12 alcohol                 0.267     0.031     8.71    0    </code></pre>
+</div>
+</div>
+</section>
+<section id="decision-tree" class="level2">
+<h2 class="anchored" data-anchor-id="decision-tree">2. Decision tree</h2>
+<p>After we worked with linear regression, it is possible to work with other models which maybe give us better results for predicting the outcome. Let us first look at decision tree modeling. A decision tree is tree-like flowchart that assigns labels to individual observations. It splits it into homogeneous subsets, which share the same class labels. For this you need decision tree package and for this you have to install and open the library of <code>rpart</code>. We see similar steps here in the machine learning workflow. Once again, the workflow: - define an object <code>dt_fit</code>;<br>
+- tell that we work with decision tree;<br>
+- set the mode on regression;<br>
+- set the engine on <code>rpart</code>;<br>
+- fit the formula on the training data-set.</p>
+<p>Print the results</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(dt_fit<span class="sc">$</span>fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>n= 1272 
+
+node), split, n, deviance, yval
+      * denotes terminal node
+
+ 1) root 1272 841.093600 5.645440  
+   2) alcohol&lt; 10.45 735 314.223100 5.345578  
+     4) sulphates&lt; 0.585 323  99.275540 5.133127 *
+     5) sulphates&gt;=0.585 412 188.939300 5.512136  
+      10) total_sulfur_dioxide&gt;=59.5 121  33.239670 5.198347 *
+      11) total_sulfur_dioxide&lt; 59.5 291 138.831600 5.642612  
+        22) volatile_acidity&gt;=0.405 220  94.836360 5.527273 *
+        23) volatile_acidity&lt; 0.405 71  32.000000 6.000000 *
+   3) alcohol&gt;=10.45 537 370.324000 6.055866  
+     6) sulphates&lt; 0.645 240 156.733300 5.716667  
+      12) volatile_acidity&gt;=0.995 7   6.857143 4.142857 *
+      13) volatile_acidity&lt; 0.995 233 132.017200 5.763948  
+        26) pH&gt;=3.365 114  62.280700 5.543860  
+          52) free_sulfur_dioxide&lt; 8.5 34  19.529410 5.117647 *
+          53) free_sulfur_dioxide&gt;=8.5 80  33.950000 5.725000 *
+        27) pH&lt; 3.365 119  58.924370 5.974790 *
+     7) sulphates&gt;=0.645 297 163.663300 6.329966  
+      14) alcohol&lt; 11.45 180  95.777780 6.111111  
+        28) volatile_acidity&gt;=0.405 94  35.276600 5.829787 *
+        29) volatile_acidity&lt; 0.405 86  44.930230 6.418605  
+          58) total_sulfur_dioxide&gt;=49.5 20   8.550000 5.850000 *
+          59) total_sulfur_dioxide&lt; 49.5 66  27.954550 6.590909 *
+      15) alcohol&gt;=11.45 117  46.000000 6.666667 *</code></pre>
+</div>
+</div>
+<p>As a sidestep, we can visualize this, but than we have to install and open the <code>visNetwork</code> and <code>sparkline</code> packages. Then we see this.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(visNetwork)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sparkline)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'sparkline' was built under R version 4.1.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">visTree</span>(dt_fit<span class="sc">$</span>fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-77bbd082f7512b02772a" style="width:100%;height:600px;" class="visNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-77bbd082f7512b02772a">{"x":{"nodes":{"id":[1,2,4,5,10,11,22,23,3,6,12,13,26,52,53,27,7,14,28,29,58,59,15],"label":["alcohol","sulphates","5.133","total_sulfur_dioxide","5.198","volatile_acidity","5.527","6","sulphates","volatile_acidity","4.143","pH","free_sulfur_dioxide","5.118","5.725","5.975","alcohol","volatile_acidity","5.83","total_sulfur_dioxide","5.85","6.591","6.667"],"level":[1,2,3,3,4,4,5,5,2,3,4,4,5,6,6,5,3,4,5,5,6,6,4],"color":["#F1B8C2","#E1C1A1","#C189DC","#BECC9B","#BF83DA","#96D4B5","#B267D1","#A13EC3","#E1C1A1","#96D4B5","#E6E0F8","#8DD2D8","#B4C7ED","#C28BDC","#AB56CB","#A240C4","#F1B8C2","#96D4B5","#A74CC8","#BECC9B","#A74BC7","#8B0AB3","#8904B1"],"value":[1272,735,323,412,121,291,220,71,537,240,7,233,114,34,80,119,297,180,94,86,20,66,117],"shape":["dot","dot","square","dot","square","dot","square","square","dot","dot","square","dot","dot","square","square","square","dot","dot","square","dot","square","square","square"],"title":["<div style=\"text-align:center;\">N : <b>100%<\/b> (1272)<br>Complexity : <b>0.186<\/b><br>Mean : <b>5.645<\/b><br>Variance : <b>0.662<\/b><\/div>","<div style=\"text-align:center;\">N : <b>57.8%<\/b> (735)<br>Complexity : <b>0.031<\/b><br>Mean : <b>5.346<\/b><br>Variance : <b>0.428<\/b><hr class = \"rPartvisNetwork\">\n<div class =\"showOnMe2\"><div style=\"text-align:center;\"><U style=\"color:blue;\"  onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\">Rules<\/U><\/div>\n<div class=\"showMeRpartTTp2\" style=\"display:none;\">\n<b> alcohol <\/b> < 10.45<\/script><script type=\"text/javascript\">$(document).ready(function(){\n$(\".showOnMe2\").click(function(){\n$(\".showMeRpartTTp2\").toggle();\n$.sparkline_display_visible();\n});\n  });<\/script><\/div><\/div>\n\n<\/div>","<div style=\"text-align:center;\">N : <b>25.4%<\/b> (323)<br>Complexity : <b>0.005<\/b><br>Mean : <b>5.133<\/b><br>Variance : <b>0.308<\/b><hr class = \"rPartvisNetwork\">\n<div class =\"showOnMe2\"><div style=\"text-align:center;\"><U style=\"color:blue;\"  onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\">Rules<\/U><\/div>\n<div class=\"showMeRpartTTp2\" style=\"display:none;\">\n<b> alcohol <\/b> < 10.45<br><b> sulphates <\/b> < 0.585<\/script><script type=\"text/javascript\">$(document).ready(function(){\n$(\".showOnMe2\").click(function(){\n$(\".showMeRpartTTp2\").toggle();\n$.sparkline_display_visible();\n});\n  });<\/script><\/div><\/div>\n\n<\/div>","<div style=\"text-align:center;\">N : <b>32.4%<\/b> (412)<br>Complexity : <b>0.02<\/b><br>Mean : <b>5.512<\/b><br>Variance : <b>0.46<\/b><hr class = \"rPartvisNetwork\">\n<div class =\"showOnMe2\"><div style=\"text-align:center;\"><U style=\"color:blue;\"  onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\">Rules<\/U><\/div>\n<div class=\"showMeRpartTTp2\" style=\"display:none;\">\n<b> alcohol <\/b> < 10.45<br><b> sulphates <\/b> >= 0.585<\/script><script type=\"text/javascript\">$(document).ready(function(){\n$(\".showOnMe2\").click(function(){\n$(\".showMeRpartTTp2\").toggle();\n$.sparkline_display_visible();\n});\n  });<\/script><\/div><\/div>\n\n<\/div>","<div style=\"text-align:center;\">N : <b>9.5%<\/b> (121)<br>Complexity : <b>0.005<\/b><br>Mean : <b>5.198<\/b><br>Variance : <b>0.277<\/b><hr class = \"rPartvisNetwork\">\n<div class =\"showOnMe2\"><div style=\"text-align:center;\"><U style=\"color:blue;\"  onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\">Rules<\/U><\/div>\n<div class=\"showMeRpartTTp2\" style=\"display:none;\">\n<b> alcohol <\/b> < 10.45<br><b> sulphates <\/b> >= 0.585<br><b> total_sulfur_dioxide <\/b> >= 59.5<\/script><script type=\"text/javascript\">$(document).ready(function(){\n$(\".showOnMe2\").click(function(){\n$(\".showMeRpartTTp2\").toggle();\n$.sparkline_display_visible();\n});\n  });<\/script><\/div><\/div>\n\n<\/div>","<div style=\"text-align:center;\">N : <b>22.9%<\/b> (291)<br>Complexity : <b>0.014<\/b><br>Mean : <b>5.643<\/b><br>Variance : <b>0.479<\/b><hr class = \"rPartvisNetwork\">\n<div class =\"showOnMe2\"><div style=\"text-align:center;\"><U style=\"color:blue;\"  onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\">Rules<\/U><\/div>\n<div class=\"showMeRpartTTp2\" style=\"display:none;\">\n<b> alcohol <\/b> < 10.45<br><b> sulphates <\/b> >= 0.585<br><b> total_sulfur_dioxide <\/b> < 59.5<\/script><script type=\"text/javascript\">$(document).ready(function(){\n$(\".showOnMe2\").click(function(){\n$(\".showMeRpartTTp2\").toggle();\n$.sparkline_display_visible();\n});\n  });<\/script><\/div><\/div>\n\n<\/div>","<div style=\"text-align:center;\">N : <b>17.3%<\/b> (220)<br>Complexity : <b>0.007<\/b><br>Mean : <b>5.527<\/b><br>Variance : <b>0.433<\/b><hr class = \"rPartvisNetwork\">\n<div class =\"showOnMe2\"><div style=\"text-align:center;\"><U style=\"color:blue;\"  onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\">Rules<\/U><\/div>\n<div class=\"showMeRpartTTp2\" style=\"display:none;\">\n<b> alcohol <\/b> < 10.45<br><b> sulphates <\/b> >= 0.585<br><b> total_sulfur_dioxide <\/b> < 59.5<br><b> volatile_acidity <\/b> >= 0.405<\/script><script type=\"text/javascript\">$(document).ready(function(){\n$(\".showOnMe2\").click(function(){\n$(\".showMeRpartTTp2\").toggle();\n$.sparkline_display_visible();\n});\n  });<\/script><\/div><\/div>\n\n<\/div>","<div style=\"text-align:center;\">N : <b>5.6%<\/b> (71)<br>Complexity : <b>0.005<\/b><br>Mean : <b>6<\/b><br>Variance : <b>0.457<\/b><hr class = \"rPartvisNetwork\">\n<div class =\"showOnMe2\"><div style=\"text-align:center;\"><U style=\"color:blue;\"  onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\">Rules<\/U><\/div>\n<div class=\"showMeRpartTTp2\" style=\"display:none;\">\n<b> alcohol <\/b> < 10.45<br><b> sulphates <\/b> >= 0.585<br><b> total_sulfur_dioxide <\/b> < 59.5<br><b> volatile_acidity <\/b> < 0.405<\/script><script type=\"text/javascript\">$(document).ready(function(){\n$(\".showOnMe2\").click(function(){\n$(\".showMeRpartTTp2\").toggle();\n$.sparkline_display_visible();\n});\n  });<\/script><\/div><\/div>\n\n<\/div>","<div style=\"text-align:center;\">N : <b>42.2%<\/b> (537)<br>Complexity : <b>0.059<\/b><br>Mean : <b>6.056<\/b><br>Variance : <b>0.691<\/b><hr class = \"rPartvisNetwork\">\n<div class =\"showOnMe2\"><div style=\"text-align:center;\"><U style=\"color:blue;\"  onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\">Rules<\/U><\/div>\n<div class=\"showMeRpartTTp2\" style=\"display:none;\">\n<b> alcohol <\/b> >= 10.45<\/script><script type=\"text/javascript\">$(document).ready(function(){\n$(\".showOnMe2\").click(function(){\n$(\".showMeRpartTTp2\").toggle();\n$.sparkline_display_visible();\n});\n  });<\/script><\/div><\/div>\n\n<\/div>","<div style=\"text-align:center;\">N : <b>18.9%<\/b> (240)<br>Complexity : <b>0.021<\/b><br>Mean : <b>5.717<\/b><br>Variance : <b>0.656<\/b><hr class = \"rPartvisNetwork\">\n<div class =\"showOnMe2\"><div style=\"text-align:center;\"><U style=\"color:blue;\"  onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\">Rules<\/U><\/div>\n<div class=\"showMeRpartTTp2\" style=\"display:none;\">\n<b> alcohol <\/b> >= 10.45<br><b> sulphates <\/b> < 0.645<\/script><script type=\"text/javascript\">$(document).ready(function(){\n$(\".showOnMe2\").click(function(){\n$(\".showMeRpartTTp2\").toggle();\n$.sparkline_display_visible();\n});\n  });<\/script><\/div><\/div>\n\n<\/div>","<div style=\"text-align:center;\">N : <b>0.6%<\/b> (7)<br>Complexity : <b>0.01<\/b><br>Mean : <b>4.143<\/b><br>Variance : <b>1.143<\/b><hr class = \"rPartvisNetwork\">\n<div class =\"showOnMe2\"><div style=\"text-align:center;\"><U style=\"color:blue;\"  onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\">Rules<\/U><\/div>\n<div class=\"showMeRpartTTp2\" style=\"display:none;\">\n<b> alcohol <\/b> >= 10.45<br><b> sulphates <\/b> < 0.645<br><b> volatile_acidity <\/b> >= 0.995<\/script><script type=\"text/javascript\">$(document).ready(function(){\n$(\".showOnMe2\").click(function(){\n$(\".showMeRpartTTp2\").toggle();\n$.sparkline_display_visible();\n});\n  });<\/script><\/div><\/div>\n\n<\/div>","<div style=\"text-align:center;\">N : <b>18.3%<\/b> (233)<br>Complexity : <b>0.013<\/b><br>Mean : <b>5.764<\/b><br>Variance : <b>0.569<\/b><hr class = \"rPartvisNetwork\">\n<div class =\"showOnMe2\"><div style=\"text-align:center;\"><U style=\"color:blue;\"  onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\">Rules<\/U><\/div>\n<div class=\"showMeRpartTTp2\" style=\"display:none;\">\n<b> alcohol <\/b> >= 10.45<br><b> sulphates <\/b> < 0.645<br><b> volatile_acidity <\/b> < 0.995<\/script><script type=\"text/javascript\">$(document).ready(function(){\n$(\".showOnMe2\").click(function(){\n$(\".showMeRpartTTp2\").toggle();\n$.sparkline_display_visible();\n});\n  });<\/script><\/div><\/div>\n\n<\/div>","<div style=\"text-align:center;\">N : <b>9%<\/b> (114)<br>Complexity : <b>0.01<\/b><br>Mean : <b>5.544<\/b><br>Variance : <b>0.551<\/b><hr class = \"rPartvisNetwork\">\n<div class =\"showOnMe2\"><div style=\"text-align:center;\"><U style=\"color:blue;\"  onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\">Rules<\/U><\/div>\n<div class=\"showMeRpartTTp2\" style=\"display:none;\">\n<b> alcohol <\/b> >= 10.45<br><b> sulphates <\/b> < 0.645<br><b> volatile_acidity <\/b> < 0.995<br><b> pH <\/b> >= 3.365<\/script><script type=\"text/javascript\">$(document).ready(function(){\n$(\".showOnMe2\").click(function(){\n$(\".showMeRpartTTp2\").toggle();\n$.sparkline_display_visible();\n});\n  });<\/script><\/div><\/div>\n\n<\/div>","<div style=\"text-align:center;\">N : <b>2.7%<\/b> (34)<br>Complexity : <b>0.003<\/b><br>Mean : <b>5.118<\/b><br>Variance : <b>0.592<\/b><hr class = \"rPartvisNetwork\">\n<div class =\"showOnMe2\"><div style=\"text-align:center;\"><U style=\"color:blue;\"  onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\">Rules<\/U><\/div>\n<div class=\"showMeRpartTTp2\" style=\"display:none;\">\n<b> alcohol <\/b> >= 10.45<br><b> sulphates <\/b> < 0.645<br><b> volatile_acidity <\/b> < 0.995<br><b> pH <\/b> >= 3.365<br><b> free_sulfur_dioxide <\/b> < 8.5<\/script><script type=\"text/javascript\">$(document).ready(function(){\n$(\".showOnMe2\").click(function(){\n$(\".showMeRpartTTp2\").toggle();\n$.sparkline_display_visible();\n});\n  });<\/script><\/div><\/div>\n\n<\/div>","<div style=\"text-align:center;\">N : <b>6.3%<\/b> (80)<br>Complexity : <b>0.005<\/b><br>Mean : <b>5.725<\/b><br>Variance : <b>0.43<\/b><hr class = \"rPartvisNetwork\">\n<div class =\"showOnMe2\"><div style=\"text-align:center;\"><U style=\"color:blue;\"  onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\">Rules<\/U><\/div>\n<div class=\"showMeRpartTTp2\" style=\"display:none;\">\n<b> alcohol <\/b> >= 10.45<br><b> sulphates <\/b> < 0.645<br><b> volatile_acidity <\/b> < 0.995<br><b> pH <\/b> >= 3.365<br><b> free_sulfur_dioxide <\/b> >= 8.5<\/script><script type=\"text/javascript\">$(document).ready(function(){\n$(\".showOnMe2\").click(function(){\n$(\".showMeRpartTTp2\").toggle();\n$.sparkline_display_visible();\n});\n  });<\/script><\/div><\/div>\n\n<\/div>","<div style=\"text-align:center;\">N : <b>9.4%<\/b> (119)<br>Complexity : <b>0.01<\/b><br>Mean : <b>5.975<\/b><br>Variance : <b>0.499<\/b><hr class = \"rPartvisNetwork\">\n<div class =\"showOnMe2\"><div style=\"text-align:center;\"><U style=\"color:blue;\"  onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\">Rules<\/U><\/div>\n<div class=\"showMeRpartTTp2\" style=\"display:none;\">\n<b> alcohol <\/b> >= 10.45<br><b> sulphates <\/b> < 0.645<br><b> volatile_acidity <\/b> < 0.995<br><b> pH <\/b> < 3.365<\/script><script type=\"text/javascript\">$(document).ready(function(){\n$(\".showOnMe2\").click(function(){\n$(\".showMeRpartTTp2\").toggle();\n$.sparkline_display_visible();\n});\n  });<\/script><\/div><\/div>\n\n<\/div>","<div style=\"text-align:center;\">N : <b>23.3%<\/b> (297)<br>Complexity : <b>0.026<\/b><br>Mean : <b>6.33<\/b><br>Variance : <b>0.553<\/b><hr class = \"rPartvisNetwork\">\n<div class =\"showOnMe2\"><div style=\"text-align:center;\"><U style=\"color:blue;\"  onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\">Rules<\/U><\/div>\n<div class=\"showMeRpartTTp2\" style=\"display:none;\">\n<b> alcohol <\/b> >= 10.45<br><b> sulphates <\/b> >= 0.645<\/script><script type=\"text/javascript\">$(document).ready(function(){\n$(\".showOnMe2\").click(function(){\n$(\".showMeRpartTTp2\").toggle();\n$.sparkline_display_visible();\n});\n  });<\/script><\/div><\/div>\n\n<\/div>","<div style=\"text-align:center;\">N : <b>14.2%<\/b> (180)<br>Complexity : <b>0.019<\/b><br>Mean : <b>6.111<\/b><br>Variance : <b>0.535<\/b><hr class = \"rPartvisNetwork\">\n<div class =\"showOnMe2\"><div style=\"text-align:center;\"><U style=\"color:blue;\"  onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\">Rules<\/U><\/div>\n<div class=\"showMeRpartTTp2\" style=\"display:none;\">\n<b>  <\/b> 10.45 <= <b>alcohol<\/b> < 11.45<br><b> sulphates <\/b> >= 0.645<\/script><script type=\"text/javascript\">$(document).ready(function(){\n$(\".showOnMe2\").click(function(){\n$(\".showMeRpartTTp2\").toggle();\n$.sparkline_display_visible();\n});\n  });<\/script><\/div><\/div>\n\n<\/div>","<div style=\"text-align:center;\">N : <b>7.4%<\/b> (94)<br>Complexity : <b>0.006<\/b><br>Mean : <b>5.83<\/b><br>Variance : <b>0.379<\/b><hr class = \"rPartvisNetwork\">\n<div class =\"showOnMe2\"><div style=\"text-align:center;\"><U style=\"color:blue;\"  onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\">Rules<\/U><\/div>\n<div class=\"showMeRpartTTp2\" style=\"display:none;\">\n<b>  <\/b> 10.45 <= <b>alcohol<\/b> < 11.45<br><b> sulphates <\/b> >= 0.645<br><b> volatile_acidity <\/b> >= 0.405<\/script><script type=\"text/javascript\">$(document).ready(function(){\n$(\".showOnMe2\").click(function(){\n$(\".showMeRpartTTp2\").toggle();\n$.sparkline_display_visible();\n});\n  });<\/script><\/div><\/div>\n\n<\/div>","<div style=\"text-align:center;\">N : <b>6.8%<\/b> (86)<br>Complexity : <b>0.01<\/b><br>Mean : <b>6.419<\/b><br>Variance : <b>0.529<\/b><hr class = \"rPartvisNetwork\">\n<div class =\"showOnMe2\"><div style=\"text-align:center;\"><U style=\"color:blue;\"  onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\">Rules<\/U><\/div>\n<div class=\"showMeRpartTTp2\" style=\"display:none;\">\n<b>  <\/b> 10.45 <= <b>alcohol<\/b> < 11.45<br><b> sulphates <\/b> >= 0.645<br><b> volatile_acidity <\/b> < 0.405<\/script><script type=\"text/javascript\">$(document).ready(function(){\n$(\".showOnMe2\").click(function(){\n$(\".showMeRpartTTp2\").toggle();\n$.sparkline_display_visible();\n});\n  });<\/script><\/div><\/div>\n\n<\/div>","<div style=\"text-align:center;\">N : <b>1.6%<\/b> (20)<br>Complexity : <b>0.004<\/b><br>Mean : <b>5.85<\/b><br>Variance : <b>0.45<\/b><hr class = \"rPartvisNetwork\">\n<div class =\"showOnMe2\"><div style=\"text-align:center;\"><U style=\"color:blue;\"  onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\">Rules<\/U><\/div>\n<div class=\"showMeRpartTTp2\" style=\"display:none;\">\n<b>  <\/b> 10.45 <= <b>alcohol<\/b> < 11.45<br><b> sulphates <\/b> >= 0.645<br><b> volatile_acidity <\/b> < 0.405<br><b> total_sulfur_dioxide <\/b> >= 49.5<\/script><script type=\"text/javascript\">$(document).ready(function(){\n$(\".showOnMe2\").click(function(){\n$(\".showMeRpartTTp2\").toggle();\n$.sparkline_display_visible();\n});\n  });<\/script><\/div><\/div>\n\n<\/div>","<div style=\"text-align:center;\">N : <b>5.2%<\/b> (66)<br>Complexity : <b>0.002<\/b><br>Mean : <b>6.591<\/b><br>Variance : <b>0.43<\/b><hr class = \"rPartvisNetwork\">\n<div class =\"showOnMe2\"><div style=\"text-align:center;\"><U style=\"color:blue;\"  onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\">Rules<\/U><\/div>\n<div class=\"showMeRpartTTp2\" style=\"display:none;\">\n<b>  <\/b> 10.45 <= <b>alcohol<\/b> < 11.45<br><b> sulphates <\/b> >= 0.645<br><b> volatile_acidity <\/b> < 0.405<br><b> total_sulfur_dioxide <\/b> < 49.5<\/script><script type=\"text/javascript\">$(document).ready(function(){\n$(\".showOnMe2\").click(function(){\n$(\".showMeRpartTTp2\").toggle();\n$.sparkline_display_visible();\n});\n  });<\/script><\/div><\/div>\n\n<\/div>","<div style=\"text-align:center;\">N : <b>9.2%<\/b> (117)<br>Complexity : <b>0.008<\/b><br>Mean : <b>6.667<\/b><br>Variance : <b>0.397<\/b><hr class = \"rPartvisNetwork\">\n<div class =\"showOnMe2\"><div style=\"text-align:center;\"><U style=\"color:blue;\"  onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\">Rules<\/U><\/div>\n<div class=\"showMeRpartTTp2\" style=\"display:none;\">\n<b> alcohol <\/b> >= 11.45<br><b> sulphates <\/b> >= 0.645<\/script><script type=\"text/javascript\">$(document).ready(function(){\n$(\".showOnMe2\").click(function(){\n$(\".showMeRpartTTp2\").toggle();\n$.sparkline_display_visible();\n});\n  });<\/script><\/div><\/div>\n\n<\/div>"],"fixed":[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true],"colorClust":["#AE5DCD","#B977D6","#C189DC","#B368D1","#BF83DA","#AE5DCD","#B267D1","#A13EC3","#9F39C2","#AC56CB","#E6E0F8","#AA52CA","#B265D0","#C28BDC","#AB56CB","#A240C4","#9521BA","#9D34C0","#A74CC8","#9219B7","#A74BC7","#8B0AB3","#8904B1"],"labelClust":[5.645,5.346,5.133,5.512,5.198,5.643,5.527,6,6.056,5.717,4.143,5.764,5.544,5.118,5.725,5.975,6.33,6.111,5.83,6.419,5.85,6.591,6.667],"Leaf":[0,0,1,0,1,0,1,1,0,0,1,0,0,1,1,1,0,0,1,0,1,1,1],"font.size":[16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16],"scaling.min":[22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5],"scaling.max":[22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5]},"edges":{"id":["edge1","edge2","edge3","edge4","edge5","edge6","edge7","edge8","edge9","edge10","edge11","edge12","edge13","edge14","edge15","edge16","edge17","edge18","edge19","edge20","edge21","edge22"],"from":[1,2,2,5,5,11,11,1,3,6,6,13,26,26,13,3,7,14,14,29,29,7],"to":[2,4,5,10,11,22,23,3,6,12,13,26,52,53,27,7,14,28,29,58,59,15],"label":["< 10.45","< 0.585",">= 0.585",">= 59.5","< 59.5",">= 0.405","< 0.405",">= 10.45","< 0.645",">= 0.995","< 0.995",">= 3.365","< 8.5",">= 8.5","< 3.365",">= 0.645","< 11.45",">= 0.405","< 0.405",">= 49.5","< 49.5",">= 11.45"],"value":[735,323,412,121,291,220,71,537,240,7,233,114,34,80,119,297,180,94,86,20,66,117],"title":["<div style=\"text-align:center;\"><b>alcohol<\/b><\/div><div style=\"text-align:center;\"><10.45<\/div>","<div style=\"text-align:center;\"><b>sulphates<\/b><\/div><div style=\"text-align:center;\"><0.585<\/div>","<div style=\"text-align:center;\"><b>sulphates<\/b><\/div><div style=\"text-align:center;\">>=0.585<\/div>","<div style=\"text-align:center;\"><b>total_sulfur_dioxide<\/b><\/div><div style=\"text-align:center;\">>=59.5<\/div>","<div style=\"text-align:center;\"><b>total_sulfur_dioxide<\/b><\/div><div style=\"text-align:center;\"><59.5<\/div>","<div style=\"text-align:center;\"><b>volatile_acidity<\/b><\/div><div style=\"text-align:center;\">>=0.405<\/div>","<div style=\"text-align:center;\"><b>volatile_acidity<\/b><\/div><div style=\"text-align:center;\"><0.405<\/div>","<div style=\"text-align:center;\"><b>alcohol<\/b><\/div><div style=\"text-align:center;\">>=10.45<\/div>","<div style=\"text-align:center;\"><b>sulphates<\/b><\/div><div style=\"text-align:center;\"><0.645<\/div>","<div style=\"text-align:center;\"><b>volatile_acidity<\/b><\/div><div style=\"text-align:center;\">>=0.995<\/div>","<div style=\"text-align:center;\"><b>volatile_acidity<\/b><\/div><div style=\"text-align:center;\"><0.995<\/div>","<div style=\"text-align:center;\"><b>pH<\/b><\/div><div style=\"text-align:center;\">>=3.365<\/div>","<div style=\"text-align:center;\"><b>free_sulfur_dioxide<\/b><\/div><div style=\"text-align:center;\"><8.5<\/div>","<div style=\"text-align:center;\"><b>free_sulfur_dioxide<\/b><\/div><div style=\"text-align:center;\">>=8.5<\/div>","<div style=\"text-align:center;\"><b>pH<\/b><\/div><div style=\"text-align:center;\"><3.365<\/div>","<div style=\"text-align:center;\"><b>sulphates<\/b><\/div><div style=\"text-align:center;\">>=0.645<\/div>","<div style=\"text-align:center;\"><b>alcohol<\/b><\/div><div style=\"text-align:center;\"><11.45<\/div>","<div style=\"text-align:center;\"><b>volatile_acidity<\/b><\/div><div style=\"text-align:center;\">>=0.405<\/div>","<div style=\"text-align:center;\"><b>volatile_acidity<\/b><\/div><div style=\"text-align:center;\"><0.405<\/div>","<div style=\"text-align:center;\"><b>total_sulfur_dioxide<\/b><\/div><div style=\"text-align:center;\">>=49.5<\/div>","<div style=\"text-align:center;\"><b>total_sulfur_dioxide<\/b><\/div><div style=\"text-align:center;\"><49.5<\/div>","<div style=\"text-align:center;\"><b>alcohol<\/b><\/div><div style=\"text-align:center;\">>=11.45<\/div>"],"color":["#8181F7","#8181F7","#8181F7","#8181F7","#8181F7","#8181F7","#8181F7","#8181F7","#8181F7","#8181F7","#8181F7","#8181F7","#8181F7","#8181F7","#8181F7","#8181F7","#8181F7","#8181F7","#8181F7","#8181F7","#8181F7","#8181F7"],"font.size":[14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14],"font.align":["horizontal","horizontal","horizontal","horizontal","horizontal","horizontal","horizontal","horizontal","horizontal","horizontal","horizontal","horizontal","horizontal","horizontal","horizontal","horizontal","horizontal","horizontal","horizontal","horizontal","horizontal","horizontal"],"smooth.enabled":[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true],"smooth.type":["cubicBezier","cubicBezier","cubicBezier","cubicBezier","cubicBezier","cubicBezier","cubicBezier","cubicBezier","cubicBezier","cubicBezier","cubicBezier","cubicBezier","cubicBezier","cubicBezier","cubicBezier","cubicBezier","cubicBezier","cubicBezier","cubicBezier","cubicBezier","cubicBezier","cubicBezier"],"smooth.roundness":[0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot"},"manipulation":{"enabled":false},"layout":{"hierarchical":{"enabled":true,"direction":"UD"}},"interaction":{"dragNodes":false,"selectConnectedEdges":false,"tooltipDelay":500,"zoomSpeed":1},"edges":{"scaling":{"label":{"enabled":false}}}},"groups":null,"width":"100%","height":"600px","idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-size:12px;text-align:center;"},"footer":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-size:12px;text-align:center;"},"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":50000,"to":0},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":true,"resetHighlight":true,"clusterOptions":{"fixed":true,"physics":false},"keepCoord":true,"labelSuffix":"(cluster)"},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;\n                      white-space: nowrap;\n                      font-family: cursive;font-size:12px;font-color:purple;background-color: #E6E6E6;\n                      border-radius: 15px;","OnceEvents":{"stabilized":"function() { \n        this.setOptions({layout:{hierarchical:false}, physics:{solver:'barnesHut', enabled:true, stabilization : false}, nodes : {physics : false, fixed : true}});\n    }"},"legend":{"width":0.1,"useGroups":false,"position":"left","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["alcohol","free_sulfur_dioxide","pH","sulphates","total_sulfur_dioxide","volatile_acidity"],"color":["#F1B8C2","#B4C7ED","#8DD2D8","#E1C1A1","#BECC9B","#96D4B5"],"shape":["dot","dot","dot","dot","dot","dot"],"size":[22,22,22,22,22,22],"Leaf":[0,0,0,0,0,0],"font.size":[16,16,16,16,16,16],"id":[10000,10001,10002,10003,10004,10005]},"nodesToDataframe":true},"tree":{"updateShape":true,"shapeVar":"dot","shapeY":"square","colorVar":{"variable":["alcohol","sulphates","total_sulfur_dioxide","volatile_acidity","pH","free_sulfur_dioxide"],"color":["#F1B8C2","#E1C1A1","#BECC9B","#96D4B5","#8DD2D8","#B4C7ED"]},"colorY":{"colRamp":["function (x) ","roundcolor(cbind(palette[[1L]](x), palette[[2L]](x), palette[[3L]](x), ","    if (alpha) palette[[4L]](x))) * 255"],"colorTerm":["#AE5DCD","#B977D6","#C189DC","#B368D1","#BF83DA","#AE5DCD","#B267D1","#A13EC3","#9F39C2","#AC56CB","#E6E0F8","#AA52CA","#B265D0","#C28BDC","#AB56CB","#A240C4","#9521BA","#9D34C0","#A74CC8","#9219B7","#A74BC7","#8B0AB3","#8904B1"],"colorY":["#E6E0F8","#8904B1"],"vardecidedClust":[5.645,5.346,5.133,5.512,5.198,5.643,5.527,6,6.056,5.717,4.143,5.764,5.544,5.118,5.725,5.975,6.33,6.111,5.83,6.419,5.85,6.591,6.667]}},"export":{"type":"png","css":"float:right;-webkit-border-radius: 10;\n                  -moz-border-radius: 10;\n                  border-radius: 10px;\n                  font-family: Arial;\n                  color: #ffffff;\n                  font-size: 12px;\n                  background: #090a0a;\n                  padding: 4px 8px 4px 4px;\n                  text-decoration: none;","background":"#fff","name":"network.png","label":"Export as png"}},"evals":["OnceEvents.stabilized"],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="random-forest" class="level2">
+<h2 class="anchored" data-anchor-id="random-forest">3. Random forest</h2>
+<p>A third model we use here is RandomForest. RandomForest is a natural extension of DecisionTree. A RandomForest is a collection of Deciontrees that are aggregated by majority rule, and is in essence a collection ‘bootstrapped’ decision trees. You need to install <code>randomForest</code> package and open the library <code>randomForest</code>. And also here, once again the same steps: - define object <code>rf_fit</code>;<br>
+- tell we want to use randomforest;<br>
+- set the mode again on regression;<br>
+- set the engine here on randomForest;<br>
+- fit the model on the training_set.</p>
+<p>Print these results (not shown here).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(rf_fit<span class="sc">$</span>fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+ randomForest(x = maybe_data_frame(x), y = y) 
+               Type of random forest: regression
+                     Number of trees: 500
+No. of variables tried at each split: 3
+
+          Mean of squared residuals: 0.3259127
+                    % Var explained: 50.71</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="evaluation-and-prediction" class="level1">
+<h1>EVALUATION AND PREDICTION</h1>
+<p>Now we have three objects of the three models we ran and which we have to compare and evaluate. We do this on the test-set. We compare the three models (<code>lm_fit</code>, <code>dt_fit</code> and <code>rf_fit</code>) on the Men Square Score (MSE) score. We need to find a model algorithm that produces predictors for the outcome (<code>quality</code>) that minimizes the MSE-score. So, the lower the mse-score of the model, the better.</p>
+<section id="accuracy-of-the-lm-model" class="level2">
+<h2 class="anchored" data-anchor-id="accuracy-of-the-lm-model">1. Accuracy of the lm-model</h2>
+<p>Let us first look at the accuracy of the linear-model.</p>
+<p>Now we see a new column, <code>.pred</code>, with a predicted scores for each row.</p>
+<p>It gives here the following mse-score for linear modeling, which we show here.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(lm_mse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 x 2
+  type    MSE
+  &lt;chr&gt; &lt;dbl&gt;
+1 lm    0.467</code></pre>
+</div>
+</div>
+</section>
+<section id="accuracy-of-the-decision-tree-model" class="level2">
+<h2 class="anchored" data-anchor-id="accuracy-of-the-decision-tree-model">2. Accuracy of the Decision Tree Model</h2>
+<p>Then we look at the accuracy of the DecisionTree Model.</p>
+<p>The decision model gives the following mse-score.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dt_mse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 x 2
+  type    MSE
+  &lt;chr&gt; &lt;dbl&gt;
+1 dt    0.596</code></pre>
+</div>
+</div>
+</section>
+<section id="accuracy-of-the-random-forest-model" class="level2">
+<h2 class="anchored" data-anchor-id="accuracy-of-the-random-forest-model">3. Accuracy of the Random Forest Model</h2>
+<p>And then ofcourse we also have to look at the accuracy of the RandomForest-model.</p>
+<p>The Random Forest Model gives us the following mse-score:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(rf_mse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 x 2
+  type    MSE
+  &lt;chr&gt; &lt;dbl&gt;
+1 rf    0.408</code></pre>
+</div>
+</div>
+</section>
+<section id="all-results-together" class="level2">
+<h2 class="anchored" data-anchor-id="all-results-together">All results together</h2>
+<p>Let us put all the results together and compare them with each other.</p>
+<p>Let us show these results together.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 x 2
+  type    MSE
+  &lt;chr&gt; &lt;dbl&gt;
+1 lm    0.467
+2 dt    0.596
+3 rf    0.408</code></pre>
+</div>
+</div>
+<p>Altogether the prediction scores don’t look very well, but we know that RandomForest is the best model for prediction.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">metrics</span>(rf_pred, quality, pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 x 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 rmse    standard       0.638
+2 rsq     standard       0.378
+3 mae     standard       0.351</code></pre>
+</div>
+</div>
+<p>Now we choosed the random forest model, we can look at the importance of the ten independent variables and compare them with each other. We see that alcohol is the most import predictor for quality followed by sulphates ad volatile_acidity. Residul-sugar, pH and fixed_acidity are the lowest important predictors for quality of wine.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vip)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">vip</span>(rf_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="machine-learning-workflow_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Let us look at which percentage of the test sample are wrongly predicted.</p>
+<p><span class="math inline">\(105/307*100= 34,2%\)</span> is not correctly predicted. So <span class="math inline">\(65,8%\)</span> is predicted correctly with this model. We choose the random_forest model as the best opportunity here. Let us look at it once again.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(rf_pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 x 13
+  fixed_~1 volat~2 citri~3 resid~4 chlor~5 free_~6 total~7 density    pH sulph~8
+     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+1     11.2    0.28    0.56     1.9   0.075      17      60   0.998  3.16    0.58
+2      7.5    0.5     0.36     6.1   0.071      17     102   0.998  3.35    0.8 
+3      8.9    0.62    0.18     3.8   0.176      52     145   0.999  3.16    0.88
+4      8.9    0.22    0.48     1.8   0.077      29      60   0.997  3.39    0.53
+5      7.9    0.43    0.21     1.6   0.106      10      37   0.997  3.17    0.91
+6      7.1    0.71    0        1.9   0.08       14      35   0.997  3.47    0.55
+# ... with 3 more variables: alcohol &lt;dbl&gt;, quality &lt;dbl&gt;, pred &lt;dbl&gt;, and
+#   abbreviated variable names 1: fixed_acidity, 2: volatile_acidity,
+#   3: citric_acid, 4: residual_sugar, 5: chlorides, 6: free_sulfur_dioxide,
+#   7: total_sulfur_dioxide, 8: sulphates</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="conclusion" class="level1">
+<h1>CONCLUSION</h1>
+<p>In this simple scenario, we were interested in seeing how the model performs on the testing data that were left out. The code fitted the model to the training data and apply it to the testing data. There are other ways we could have done this, but the way we do it here will be useful when we start using more complex models where we need to tune model parameters. Root Mean Square Error (RMSE) is a standard way to measure the error of a model in predicting quantitative data. RMSE is a good measure to use if we want to estimate the standard deviation of a typical observed value from our model’s prediction, R-squared is a statistical measure that represents the goodness of fit of a regression model. The ideal value for r-square is 1. The closer the value of r-square to 1, the better is the model fitted. In Machine Learning, MAE is a model evaluation metric often used with regression models. After the model is fitted and applied, we collected the performance metrics and display them and show the predictions from the testing data. 34,2% is predicted wrong, which is at the end maybe a bit disappointing after all the work. But we know what the best model is for this data-set.<br>
+This work has some <strong>strengths</strong> We found a uniform and consistent way to compare models with each and to choose the best one out of them. One of the big advantages of the random forest model (which is choosen here) is the versality and flexibility. It can be used for both regression and classification problems. But this work has also some <strong>limitations</strong>. Random forest is good for predictions and regression, so this could be used by the researcher for interpretation here. But for of modelling is relatively new for this researcher (instead of linear regression for example) so he found himself restricted here at the end. A limitation of random forest is also that this algorithm is fast to train, but quit slow to create predictions once they are trained: a more accurate prediction needs more trees, which results in a slower model. And a last limitation which we have to mention here is, that we used only three models and maybe other models were better for these data.</p>
+<p>Lesson learned is that we found a consitent workflow for analyzing data as presented here on quality of wine. It is a very good starting point for further research. The next step would be now to work on increasing the predictive power of the model and start with tuning on the hyperparameters.</p>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+<p>Attalides, N. (2020). <a href="https://www.barcelonar.org/workshops/BarcelonaR_Introduction_to_Machine_Learning.pdf">Introduction to machine learning. Barcelona. Presentation</a></p>
+<p>Barter, R.(2020). <a href="http://www.rebeccabarter.com/blog/2020-03-25_machine_learning/">Tidymodels: tidy machine learning in R</a></p>
+<p>Baumer, B. Kaplan, D.T., Horton, N.J. (2017). <em>Modern data science with R</em>. CRCPress: Boca Raton.</p>
+<p>Boehmke, B. &amp; Greenwell, B. (2020). <em>Hands on machine learning with R</em>. <a href="https://bradleyboehmke.github.io/HOML">Bookdown version</a></p>
+<p>Cortez, P., Cerdeira, A., Almeida, F., Matos, T. &amp; Reis, J. (2009). Modeling wine prefernces by data mining from physicochemical properties. <em>Decision Support Systems, 47</em>, 547-533.</p>
+<p>Hartie, T., Tibskirani, R. &amp; Friedmann, J. (2009). <em>The elements of statistical learning. Data mining, inference and prediction</em>. 2nd edition. Springer: New York.</p>
+<p>Irizarry, R.A. (2020). <em>Introduction to data science. Data analysis and prediction algorithms with R</em>. CRC Press: Boca Raton.</p>
+<p>James, S., Witten, D., Hastie, T.. &amp; Tibskirani, R. (2013). <em>An introduction to statistical learning with application in R</em>.</p>
+<p>Jonkman, H. (2019-2021). <a href="http://www.harriejonkman.nl/HarriesHoekje/">Harrie’s hoekje, his website with different blogs on machine learning in Dutch</a></p>
+<p>Kuhn, M. 7 Johnson, K. (2013). <em>Applied predictive modeling</em>. Springer: New York.</p>
+<p>Kuhn, M. &amp; Johnson, K. (2019). <a href="www.feat.engineering">Feature engineering and selection: A practical approach for predictive models</a></p>
+<p>Kuhn, M. &amp; Silge, J. (2021). Tydy modeling with R. <a href="https://www.tmwr.org/">Bookdown version</a></p>
+<p>Lendway, L. (2020). 2020_north-tidymodels.<a href="https://github.com/llendway/2020_north_tidymodels">Introduction on github</a></p>
+<p>Lewis, J.E. (2020). <a href="https://www.youtube.com/watch?v=WlL44_is4TU">Coding machine learning models</a></p>
+<p>Raoniar, R. (2021). Modeling binary logistic regression using tidymodels library in R (Part 1). <a href="https://towardsdatascience.com/modelling-binary-logistic-regression-using-tidymodels-library-in-r-part-1-c1bdce0ac055">Towards data science</a></p>
+<p>Ruiz, E. (2019). <a href="https://rviews.rstudio.com/2019/06/19/a-gentle-intro-to-tidymodels/">A gentle introduction to tidymodels</a></p>
+<p>Seyedian, A. (2021). <a href="https://www.r-bloggers.com/2021/02/using-tidymodels-to-predict-health-insurance-cost/">Medical cost personal datasets. Insurance forcast by using linear regression</a></p>
+<p>Silge, J. (2020). <a href="https://juliasilge.com/blog/palmer-penguins/">Get started with tidymodels and #TidyTuesdag Palmer penguins</a></p>
+<p>Silge, J. (2021). <a href="https://supervised-ml-course">Supervised machine learning case studies in R</a></p>
+<p>Tidymodels. <a href="https://www.tidymodels.org/">Tidymodels website</a></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

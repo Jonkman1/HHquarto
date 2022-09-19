@@ -1,20 +1,12 @@
 ---
-title: "BayesRules"
+title: "Van distill naar quarto?"
 description: |
-  Een korte bespreking van Bayes Rules!
-author:
-  - name: Harrie Jonkman
-date: 2022-07-06
-output:
-  distill::distill_article:
-    self_contained: false
+     Een blog maken met quarto.
+author: "Danielle Navarro bewerking HarrieJonkman"
+date: "2022-05-31"
+categories: [analyse]
+image: "Screenshot.PNG"
 ---
-
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-```
-
 
 ![Bayes Rules!](Screenshot.PNG){width=50%}
 

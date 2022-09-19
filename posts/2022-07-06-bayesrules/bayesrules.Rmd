@@ -1,0 +1,44 @@
+---
+title: "BayesRules"
+description: |
+  Een korte bespreking van Bayes Rules!
+author:
+  - name: Harrie Jonkman
+date: 2022-07-06
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+![Bayes Rules!](Screenshot.PNG){width=50%}
+
+## Bayes Rules! Een prachtig Bayesiaans studieboek
+
+
+De afgelopen weken heb ik in een aantal blogs over delen van *Bayes Rules! An Introduction to Applied Bayesian Modeling (Johnson, Ott en Dogucu, 2022)* [hier](https://www.bayesrulesbook.com/) geschreven. Wat mij betreft op dit moment wel het beste introductieboek op toegepaste Bayesiaanse statistiek. Nog één keer wil ik hier de aandacht op vestigen. 
+Het boek bestaat uit vier delen. Het eerste deel biedt een onderbouwing van het Bayesiaanse perspectief. Johnson et all. leren je hoe je als Bayesiaan denkt vanuit de balans van de kennis die we al hebben (prior kennis) en de kennis die we in een studie opdoen (informatie van de data, likelihood). Hoe meer nieuwe kennis we hebben, hoe beter we de kennis kunnen verfijnen. Mensen die allereerst anders tegen zaken aankijken, kunnen op basis van nieuwe kennis naar elkaar toegroeien. Johnson et all. laten zien hoe we bestaande kennis kunnen uitdrukken en samenvatten, hoe we nieuwe kennis uitdrukken en we vervolgens een posterior model kunnen maken als. 
+ 
+
+$$\text{posterior} = \frac{\text{prior} \cdot \text{likelihood}}{\text{normalizing constant}} \propto \text{prior} \cdot \text{likelihood}$$
+
+Oftewel meer technisch
+    
+$$f(\pi|y) = \frac{f(\pi)L(\pi|y)}{f(y)} \propto f(\pi)L(\pi|y)$$ 
+Aan de hand van voorbeelden laten ze zien hoe dit alles werkt. Verschillende priors leiden en verschillende data leiden steeds tot verschillende posteriors. Steeds gaat het om balanceren en verfijnen van de uitkomsten. Voor niet al te ingewikkelde problemen zijn er enkele standaardmodellen te gebruiken (bv. Beta-binomial, gamma-poisson en normal-normal) en ze laten zien hoe dat werkt. Maar daar kom je al snel niet mee weg. 
+Omdat het snel te ingewikkeld wordt, moet je dat de uitkomsten schatten. Omdat je met de computers in grote hoeveelheden kunt werken, kun je waarschijnlijkheidsmodellen simuleren. Dat doe je met MCMC-technieken waarmee in `R` of andere programma’s goed is te werken. Je laat de computer het schattingswerk doen en jij diagnosticeert vervolgens de kwaliteit van de uitkomsten. MCMC kun je met verschillende technieken uitvoeren (Metropolis-Hastings, Gibbs sampling en Hamiltonian Monte Carlo) en tegenwoordig is `rstan` het state of the art-pakket. In het boek wordt onder de motorkap hiervan gekeken. De hele Bayesiaanse techniek stelt je in staat om posterior schattingen te maken, hypothesen te testen en te vergelijken en om voorspellingen te doen. Hoofdstuk 8, waarmee het tweede deel afsluit en dat op schatten, testen en voorspellen ingaat, is wat mij betreft een kernhoofdstuk van het boek. 
+De rest van het boek worden verschillende analyses gepresenteerd en laten Johnson et all. zien hoe je dat kunt doen. Ze beginnen met een simpele Bayesiaanse normale regressie met een uitkomstmaat $y$ en een predictor $x$, laten zien wat je aan wel weet en wat je nog niet weet van de parameters die van belang zijn, wat het onderzoek aan kennis oplevert en wat dit vervolgens aan posterior kennis oplevert. Maar ook hoe je deze modellen evalueert en of het een eerlijk en goed model is en wat de nauwkeurigheid ervan is. Aan het simpele model kunnen makkelijk variabelen toegevoegd worden. Ook andere voorbeelden van regressie (poisson en negatief binomiale regressie) worden getoond. Met Bayesiaanse technieken kan ook worden geclassificeerd en daarom worden uitgebreide voorbeelden van logistische regressie en naïeve Bayesiaanse classificatie getoond. 
+Het vierde deel gaat, ten slotte, verder op regressie en classificatievoorbeelden in, maar hier worden geclusterde voorbeelden getoond. Hierbij wordt het midden gezocht tussen compleet gepoolde modellen (universeel model waarbij geen rekening wordt gehouden met de groep waartoe je behoort) en niet gepoolde modellen (waarbij alleen maar vanuit de groep wordt gedacht). Normaal hierarchische regressie modellen zonder voorspellers, met voorspellers, geclusterde logistische modellen en verdere uitbreidingen worden getoond. 
+Wat het boek zo mooi maakt, is dat ze met een beperkt aantal pakketten (waaronder hun eigen `bayesrules` met datasets en duidelijke visualisaties) werken en steeds op een vergelijkbare wijze.  Een heerlijk boek waar je heel lang in kunt blijven hangen. 
+> Goodbye, dear Alicia, Miles and Mine. Ik heb me wat door het boek heen gewerkt, voel me hierdoor wat sterker in deze vorm van analyse en hoop nog wat meer Bayesiaanse dingen te doen. Jullie worden bedankt. 
+
+
+Johnson, A.A., Ott, M.Q. & `Dogucu, M. (2022). *Bayes Rules! An Introduction to Applied Bayesian Modeling*. Boca Raton: CRC Press.
+
+
+

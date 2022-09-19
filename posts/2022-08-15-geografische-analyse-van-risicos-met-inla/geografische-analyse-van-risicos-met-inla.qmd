@@ -1,20 +1,13 @@
 ---
 title: "Geografische analyse van risico's met INLA"
 description: |
-  Paula Moraga laat zien hoe je geografische gegevens kunt analyseren met het programma INLA
-author:
-  - name: Paula Moraga/Harrie Jonkman
-    url: {}
-date: 2022-08-15
-output:
-  distill::distill_article:
-    self_contained: false
+     Paula Moraga laat zien hoe je geografische gegevens kunt analyseren met het programma INLA
+author: "Paula Moraga, bewerking HarrieJonkman"
+date: "2022-08-15"
+categories: [analyse]
+image: "Screenshot.PNG"
 ---
 
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-```
 
 ![Paula Moraga's boek](Screenshot.PNG){width=50%}
 

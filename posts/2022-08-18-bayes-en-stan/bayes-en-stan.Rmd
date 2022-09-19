@@ -1,0 +1,23 @@
+---
+title: "Bayes en Stan"
+description: |
+  Over het werken met Bayesiaanse analyse in Stan.
+author:
+  - name: Jim Albert/Harrie Jonkman
+    url: {}
+date: 2022-08-18
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Onlangs las ik *Probability and Bayesian Modeling* van Albert en Hu. Dat boek gaat over waarschijnlijkheid en bayesiaanse statistiek. Om concepten en werkwijzen duidelijk te maken gebruiken Albert en Hu het programma `JAGS`. Later plaatste Jim Albert ook een blog op internet waarin hij een deel van de analyses overdeed en daarbij het programma `Stan` en de R-interface `Brms`. gebruikt. Deze blog van Albert heb ik bewerkt en wat ingekort. Zo kon ik oefenen met `Stan` en `Brms`. In deze blog heb ik tegelijk geoefend met het nieuwe programma `Quatro`dat gemaakt is voor het maken van eigentijdse wetenschappelijke producten; voor het maken van boeken bijvoorbeeld. In deze blog heb ik voor dit keer een klein html-boekje gemaakt van Alberts tutorial dat uit acht hoofdstukken bestaat. Zo was het dit keer niet alleen oefenen met bayesiaanse analyse maar ook met wetenschappelijke opmaak.
+
+
+[Hier](https://luminous-dasik-7dec19.netlify.app/) vind je het boekje. Alle documenten vind je weer [in deze map](https://github.com/Jonkman1/AlbertStanBook) 
+

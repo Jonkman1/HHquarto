@@ -1,9 +1,9 @@
 ---
-title: "Van distill naar quarto?"
+title: "Bayes Rules!"
 description: |
-     Een blog maken met quarto.
-author: "Danielle Navarro bewerking HarrieJonkman"
-date: "2022-05-31"
+     Aantekeningen bij een prachtig Bayesiaans studieboek
+author: "HarrieJonkman"
+date: "2022-07-06"
 categories: [analyse]
 image: "Screenshot.PNG"
 ---

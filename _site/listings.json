@@ -2,9 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/2022-03-25-machine-learning-workflow/machine-learning-workflow_files/Blob-1.0/LICENSE.html",
-      "/posts/2022-03-25-machine-learning-workflow/machine-learning-workflow_files/canvas-toBlob-1.0/LICENSE.html",
-      "/posts/2022-03-25-machine-learning-workflow/machine-learning-workflow_files/FileSaver-1.1.20151003/LICENSE.html",
+      "/posts/2022-09-20-wijken-plotten/wijken.html",
       "/posts/2022-08-15-geografische-analyse-van-risicos-met-inla/geografische-analyse-van-risicos-met-inla.html",
       "/posts/2022-07-06-bayesrules/bayesrules.html",
       "/posts/2022-08-18-bayes-en-stan/bayes-en-stan.html",
@@ -14,7 +12,6 @@
       "/posts/2022-05-05-kaarten-maken-met-r/kaarten-maken-met-r.html",
       "/posts/2022-03-26-naieve-bayesiaanse-classificatie/naeve-bayesiaanse-classificatie.html",
       "/posts/2022-03-29-wat-kun-je-met-bayes/wat-kun-je-met-bayes.html",
-      "/posts/2022-03-25-machine-learning-workflow/machine-learning-workflow.html",
       "/posts/2022-03-22-bayesiaanse-principes/bayes-principes.html",
       "/posts/2022-02-11-regressie-en-zo/regressie-en-zo.html",
       "/posts/2022-02-11-multilevelrstan/multilevelrstan.html",

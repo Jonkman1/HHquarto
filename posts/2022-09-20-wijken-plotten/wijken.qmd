@@ -1,0 +1,260 @@
+---
+title: "Wijken plotten"
+description: |
+    Over het maken van kaarten
+author: "Daryn Ramsden, bewerking HarrieJonkman"
+date: "2022-08-18"
+categories: [visualization]
+image: "Screenshot.PNG"
+---
+
+
+### Inleiding
+Een instructieve handleiding op het maken van kaart is van de hand van Daryn Ramsden, die deze handleiding schreef om te laten zien hoe je dit met de R-pakketten 'ggplot'(en `sf`) kunt doen. Hij doet dat van de stad Chicago met z'n communities. Ook hij koppelt deze geografische data aan aanvullende informatie.Ook Daryn bedankt.
+
+Dit deel, schrijft Daryn, gaat over het gebruik van het `ggplot2`-pakket om eenvoudige kaarten te maken met behulp van R. Alle nodige invoergegevens zijn toegankelijk op [hier](https://github.com/thisisdaryn/data/tree/master/geo/chicago).
+
+Hij heeft ontdekt dat ggplot2 een toegankelijke ingang is voor het maken van kaarten in R: `ggplot2` is een makkelijke datavisualisatieoplossing in het algemeen en het maken van kaarten met `ggplot2` vereist relatief weinig nieuwe kennis om aan de slag te gaan met het maken van eenvoudige kaarten.
+
+Hieronder gaat het niet om principes van goede cartografie. De kaarten worden in deze blog in de eerste plaats gemaakt om de functionaliteit van de gebruikte pakketten te demonstreren. Hij raadt iedereen die kaarten publiceert voor publieke consumptie aan om meer na te denken over de technische keuzes die gemaakt worden, bv. de keuze van schalen, dan deze post demonstreert.
+
+### Het `sf` pakket
+
+Het `sf` pakket is een sleutel tot het eenvoudig maken van kaarten met behulp van `ggplot2`. De naam van het pakket is afgeleid van *simple features*, een gestandaardiseerde manier om ruimtelijke vectorgegevens te coderen.
+
+### read_sf gebruiken om een GeoJSON bestand in te lezen 
+De code hieronder gebruikt `sf::read_sf` om vector data in te lezen in GeoJSON formaat. Dit GeoJSON bestand is afkomstig van de Chicago Data Portal en bevat de grenzen van 77 geïdentificeerde communities in de stad Chicago, Illinois.
+
+```{r}
+library(sf)
+
+chi_map <- read_sf("https://raw.githubusercontent.com/thisisdaryn/data/master/geo/chicago/Comm_Areas.geojson") 
+```
+
+Een blik op het `chi_map` object laat zien dat het lijkt op een typisch dataframe, misschien met een paar uitzonderingen: er is een begrenzingskader, `bbox`, wat tekst, `proj4string` die het gebruikte project aangeeft, en een `geometry` variabele die lengte- en breedtecoördinaten lijkt te bevatten. (De schermafbeelding hieronder is het resultaat van het uitvoeren van de head functie met `chi_map` als invoer op mijn eigen machine).
+
+
+```{r}
+head(chi_map)
+```
+
+Hier zien we de top van het `sf`-object ingelezen uit een GeoJSON bestand. 
+
+### Een opmerking over het gebruik van shapefiles
+
+Als alternatief hadden wij de gegevens kunnen inlezen van een shapefile die de equivalente geospatiale informatie bevat. Shapefiles zijn een industrie-standaard, zeer algemeen bestandsformaat, en het is aannemelijk dat dit het formaat is waarmee de gegevens waarmee je wilt werken het gemakkelijkst gedistribueerd worden.
+
+De github repository bevat ook een shapefile directory, *Comm_Areas_shp* met gelijkwaardige geospatiale informatie die ook verkregen werd via de Chicago Data Portal.
+
+### Gebruik van `ggplot2` met `geom_sf`
+
+De sleutel tot het gebruik van `ggplot2` om kaarten te maken met `sf` objecten is dat ze ook dataframes zijn en dus in principe klaar om gebruikt te worden als data voor `ggplot2::ggplot`.
+
+### Eerste kaart met geom_sf
+We kunnen een eerste kaart maken door ons kaart-dataframe te gebruiken als data-input voor `ggplot2::ggplot` en door gebruik te maken van een speciale geometrie, `ggplot2::geom_sf:`
+
+```{r}
+library(ggplot2)
+
+ggplot(data = chi_map) + geom_sf()
+```
+
+### Labels toevoegen met geom_sf_text
+
+Een andere handige geometrie die ons in staat stelt om vrij eenvoudig informatie aan kaarten toe te voegen is `ggplot2::geom_sf_text`. In de onderstaande code gebruiken we deze geometrie om het aantal identificatienummers van elk gebied in de Chicago gemeenschap toe te voegen aan de eenvoudige kaart.
+
+```{r}
+ggplot(data = chi_map) + 
+  geom_sf() + 
+  geom_sf_text(aes(label = area_num_1))
+```
+
+### Het thema van een kaart veranderen
+
+We kunnen het thema van een kaart veranderen, net als met elke andere `ggplot2` grafiek. Bijvoorbeeld, hier is de vorige kaart met een extra oproep aan `ggplot2::theme_bw` om een zwart-wit thema te krijgen.
+
+```{r}
+ggplot(data = chi_map) + 
+  geom_sf() + 
+  geom_sf_text(aes(label = area_num_1)) +
+  theme_bw()
+```
+
+### Andere gegevens verkrijgen
+
+Om chloropleth-kaarten te maken, moeten we andere informatie verkrijgen die overeenstemt met de geografische gebieden die in de kaart worden afgebakend.
+
+Chicago Open Data heeft een dataset van [Publieke Gezondheidsstatistiek voor communities](https://data.cityofchicago.org/Health-Human-Services/Public-Health-Statistics-Selected-public-health-in/iqnk-2tcu). Dit is een goede databron om te gebruiken om chloropleth kaarten te maken in combinatie met de geospatiale gegevens.
+
+```{r}
+library(readr)
+
+chi_health <- read_csv("https://raw.githubusercontent.com/thisisdaryn/data/master/geo/chicago/Chicago_Health_Statistics.csv") 
+
+
+head(chi_health)
+```
+
+In dit bestand zijn de identificaties van communities numerieke variabelen. Om de twee databestanden (chi_map en Chi_health) te kunnen samenvoegen, moet een nieuwe kolom, area_num_1, worden aangemaakt als tekst/karakterdata. (Door dezelfde naam, area_num_1, te gebruiken die reeds in het chi_map data frame staat, wordt het samenvoegen bijzonder gemakkelijk.).
+
+```{r}
+library(dplyr)
+
+chi_health <- chi_health %>% 
+  mutate(area_num_1 = as.character(`Community Area`))
+```
+
+### Samenvoegen van een `sf`-object met een ander dataframe
+Vervolgens, gebruik `dplyr::left_join` om chi_map te verbinden met chi_health:
+
+```{r}
+chi_health_map <- left_join(chi_map, chi_health, by = "area_num_1")
+```
+
+Dit creëert een enkel dataframe met de geografische grenzen en de waarden voor de gemeten variabelen.
+
+### Een chloropleth-kaart maken
+
+Om een chloropleth-kaart te maken met behulp van een van de statistieken in het samengevoegde dataframe, kunnen we de fill aesthetic gebruiken. Hier gebruiken we de kolom "Unemployment" van de samengevoegde gegevens:
+
+```{r}
+chi_health_map_nl<-chi_health_map %>%
+  rename(Werkloosheid=Unemployment) 
+
+```
+
+```{r}
+ggplot(data = chi_health_map_nl, aes(fill = Werkloosheid)) + 
+  geom_sf() + 
+  ggtitle("Werkloosheidspercentages in de communities van Chicago")
+```
+
+### De schaal veranderen
+De vorige kaart gebruikt de standaard continue schaal voor de *vulling* esthetiek. Merk op dat we dezelfde kaart kunnen maken als voorheen door `scale_fill_continuous` te gebruiken:
+
+```{r}
+ggplot(data = chi_health_map_nl, aes(fill = Werkloosheid)) +
+  geom_sf() + 
+  scale_fill_continuous() + 
+  ggtitle("Werkloosheidpercentages in communities van Chicago")
+```
+
+### Gebruik van viridis scale
+We kunnen viridis scale als alternatief gebruiken die ook beschikbaar is voor `scale_fill_continuous`:
+
+```{r}
+ggplot(data = chi_health_map_nl, aes(fill = Werkloosheid)) +
+  geom_sf() + 
+  scale_fill_continuous(type = "viridis") + 
+  ggtitle("Werkloosheidsperscentages in communities van Chicago")
+```
+
+### Continue schaal met de hand instellen
+Een andere optie is met de hand instellen van *laag* and *hoog* argumenten voor `scale_fill_continuous`.
+
+```{r}
+ggplot(data = chi_health_map_nl, aes(fill = Werkloosheid)) +
+  geom_sf() + 
+  scale_fill_continuous(low = "ivory", high = "brown") + 
+  ggtitle("Werkloosheidspercentages in communities van Chicago")
+```
+
+### Een divergente schaal gebruiken
+Misschien wil je wel een divergente schaal gebruiken:
+
+Om een divergerende - maar nog steeds continue schaal te krijgen - kun je `ggplot2::scale_fill_gradient2` gebruiken. Om deze schaal te gebruiken, stelt je kleuren in voor de argumenten *low, high* en *mid*. Het kan zijn dat u ook het *midpoint* argument moet instellen (dat anders standaard op 0 zou worden gezet).
+
+```{r}
+ggplot(data = chi_health_map_nl, aes(fill = Werkloosheid)) +
+  geom_sf() + 
+  scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 20) +
+  ggtitle("Werkloosheidspercentages in communities van Chicago")
+```
+
+### Gebruik van een discrete schaal
+Tot nu toe hebben we continue schalen gebruikt om de communities van de chloroplethkaarten in te kleuren. Dit is een gevolg van het gebruik van een numerieke variabele als onze *fill* aes. Als alternatief kunnen we een discrete schaal gebruiken door de *fill* toe te wijzen aan een categorische variabele.
+
+### Een nieuwe categorische variabele creëren
+Maak eerst een nieuwe categorische variabele voor Werkloosheid - of een andere variabele in de gegevens van uw keuze. De code gebruikt `dplyr::case_when` om de variabele Werkloosheid in bereiken te verdelen:
+
+
+```{r}
+chi_health_map_nl <- chi_health_map_nl %>% 
+  mutate(Werkl_cat = case_when(
+    Werkloosheid <= 10 ~ "0 - 10",
+    10 < Werkloosheid & Werkloosheid <= 20 ~ "10+ - 20",
+    20 < Werkloosheid & Werkloosheid <= 30 ~ "20+ - 30",
+    30 < Werkloosheid  ~ "30+"))
+```
+
+Now, plot the new map:
+
+```{r}
+ggplot(data = chi_health_map_nl) + 
+  geom_sf(aes(fill = Werkl_cat))  +
+  labs(fill = "Werkloosheid (%)") + 
+  ggtitle("Werkloosheidspercentages in communities van Chicago")
+```
+
+### Punten plotten op de kaart
+Om een voorbeeld te geven van het plotten van punten op een kaart, kunnen we gebruik maken van [Chicago Restaurant Inspectie Data](https://data.cityofchicago.org/Health-Human-Services/Food-Inspections/4ijn-s7e5) voor februari 2020. Lees eerst de gegevens in:
+
+
+```{r}
+inspections <- read_csv("https://raw.githubusercontent.com/thisisdaryn/data/master/geo/chicago/Food_Inspections.csv")
+```
+
+Deze dataset heeft de volgende variabelen: 
+- Inspection    
+- ID,   
+- DBA     
+- Name,    
+- AKA,        
+- Name,    
+- License #,       
+- Facility     
+- Type,    
+- Risk,     
+- Address,    
+- City,     
+- State,    
+- Zip,     
+- Inspection Date,     
+- Inspection     
+- Type,    
+- Results,    
+- Violations,     
+- Latitude,     
+- Longitude, and      
+- Location.
+
+Nu kunnen we elk geïnspecteerd restaurant in de tijdsperiode op de kaart plaatsen door de *x* en *y* aes te koppelen aan de `Longitude` en `Latitude` variabelen in het dataframe. (Bovendien, de code hieronder mapt de `kleur` aes aan de `Results` variabele).
+
+```{r}
+ggplot() + 
+  geom_sf(data = chi_map, fill = "ivory", colour = "ivory") + 
+  geom_point(data = inspections, aes(x = Longitude, y = Latitude, colour = Results)) +
+  scale_color_viridis_d()
+```
+
+### Interactieve kaarten met `plotly`
+Het maken van interactieve kaarten met `plotly` kan ook relatief eenvoudig zijn. In de onderstaande code voeren we de volgende stappen uit:
+
+1. Maak een nieuwe variabele, `desc` met daarin de Restaurantnaam, de inspectiedatum en het resultaat van de inspectie aan de hand van de corresponderende variabelen in de gegevens.    
+2. Maak een kaart met een uniforme achtergrondkleur met punten voor elke restaurantinspectie    
+3. Maak een interactieve grafiek met `plotly::ggplotly` met de `desc` variabele als tooltip     
+
+
+```{r}
+library(plotly)
+inspections <- inspections %>% mutate(desc = paste(`AKA Name`, `Inspection Date`, Results, sep = "\n"))
+
+insp_plt <- ggplot() + 
+  geom_sf(data = chi_map, fill = "ivory", colour = "ivory") + 
+  geom_point(data = inspections, 
+             aes(x = Longitude, y = Latitude, colour = Results, text = desc)) +
+  scale_color_viridis_d()
+
+ggplotly(insp_plt, tooltip = "desc")
+```
+

@@ -10,10 +10,11 @@ website:
         href: https://github.com/Jonkman1
       - icon: twitter
         href: https://twitter.com
+
 format:
   html:
-    theme: cosmo
-    css: styles.css
+    theme: theme.scss
 
 
+editor: source
 

@@ -121,10 +121,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -196,7 +195,37 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introductie" id="toc-introductie" class="nav-link active" data-scroll-target="#introductie">Introductie</a>
+  <ul class="collapse">
+  <li><a href="#data-voorbeeld" id="toc-data-voorbeeld" class="nav-link" data-scroll-target="#data-voorbeeld">Data voorbeeld</a></li>
+  </ul></li>
+  <li><a href="#likelihood-inferentie-met-lmer" id="toc-likelihood-inferentie-met-lmer" class="nav-link" data-scroll-target="#likelihood-inferentie-met-lmer">Likelihood inferentie met <code>lmer()</code></a>
+  <ul class="collapse">
+  <li><a href="#model-1-variërend-intercept-model-zonder-voorspellers-variantiecomponentenmodel" id="toc-model-1-variërend-intercept-model-zonder-voorspellers-variantiecomponentenmodel" class="nav-link" data-scroll-target="#model-1-variërend-intercept-model-zonder-voorspellers-variantiecomponentenmodel">Model 1: Variërend intercept model zonder voorspellers (Variantiecomponentenmodel)</a></li>
+  <li><a href="#model-2-variërend-intercept-model-met-een-enkele-voorspeller" id="toc-model-2-variërend-intercept-model-met-een-enkele-voorspeller" class="nav-link" data-scroll-target="#model-2-variërend-intercept-model-met-een-enkele-voorspeller">Model 2: Variërend intercept model met een enkele voorspeller</a></li>
+  <li><a href="#model-3-variërend-intercept-en-slope-model-met-een-enkele-voorspeller" id="toc-model-3-variërend-intercept-en-slope-model-met-een-enkele-voorspeller" class="nav-link" data-scroll-target="#model-3-variërend-intercept-en-slope-model-met-een-enkele-voorspeller">Model 3: Variërend intercept en slope model met een enkele voorspeller</a></li>
+  </ul></li>
+  <li><a href="#bayesiaanse-inferentie-voor-model-1" id="toc-bayesiaanse-inferentie-voor-model-1" class="nav-link" data-scroll-target="#bayesiaanse-inferentie-voor-model-1">Bayesiaanse inferentie voor Model 1</a>
+  <ul class="collapse">
+  <li><a href="#gebruik-van-het-rstanarm-pakket" id="toc-gebruik-van-het-rstanarm-pakket" class="nav-link" data-scroll-target="#gebruik-van-het-rstanarm-pakket">Gebruik van het rstanarm pakket</a></li>
+  <li><a href="#prior-distributies" id="toc-prior-distributies" class="nav-link" data-scroll-target="#prior-distributies">Prior distributies</a></li>
+  <li><a href="#directe-output-van-stan_lmer" id="toc-directe-output-van-stan_lmer" class="nav-link" data-scroll-target="#directe-output-van-stan_lmer">Directe output van <code>stan_lmer</code></a></li>
+  <li><a href="#andere-output-van-stan_lmer" id="toc-andere-output-van-stan_lmer" class="nav-link" data-scroll-target="#andere-output-van-stan_lmer">Andere output van <code>stan_lmer</code></a></li>
+  </ul></li>
+  <li><a href="#bayesiaanse-inferentie-voor-model-2-en-3" id="toc-bayesiaanse-inferentie-voor-model-2-en-3" class="nav-link" data-scroll-target="#bayesiaanse-inferentie-voor-model-2-en-3">Bayesiaanse inferentie voor Model 2 en 3</a>
+  <ul class="collapse">
+  <li><a href="#model-2-een-voorspeller-op-studentenniveau-toevoegen" id="toc-model-2-een-voorspeller-op-studentenniveau-toevoegen" class="nav-link" data-scroll-target="#model-2-een-voorspeller-op-studentenniveau-toevoegen">Model 2: Een voorspeller op studentenniveau toevoegen</a></li>
+  </ul></li>
+  <li><a href="#evalueren-van-model-convergentie" id="toc-evalueren-van-model-convergentie" class="nav-link" data-scroll-target="#evalueren-van-model-convergentie">Evalueren van model convergentie</a></li>
+  <li><a href="#literatuur" id="toc-literatuur" class="nav-link" data-scroll-target="#literatuur">Literatuur</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
 

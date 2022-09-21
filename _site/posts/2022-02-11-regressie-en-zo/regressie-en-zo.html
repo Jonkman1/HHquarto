@@ -120,10 +120,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 }</script>
 
 
-<link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -195,7 +194,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#regression-and-other-stories" id="toc-regression-and-other-stories" class="nav-link active" data-scroll-target="#regression-and-other-stories">Regression and other stories</a></li>
+  <li><a href="#interssante-blog" id="toc-interssante-blog" class="nav-link" data-scroll-target="#interssante-blog">Interssante blog</a></li>
+  <li><a href="#bayesiaanse-regressieanalyse-met-rstanarm" id="toc-bayesiaanse-regressieanalyse-met-rstanarm" class="nav-link" data-scroll-target="#bayesiaanse-regressieanalyse-met-rstanarm">Bayesiaanse regressieanalyse met Rstanarm</a></li>
+  <li><a href="#de-data" id="toc-de-data" class="nav-link" data-scroll-target="#de-data">De data</a></li>
+  <li><a href="#regressie-analyse" id="toc-regressie-analyse" class="nav-link" data-scroll-target="#regressie-analyse">Regressie Analyse</a></li>
+  <li><a href="#visualiseren-van-de-posterior-distributies-met-bayesplot" id="toc-visualiseren-van-de-posterior-distributies-met-bayesplot" class="nav-link" data-scroll-target="#visualiseren-van-de-posterior-distributies-met-bayesplot">Visualiseren van de posterior distributies met bayesplot</a></li>
+  <li><a href="#visualiseren-van-slopes-van-de-posterior-distributie" id="toc-visualiseren-van-slopes-van-de-posterior-distributie" class="nav-link" data-scroll-target="#visualiseren-van-slopes-van-de-posterior-distributie">Visualiseren van slopes van de posterior distributie</a></li>
+  <li><a href="#posterior-voorspellingscontroles" id="toc-posterior-voorspellingscontroles" class="nav-link" data-scroll-target="#posterior-voorspellingscontroles">Posterior voorspellingscontroles</a></li>
+  <li><a href="#het-model-gebruiken-om-voorspellingen-te-doen-met-nieuwe-gegevens" id="toc-het-model-gebruiken-om-voorspellingen-te-doen-met-nieuwe-gegevens" class="nav-link" data-scroll-target="#het-model-gebruiken-om-voorspellingen-te-doen-met-nieuwe-gegevens">Het model gebruiken om voorspellingen te doen met nieuwe gegevens</a></li>
+  <li><a href="#puntvoorspellingen-met-behulp-van-de-samenvattingen-van-de-afzonderlijke-waardecoëfficiënten-van-de-posterieure-verdelingen" id="toc-puntvoorspellingen-met-behulp-van-de-samenvattingen-van-de-afzonderlijke-waardecoëfficiënten-van-de-posterieure-verdelingen" class="nav-link" data-scroll-target="#puntvoorspellingen-met-behulp-van-de-samenvattingen-van-de-afzonderlijke-waardecoëfficiënten-van-de-posterieure-verdelingen">Puntvoorspellingen met behulp van de samenvattingen van de afzonderlijke waardecoëfficiënten van de posterieure verdelingen</a></li>
+  <li><a href="#lineaire-voorspellingen-met-onzekerheid-in-de-interceptie-temperatuurcoëfficiënten" id="toc-lineaire-voorspellingen-met-onzekerheid-in-de-interceptie-temperatuurcoëfficiënten" class="nav-link" data-scroll-target="#lineaire-voorspellingen-met-onzekerheid-in-de-interceptie-temperatuurcoëfficiënten">Lineaire voorspellingen met onzekerheid (in de interceptie + temperatuurcoëfficiënten)</a></li>
+  <li><a href="#posterior-predictive-distributies-met-de-onzekerheid-in-de-coëfficiëntschattingen-en-in-sigma" id="toc-posterior-predictive-distributies-met-de-onzekerheid-in-de-coëfficiëntschattingen-en-in-sigma" class="nav-link" data-scroll-target="#posterior-predictive-distributies-met-de-onzekerheid-in-de-coëfficiëntschattingen-en-in-sigma">Posterior Predictive Distributies met de onzekerheid in de coëfficiëntschattingen en in sigma</a></li>
+  <li><a href="#visualisatie-van-de-drie-soorten-voorspellingen" id="toc-visualisatie-van-de-drie-soorten-voorspellingen" class="nav-link" data-scroll-target="#visualisatie-van-de-drie-soorten-voorspellingen">Visualisatie van de drie soorten voorspellingen</a></li>
+  <li><a href="#samenvatting-en-conclusie" id="toc-samenvatting-en-conclusie" class="nav-link" data-scroll-target="#samenvatting-en-conclusie">Samenvatting en conclusie</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
 

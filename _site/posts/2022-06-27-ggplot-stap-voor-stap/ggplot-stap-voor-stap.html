@@ -179,7 +179,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="..\..\site_libs/echarts4r-binding-0.4.4/echarts4r.js"></script>
 
 
-<link rel="stylesheet" href="../../styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -264,146 +263,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#voorbereiding" id="toc-voorbereiding" class="nav-link" data-scroll-target="#voorbereiding">Voorbereiding</a></li>
   <li><a href="#de-dataset" id="toc-de-dataset" class="nav-link" data-scroll-target="#de-dataset">De dataset</a></li>
   <li><a href="#het-ggplot2-pakket" id="toc-het-ggplot2-pakket" class="nav-link" data-scroll-target="#het-ggplot2-pakket">Het <code>ggplot2</code> pakket</a></li>
-  <li><a href="#een-standaard-ggplot" id="toc-een-standaard-ggplot" class="nav-link" data-scroll-target="#een-standaard-ggplot">Een standaard ggplot</a>
-  <ul class="collapse">
-  <li><a href="#verander-de-eigenschappen-van-geometrieën" id="toc-verander-de-eigenschappen-van-geometrieën" class="nav-link" data-scroll-target="#verander-de-eigenschappen-van-geometrieën">Verander de eigenschappen van geometrieën</a></li>
-  <li><a href="#verander-het-standaard-ggplot2-thema" id="toc-verander-het-standaard-ggplot2-thema" class="nav-link" data-scroll-target="#verander-het-standaard-ggplot2-thema">Verander het standaard <code>ggplot2</code>-thema</a></li>
-  </ul></li>
-  <li><a href="#werken-met-assen" id="toc-werken-met-assen" class="nav-link" data-scroll-target="#werken-met-assen">Werken met assen</a>
-  <ul class="collapse">
-  <li><a href="#verander-astitels" id="toc-verander-astitels" class="nav-link" data-scroll-target="#verander-astitels">Verander astitels</a></li>
-  <li><a href="#vergroot-de-ruimte-tussen-assen-en-as-titels" id="toc-vergroot-de-ruimte-tussen-assen-en-as-titels" class="nav-link" data-scroll-target="#vergroot-de-ruimte-tussen-assen-en-as-titels">Vergroot de ruimte tussen assen en as-titels</a></li>
-  <li><a href="#wijzig-de-esthetiek-van-de-as-titels" id="toc-wijzig-de-esthetiek-van-de-as-titels" class="nav-link" data-scroll-target="#wijzig-de-esthetiek-van-de-as-titels">Wijzig de esthetiek van de as-titels</a></li>
-  <li><a href="#verander-de-aesthetics-van-de-astekst" id="toc-verander-de-aesthetics-van-de-astekst" class="nav-link" data-scroll-target="#verander-de-aesthetics-van-de-astekst">Verander de aesthetics van de astekst</a></li>
-  <li><a href="#roteer-astekst" id="toc-roteer-astekst" class="nav-link" data-scroll-target="#roteer-astekst">Roteer astekst</a></li>
-  <li><a href="#astekst-en-tekens-weghalen" id="toc-astekst-en-tekens-weghalen" class="nav-link" data-scroll-target="#astekst-en-tekens-weghalen">Astekst en tekens weghalen</a></li>
-  <li><a href="#haal-astitels-weg" id="toc-haal-astitels-weg" class="nav-link" data-scroll-target="#haal-astitels-weg">Haal astitels weg</a></li>
-  <li><a href="#asbereik-beperken" id="toc-asbereik-beperken" class="nav-link" data-scroll-target="#asbereik-beperken">Asbereik beperken</a></li>
-  <li><a href="#forceer-plot-om-te-starten-bij-origin" id="toc-forceer-plot-om-te-starten-bij-origin" class="nav-link" data-scroll-target="#forceer-plot-om-te-starten-bij-origin">Forceer Plot om te starten bij Origin</a></li>
-  <li><a href="#assen-met-dezelfde-schalen" id="toc-assen-met-dezelfde-schalen" class="nav-link" data-scroll-target="#assen-met-dezelfde-schalen">Assen met dezelfde schalen</a></li>
-  <li><a href="#gebruik-een-functie-om-labels-te-veranderen" id="toc-gebruik-een-functie-om-labels-te-veranderen" class="nav-link" data-scroll-target="#gebruik-een-functie-om-labels-te-veranderen">Gebruik een functie om labels te veranderen</a></li>
-  </ul></li>
-  <li><a href="#met-titels-werken" id="toc-met-titels-werken" class="nav-link" data-scroll-target="#met-titels-werken">Met titels werken</a>
-  <ul class="collapse">
-  <li><a href="#een-titel-toevoegen" id="toc-een-titel-toevoegen" class="nav-link" data-scroll-target="#een-titel-toevoegen">Een titel toevoegen</a></li>
-  <li><a href="#titel-vet-maken-spatie-toevoegen-aan-de-basislijn" id="toc-titel-vet-maken-spatie-toevoegen-aan-de-basislijn" class="nav-link" data-scroll-target="#titel-vet-maken-spatie-toevoegen-aan-de-basislijn">Titel vet maken &amp; spatie toevoegen aan de basislijn</a></li>
-  <li><a href="#positie-van-titels-aanpassen" id="toc-positie-van-titels-aanpassen" class="nav-link" data-scroll-target="#positie-van-titels-aanpassen">Positie van titels aanpassen</a></li>
-  <li><a href="#gebruik-een-niet-traditioneel-lettertype-in-jouw-titel" id="toc-gebruik-een-niet-traditioneel-lettertype-in-jouw-titel" class="nav-link" data-scroll-target="#gebruik-een-niet-traditioneel-lettertype-in-jouw-titel">Gebruik een niet traditioneel lettertype in jouw titel</a></li>
-  <li><a href="#afstand-veranderen-in-multi-line-tekst" id="toc-afstand-veranderen-in-multi-line-tekst" class="nav-link" data-scroll-target="#afstand-veranderen-in-multi-line-tekst">Afstand veranderen in multi-line tekst</a></li>
-  <li><a href="#wijzig-de-spatiëring-in-meer-regelige-tekst" id="toc-wijzig-de-spatiëring-in-meer-regelige-tekst" class="nav-link" data-scroll-target="#wijzig-de-spatiëring-in-meer-regelige-tekst">Wijzig de spatiëring in meer-regelige tekst</a></li>
-  </ul></li>
-  <li><a href="#met-legendas-werken" id="toc-met-legendas-werken" class="nav-link" data-scroll-target="#met-legendas-werken">Met legenda’s werken</a>
-  <ul class="collapse">
-  <li><a href="#de-legenda-uitzetten" id="toc-de-legenda-uitzetten" class="nav-link" data-scroll-target="#de-legenda-uitzetten">De legenda uitzetten</a></li>
-  <li><a href="#verwijder-legenda-titels" id="toc-verwijder-legenda-titels" class="nav-link" data-scroll-target="#verwijder-legenda-titels">Verwijder legenda titels</a></li>
-  <li><a href="#legenda-positie-veranderen" id="toc-legenda-positie-veranderen" class="nav-link" data-scroll-target="#legenda-positie-veranderen">Legenda positie veranderen</a></li>
-  <li><a href="#legenda-richting-wijzigen" id="toc-legenda-richting-wijzigen" class="nav-link" data-scroll-target="#legenda-richting-wijzigen">Legenda richting wijzigen</a></li>
-  <li><a href="#stijl-van-de-legende-titel-veranderen" id="toc-stijl-van-de-legende-titel-veranderen" class="nav-link" data-scroll-target="#stijl-van-de-legende-titel-veranderen">Stijl van de legende titel veranderen</a></li>
-  <li><a href="#titel-legenda-wijzigen" id="toc-titel-legenda-wijzigen" class="nav-link" data-scroll-target="#titel-legenda-wijzigen">Titel legenda wijzigen</a></li>
-  <li><a href="#verander-de-volgorde-van-de-legenda-toetsen" id="toc-verander-de-volgorde-van-de-legenda-toetsen" class="nav-link" data-scroll-target="#verander-de-volgorde-van-de-legenda-toetsen">Verander de volgorde van de legenda toetsen</a></li>
-  <li><a href="#legendalabels-veranderen" id="toc-legendalabels-veranderen" class="nav-link" data-scroll-target="#legendalabels-veranderen">Legendalabels veranderen</a></li>
-  <li><a href="#achtergrondvakken-in-de-legenda-wijzigen" id="toc-achtergrondvakken-in-de-legenda-wijzigen" class="nav-link" data-scroll-target="#achtergrondvakken-in-de-legenda-wijzigen">Achtergrondvakken in de legenda wijzigen</a></li>
-  <li><a href="#formaat-van-de-legenda-symbolen-wijzigen" id="toc-formaat-van-de-legenda-symbolen-wijzigen" class="nav-link" data-scroll-target="#formaat-van-de-legenda-symbolen-wijzigen">Formaat van de legenda-symbolen wijzigen</a></li>
-  <li><a href="#laat-een-laag-uit-de-legende" id="toc-laat-een-laag-uit-de-legende" class="nav-link" data-scroll-target="#laat-een-laag-uit-de-legende">Laat een laag uit de legende</a></li>
-  <li><a href="#handmatig-toevoegen-van-legenda-items" id="toc-handmatig-toevoegen-van-legenda-items" class="nav-link" data-scroll-target="#handmatig-toevoegen-van-legenda-items">Handmatig toevoegen van legenda items</a></li>
-  <li><a href="#gebruik-andere-legenda-stijlen" id="toc-gebruik-andere-legenda-stijlen" class="nav-link" data-scroll-target="#gebruik-andere-legenda-stijlen">Gebruik andere legenda stijlen</a></li>
-  </ul></li>
-  <li><a href="#werken-met-achtergronden-rasterlijnen" id="toc-werken-met-achtergronden-rasterlijnen" class="nav-link" data-scroll-target="#werken-met-achtergronden-rasterlijnen">Werken met Achtergronden &amp; Rasterlijnen</a>
-  <ul class="collapse">
-  <li><a href="#de-achtergrondkleur-van-het-paneel-veranderen" id="toc-de-achtergrondkleur-van-het-paneel-veranderen" class="nav-link" data-scroll-target="#de-achtergrondkleur-van-het-paneel-veranderen">De achtergrondkleur van het paneel veranderen</a></li>
-  <li><a href="#rasterlijnen-veranderen" id="toc-rasterlijnen-veranderen" class="nav-link" data-scroll-target="#rasterlijnen-veranderen">Rasterlijnen veranderen</a></li>
-  <li><a href="#afstand-tussen-rasterlijnen-wijzigen" id="toc-afstand-tussen-rasterlijnen-wijzigen" class="nav-link" data-scroll-target="#afstand-tussen-rasterlijnen-wijzigen">Afstand tussen rasterlijnen wijzigen</a></li>
-  <li><a href="#verander-de-achtergrondkleur-van-de-plot" id="toc-verander-de-achtergrondkleur-van-de-plot" class="nav-link" data-scroll-target="#verander-de-achtergrondkleur-van-de-plot">Verander de achtergrondkleur van de plot</a></li>
-  <li><a href="#werken-met-marges" id="toc-werken-met-marges" class="nav-link" data-scroll-target="#werken-met-marges">Werken met marges</a></li>
-  </ul></li>
-  <li><a href="#werken-met-multi-paneel-plots" id="toc-werken-met-multi-paneel-plots" class="nav-link" data-scroll-target="#werken-met-multi-paneel-plots">Werken met multi-paneel plots</a>
-  <ul class="collapse">
-  <li><a href="#maak-een-raster-van-kleine-veelvouden-gebaseerd-op-twee-variabelen" id="toc-maak-een-raster-van-kleine-veelvouden-gebaseerd-op-twee-variabelen" class="nav-link" data-scroll-target="#maak-een-raster-van-kleine-veelvouden-gebaseerd-op-twee-variabelen">Maak een raster van kleine veelvouden gebaseerd op twee variabelen</a></li>
-  <li><a href="#maak-kleine-veelvouden-gebaseerd-op-één-variabele" id="toc-maak-kleine-veelvouden-gebaseerd-op-één-variabele" class="nav-link" data-scroll-target="#maak-kleine-veelvouden-gebaseerd-op-één-variabele">Maak kleine veelvouden gebaseerd op één variabele</a></li>
-  <li><a href="#assen-vrij-laten-lopen" id="toc-assen-vrij-laten-lopen" class="nav-link" data-scroll-target="#assen-vrij-laten-lopen">Assen vrij laten lopen</a></li>
-  <li><a href="#gebruik-facet_wrap-met-twee-variabelen" id="toc-gebruik-facet_wrap-met-twee-variabelen" class="nav-link" data-scroll-target="#gebruik-facet_wrap-met-twee-variabelen">Gebruik <code>facet_wrap</code> met twee variabelen</a></li>
-  <li><a href="#stijl-van-strookteksten-wijzigen" id="toc-stijl-van-strookteksten-wijzigen" class="nav-link" data-scroll-target="#stijl-van-strookteksten-wijzigen">Stijl van strookteksten wijzigen</a></li>
-  <li><a href="#een-paneel-van-verschillende-plots-maken" id="toc-een-paneel-van-verschillende-plots-maken" class="nav-link" data-scroll-target="#een-paneel-van-verschillende-plots-maken">Een paneel van verschillende plots maken</a></li>
-  </ul></li>
-  <li><a href="#werken-met-kleuren" id="toc-werken-met-kleuren" class="nav-link" data-scroll-target="#werken-met-kleuren">Werken met kleuren</a>
-  <ul class="collapse">
-  <li><a href="#afzonderlijke-kleuren-specificeren" id="toc-afzonderlijke-kleuren-specificeren" class="nav-link" data-scroll-target="#afzonderlijke-kleuren-specificeren">Afzonderlijke kleuren specificeren</a></li>
-  <li><a href="#kleuren-toewijzen-aan-variabelen" id="toc-kleuren-toewijzen-aan-variabelen" class="nav-link" data-scroll-target="#kleuren-toewijzen-aan-variabelen">Kleuren toewijzen aan variabelen</a></li>
-  <li><a href="#kwalitatieve-variabelen" id="toc-kwalitatieve-variabelen" class="nav-link" data-scroll-target="#kwalitatieve-variabelen">Kwalitatieve variabelen</a></li>
-  <li><a href="#handmatig-kwalitatieve-kleuren-kiezen" id="toc-handmatig-kwalitatieve-kleuren-kiezen" class="nav-link" data-scroll-target="#handmatig-kwalitatieve-kleuren-kiezen">Handmatig kwalitatieve kleuren kiezen</a></li>
-  <li><a href="#gebruik-ingebouwde-kwalitatieve-kleurenpaletten" id="toc-gebruik-ingebouwde-kwalitatieve-kleurenpaletten" class="nav-link" data-scroll-target="#gebruik-ingebouwde-kwalitatieve-kleurenpaletten">Gebruik Ingebouwde Kwalitatieve Kleurenpaletten</a></li>
-  <li><a href="#kwantitatieve-variabelen" id="toc-kwantitatieve-variabelen" class="nav-link" data-scroll-target="#kwantitatieve-variabelen">Kwantitatieve variabelen</a></li>
-  <li><a href="#handmatig-een-sequentieel-kleurenschema-instellen" id="toc-handmatig-een-sequentieel-kleurenschema-instellen" class="nav-link" data-scroll-target="#handmatig-een-sequentieel-kleurenschema-instellen">Handmatig een sequentieel kleurenschema instellen</a></li>
-  <li><a href="#het-mooie-viridis-kleurenpalet" id="toc-het-mooie-viridis-kleurenpalet" class="nav-link" data-scroll-target="#het-mooie-viridis-kleurenpalet">Het mooie Viridis Kleurenpalet</a></li>
-  <li><a href="#kwantitatieve-kleurenpaletten-uit-uitbreidingspakketten-gebruiken" id="toc-kwantitatieve-kleurenpaletten-uit-uitbreidingspakketten-gebruiken" class="nav-link" data-scroll-target="#kwantitatieve-kleurenpaletten-uit-uitbreidingspakketten-gebruiken">Kwantitatieve kleurenpaletten uit uitbreidingspakketten gebruiken</a></li>
-  <li><a href="#kleurpaletten-naderhand-aanpassen" id="toc-kleurpaletten-naderhand-aanpassen" class="nav-link" data-scroll-target="#kleurpaletten-naderhand-aanpassen">Kleurpaletten naderhand aanpassen</a></li>
-  </ul></li>
-  <li><a href="#werken-met-themas" id="toc-werken-met-themas" class="nav-link" data-scroll-target="#werken-met-themas">Werken met Thema’s</a>
-  <ul class="collapse">
-  <li><a href="#de-algemene-uitzetstijl-veranderen" id="toc-de-algemene-uitzetstijl-veranderen" class="nav-link" data-scroll-target="#de-algemene-uitzetstijl-veranderen">De algemene uitzetstijl veranderen</a></li>
-  <li><a href="#verander-het-lettertype-van-alle-tekstelementen" id="toc-verander-het-lettertype-van-alle-tekstelementen" class="nav-link" data-scroll-target="#verander-het-lettertype-van-alle-tekstelementen">Verander het lettertype van alle tekstelementen</a></li>
-  <li><a href="#verander-de-grootte-van-alle-tekst-elementen" id="toc-verander-de-grootte-van-alle-tekst-elementen" class="nav-link" data-scroll-target="#verander-de-grootte-van-alle-tekst-elementen">Verander de grootte van alle tekst elementen</a></li>
-  <li><a href="#de-grootte-van-alle-lijn--en-rechthoekelementen-wijzigen" id="toc-de-grootte-van-alle-lijn--en-rechthoekelementen-wijzigen" class="nav-link" data-scroll-target="#de-grootte-van-alle-lijn--en-rechthoekelementen-wijzigen">De grootte van alle lijn- en rechthoekelementen wijzigen</a></li>
-  <li><a href="#maak-je-eigen-thema" id="toc-maak-je-eigen-thema" class="nav-link" data-scroll-target="#maak-je-eigen-thema">Maak je eigen thema</a></li>
-  <li><a href="#het-huidige-thema-bijwerken" id="toc-het-huidige-thema-bijwerken" class="nav-link" data-scroll-target="#het-huidige-thema-bijwerken">Het huidige thema bijwerken</a></li>
-  </ul></li>
-  <li><a href="#werken-met-lijnen" id="toc-werken-met-lijnen" class="nav-link" data-scroll-target="#werken-met-lijnen">Werken met lijnen</a>
-  <ul class="collapse">
-  <li><a href="#horizontaal-of-verticaal-lijnen-toevoegen-aan-een-plot" id="toc-horizontaal-of-verticaal-lijnen-toevoegen-aan-een-plot" class="nav-link" data-scroll-target="#horizontaal-of-verticaal-lijnen-toevoegen-aan-een-plot">Horizontaal of verticaal lijnen toevoegen aan een plot</a></li>
-  <li><a href="#een-lijn-toevoegen-binnen-een-plot" id="toc-een-lijn-toevoegen-binnen-een-plot" class="nav-link" data-scroll-target="#een-lijn-toevoegen-binnen-een-plot">Een lijn toevoegen binnen een Plot</a></li>
-  <li><a href="#kromme-lijnen-en-pijlen-toevoegen-aan-een-plot" id="toc-kromme-lijnen-en-pijlen-toevoegen-aan-een-plot" class="nav-link" data-scroll-target="#kromme-lijnen-en-pijlen-toevoegen-aan-een-plot">Kromme lijnen en pijlen toevoegen aan een Plot</a></li>
-  </ul></li>
-  <li><a href="#werken-met-tekst" id="toc-werken-met-tekst" class="nav-link" data-scroll-target="#werken-met-tekst">Werken met tekst</a>
-  <ul class="collapse">
-  <li><a href="#labels-toevoegen-aan-uw-gegevens" id="toc-labels-toevoegen-aan-uw-gegevens" class="nav-link" data-scroll-target="#labels-toevoegen-aan-uw-gegevens">Labels toevoegen aan uw gegevens</a></li>
-  <li><a href="#tekst-annotaties-toevoegen" id="toc-tekst-annotaties-toevoegen" class="nav-link" data-scroll-target="#tekst-annotaties-toevoegen">Tekst annotaties toevoegen</a></li>
-  <li><a href="#markdown-en-html-rendering-gebruiken-voor-annotaties" id="toc-markdown-en-html-rendering-gebruiken-voor-annotaties" class="nav-link" data-scroll-target="#markdown-en-html-rendering-gebruiken-voor-annotaties">Markdown en HTML rendering gebruiken voor annotaties</a></li>
-  </ul></li>
-  <li><a href="#werken-met-coördinaten" id="toc-werken-met-coördinaten" class="nav-link" data-scroll-target="#werken-met-coördinaten">Werken met Coördinaten</a>
-  <ul class="collapse">
-  <li><a href="#een-plot-omdraaien" id="toc-een-plot-omdraaien" class="nav-link" data-scroll-target="#een-plot-omdraaien">Een plot omdraaien</a></li>
-  <li><a href="#fixeer-een-as" id="toc-fixeer-een-as" class="nav-link" data-scroll-target="#fixeer-een-as">Fixeer een As</a></li>
-  <li><a href="#een-as-omkeren" id="toc-een-as-omkeren" class="nav-link" data-scroll-target="#een-as-omkeren">Een as omkeren</a></li>
-  <li><a href="#transformeer-een-as" id="toc-transformeer-een-as" class="nav-link" data-scroll-target="#transformeer-een-as">Transformeer een As</a></li>
-  <li><a href="#een-plot-circulariseren" id="toc-een-plot-circulariseren" class="nav-link" data-scroll-target="#een-plot-circulariseren">Een Plot Circulariseren</a></li>
-  </ul></li>
-  <li><a href="#werken-met-grafiek-typen" id="toc-werken-met-grafiek-typen" class="nav-link" data-scroll-target="#werken-met-grafiek-typen">Werken met Grafiek Typen</a>
-  <ul class="collapse">
-  <li><a href="#alternatieven-voor-een-box-plot" id="toc-alternatieven-voor-een-box-plot" class="nav-link" data-scroll-target="#alternatieven-voor-een-box-plot">Alternatieven voor een Box Plot</a></li>
-  <li><a href="#alternatief-uitzetten-van-punten" id="toc-alternatief-uitzetten-van-punten" class="nav-link" data-scroll-target="#alternatief-uitzetten-van-punten">1. Alternatief: Uitzetten van punten</a></li>
-  <li><a href="#alternatief-jitter-de-punten" id="toc-alternatief-jitter-de-punten" class="nav-link" data-scroll-target="#alternatief-jitter-de-punten">2. Alternatief: Jitter de punten</a></li>
-  <li><a href="#alternatief-vioolplots" id="toc-alternatief-vioolplots" class="nav-link" data-scroll-target="#alternatief-vioolplots">3. Alternatief: Vioolplots</a></li>
-  <li><a href="#alternatief-vioolplots-combineren-met-jitter" id="toc-alternatief-vioolplots-combineren-met-jitter" class="nav-link" data-scroll-target="#alternatief-vioolplots-combineren-met-jitter">4. Alternatief: Vioolplots combineren met Jitter</a></li>
-  <li><a href="#alternatief-vioolplots-combineren-met-boxplots" id="toc-alternatief-vioolplots-combineren-met-boxplots" class="nav-link" data-scroll-target="#alternatief-vioolplots-combineren-met-boxplots">5. Alternatief: Vioolplots combineren met boxplots</a></li>
-  <li><a href="#een-deken-maken-voor-een-plot" id="toc-een-deken-maken-voor-een-plot" class="nav-link" data-scroll-target="#een-deken-maken-voor-een-plot">Een deken maken voor een plot</a></li>
-  <li><a href="#een-correlatiematrix-maken" id="toc-een-correlatiematrix-maken" class="nav-link" data-scroll-target="#een-correlatiematrix-maken">Een correlatiematrix maken</a></li>
-  <li><a href="#een-contourplot-maken" id="toc-een-contourplot-maken" class="nav-link" data-scroll-target="#een-contourplot-maken">Een Contourplot maken</a></li>
-  <li><a href="#maak-een-heatmap" id="toc-maak-een-heatmap" class="nav-link" data-scroll-target="#maak-een-heatmap">Maak een Heatmap</a></li>
-  <li><a href="#maak-een-ridge-plot" id="toc-maak-een-ridge-plot" class="nav-link" data-scroll-target="#maak-een-ridge-plot">Maak een Ridge Plot</a></li>
-  </ul></li>
+  <li><a href="#een-standaard-ggplot" id="toc-een-standaard-ggplot" class="nav-link" data-scroll-target="#een-standaard-ggplot">Een standaard ggplot</a></li>
+  <li><a href="#werken-met-assen" id="toc-werken-met-assen" class="nav-link" data-scroll-target="#werken-met-assen">Werken met assen</a></li>
+  <li><a href="#met-titels-werken" id="toc-met-titels-werken" class="nav-link" data-scroll-target="#met-titels-werken">Met titels werken</a></li>
+  <li><a href="#met-legendas-werken" id="toc-met-legendas-werken" class="nav-link" data-scroll-target="#met-legendas-werken">Met legenda’s werken</a></li>
+  <li><a href="#werken-met-achtergronden-rasterlijnen" id="toc-werken-met-achtergronden-rasterlijnen" class="nav-link" data-scroll-target="#werken-met-achtergronden-rasterlijnen">Werken met Achtergronden &amp; Rasterlijnen</a></li>
+  <li><a href="#werken-met-multi-paneel-plots" id="toc-werken-met-multi-paneel-plots" class="nav-link" data-scroll-target="#werken-met-multi-paneel-plots">Werken met multi-paneel plots</a></li>
+  <li><a href="#werken-met-kleuren" id="toc-werken-met-kleuren" class="nav-link" data-scroll-target="#werken-met-kleuren">Werken met kleuren</a></li>
+  <li><a href="#werken-met-themas" id="toc-werken-met-themas" class="nav-link" data-scroll-target="#werken-met-themas">Werken met Thema’s</a></li>
+  <li><a href="#werken-met-lijnen" id="toc-werken-met-lijnen" class="nav-link" data-scroll-target="#werken-met-lijnen">Werken met lijnen</a></li>
+  <li><a href="#werken-met-tekst" id="toc-werken-met-tekst" class="nav-link" data-scroll-target="#werken-met-tekst">Werken met tekst</a></li>
+  <li><a href="#werken-met-coördinaten" id="toc-werken-met-coördinaten" class="nav-link" data-scroll-target="#werken-met-coördinaten">Werken met Coördinaten</a></li>
+  <li><a href="#werken-met-grafiek-typen" id="toc-werken-met-grafiek-typen" class="nav-link" data-scroll-target="#werken-met-grafiek-typen">Werken met Grafiek Typen</a></li>
   <li><a href="#werken-met-linten-auc-ci-enz." id="toc-werken-met-linten-auc-ci-enz." class="nav-link" data-scroll-target="#werken-met-linten-auc-ci-enz.">Werken met linten (AUC, CI, enz.)</a></li>
-  <li><a href="#werken-met-afvlakkingen" id="toc-werken-met-afvlakkingen" class="nav-link" data-scroll-target="#werken-met-afvlakkingen">Werken met afvlakkingen</a>
-  <ul class="collapse">
-  <li><a href="#standaard-een-loess-of-gam-afvlakking-toevoegen" id="toc-standaard-een-loess-of-gam-afvlakking-toevoegen" class="nav-link" data-scroll-target="#standaard-een-loess-of-gam-afvlakking-toevoegen">Standaard: Een LOESS of GAM afvlakking toevoegen</a></li>
-  <li><a href="#een-lineaire-afvlakking-toevoegen" id="toc-een-lineaire-afvlakking-toevoegen" class="nav-link" data-scroll-target="#een-lineaire-afvlakking-toevoegen">Een lineaire afvlakking toevoegen</a></li>
-  <li><a href="#de-formule-voor-afvlakken-specificeren" id="toc-de-formule-voor-afvlakken-specificeren" class="nav-link" data-scroll-target="#de-formule-voor-afvlakken-specificeren">De formule voor afvlakken specificeren</a></li>
-  </ul></li>
-  <li><a href="#werken-met-interactieve-diagrammen" id="toc-werken-met-interactieve-diagrammen" class="nav-link" data-scroll-target="#werken-met-interactieve-diagrammen">Werken met interactieve diagrammen</a>
-  <ul class="collapse">
-  <li><a href="#combinatie-van-ggplot2-en-shiny" id="toc-combinatie-van-ggplot2-en-shiny" class="nav-link" data-scroll-target="#combinatie-van-ggplot2-en-shiny">Combinatie van {ggplot2} en {shiny}</a></li>
-  </ul></li>
-  <li><a href="#plot.ly-via-plotly-en-ggplot2" id="toc-plot.ly-via-plotly-en-ggplot2" class="nav-link" data-scroll-target="#plot.ly-via-plotly-en-ggplot2">Plot.ly via <code>plotly</code> en <code>ggplot2</code></a>
-  <ul class="collapse">
-  <li><a href="#ggiraph-en-ggplot2" id="toc-ggiraph-en-ggplot2" class="nav-link" data-scroll-target="#ggiraph-en-ggplot2">ggiraph en ggplot2</a></li>
-  <li><a href="#highcharts-via-highcharter" id="toc-highcharts-via-highcharter" class="nav-link" data-scroll-target="#highcharts-via-highcharter">Highcharts via <code>highcharter</code></a></li>
-  <li><a href="#echarts-via-echarts4r" id="toc-echarts-via-echarts4r" class="nav-link" data-scroll-target="#echarts-via-echarts4r">Echarts via <code>echarts4r</code></a></li>
-  <li><a href="#chart.js-via-charter" id="toc-chart.js-via-charter" class="nav-link" data-scroll-target="#chart.js-via-charter">Chart.js via <code>charter</code></a></li>
-  </ul></li>
-  <li><a href="#opmerkingen-tips-hulpbronnen" id="toc-opmerkingen-tips-hulpbronnen" class="nav-link" data-scroll-target="#opmerkingen-tips-hulpbronnen">Opmerkingen, tips &amp; hulpbronnen</a>
-  <ul class="collapse">
-  <li><a href="#ggplot2-gebruiken-in-lussen-en-functies" id="toc-ggplot2-gebruiken-in-lussen-en-functies" class="nav-link" data-scroll-target="#ggplot2-gebruiken-in-lussen-en-functies">ggplot2 gebruiken in lussen en functies</a></li>
-  <li><a href="#aanvullende-bronnen" id="toc-aanvullende-bronnen" class="nav-link" data-scroll-target="#aanvullende-bronnen">Aanvullende bronnen</a></li>
-  </ul></li>
+  <li><a href="#werken-met-afvlakkingen" id="toc-werken-met-afvlakkingen" class="nav-link" data-scroll-target="#werken-met-afvlakkingen">Werken met afvlakkingen</a></li>
+  <li><a href="#werken-met-interactieve-diagrammen" id="toc-werken-met-interactieve-diagrammen" class="nav-link" data-scroll-target="#werken-met-interactieve-diagrammen">Werken met interactieve diagrammen</a></li>
+  <li><a href="#plot.ly-via-plotly-en-ggplot2" id="toc-plot.ly-via-plotly-en-ggplot2" class="nav-link" data-scroll-target="#plot.ly-via-plotly-en-ggplot2">Plot.ly via <code>plotly</code> en <code>ggplot2</code></a></li>
+  <li><a href="#opmerkingen-tips-hulpbronnen" id="toc-opmerkingen-tips-hulpbronnen" class="nav-link" data-scroll-target="#opmerkingen-tips-hulpbronnen">Opmerkingen, tips &amp; hulpbronnen</a></li>
   </ul>
 </nav>
     </div>

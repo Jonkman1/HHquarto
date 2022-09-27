@@ -4,7 +4,7 @@ description: |
     Dit is bewerking van een blog over classificeren met het pakket Tidymodels die Rahul Raoniar in Towards data science schreef.
 author: "Rahul Raoniar, bewerking Harrie Jonkman"
 date: "07-05-2021"
-categories: [analyse]
+categories: [machine learning]
 image: "Screenshot1.png"
 ---
 

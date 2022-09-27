@@ -4,7 +4,7 @@ description: |
      Een blog over de principes van de Bayesiaanse theorie
 author: Johnson e.a. en Harrie Jonkman
 date: "2022-03-7"
-categories: [analyse]
+categories: [Bayesiaans]
 image: "Screenshot.png"
 ---
 

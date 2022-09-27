@@ -4,7 +4,7 @@ description: |
      Over het pakket `mice` en missende waarden
 author: "Michy Allice, bewerking HarrieJonkman"
 date: "2022-05-08"
-categories: [analyse]
+categories: [theorie, voorbereiding, modellen]
 image: "Screenshot.png"
 ---
 

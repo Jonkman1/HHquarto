@@ -5,7 +5,7 @@ description: |
 author: "Jakub Sobolewski, bewerking Harrie Jonkman" 
 date: "10-01-2021"
 image: "Screenshot1.PNG"
-categories: [analyse]
+categories: [communicatie]
 
 ---
 

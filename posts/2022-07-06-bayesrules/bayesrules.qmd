@@ -4,7 +4,7 @@ description: |
      Aantekeningen bij een prachtig Bayesiaans studieboek
 author: "HarrieJonkman"
 date: "2022-07-06"
-categories: [analyse]
+categories: [Bayesiaans]
 image: "Screenshot.PNG"
 ---
 

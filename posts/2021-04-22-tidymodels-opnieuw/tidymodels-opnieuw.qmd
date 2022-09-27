@@ -4,7 +4,7 @@ description: |
     Blog van Rebecca Barter onder de titel 'Tidymodels: tidy machine learning in R'
 author: "Rebecca Barter, bewerking Harrie Jonkman"
 date: "04-22-2021"
-categories: [analyse]
+categories: [machine learning]
 image: "Screenshot.png"
 ---
 

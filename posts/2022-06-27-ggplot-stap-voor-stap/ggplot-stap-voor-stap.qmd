@@ -4,7 +4,7 @@ description: |
       Een GGPLOT2 handleiding om mooi te kunnen plotten in R.
 author: "Cédric Scherer, bewerking Harrie Jonkman"
 date: "2022-06-27"
-categories: [analyse]
+categories: [visualisatie]
 execute: 
   code-fold: true 
 toc: true

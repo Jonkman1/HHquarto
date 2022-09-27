@@ -4,7 +4,7 @@ description: |
     Lisa Lendway heeft een aantal interessante repositories op haar GitHub account staan, [zie hier](https://github.com/llendway). Ze zijn vaak kort, maar helder en concreet. Haar stijl en de consistentie daarin bevallen mij zeer. Van haar manier van doen leer ik veel. Zij maakt haar stukken vaak voor haar statistieklessen en deelt zo haar kennis met haar studenten en anderen buiten haar klas. Ik heb mij voorgenomen om er een aantal goed te lezen, te vertalen en te bewerken waar nodig, en deze op mijn website over te nemen. Vorige maand deed ik dat al met een blof over Distill en nu een over GitHub.
 author: "Lisa Lendway, vertaling Harrie Jonkman"
 date: "03-10-2021"
-categories: [analyse]
+categories: [communicatie]
 image: "images/Screenshot.png"
 ---
 

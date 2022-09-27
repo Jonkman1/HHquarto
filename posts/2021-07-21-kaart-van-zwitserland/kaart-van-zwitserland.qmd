@@ -5,7 +5,7 @@ description: |
 author: "Giulia Ruggeri, bewerking Harrie Jonkman" 
 date: "07-21-2021"
 image: "Screenshot.PNG"
-categories: [analyse]
+categories: [visualisatie]
 
 ---
 

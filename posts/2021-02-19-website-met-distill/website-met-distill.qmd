@@ -4,7 +4,7 @@ description: |
     Website met blog maken
 author: "Lisa Lendway, vertaling Harrie Jonkman"
 date: "02-19-2021"
-categories: [analyse]
+categories: [communicatie]
 image: "Screenshot.png"
 ---
 

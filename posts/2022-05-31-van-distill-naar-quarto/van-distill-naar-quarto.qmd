@@ -4,7 +4,7 @@ description: |
      Een blog maken met quarto.
 author: "Danielle Navarro bewerking HarrieJonkman"
 date: "2022-05-31"
-categories: [analyse]
+categories: [visualisatie]
 image: "welcome_post.png"
 ---
 

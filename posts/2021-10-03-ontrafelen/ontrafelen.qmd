@@ -1,20 +1,13 @@
 ---
 title: "Opschonen en ontrafelen"
 description: |
-  Een post over opschonen en ontrafelen van data
-author:
-  - name: Bewerking Harrie Jonkman
-    url: {}
-date: 10-03-2021
-output:
-  distill::distill_article:
-    self_contained: false
+    Een post over opschonen en ontrafelen van data
+author: "Bewerking Harrie Jonkman"
+date: "10-03-2021"
+categories: [voorbereiding]
+image: "Screenshot1.png"
 ---
 
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-```
 
 ![](Screenshot1.png)
 

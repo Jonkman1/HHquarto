@@ -5,7 +5,7 @@ description: |
 author: "Julia Silge, bewerking Harrie Jonkman" 
 date: "07-18-2021"
 image: "Screenshot.PNG"
-categories: [analyse]
+categories: [machine learning]
 
 ---
 

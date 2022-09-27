@@ -4,7 +4,7 @@ description: |
      Paula Moraga laat zien hoe je geografische gegevens kunt analyseren met het programma INLA
 author: "Paula Moraga, bewerking HarrieJonkman"
 date: "2022-08-15"
-categories: [analyse]
+categories: [visualisatie, modellen, Bayesiaans]
 image: "Screenshot.PNG"
 ---
 

@@ -4,7 +4,7 @@ description: |
      In deze blog wordt getoond hoe Naïeve Bayesiaanse classificatieanalyse werkt.
 author: "Harrie Jonkman en Mr.X"
 date: "2022-03-29"
-categories: [analyse]
+categories: [Bayesiaans]
 image: "Screenshot.png"
 ---
 

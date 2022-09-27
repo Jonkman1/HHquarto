@@ -4,7 +4,7 @@ description: |
      Dit is de blog die Arta Seyedan op 14 februari 2021 voor R-bloggers schreef over het voorspellen van verzekeringskosten en die ik wat bewerkt en vertaald heb.
 author: "Arta Seyadan, bewerking Harrie Jonkman"
 date: "07-18-2021"
-categories: [analyse]
+categories: [machine learning]
 image: "Screenshot.png"
 ---
 

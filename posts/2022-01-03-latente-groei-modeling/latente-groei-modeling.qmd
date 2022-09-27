@@ -1,4 +1,3 @@
-
 ---
 title: "Latente Groei Modeling"
 description: |

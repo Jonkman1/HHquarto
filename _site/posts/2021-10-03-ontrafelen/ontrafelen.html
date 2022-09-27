@@ -1,38 +1,36 @@
 <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.345">
 
-<head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
-  <meta name="generator" content="distill" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-  <style type="text/css">
-  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
-  body {
-    visibility: hidden;
-  }
-  </style>
+<meta name="author" content="Bewerking Harrie Jonkman">
+<meta name="dcterms.date" content="2021-10-03">
+<meta name="description" content="Een post over opschonen en ontrafelen van data">
 
- <!--radix_placeholder_import_source-->
- <!--/radix_placeholder_import_source-->
-
-<style type="text/css">code{white-space: pre;}</style>
-<style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+<title>- Opschonen en ontrafelen</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -52,1563 +50,339 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ad0000; } /* Alert */
-code span.an { color: #5e5e5e; } /* Annotation */
-code span.at { color: #20794d; } /* Attribute */
-code span.bn { color: #ad0000; } /* BaseN */
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
 code span.bu { } /* BuiltIn */
-code span.cf { color: #007ba5; } /* ControlFlow */
-code span.ch { color: #20794d; } /* Char */
-code span.cn { color: #8f5902; } /* Constant */
-code span.co { color: #5e5e5e; } /* Comment */
-code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
-code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
-code span.dt { color: #ad0000; } /* DataType */
-code span.dv { color: #ad0000; } /* DecVal */
-code span.er { color: #ad0000; } /* Error */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
-code span.fl { color: #ad0000; } /* Float */
-code span.fu { color: #4758ab; } /* Function */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
 code span.im { } /* Import */
-code span.in { color: #5e5e5e; } /* Information */
-code span.kw { color: #007ba5; } /* Keyword */
-code span.op { color: #5e5e5e; } /* Operator */
-code span.ot { color: #007ba5; } /* Other */
-code span.pp { color: #ad0000; } /* Preprocessor */
-code span.sc { color: #20794d; } /* SpecialChar */
-code span.ss { color: #20794d; } /* SpecialString */
-code span.st { color: #20794d; } /* String */
-code span.va { color: #111111; } /* Variable */
-code span.vs { color: #20794d; } /* VerbatimString */
-code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
-  <!--radix_placeholder_meta_tags-->
-  <title>Opschonen en ontrafelen</title>
-  
-  <meta property="description" itemprop="description" content="Een post over opschonen en ontrafelen van data"/>
-  
-  
-  <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2021-10-03"/>
-  <meta property="article:created" itemprop="dateCreated" content="2021-10-03"/>
-  <meta name="article:author" content="Bewerking Harrie Jonkman"/>
-  
-  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Opschonen en ontrafelen"/>
-  <meta property="og:type" content="article"/>
-  <meta property="og:description" content="Een post over opschonen en ontrafelen van data"/>
-  <meta property="og:locale" content="en_US"/>
-  
-  <!--  https://dev.twitter.com/cards/types/summary -->
-  <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Opschonen en ontrafelen"/>
-  <meta property="twitter:description" content="Een post over opschonen en ontrafelen van data"/>
-  
-  <!--/radix_placeholder_meta_tags-->
-  <!--radix_placeholder_rmarkdown_metadata-->
-  
-  <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Opschonen en ontrafelen"]},{"type":"character","attributes":{},"value":["Een post over opschonen en ontrafelen van data\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Bewerking Harrie Jonkman"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":[]}},"value":[]}]}]},{"type":"character","attributes":{},"value":["10-03-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
-  </script>
-  <!--/radix_placeholder_rmarkdown_metadata-->
-  
-  <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["data/GNIS Query Result.csv","ontrafelen_files/anchor-4.2.2/anchor.min.js","ontrafelen_files/bowser-1.9.3/bowser.min.js","ontrafelen_files/distill-2.2.21/template.v2.js","ontrafelen_files/jquery-1.11.3/jquery.min.js","ontrafelen_files/jquery-3.6.0/jquery-3.6.0.js","ontrafelen_files/jquery-3.6.0/jquery-3.6.0.min.js","ontrafelen_files/jquery-3.6.0/jquery-3.6.0.min.map","ontrafelen_files/popper-2.6.0/popper.min.js","ontrafelen_files/tippy-6.2.7/tippy-bundle.umd.min.js","ontrafelen_files/tippy-6.2.7/tippy-light-border.css","ontrafelen_files/tippy-6.2.7/tippy.css","ontrafelen_files/tippy-6.2.7/tippy.umd.min.js","ontrafelen_files/webcomponents-2.0.0/webcomponents.js","Screenshot1.png"]}
-  </script>
-  <!--radix_placeholder_navigation_in_header-->
-  <!--/radix_placeholder_navigation_in_header-->
-  <!--radix_placeholder_distill-->
-  
-  <style type="text/css">
-  
-  body {
-    background-color: white;
-  }
-  
-  .pandoc-table {
-    width: 100%;
-  }
-  
-  .pandoc-table>caption {
-    margin-bottom: 10px;
-  }
-  
-  .pandoc-table th:not([align]) {
-    text-align: left;
-  }
-  
-  .pagedtable-footer {
-    font-size: 15px;
-  }
-  
-  d-byline .byline {
-    grid-template-columns: 2fr 2fr;
-  }
-  
-  d-byline .byline h3 {
-    margin-block-start: 1.5em;
-  }
-  
-  d-byline .byline .authors-affiliations h3 {
-    margin-block-start: 0.5em;
-  }
-  
-  .authors-affiliations .orcid-id {
-    width: 16px;
-    height:16px;
-    margin-left: 4px;
-    margin-right: 4px;
-    vertical-align: middle;
-    padding-bottom: 2px;
-  }
-  
-  d-title .dt-tags {
-    margin-top: 1em;
-    grid-column: text;
-  }
-  
-  .dt-tags .dt-tag {
-    text-decoration: none;
-    display: inline-block;
-    color: rgba(0,0,0,0.6);
-    padding: 0em 0.4em;
-    margin-right: 0.5em;
-    margin-bottom: 0.4em;
-    font-size: 70%;
-    border: 1px solid rgba(0,0,0,0.2);
-    border-radius: 3px;
-    text-transform: uppercase;
-    font-weight: 500;
-  }
-  
-  d-article table.gt_table td,
-  d-article table.gt_table th {
-    border-bottom: none;
-  }
-  
-  .html-widget {
-    margin-bottom: 2.0em;
-  }
-  
-  .l-screen-inset {
-    padding-right: 16px;
-  }
-  
-  .l-screen .caption {
-    margin-left: 10px;
-  }
-  
-  .shaded {
-    background: rgb(247, 247, 247);
-    padding-top: 20px;
-    padding-bottom: 20px;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  }
-  
-  .shaded .html-widget {
-    margin-bottom: 0;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-  }
-  
-  .shaded .shaded-content {
-    background: white;
-  }
-  
-  .text-output {
-    margin-top: 0;
-    line-height: 1.5em;
-  }
-  
-  .hidden {
-    display: none !important;
-  }
-  
-  d-article {
-    padding-top: 2.5rem;
-    padding-bottom: 30px;
-  }
-  
-  d-appendix {
-    padding-top: 30px;
-  }
-  
-  d-article>p>img {
-    width: 100%;
-  }
-  
-  d-article h2 {
-    margin: 1rem 0 1.5rem 0;
-  }
-  
-  d-article h3 {
-    margin-top: 1.5rem;
-  }
-  
-  d-article iframe {
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    margin-bottom: 2.0em;
-    width: 100%;
-  }
-  
-  /* Tweak code blocks */
-  
-  d-article div.sourceCode code,
-  d-article pre code {
-    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-  }
-  
-  d-article pre,
-  d-article div.sourceCode,
-  d-article div.sourceCode pre {
-    overflow: auto;
-  }
-  
-  d-article div.sourceCode {
-    background-color: white;
-  }
-  
-  d-article div.sourceCode pre {
-    padding-left: 10px;
-    font-size: 12px;
-    border-left: 2px solid rgba(0,0,0,0.1);
-  }
-  
-  d-article pre {
-    font-size: 12px;
-    color: black;
-    background: none;
-    margin-top: 0;
-    text-align: left;
-    white-space: pre;
-    word-spacing: normal;
-    word-break: normal;
-    word-wrap: normal;
-    line-height: 1.5;
-  
-    -moz-tab-size: 4;
-    -o-tab-size: 4;
-    tab-size: 4;
-  
-    -webkit-hyphens: none;
-    -moz-hyphens: none;
-    -ms-hyphens: none;
-    hyphens: none;
-  }
-  
-  d-article pre a {
-    border-bottom: none;
-  }
-  
-  d-article pre a:hover {
-    border-bottom: none;
-    text-decoration: underline;
-  }
-  
-  d-article details {
-    grid-column: text;
-    margin-bottom: 0.8em;
-  }
-  
-  @media(min-width: 768px) {
-  
-  d-article pre,
-  d-article div.sourceCode,
-  d-article div.sourceCode pre {
-    overflow: visible !important;
-  }
-  
-  d-article div.sourceCode pre {
-    padding-left: 18px;
-    font-size: 14px;
-  }
-  
-  d-article pre {
-    font-size: 14px;
-  }
-  
-  }
-  
-  figure img.external {
-    background: white;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
-    padding: 18px;
-    box-sizing: border-box;
-  }
-  
-  /* CSS for d-contents */
-  
-  .d-contents {
-    grid-column: text;
-    color: rgba(0,0,0,0.8);
-    font-size: 0.9em;
-    padding-bottom: 1em;
-    margin-bottom: 1em;
-    padding-bottom: 0.5em;
-    margin-bottom: 1em;
-    padding-left: 0.25em;
-    justify-self: start;
-  }
-  
-  @media(min-width: 1000px) {
-    .d-contents.d-contents-float {
-      height: 0;
-      grid-column-start: 1;
-      grid-column-end: 4;
-      justify-self: center;
-      padding-right: 3em;
-      padding-left: 2em;
-    }
-  }
-  
-  .d-contents nav h3 {
-    font-size: 18px;
-    margin-top: 0;
-    margin-bottom: 1em;
-  }
-  
-  .d-contents li {
-    list-style-type: none
-  }
-  
-  .d-contents nav > ul {
-    padding-left: 0;
-  }
-  
-  .d-contents ul {
-    padding-left: 1em
-  }
-  
-  .d-contents nav ul li {
-    margin-top: 0.6em;
-    margin-bottom: 0.2em;
-  }
-  
-  .d-contents nav a {
-    font-size: 13px;
-    border-bottom: none;
-    text-decoration: none
-    color: rgba(0, 0, 0, 0.8);
-  }
-  
-  .d-contents nav a:hover {
-    text-decoration: underline solid rgba(0, 0, 0, 0.6)
-  }
-  
-  .d-contents nav > ul > li > a {
-    font-weight: 600;
-  }
-  
-  .d-contents nav > ul > li > ul {
-    font-weight: inherit;
-  }
-  
-  .d-contents nav > ul > li > ul > li {
-    margin-top: 0.2em;
-  }
-  
-  
-  .d-contents nav ul {
-    margin-top: 0;
-    margin-bottom: 0.25em;
-  }
-  
-  .d-article-with-toc h2:nth-child(2) {
-    margin-top: 0;
-  }
-  
-  
-  /* Figure */
-  
-  .figure {
-    position: relative;
-    margin-bottom: 2.5em;
-    margin-top: 1.5em;
-  }
-  
-  .figure img {
-    width: 100%;
-  }
-  
-  .figure .caption {
-    color: rgba(0, 0, 0, 0.6);
-    font-size: 12px;
-    line-height: 1.5em;
-  }
-  
-  .figure img.external {
-    background: white;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
-    padding: 18px;
-    box-sizing: border-box;
-  }
-  
-  .figure .caption a {
-    color: rgba(0, 0, 0, 0.6);
-  }
-  
-  .figure .caption b,
-  .figure .caption strong, {
-    font-weight: 600;
-    color: rgba(0, 0, 0, 1.0);
-  }
-  
-  /* Citations */
-  
-  d-article .citation {
-    color: inherit;
-    cursor: inherit;
-  }
-  
-  div.hanging-indent{
-    margin-left: 1em; text-indent: -1em;
-  }
-  
-  /* Citation hover box */
-  
-  .tippy-box[data-theme~=light-border] {
-    background-color: rgba(250, 250, 250, 0.95);
-  }
-  
-  .tippy-content > p {
-    margin-bottom: 0;
-    padding: 2px;
-  }
-  
-  
-  /* Tweak 1000px media break to show more text */
-  
-  @media(min-width: 1000px) {
-    .base-grid,
-    distill-header,
-    d-title,
-    d-abstract,
-    d-article,
-    d-appendix,
-    distill-appendix,
-    d-byline,
-    d-footnote-list,
-    d-citation-list,
-    distill-footer {
-      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
-      grid-column-gap: 16px;
-    }
-  
-    .grid {
-      grid-column-gap: 16px;
-    }
-  
-    d-article {
-      font-size: 1.06rem;
-      line-height: 1.7em;
-    }
-    figure .caption, .figure .caption, figure figcaption {
-      font-size: 13px;
-    }
-  }
-  
-  @media(min-width: 1180px) {
-    .base-grid,
-    distill-header,
-    d-title,
-    d-abstract,
-    d-article,
-    d-appendix,
-    distill-appendix,
-    d-byline,
-    d-footnote-list,
-    d-citation-list,
-    distill-footer {
-      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
-      grid-column-gap: 32px;
-    }
-  
-    .grid {
-      grid-column-gap: 32px;
-    }
-  }
-  
-  
-  /* Get the citation styles for the appendix (not auto-injected on render since
-     we do our own rendering of the citation appendix) */
-  
-  d-appendix .citation-appendix,
-  .d-appendix .citation-appendix {
-    font-size: 11px;
-    line-height: 15px;
-    border-left: 1px solid rgba(0, 0, 0, 0.1);
-    padding-left: 18px;
-    border: 1px solid rgba(0,0,0,0.1);
-    background: rgba(0, 0, 0, 0.02);
-    padding: 10px 18px;
-    border-radius: 3px;
-    color: rgba(150, 150, 150, 1);
-    overflow: hidden;
-    margin-top: -12px;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-  }
-  
-  /* Include appendix styles here so they can be overridden */
-  
-  d-appendix {
-    contain: layout style;
-    font-size: 0.8em;
-    line-height: 1.7em;
-    margin-top: 60px;
-    margin-bottom: 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    color: rgba(0,0,0,0.5);
-    padding-top: 60px;
-    padding-bottom: 48px;
-  }
-  
-  d-appendix h3 {
-    grid-column: page-start / text-start;
-    font-size: 15px;
-    font-weight: 500;
-    margin-top: 1em;
-    margin-bottom: 0;
-    color: rgba(0,0,0,0.65);
-  }
-  
-  d-appendix h3 + * {
-    margin-top: 1em;
-  }
-  
-  d-appendix ol {
-    padding: 0 0 0 15px;
-  }
-  
-  @media (min-width: 768px) {
-    d-appendix ol {
-      padding: 0 0 0 30px;
-      margin-left: -30px;
-    }
-  }
-  
-  d-appendix li {
-    margin-bottom: 1em;
-  }
-  
-  d-appendix a {
-    color: rgba(0, 0, 0, 0.6);
-  }
-  
-  d-appendix > * {
-    grid-column: text;
-  }
-  
-  d-appendix > d-footnote-list,
-  d-appendix > d-citation-list,
-  d-appendix > distill-appendix {
-    grid-column: screen;
-  }
-  
-  /* Include footnote styles here so they can be overridden */
-  
-  d-footnote-list {
-    contain: layout style;
-  }
-  
-  d-footnote-list > * {
-    grid-column: text;
-  }
-  
-  d-footnote-list a.footnote-backlink {
-    color: rgba(0,0,0,0.3);
-    padding-left: 0.5em;
-  }
-  
-  
-  
-  /* Anchor.js */
-  
-  .anchorjs-link {
-    /*transition: all .25s linear; */
-    text-decoration: none;
-    border-bottom: none;
-  }
-  *:hover > .anchorjs-link {
-    margin-left: -1.125em !important;
-    text-decoration: none;
-    border-bottom: none;
-  }
-  
-  /* Social footer */
-  
-  .social_footer {
-    margin-top: 30px;
-    margin-bottom: 0;
-    color: rgba(0,0,0,0.67);
-  }
-  
-  .disqus-comments {
-    margin-right: 30px;
-  }
-  
-  .disqus-comment-count {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
-    cursor: pointer;
-  }
-  
-  #disqus_thread {
-    margin-top: 30px;
-  }
-  
-  .article-sharing a {
-    border-bottom: none;
-    margin-right: 8px;
-  }
-  
-  .article-sharing a:hover {
-    border-bottom: none;
-  }
-  
-  .sidebar-section.subscribe {
-    font-size: 12px;
-    line-height: 1.6em;
-  }
-  
-  .subscribe p {
-    margin-bottom: 0.5em;
-  }
-  
-  
-  .article-footer .subscribe {
-    font-size: 15px;
-    margin-top: 45px;
-  }
-  
-  
-  .sidebar-section.custom {
-    font-size: 12px;
-    line-height: 1.6em;
-  }
-  
-  .custom p {
-    margin-bottom: 0.5em;
-  }
-  
-  /* Styles for listing layout (hide title) */
-  .layout-listing d-title, .layout-listing .d-title {
-    display: none;
-  }
-  
-  /* Styles for posts lists (not auto-injected) */
-  
-  
-  .posts-with-sidebar {
-    padding-left: 45px;
-    padding-right: 45px;
-  }
-  
-  .posts-list .description h2,
-  .posts-list .description p {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
-  }
-  
-  .posts-list .description h2 {
-    font-weight: 700;
-    border-bottom: none;
-    padding-bottom: 0;
-  }
-  
-  .posts-list h2.post-tag {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-    padding-bottom: 12px;
-  }
-  .posts-list {
-    margin-top: 60px;
-    margin-bottom: 24px;
-  }
-  
-  .posts-list .post-preview {
-    text-decoration: none;
-    overflow: hidden;
-    display: block;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    padding: 24px 0;
-  }
-  
-  .post-preview-last {
-    border-bottom: none !important;
-  }
-  
-  .posts-list .posts-list-caption {
-    grid-column: screen;
-    font-weight: 400;
-  }
-  
-  .posts-list .post-preview h2 {
-    margin: 0 0 6px 0;
-    line-height: 1.2em;
-    font-style: normal;
-    font-size: 24px;
-  }
-  
-  .posts-list .post-preview p {
-    margin: 0 0 12px 0;
-    line-height: 1.4em;
-    font-size: 16px;
-  }
-  
-  .posts-list .post-preview .thumbnail {
-    box-sizing: border-box;
-    margin-bottom: 24px;
-    position: relative;
-    max-width: 500px;
-  }
-  .posts-list .post-preview img {
-    width: 100%;
-    display: block;
-  }
-  
-  .posts-list .metadata {
-    font-size: 12px;
-    line-height: 1.4em;
-    margin-bottom: 18px;
-  }
-  
-  .posts-list .metadata > * {
-    display: inline-block;
-  }
-  
-  .posts-list .metadata .publishedDate {
-    margin-right: 2em;
-  }
-  
-  .posts-list .metadata .dt-authors {
-    display: block;
-    margin-top: 0.3em;
-    margin-right: 2em;
-  }
-  
-  .posts-list .dt-tags {
-    display: block;
-    line-height: 1em;
-  }
-  
-  .posts-list .dt-tags .dt-tag {
-    display: inline-block;
-    color: rgba(0,0,0,0.6);
-    padding: 0.3em 0.4em;
-    margin-right: 0.2em;
-    margin-bottom: 0.4em;
-    font-size: 60%;
-    border: 1px solid rgba(0,0,0,0.2);
-    border-radius: 3px;
-    text-transform: uppercase;
-    font-weight: 500;
-  }
-  
-  .posts-list img {
-    opacity: 1;
-  }
-  
-  .posts-list img[data-src] {
-    opacity: 0;
-  }
-  
-  .posts-more {
-    clear: both;
-  }
-  
-  
-  .posts-sidebar {
-    font-size: 16px;
-  }
-  
-  .posts-sidebar h3 {
-    font-size: 16px;
-    margin-top: 0;
-    margin-bottom: 0.5em;
-    font-weight: 400;
-    text-transform: uppercase;
-  }
-  
-  .sidebar-section {
-    margin-bottom: 30px;
-  }
-  
-  .categories ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .categories li {
-    color: rgba(0, 0, 0, 0.8);
-    margin-bottom: 0;
-  }
-  
-  .categories li>a {
-    border-bottom: none;
-  }
-  
-  .categories li>a:hover {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
-  }
-  
-  .categories .active {
-    font-weight: 600;
-  }
-  
-  .categories .category-count {
-    color: rgba(0, 0, 0, 0.4);
-  }
-  
-  
-  @media(min-width: 768px) {
-    .posts-list .post-preview h2 {
-      font-size: 26px;
-    }
-    .posts-list .post-preview .thumbnail {
-      float: right;
-      width: 30%;
-      margin-bottom: 0;
-    }
-    .posts-list .post-preview .description {
-      float: left;
-      width: 45%;
-    }
-    .posts-list .post-preview .metadata {
-      float: left;
-      width: 20%;
-      margin-top: 8px;
-    }
-    .posts-list .post-preview p {
-      margin: 0 0 12px 0;
-      line-height: 1.5em;
-      font-size: 16px;
-    }
-    .posts-with-sidebar .posts-list {
-      float: left;
-      width: 75%;
-    }
-    .posts-with-sidebar .posts-sidebar {
-      float: right;
-      width: 20%;
-      margin-top: 60px;
-      padding-top: 24px;
-      padding-bottom: 24px;
-    }
-  }
-  
-  
-  /* Improve display for browsers without grid (IE/Edge <= 15) */
-  
-  .downlevel {
-    line-height: 1.6em;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
-    margin: 0;
-  }
-  
-  .downlevel .d-title {
-    padding-top: 6rem;
-    padding-bottom: 1.5rem;
-  }
-  
-  .downlevel .d-title h1 {
-    font-size: 50px;
-    font-weight: 700;
-    line-height: 1.1em;
-    margin: 0 0 0.5rem;
-  }
-  
-  .downlevel .d-title p {
-    font-weight: 300;
-    font-size: 1.2rem;
-    line-height: 1.55em;
-    margin-top: 0;
-  }
-  
-  .downlevel .d-byline {
-    padding-top: 0.8em;
-    padding-bottom: 0.8em;
-    font-size: 0.8rem;
-    line-height: 1.8em;
-  }
-  
-  .downlevel .section-separator {
-    border: none;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-  }
-  
-  .downlevel .d-article {
-    font-size: 1.06rem;
-    line-height: 1.7em;
-    padding-top: 1rem;
-    padding-bottom: 2rem;
-  }
-  
-  
-  .downlevel .d-appendix {
-    padding-left: 0;
-    padding-right: 0;
-    max-width: none;
-    font-size: 0.8em;
-    line-height: 1.7em;
-    margin-bottom: 0;
-    color: rgba(0,0,0,0.5);
-    padding-top: 40px;
-    padding-bottom: 48px;
-  }
-  
-  .downlevel .footnotes ol {
-    padding-left: 13px;
-  }
-  
-  .downlevel .base-grid,
-  .downlevel .distill-header,
-  .downlevel .d-title,
-  .downlevel .d-abstract,
-  .downlevel .d-article,
-  .downlevel .d-appendix,
-  .downlevel .distill-appendix,
-  .downlevel .d-byline,
-  .downlevel .d-footnote-list,
-  .downlevel .d-citation-list,
-  .downlevel .distill-footer,
-  .downlevel .appendix-bottom,
-  .downlevel .posts-container {
-    padding-left: 40px;
-    padding-right: 40px;
-  }
-  
-  @media(min-width: 768px) {
-    .downlevel .base-grid,
-    .downlevel .distill-header,
-    .downlevel .d-title,
-    .downlevel .d-abstract,
-    .downlevel .d-article,
-    .downlevel .d-appendix,
-    .downlevel .distill-appendix,
-    .downlevel .d-byline,
-    .downlevel .d-footnote-list,
-    .downlevel .d-citation-list,
-    .downlevel .distill-footer,
-    .downlevel .appendix-bottom,
-    .downlevel .posts-container {
-    padding-left: 150px;
-    padding-right: 150px;
-    max-width: 900px;
-  }
-  }
-  
-  .downlevel pre code {
-    display: block;
-    border-left: 2px solid rgba(0, 0, 0, .1);
-    padding: 0 0 0 20px;
-    font-size: 14px;
-  }
-  
-  .downlevel code, .downlevel pre {
-    color: black;
-    background: none;
-    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-    text-align: left;
-    white-space: pre;
-    word-spacing: normal;
-    word-break: normal;
-    word-wrap: normal;
-    line-height: 1.5;
-  
-    -moz-tab-size: 4;
-    -o-tab-size: 4;
-    tab-size: 4;
-  
-    -webkit-hyphens: none;
-    -moz-hyphens: none;
-    -ms-hyphens: none;
-    hyphens: none;
-  }
-  
-  .downlevel .posts-list .post-preview {
-    color: inherit;
-  }
-  
-  
-  
-  </style>
-  
-  <script type="application/javascript">
-  
-  function is_downlevel_browser() {
-    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
-                                   window.navigator.userAgent)) {
-      return true;
-    } else {
-      return window.load_distill_framework === undefined;
-    }
-  }
-  
-  // show body when load is complete
-  function on_load_complete() {
-  
-    // add anchors
-    if (window.anchors) {
-      window.anchors.options.placement = 'left';
-      window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
-    }
-  
-  
-    // set body to visible
-    document.body.style.visibility = 'visible';
-  
-    // force redraw for leaflet widgets
-    if (window.HTMLWidgets) {
-      var maps = window.HTMLWidgets.findAll(".leaflet");
-      $.each(maps, function(i, el) {
-        var map = this.getMap();
-        map.invalidateSize();
-        map.eachLayer(function(layer) {
-          if (layer instanceof L.TileLayer)
-            layer.redraw();
-        });
-      });
-    }
-  
-    // trigger 'shown' so htmlwidgets resize
-    $('d-article').trigger('shown');
-  }
-  
-  function init_distill() {
-  
-    init_common();
-  
-    // create front matter
-    var front_matter = $('<d-front-matter></d-front-matter>');
-    $('#distill-front-matter').wrap(front_matter);
-  
-    // create d-title
-    $('.d-title').changeElementType('d-title');
-  
-    // create d-byline
-    var byline = $('<d-byline></d-byline>');
-    $('.d-byline').replaceWith(byline);
-  
-    // create d-article
-    var article = $('<d-article></d-article>');
-    $('.d-article').wrap(article).children().unwrap();
-  
-    // move posts container into article
-    $('.posts-container').appendTo($('d-article'));
-  
-    // create d-appendix
-    $('.d-appendix').changeElementType('d-appendix');
-  
-    // flag indicating that we have appendix items
-    var appendix = $('.appendix-bottom').children('h3').length > 0;
-  
-    // replace footnotes with <d-footnote>
-    $('.footnote-ref').each(function(i, val) {
-      appendix = true;
-      var href = $(this).attr('href');
-      var id = href.replace('#', '');
-      var fn = $('#' + id);
-      var fn_p = $('#' + id + '>p');
-      fn_p.find('.footnote-back').remove();
-      var text = fn_p.html();
-      var dtfn = $('<d-footnote></d-footnote>');
-      dtfn.html(text);
-      $(this).replaceWith(dtfn);
-    });
-    // remove footnotes
-    $('.footnotes').remove();
-  
-    // move refs into #references-listing
-    $('#references-listing').replaceWith($('#refs'));
-  
-    $('h1.appendix, h2.appendix').each(function(i, val) {
-      $(this).changeElementType('h3');
-    });
-    $('h3.appendix').each(function(i, val) {
-      var id = $(this).attr('id');
-      $('.d-contents a[href="#' + id + '"]').parent().remove();
-      appendix = true;
-      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
-    });
-  
-    // show d-appendix if we have appendix content
-    $("d-appendix").css('display', appendix ? 'grid' : 'none');
-  
-    // localize layout chunks to just output
-    $('.layout-chunk').each(function(i, val) {
-  
-      // capture layout
-      var layout = $(this).attr('data-layout');
-  
-      // apply layout to markdown level block elements
-      var elements = $(this).children().not('details, div.sourceCode, pre, script');
-      elements.each(function(i, el) {
-        var layout_div = $('<div class="' + layout + '"></div>');
-        if (layout_div.hasClass('shaded')) {
-          var shaded_content = $('<div class="shaded-content"></div>');
-          $(this).wrap(shaded_content);
-          $(this).parent().wrap(layout_div);
-        } else {
-          $(this).wrap(layout_div);
-        }
-      });
-  
-  
-      // unwrap the layout-chunk div
-      $(this).children().unwrap();
-    });
-  
-    // remove code block used to force  highlighting css
-    $('.distill-force-highlighting-css').parent().remove();
-  
-    // remove empty line numbers inserted by pandoc when using a
-    // custom syntax highlighting theme
-    $('code.sourceCode a:empty').remove();
-  
-    // load distill framework
-    load_distill_framework();
-  
-    // wait for window.distillRunlevel == 4 to do post processing
-    function distill_post_process() {
-  
-      if (!window.distillRunlevel || window.distillRunlevel < 4)
-        return;
-  
-      // hide author/affiliations entirely if we have no authors
-      var front_matter = JSON.parse($("#distill-front-matter").html());
-      var have_authors = front_matter.authors && front_matter.authors.length > 0;
-      if (!have_authors)
-        $('d-byline').addClass('hidden');
-  
-      // article with toc class
-      $('.d-contents').parent().addClass('d-article-with-toc');
-  
-      // strip links that point to #
-      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
-  
-      // add orcid ids
-      $('.authors-affiliations').find('.author').each(function(i, el) {
-        var orcid_id = front_matter.authors[i].orcidID;
-        if (orcid_id) {
-          var a = $('<a></a>');
-          a.attr('href', 'https://orcid.org/' + orcid_id);
-          var img = $('<img></img>');
-          img.addClass('orcid-id');
-          img.attr('alt', 'ORCID ID');
-          img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
-          a.append(img);
-          $(this).append(a);
-        }
-      });
-  
-      // hide elements of author/affiliations grid that have no value
-      function hide_byline_column(caption) {
-        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
-      }
-  
-      // affiliations
-      var have_affiliations = false;
-      for (var i = 0; i<front_matter.authors.length; ++i) {
-        var author = front_matter.authors[i];
-        if (author.affiliation !== "&nbsp;") {
-          have_affiliations = true;
-          break;
-        }
-      }
-      if (!have_affiliations)
-        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
-  
-      // published date
-      if (!front_matter.publishedDate)
-        hide_byline_column("Published");
-  
-      // document object identifier
-      var doi = $('d-byline').find('h3:contains("DOI")');
-      var doi_p = doi.next().empty();
-      if (!front_matter.doi) {
-        // if we have a citation and valid citationText then link to that
-        if ($('#citation').length > 0 && front_matter.citationText) {
-          doi.html('Citation');
-          $('<a href="#citation"></a>')
-            .text(front_matter.citationText)
-            .appendTo(doi_p);
-        } else {
-          hide_byline_column("DOI");
-        }
-      } else {
-        $('<a></a>')
-           .attr('href', "https://doi.org/" + front_matter.doi)
-           .html(front_matter.doi)
-           .appendTo(doi_p);
-      }
-  
-       // change plural form of authors/affiliations
-      if (front_matter.authors.length === 1) {
-        var grid = $('.authors-affiliations');
-        grid.children('h3:contains("Authors")').text('Author');
-        grid.children('h3:contains("Affiliations")').text('Affiliation');
-      }
-  
-      // remove d-appendix and d-footnote-list local styles
-      $('d-appendix > style:first-child').remove();
-      $('d-footnote-list > style:first-child').remove();
-  
-      // move appendix-bottom entries to the bottom
-      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
-      $('.appendix-bottom').remove();
-  
-      // hoverable references
-      $('span.citation[data-cites]').each(function() {
-        var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
-        window.tippy(this, {
-          allowHTML: true,
-          content: refHtml,
-          maxWidth: 500,
-          interactive: true,
-          interactiveBorder: 10,
-          theme: 'light-border',
-          placement: 'bottom-start'
-        });
-      });
-  
-      // clear polling timer
-      clearInterval(tid);
-  
-      // show body now that everything is ready
-      on_load_complete();
-    }
-  
-    var tid = setInterval(distill_post_process, 50);
-    distill_post_process();
-  
-  }
-  
-  function init_downlevel() {
-  
-    init_common();
-  
-     // insert hr after d-title
-    $('.d-title').after($('<hr class="section-separator"/>'));
-  
-    // check if we have authors
-    var front_matter = JSON.parse($("#distill-front-matter").html());
-    var have_authors = front_matter.authors && front_matter.authors.length > 0;
-  
-    // manage byline/border
-    if (!have_authors)
-      $('.d-byline').remove();
-    $('.d-byline').after($('<hr class="section-separator"/>'));
-    $('.d-byline a').remove();
-  
-    // remove toc
-    $('.d-contents').remove();
-  
-    // move appendix elements
-    $('h1.appendix, h2.appendix').each(function(i, val) {
-      $(this).changeElementType('h3');
-    });
-    $('h3.appendix').each(function(i, val) {
-      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
-    });
-  
-  
-    // inject headers into references and footnotes
-    var refs_header = $('<h3></h3>');
-    refs_header.text('References');
-    $('#refs').prepend(refs_header);
-  
-    var footnotes_header = $('<h3></h3');
-    footnotes_header.text('Footnotes');
-    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
-  
-    // move appendix-bottom entries to the bottom
-    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
-    $('.appendix-bottom').remove();
-  
-    // remove appendix if it's empty
-    if ($('.d-appendix').children().length === 0)
-      $('.d-appendix').remove();
-  
-    // prepend separator above appendix
-    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
-  
-    // trim code
-    $('pre>code').each(function(i, val) {
-      $(this).html($.trim($(this).html()));
-    });
-  
-    // move posts-container right before article
-    $('.posts-container').insertBefore($('.d-article'));
-  
-    $('body').addClass('downlevel');
-  
-    on_load_complete();
-  }
-  
-  
-  function init_common() {
-  
-    // jquery plugin to change element types
-    (function($) {
-      $.fn.changeElementType = function(newType) {
-        var attrs = {};
-  
-        $.each(this[0].attributes, function(idx, attr) {
-          attrs[attr.nodeName] = attr.nodeValue;
-        });
-  
-        this.replaceWith(function() {
-          return $("<" + newType + "/>", attrs).append($(this).contents());
-        });
-      };
-    })(jQuery);
-  
-    // prevent underline for linked images
-    $('a > img').parent().css({'border-bottom' : 'none'});
-  
-    // mark non-body figures created by knitr chunks as 100% width
-    $('.layout-chunk').each(function(i, val) {
-      var figures = $(this).find('img, .html-widget');
-      if ($(this).attr('data-layout') !== "l-body") {
-        figures.css('width', '100%');
-      } else {
-        figures.css('max-width', '100%');
-        figures.filter("[width]").each(function(i, val) {
-          var fig = $(this);
-          fig.css('width', fig.attr('width') + 'px');
-        });
-  
-      }
-    });
-  
-    // auto-append index.html to post-preview links in file: protocol
-    // and in rstudio ide preview
-    $('.post-preview').each(function(i, val) {
-      if (window.location.protocol === "file:")
-        $(this).attr('href', $(this).attr('href') + "index.html");
-    });
-  
-    // get rid of index.html references in header
-    if (window.location.protocol !== "file:") {
-      $('.distill-site-header a[href]').each(function(i,val) {
-        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
-      });
-    }
-  
-    // add class to pandoc style tables
-    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
-    $('.kable-table').children('table').addClass('pandoc-table');
-  
-    // add figcaption style to table captions
-    $('caption').parent('table').addClass("figcaption");
-  
-    // initialize posts list
-    if (window.init_posts_list)
-      window.init_posts_list();
-  
-    // implmement disqus comment link
-    $('.disqus-comment-count').click(function() {
-      window.headroom_prevent_pin = true;
-      $('#disqus_thread').toggleClass('hidden');
-      if (!$('#disqus_thread').hasClass('hidden')) {
-        var offset = $(this).offset();
-        $(window).resize();
-        $('html, body').animate({
-          scrollTop: offset.top - 35
-        });
-      }
-    });
-  }
-  
-  document.addEventListener('DOMContentLoaded', function() {
-    if (is_downlevel_browser())
-      init_downlevel();
-    else
-      window.addEventListener('WebComponentsReady', init_distill);
-  });
-  
-  </script>
-  
-  <!--/radix_placeholder_distill-->
-  <script src="ontrafelen_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-  <script src="ontrafelen_files/popper-2.6.0/popper.min.js"></script>
-  <link href="ontrafelen_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
-  <link href="ontrafelen_files/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
-  <script src="ontrafelen_files/tippy-6.2.7/tippy.umd.min.js"></script>
-  <script src="ontrafelen_files/anchor-4.2.2/anchor.min.js"></script>
-  <script src="ontrafelen_files/bowser-1.9.3/bowser.min.js"></script>
-  <script src="ontrafelen_files/webcomponents-2.0.0/webcomponents.js"></script>
-  <script src="ontrafelen_files/distill-2.2.21/template.v2.js"></script>
-  <!--radix_placeholder_site_in_header-->
-  <!--/radix_placeholder_site_in_header-->
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
 
 
 </head>
 
-<body>
+<body class="nav-fixed">
 
-<!--radix_placeholder_front_matter-->
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">Harrie’s Hoekje</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Jonkman1"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Opschonen en ontrafelen</h1>
+                          <div class="quarto-categories">
+                <div class="quarto-category">voorbereiding</div>
+              </div>
+                  </div>
+  </div>
+    
+  <div>
+    <div class="description">
+      <p>Een post over opschonen en ontrafelen van data</p>
+    </div>
+  </div>
 
-<script id="distill-front-matter" type="text/json">
-{"title":"Opschonen en ontrafelen","description":"Een post over opschonen en ontrafelen van data","authors":[{"author":"Bewerking Harrie Jonkman","authorURL":{},"affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-10-03T00:00:00.000+00:00","citationText":"Jonkman, 2021"}
-</script>
 
-<!--/radix_placeholder_front_matter-->
-<!--radix_placeholder_navigation_before_body-->
-<!--/radix_placeholder_navigation_before_body-->
-<!--radix_placeholder_site_before_body-->
-<!--/radix_placeholder_site_before_body-->
 
-<div class="d-title">
-<h1>Opschonen en ontrafelen</h1>
-<!--radix_placeholder_categories-->
-<!--/radix_placeholder_categories-->
-<p><p>Een post over opschonen en ontrafelen van data</p></p>
-</div>
 
-<div class="d-byline">
-  Bewerking Harrie Jonkman true 
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Bewerking Harrie Jonkman </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">October 3, 2021</p>
+      </div>
+    </div>
+      
+    </div>
+    
   
-<br/>10-03-2021
-</div>
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#janitor" id="toc-janitor" class="nav-link active" data-scroll-target="#janitor">Janitor</a>
+  <ul class="collapse">
+  <li><a href="#mee-werken" id="toc-mee-werken" class="nav-link" data-scroll-target="#mee-werken">Mee werken</a></li>
+  <li><a href="#creëer-non_ma_names" id="toc-creëer-non_ma_names" class="nav-link" data-scroll-target="#creëer-non_ma_names">Creëer <code>non_ma_names</code></a></li>
+  <li><a href="#gebruik-janitor" id="toc-gebruik-janitor" class="nav-link" data-scroll-target="#gebruik-janitor">Gebruik <code>janitor</code></a></li>
+  <li><a href="#andere-functies" id="toc-andere-functies" class="nav-link" data-scroll-target="#andere-functies">Andere Functies</a></li>
+  <li><a href="#conclusie" id="toc-conclusie" class="nav-link" data-scroll-target="#conclusie">Conclusie</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
-<div class="d-article">
-<p><img src="Screenshot1.png" /></p>
+
+
+
+<p><img src="Screenshot1.png" class="img-fluid"></p>
 <p>Als je data krijgt is het belangrijk om over enkele technieken te beschikken de data goed te ontrafelen en schoon te maken. Het pakket <code>tidyverse</code> is een standaardpakket waarmee je goed uit de voeten kunt. Ook het pakket <code>janitor</code> hoort thuis in de gereedschapskist van de analyticus. Een aantal codes van dat <code>janitor</code>pakket wilde ik goed leren kennen. Vandaar deze blog. Daarbij bouw ik voort op deze blog <a href="https://towardsdatascience.com/cleaning-and-exploring-data-with-the-janitor-package-ee4a3edf085e">hier</a>.</p>
-<h1 id="janitor">Janitor</h1>
+<section id="janitor" class="level1">
+<h1>Janitor</h1>
 <p>Eerst maar eens <code>janitor</code> en <code>tidyverse</code> laden en de data binnenhalen (wel eerst installeren als je deze pakketten niet hebt).</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/sfirke/janitor'>janitor</a></span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>
-<span class='va'>place_names</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='st'>"data/GNIS Query Result.csv"</span><span class='op'>)</span>
-</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'janitor'</code></pre>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    chisq.test, fisher.test</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyverse' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>-- Attaching packages --------------------------------------- tidyverse 1.3.1 --</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>v ggplot2 3.3.6     v purrr   0.3.4
+v tibble  3.1.7     v dplyr   1.0.9
+v tidyr   1.2.0     v stringr 1.4.1
+v readr   2.1.2     v forcats 0.5.1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'ggplot2' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tibble' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'readr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'dplyr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'stringr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>-- Conflicts ------------------------------------------ tidyverse_conflicts() --
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>place_names <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">"data/GNIS Query Result.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Eerst eens kijken hoe deze data eruit zien?</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/utils/View.html'>View</a></span><span class='op'>(</span><span class='va'>place_names</span><span class='op'>)</span>
-</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(place_names)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-<h2 id="mee-werken">Mee werken</h2>
+<section id="mee-werken" class="level2">
+<h2 class="anchored" data-anchor-id="mee-werken">Mee werken</h2>
 <p>Laten we een beetje met deze data werken. Eerst geven we de kolommen de naam <code>columns</code> om te voorkomen dat het rommelig wordt. Vervolgens gebruiken we de <code>separate()</code> functie om de kolommen te scheiden. Vervolgens filteren we de gegevens tot Berkshire County, omdat bij nadere inspectie van de gegevens duidelijk wordt dat er een paar items van buiten dit gebied zijn opgenomen. Dan gebruiken we <code>mutate()</code> om verder op te ruimen. <code>str_replace()</code> wordt gebruikt om de ID “598673” te vervangen door “598712,” een ID nummer dat al bestaat in de dataset, om zo een duplicaat ID te maken. Tenslotte wordt een extra kolom genaamd “extra_column” aangemaakt met NAs in elke rij:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>place_names</span><span class='op'>)</span> <span class='op'>=</span> <span class='st'>"columns"</span>
-
-<span class='va'>place_names</span> <span class='op'>=</span> 
-  <span class='va'>place_names</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>separate</span><span class='op'>(</span><span class='va'>columns</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Feature Name"</span>, <span class='st'>"ID"</span>, <span class='st'>"Class"</span>, <span class='st'>"County"</span>, <span class='st'>"State"</span>, <span class='st'>"Latitude"</span>, <span class='st'>"Longitude"</span>, <span class='st'>"Ele(ft)"</span>, <span class='st'>"Map"</span>, <span class='st'>"BGN Date"</span>, <span class='st'>"Entry Date"</span><span class='op'>)</span>, sep <span class='op'>=</span> <span class='st'>"[|]"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>County</span> <span class='op'>==</span> <span class='st'>"Berkshire"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>mutate</span><span class='op'>(</span>
-    ID <span class='op'>=</span> <span class='fu'>str_replace</span><span class='op'>(</span><span class='va'>ID</span>, <span class='st'>"598673"</span>, <span class='st'>"598712"</span><span class='op'>)</span>,
-    extra_column <span class='op'>=</span> <span class='cn'>NA</span>
-  <span class='op'>)</span>
-</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(place_names) <span class="ot">=</span> <span class="st">"columns"</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>place_names <span class="ot">=</span> </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  place_names <span class="sc">%&gt;%</span> </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(columns, <span class="fu">c</span>(<span class="st">"Feature Name"</span>, <span class="st">"ID"</span>, <span class="st">"Class"</span>, <span class="st">"County"</span>, <span class="st">"State"</span>, <span class="st">"Latitude"</span>, <span class="st">"Longitude"</span>, <span class="st">"Ele(ft)"</span>, <span class="st">"Map"</span>, <span class="st">"BGN Date"</span>, <span class="st">"Entry Date"</span>), <span class="at">sep =</span> <span class="st">"[|]"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(County <span class="sc">==</span> <span class="st">"Berkshire"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">ID =</span> <span class="fu">str_replace</span>(ID, <span class="st">"598673"</span>, <span class="st">"598712"</span>),</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">extra_column =</span> <span class="cn">NA</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-<h2 id="creëer-non_ma_names">Creëer <code>non_ma_names</code></h2>
+</section>
+<section id="creëer-non_ma_names" class="level2">
+<h2 class="anchored" data-anchor-id="creëer-non_ma_names">Creëer <code>non_ma_names</code></h2>
 <p>Voor we verder gaan, maken we snel ook een tweede dataset aan. Deze noemen we “non_ma_names”, met data die niet van Berkshire County afkomstig zijn. Nogmaals lezen we het “GNIS Query Result.csv” bestand in en scheiden de kolomnamen. Vervolgens gebruiken we de <code>clean_names()</code> functie uit het janitor pakket, die we in de volgende sectie uitvoerig zullen behandelen. Tenslotte gebruiken we <code>as.numeric()</code> en <code>as.factor()</code> in een mutate stap om onze ele_ft variabele te transformeren naar een numerieke variabele en onze map variabele naar een factor:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>non_ma_names</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='st'>"data/GNIS Query Result.csv"</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>non_ma_names</span><span class='op'>)</span> <span class='op'>=</span> <span class='st'>"columns"</span>
-
-<span class='va'>non_ma_names</span> <span class='op'>=</span> 
-  <span class='va'>non_ma_names</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>separate</span><span class='op'>(</span><span class='va'>columns</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Feature Name"</span>, <span class='st'>"ID"</span>, <span class='st'>"Class"</span>, <span class='st'>"County"</span>, <span class='st'>"State"</span>, <span class='st'>"Latitude"</span>, <span class='st'>"Longitude"</span>, <span class='st'>"Ele(ft)"</span>, <span class='st'>"Map"</span>, <span class='st'>"BGN Date"</span>, <span class='st'>"Entry Date"</span><span class='op'>)</span>, sep <span class='op'>=</span> <span class='st'>"[|]"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>County</span> <span class='op'>!=</span> <span class='st'>"Berkshire"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/pkg/janitor/man/clean_names.html'>clean_names</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>mutate</span><span class='op'>(</span>
-    ele_ft <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>ele_ft</span><span class='op'>)</span>,
-    map <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='va'>map</span><span class='op'>)</span>
-  <span class='op'>)</span>
-</code></pre>
-</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>non_ma_names <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">"data/GNIS Query Result.csv"</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(non_ma_names) <span class="ot">=</span> <span class="st">"columns"</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>non_ma_names <span class="ot">=</span> </span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  non_ma_names <span class="sc">%&gt;%</span> </span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(columns, <span class="fu">c</span>(<span class="st">"Feature Name"</span>, <span class="st">"ID"</span>, <span class="st">"Class"</span>, <span class="st">"County"</span>, <span class="st">"State"</span>, <span class="st">"Latitude"</span>, <span class="st">"Longitude"</span>, <span class="st">"Ele(ft)"</span>, <span class="st">"Map"</span>, <span class="st">"BGN Date"</span>, <span class="st">"Entry Date"</span>), <span class="at">sep =</span> <span class="st">"[|]"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(County <span class="sc">!=</span> <span class="st">"Berkshire"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">ele_ft =</span> <span class="fu">as.numeric</span>(ele_ft),</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">map =</span> <span class="fu">as.factor</span>(map)</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Laten we nu eens zien wat <code>janitor</code> kan.</p>
-<h2 id="gebruik-janitor">Gebruik <code>janitor</code></h2>
-<h3 id="row_to_names"><code>row_to_names()</code></h3>
+</section>
+<section id="gebruik-janitor" class="level2">
+<h2 class="anchored" data-anchor-id="gebruik-janitor">Gebruik <code>janitor</code></h2>
+<section id="row_to_names" class="level3">
+<h3 class="anchored" data-anchor-id="row_to_names"><code>row_to_names()</code></h3>
 <p>Je hebt waarschijnlijk al heel wat databestanden ontvangen, waarschijnlijk in .xlsx-formaat. Bovenaan de spreadsheet staan er dan niet zelden een aantal rijen voordat de eigenlijke gegevens beginnen. Deze rijen kunnen leeg zijn of zijn gevuld met informatie en bedrijfslogo’s. Wanneer je dergelijke gegevens in R laadt, kan de inhoud van deze eerste rijen automatisch jouw kolomkoppen en eerste rijen worden. De functie <code>row_to_names()</code> in het <code>janitor</code>-pakket geeft joun de gelegenheid om aan te geven welke rij in jouw dataframe de eigenlijke kolomnamen bevat en om al het andere dat aan die rij voorafgaat te verwijderen. In onze dataset hadden de kolomnamen al de juiste plaats. Maar laten we deze functie toch eens proberen. We doen alsof de kolomnamen in de derde rij staan. We gebruiken de <code>row_to_names()</code>-functie om een nieuw data frame te maken genaamd “test_names”. De <code>row_to_names()</code> functie neemt de volgende argumenten: de gegevensbron, het rijnummer waar de kolomnamen vandaan moeten komen, of die rij moet worden verwijderd uit de gegevens, en of de rijen erboven moeten worden verwijderd uit de gegevens:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>test_names</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/janitor/man/row_to_names.html'>row_to_names</a></span><span class='op'>(</span><span class='va'>place_names</span>, <span class='fl'>3</span>, remove_row <span class='op'>=</span> <span class='cn'>TRUE</span>, remove_rows_above <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>test_names <span class="ot">=</span> <span class="fu">row_to_names</span>(place_names, <span class="dv">3</span>, <span class="at">remove_row =</span> <span class="cn">TRUE</span>, <span class="at">remove_rows_above =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-<h3 id="clean_names"><code>clean_names()</code></h3>
+</section>
+<section id="clean_names" class="level3">
+<h3 class="anchored" data-anchor-id="clean_names"><code>clean_names()</code></h3>
 <p><code>clean_names()</code> functie wordt vaak gebruikt als je een nieuwe dataset in R laadt. Als je deze functie nog niet gebruikt, raad ik je sterk aan om deze in jouw workflow op te nemen. Het is niet voor niets de meest populaire functie uit het <code>janitor</code>- pakket - het is uiterst nuttig! Laten we even terugkijken naar onze kolomnamen. Er zijn allerlei hoofdletters en spaties (b.v. “Feature Name”, “BGN Date”) en ook symbolen (“Ele(ft)”). De <code>clean_names()</code> functie zet deze allemaal voor ons om naar kleine letters.</p>
 <p>Het gebruik van <code>clean_names()</code> is eenvoudig en kan als volgt worden uitgevoerd:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>place_names</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/janitor/man/clean_names.html'>clean_names</a></span><span class='op'>(</span><span class='va'>place_names</span><span class='op'>)</span>
-
-<span class='co'>#OR</span>
-
-<span class='va'>place_names</span> <span class='op'>=</span> 
-  <span class='va'>place_names</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/pkg/janitor/man/clean_names.html'>clean_names</a></span><span class='op'>(</span><span class='op'>)</span>
-</code></pre>
-</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>place_names <span class="ot">=</span> <span class="fu">clean_names</span>(place_names)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co">#OR</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>place_names <span class="ot">=</span> </span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  place_names <span class="sc">%&gt;%</span> </span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Zoals je ziet, heeft deze ene functie alle soorten rommelige kolomnamen verwerkt. Alles ziet er nu netjes en opgeruimd uit. Kijk maar eens</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>place_names</span><span class='op'>)</span>
-</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(place_names)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            feature_name     id     class    county state latitude longitude
+1    A-Z Shopping Center 603538    Locale Berkshire    MA  422755N  0731254W
+2             Abbey Hill 607260    Summit Berkshire    MA  420822N  0730930W
+3             Abbey Lake 617758 Reservoir Berkshire    MA  420818N  0730908W
+4         Abbey Lake Dam 604930       Dam Berkshire    MA  420806N  0730910W
+5            Abbey Swamp 607261     Swamp Berkshire    MA  420822N  0730930W
+6 Abbott Memorial School 598712    School Berkshire    MA  424032N  0730213W
+  ele_ft             map bgn_date  entry_date extra_column
+1   1037 Pittsfield East          27-AUG-2002           NA
+2   1798        Monterey          24-FEB-1974           NA
+3   1463        Monterey          24-FEB-1974           NA
+4   1486        Monterey          27-AUG-2002           NA
+5   1798        Monterey          24-FEB-1974           NA
+6   1696     North Adams          27-AUG-2002           NA</code></pre>
 </div>
-<pre><code>            feature_name     id     class    county state latitude
-1    A-Z Shopping Center 603538    Locale Berkshire    MA  422755N
-2             Abbey Hill 607260    Summit Berkshire    MA  420822N
-3             Abbey Lake 617758 Reservoir Berkshire    MA  420818N
-4         Abbey Lake Dam 604930       Dam Berkshire    MA  420806N
-5            Abbey Swamp 607261     Swamp Berkshire    MA  420822N
-6 Abbott Memorial School 598712    School Berkshire    MA  424032N
-  longitude ele_ft             map bgn_date  entry_date extra_column
-1  0731254W   1037 Pittsfield East          27-AUG-2002           NA
-2  0730930W   1798        Monterey          24-FEB-1974           NA
-3  0730908W   1463        Monterey          24-FEB-1974           NA
-4  0730910W   1486        Monterey          27-AUG-2002           NA
-5  0730930W   1798        Monterey          24-FEB-1974           NA
-6  0730213W   1696     North Adams          27-AUG-2002           NA</code></pre>
 </div>
-<h3 id="remove_empty"><code>remove_empty()</code></h3>
+</section>
+<section id="remove_empty" class="level3">
+<h3 class="anchored" data-anchor-id="remove_empty"><code>remove_empty()</code></h3>
 <p>De <code>remove_empty()</code> functie verwijdert, zoals de naam al zegt, kolommen die leeg zijn. We hebben een lege kolom gemaakt in ons “place_names” dataframe tijdens het voorbereiden van onze gegevens, dus we weten dat ten minste één kolom door deze functie zou moeten worden beïnvloed. Laten we het eens uitproberen:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>place_names</span> <span class='op'>=</span> 
-  <span class='va'>place_names</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/pkg/janitor/man/remove_empty.html'>remove_empty</a></span><span class='op'>(</span><span class='op'>)</span>
-</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>place_names <span class="ot">=</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  place_names <span class="sc">%&gt;%</span> </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">remove_empty</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>value for "which" not specified, defaulting to c("rows", "cols")</code></pre>
 </div>
 </div>
 <p>Zoals je kunt zien is de lege kolom (‘extra_column’) verdwenen en zijn er niet meer 12 maar 11 variabelen over.</p>
 <p>De <code>bgn_date</code>-kolom lijkt leeg, maar het feit dat deze niet is verwijderd door <code>remove_empty()</code> vertelt ons dat er in ieder geval in één rij gegevens moeten zitten. Scroll maar in de dataset naar beneden en dan zie je het.</p>
-<h3 id="remove_constant"><code>remove_constant()</code></h3>
+</section>
+<section id="remove_constant" class="level3">
+<h3 class="anchored" data-anchor-id="remove_constant"><code>remove_constant()</code></h3>
 <p>De <code>remove_constant()</code> functie verwijdert kolommen met dezelfde waarde in alle rijen. Onze dataset heeft er momenteel twee - omdat we de data hebben gefilterd tot Berkshire County, en heel Berkshire County in Massachusetts ligt, is county = “Berkshire” en staat = “MA” voor alle rijen. Deze rijen zijn niet bijzonder nuttig om in de dataset te houden omdat ze geen rij-specifieke informatie geven. We zouden simpelweg <code>select()</code> kunnen gebruiken om deze kolommen te verwijderen, maar het voordeel van <code>remove_constant()</code> is dat deze functie de aanname <code>alle gegevens hetzelfde zijn</code>, dubbel controleert. In feite, door het gebruik van <code>remove_constant()</code> werd ook duidelijk dat 38 van de 1968 items in de ruwe data eigenlijk niet van Berkshire Country waren! Net als <code>remove_empty()</code>, is alle informatie die de <code>remove_constant()</code> functie nodig heeft, de dataset waarop het moet werken:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>place_names</span> <span class='op'>=</span> 
-  <span class='va'>place_names</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/pkg/janitor/man/remove_constant.html'>remove_constant</a></span><span class='op'>(</span><span class='op'>)</span>
-</code></pre>
-</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>place_names <span class="ot">=</span> </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  place_names <span class="sc">%&gt;%</span> </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">remove_constant</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Zoals je kunt zien, zijn de variabelen Berkshire(county) en MA(staat) nu er uit en zijn er nog negen variabelen over.</p>
-<h3 id="compare_df_cols"><code>compare_df_cols()</code></h3>
+</section>
+<section id="compare_df_cols" class="level3">
+<h3 class="anchored" data-anchor-id="compare_df_cols"><code>compare_df_cols()</code></h3>
 <p>Ooit geprobeerd om <code>rbind()</code> te gebruiken om twee data frames te stapelen en tegen een onverwachte fout aangelopen? De <code>compare_df_cols()</code> functie vergelijkt direct de kolommen in twee dataframes en is ongelooflijk handig voor het oplossen van dit probleem. Laten we het eens proberen door ons “place_names” data frame te vergelijken met het data frame dat we hebben gemaakt met gegevens buiten Berkshire County, “non_ma_names”:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/pkg/janitor/man/compare_df_cols.html'>compare_df_cols</a></span><span class='op'>(</span><span class='va'>place_names</span>, <span class='va'>non_ma_names</span><span class='op'>)</span>
-</code></pre>
-</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compare_df_cols</span>(place_names, non_ma_names)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>    column_name place_names non_ma_names
 1      bgn_date   character    character
 2         class   character    character
@@ -1622,33 +396,35 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 10          map   character       factor
 11        state        &lt;NA&gt;    character</code></pre>
 </div>
-<p>De output is een handige tabel waarin de twee dataframes worden vergeleken. We zien “NA” voor county en state in place_names en “character” voor deze variabelen in non_ma_names. Dit komt omdat we deze kolommen met <code>remove_constant()</code> uit place_names hebben verwijderd, maar nooit iets hebben gedaan met de standaard karaktervariabelen in non_ma_names. We zien ook ele_ft als numeriek en map als een factor variabele in non_ma_names, die we specifiek hebben aangewezen tijdens datavoorbereiding. Als we deze dataframes zouden proberen samen te voegen, zou het nuttig zijn te weten welke kolommen ontbreken en welke kolommen inconsistente types hebben in de dataframes. In dataframes met veel kolommen kan <code>compare_df_cols()</code> de tijd die nodig is om deze vergelijkingen te maken, aanzienlijk verminderen.</p>
-<h3 id="get_dupes"><code>get_dupes()</code></h3>
-<p>Ik heb vaak gewerkt aan projecten met unieke patiënt-ID’s waarvan je niet verwacht dat ze dubbel voorkomen in je dataset. Er zijn tal van andere gevallen waarin je ervoor zou willen zorgen dat een ID-variabele volledig unieke waarden heeft, waaronder onze GNIS-gegevens. Zoals je je zult herinneren, hebben we een dubbele ID aangemaakt toen we onze data voorbereidden. Laten we eens kijken hoe <code>get_dupes()</code> dit detecteert. De functie heeft enkel de naam van ons dataframe nodig en de naam van de kolom die als identifier fungeert:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/pkg/janitor/man/get_dupes.html'>get_dupes</a></span><span class='op'>(</span><span class='va'>place_names</span>, <span class='va'>id</span><span class='op'>)</span>
-</code></pre>
 </div>
-<pre><code>      id dupe_count           feature_name  class latitude longitude
-1 598712          2 Abbott Memorial School School  424032N  0730213W
-2 598712          2      Abby Lodge School School  422440N  0731503W
-  ele_ft             map bgn_date  entry_date
-1   1696     North Adams          27-AUG-2002
-2   1076 Pittsfield West          27-AUG-2002</code></pre>
+<p>De output is een handige tabel waarin de twee dataframes worden vergeleken. We zien “NA” voor county en state in place_names en “character” voor deze variabelen in non_ma_names. Dit komt omdat we deze kolommen met <code>remove_constant()</code> uit place_names hebben verwijderd, maar nooit iets hebben gedaan met de standaard karaktervariabelen in non_ma_names. We zien ook ele_ft als numeriek en map als een factor variabele in non_ma_names, die we specifiek hebben aangewezen tijdens datavoorbereiding. Als we deze dataframes zouden proberen samen te voegen, zou het nuttig zijn te weten welke kolommen ontbreken en welke kolommen inconsistente types hebben in de dataframes. In dataframes met veel kolommen kan <code>compare_df_cols()</code> de tijd die nodig is om deze vergelijkingen te maken, aanzienlijk verminderen.</p>
+</section>
+<section id="get_dupes" class="level3">
+<h3 class="anchored" data-anchor-id="get_dupes"><code>get_dupes()</code></h3>
+<p>Ik heb vaak gewerkt aan projecten met unieke patiënt-ID’s waarvan je niet verwacht dat ze dubbel voorkomen in je dataset. Er zijn tal van andere gevallen waarin je ervoor zou willen zorgen dat een ID-variabele volledig unieke waarden heeft, waaronder onze GNIS-gegevens. Zoals je je zult herinneren, hebben we een dubbele ID aangemaakt toen we onze data voorbereidden. Laten we eens kijken hoe <code>get_dupes()</code> dit detecteert. De functie heeft enkel de naam van ons dataframe nodig en de naam van de kolom die als identifier fungeert:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_dupes</span>(place_names, id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      id dupe_count           feature_name  class latitude longitude ele_ft
+1 598712          2 Abbott Memorial School School  424032N  0730213W   1696
+2 598712          2      Abby Lodge School School  422440N  0731503W   1076
+              map bgn_date  entry_date
+1     North Adams          27-AUG-2002
+2 Pittsfield West          27-AUG-2002</code></pre>
+</div>
 </div>
 <p>Zoals hieronder getoond, wordt het dataframe gefilterd tot de rijen met dubbele waarden in de kolom ID, zodat eventuele problemen gemakkelijk kunnen worden onderzocht:</p>
-<h3 id="tabyl">tabyl()</h3>
+</section>
+<section id="tabyl" class="level3">
+<h3 class="anchored" data-anchor-id="tabyl">tabyl()</h3>
 <p>De <code>tabyl()</code> functie is vergelijkbaar met de <code>table()</code> functie van tidyverse. Het is ook compatibel met het knitr pakket, en is erg handig voor data exploratie.Laten we het eerst uitproberen met een enkele variabele. Stel dat we geïnteresseerd zijn in hoeveel scholen er zijn in elk van de steden in Berkshire County. We filteren eerst onze klasse variabele op “School”, en gebruiken dan de tabyl() functie met onze map(locatie) variabele. Tenslotte pijpen we dat in knitr::kable() om de uitvoer in een mooie tabel te formatteren:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>place_names</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>class</span> <span class='op'>%in%</span> <span class='st'>"School"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/pkg/janitor/man/tabyl.html'>tabyl</a></span><span class='op'>(</span><span class='va'>map</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='op'>)</span>
-</code></pre>
-</div>
-<table>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>place_names <span class="sc">%&gt;%</span> </span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(class <span class="sc">%in%</span> <span class="st">"School"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(map) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
 <thead>
 <tr class="header">
 <th style="text-align: left;">map</th>
@@ -1740,60 +516,59 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </tbody>
 </table>
 </div>
+</div>
 <p>Het uitvoeren van deze zeer eenvoudige code levert de volgende uitvoertabel op:</p>
 <p>Wanneer we ons Rmd bestand ‘knitten’, zal de <code>kable()</code> functie de tabel mooi opmaken, zoals hierboven getoond. We krijgen een aantal scholen in elke stad, evenals het percentage van alle scholen in die stad. Het is gemakkelijk om opmerkingen te maken over deze gegevens, zoals dat 29,5% van alle scholen in Pittsfield East zijn, dat 41 scholen telt. Of dat 3 steden zo klein zijn dat ze maar 1 school hebben:</p>
 <p>Laten we nu de kruistabellen van twee variabelen proberen. Laten we eens kijken hoeveel herkenningspunten van elk type aanwezig zijn in elke stad:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>place_names</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/pkg/janitor/man/tabyl.html'>tabyl</a></span><span class='op'>(</span><span class='va'>map</span>, <span class='va'>class</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
- <span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='op'>)</span>
-</code></pre>
-</div>
-<table style="width:100%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>place_names <span class="sc">%&gt;%</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(map, class) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
 <colgroup>
-<col style="width: 5%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 5%" />
-<col style="width: 3%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 3%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
+<col style="width: 5%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 5%">
+<col style="width: 3%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 3%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 1%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -3121,60 +1896,59 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </tbody>
 </table>
 </div>
+</div>
 <p>Een deel van onze tabel (eenmaal ‘geknit’) is hierboven afgebeeld. Voor elke stad kunnen we duidelijk zien hoeveel van elk oriëntatiepunttype er in de database zitten:</p>
 <p>Hoewel eenvoudige tellingen als deze heel nuttig kunnen zijn, geven we misschien meer om kolompercentages. Met andere woorden, hoeveel procent van de items voor elk oriëntatiepunttype zijn er in elke stad? Dit is gemakkelijk te onderzoeken met <code>tabyl()</code> via de <code>adorn_percentages()</code> functie:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>place_names</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/pkg/janitor/man/tabyl.html'>tabyl</a></span><span class='op'>(</span><span class='va'>map</span>, <span class='va'>class</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/pkg/janitor/man/adorn_percentages.html'>adorn_percentages</a></span><span class='op'>(</span><span class='st'>"col"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='op'>)</span>
-</code></pre>
-</div>
-<table>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>place_names <span class="sc">%&gt;%</span> </span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(map, class) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_percentages</span>(<span class="st">"col"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
 <colgroup>
-<col style="width: 4%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 4%" />
-<col style="width: 3%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
+<col style="width: 4%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 4%">
+<col style="width: 3%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -4502,61 +3276,60 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </tbody>
 </table>
 </div>
+</div>
 <p>Nu zien we deze kolompercentages in plaats van tellingen, maar de tabel is nogal moeilijk te lezen.</p>
 <p>We kunnen dit een beetje opschonen met de <code>adorn_pct_formatting()</code> functie, die de gebruiker toestaat het aantal decimalen op te geven dat in de uitvoer moet worden opgenomen. Precisie is niet bijzonder belangrijk voor deze verkennende tabel, dus laten we 0 decimalen gebruiken om deze tabel makkelijker leesbaar te maken:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>place_names</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/pkg/janitor/man/tabyl.html'>tabyl</a></span><span class='op'>(</span><span class='va'>map</span>, <span class='va'>class</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/pkg/janitor/man/adorn_percentages.html'>adorn_percentages</a></span><span class='op'>(</span><span class='st'>"col"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/pkg/janitor/man/adorn_pct_formatting.html'>adorn_pct_formatting</a></span><span class='op'>(</span>digits <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='op'>)</span>
-</code></pre>
-</div>
-<table style="width:100%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>place_names <span class="sc">%&gt;%</span> </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(map, class) <span class="sc">%&gt;%</span> </span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_percentages</span>(<span class="st">"col"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_pct_formatting</span>(<span class="at">digits =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
 <colgroup>
-<col style="width: 5%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 5%" />
-<col style="width: 3%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 3%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
+<col style="width: 5%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 5%">
+<col style="width: 3%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 3%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 1%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -5883,62 +4656,61 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 <p>Veel beter! Nu is het veel gemakkelijker om de tabel te lezen en onze kolompercentages te begrijpen:</p>
 <p>Het is net zo eenvoudig om <code>adorn_percentages()</code> te gebruiken om in plaats daarvan naar rij percentages te kijken (in ons geval, het percentage vermeldingen van elke stad dat behoort tot elk oriëntatiepunt type):</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>place_names</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/pkg/janitor/man/tabyl.html'>tabyl</a></span><span class='op'>(</span><span class='va'>map</span>, <span class='va'>class</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/pkg/janitor/man/adorn_percentages.html'>adorn_percentages</a></span><span class='op'>(</span><span class='st'>"col"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/pkg/janitor/man/adorn_pct_formatting.html'>adorn_pct_formatting</a></span><span class='op'>(</span>digits <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='op'>)</span>
-</code></pre>
-</div>
-<table style="width:100%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>place_names <span class="sc">%&gt;%</span> </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(map, class) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_percentages</span>(<span class="st">"col"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_pct_formatting</span>(<span class="at">digits =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
 <colgroup>
-<col style="width: 5%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 5%" />
-<col style="width: 3%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 3%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
+<col style="width: 5%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 5%">
+<col style="width: 3%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 3%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 1%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -7266,31 +6038,107 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </tbody>
 </table>
 </div>
-<h2 id="andere-functies">Andere Functies</h2>
+</div>
+</section>
+</section>
+<section id="andere-functies" class="level2">
+<h2 class="anchored" data-anchor-id="andere-functies">Andere Functies</h2>
 <p>In dit blog zijn de functies uit het <code>janitor</code>-pakket beschreven die nuttig zijn voor het dagelijkse werk. Dit is echter geen uitputtende lijst van <code>janitor</code> functies en ik raad aan om de documentatie te raadplegen voor meer informatie over dit pakket.</p>
 <p>Er zijn nog een paar andere functies die op zijn minst de moeite waard zijn om hier te vermelden: <code>excel_numeric_to_date()</code>: Deze functie is ontworpen om veel van Excel’s datum formaten te verwerken en om deze numerieke variabelen om te zetten naar datum variabelen. Het lijkt een grote tijdsbesparing voor diegenen die vaak met gegevens in Excel werken. Als niet frequent gebruiker van Excel, vertrouw ik in plaats daarvan zwaar op het <code>lubridate</code> pakket voor het werken met datum variabelen.</p>
 <p><code>round_to_fraction()</code>: Met deze functie kun je decimale getallen afronden naar een precieze breuknoemer. Wil je al je waarden afgerond hebben naar het dichtstbijzijnde kwartier, of gebruik je decimalen om minuten in een uur weer te geven? Dan kan de <code>round_to_fraction()</code>-functie jou waarschijnlijk helpen.</p>
 <p><code>top_levels()</code>: Deze functie genereert een frequentietabel die een categorische variabele samenbrengt in hoge, middelste en lage niveaus. Veelgebruikte gevallen zijn onder andere het vereenvoudigen van Likert-achtige schalen.</p>
-<h2 id="conclusie">Conclusie</h2>
+</section>
+<section id="conclusie" class="level2">
+<h2 class="anchored" data-anchor-id="conclusie">Conclusie</h2>
 <p>Het is op dit punt algemeen bekend dat de meeste dataanalisten en -wetenschappers het grootste deel van hun tijd besteden aan het opschonen en verkennen van gegevens. Daarom is het goed om nieuwe pakketten en functies te ontdekken die deze processen een beetje efficiënter maken.</p>
 <p>Of je het <code>janitor</code>-pakket nu wel of niet eerder hebt gebruikt, ik hoop dat deze blog jouw kennis heeft laten maken met enkele functies die nuttige toevoegingen zullen blijken te zijn aan je datawetenschapsgereedschapskist.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
-<!--radix_placeholder_article_footer-->
-<!--/radix_placeholder_article_footer-->
-</div>
-
-<div class="d-appendix">
-</div>
 
 
-<!--radix_placeholder_site_after_body-->
-<!--/radix_placeholder_site_after_body-->
-<!--radix_placeholder_appendices-->
-<div class="appendix-bottom"></div>
-<!--/radix_placeholder_appendices-->
-<!--radix_placeholder_navigation_after_body-->
-<!--/radix_placeholder_navigation_after_body-->
+</section>
+</section>
 
-</body>
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
 
-</html>
+
+
+</body></html>

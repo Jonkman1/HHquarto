@@ -4,7 +4,7 @@ description: |
      Hieronder een korte introductie op hoe je kaarten maakt met R, met name met het pakket `sf`.
 author: "Euginio Petrovich, bewerking Harrie Jonkman"
 date: "2022-05-05"
-categories: [analyse]
+categories: [visualisatie]
 image: "DR2_map_Europe.png"
 ---
 

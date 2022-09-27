@@ -1,19 +1,13 @@
 ---
-title: "Data visualisatie. Een practische introductie"
+title: "Data visualisatie een introductie"
 description: |
-  Naar aanleiding van het nieuwe boek van Kieran Healey. Data visualization/A Practical Introduction.
-author:
-  - name: Harrie Jonkman.
-    url: https://Harriejonkman.nl
-date: 01-23-2019
-output:
-  distill::distill_article:
-    self_contained: false
-
+    Naar aanleiding van het nieuwe boek van Kieran Healey Data visualization A Practical Introduction.
+author: "Harrie Jonkman"
+date: "01-23-2019"
+categories: [visualisatie]
+image: "Screenshot.PNG"
 ---
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-```
+
 
 ```{r}
 library(gapminder)
@@ -39,7 +33,11 @@ gapminder
 
 
 
-```{r 01-first_plot, fig.height=6, fig.width=10, fig.cap="Life expectancy plotted against GDP per capita for a large number of country-years."}
+```{r} 
+#| fig-label: 01-first_plot 
+#| fig.height: 6 
+#| fig.width: 10 
+#| fig.cap: "Life expectancy plotted against GDP per capita for a large number of country-years."}
 
 p <- ggplot(data = gapminder,
             mapping = aes(x = gdpPercap, y = lifeExp))
@@ -57,7 +55,12 @@ In hoofdstuk 3 (*Make a Plot*) gaat hij veel uitgebreider in op hoe we een figuu
 
 Je krijgt dan zo'n commando met zo'n resultaat:
 
-```{r 02-make-a-plot-15, fig.cap='A more polished plot of Life Expectancy vs GDP.', fig.width=6, fig.height=3.25, layout = 'l-page'}
+```{r} 
+#| fig-label: 02-make-a-plot-15 
+#| fig.cap: 'A more polished plot of Life Expectancy vs GDP.' 
+#| fig.width: 6 
+#| fig.height:3.25 
+#| layout: 'l-page'
 
 p <- ggplot(data = gapminder, mapping = aes(x = gdpPercap, y=lifeExp))
 p + geom_point(alpha = 0.3) + geom_smooth(method = "gam") +
@@ -71,7 +74,8 @@ p + geom_point(alpha = 0.3) + geom_smooth(method = "gam") +
 In het vierde hoofdstuk (*Show the Right Numbers*) gaat hij verder met het uitleggen van `ggplot` en allerlei andere zaken die er mee kunt doen. In dit hoofdstuk laat hij bijvoorbeeld zien hoe je een aantal figuren naast elkaar kunt zetten.
 
 
-```{r 03-facet_1}
+```{r} 
+#| fig-label: 03-facet_1
 p <- ggplot(data = gapminder,
             mapping = aes(x = year,
                           y = gdpPercap))
@@ -82,7 +86,11 @@ facet_wrap(~ continent)
 ```
 
 
-```{r 04-facet_polished, fig.height = 5, fig.width = 12, layout = 'l-page'}
+```{r} 
+#| fig-label: 04-facet_polished 
+#| fig.height: 5 
+#| fig.width: 12
+#| layout: 'l-page'
 p + geom_line(color="gray70",
               mapping=aes(group = country)) +
     geom_smooth(size = 1.1,
@@ -97,7 +105,11 @@ p + geom_line(color="gray70",
 
 En Healey laat hele andere figuren zien, zoals hieronder, waar hij positieve en negeatieve verschillen laat zien tussen de USA en de OECD-landen.
 
-```{r 05-lifegap_2, fig.height = 4, fig.width = 9, layout = 'l-page'}
+```{r} 
+#| fig-label: 05-lifegap_2
+#| fig.height: 4 
+#| fig.width: 9 
+#| layout: 'l-page'
 
 p <- ggplot(data = oecd_sum,
             mapping = aes(x = year, y = diff, fill = hi_lo))
@@ -116,7 +128,8 @@ In het vijfde hoofdstuk (*Graph Tables, Add Labels, Make Notes*) gaat hij verder
 Eerst pas je de dataset aan:
 
 
-```{r pipeline}
+```{r} 
+#| fig-label: pipeline
 
 rel_by_region <- gss_sm %>%
     group_by(bigregion, religion) %>%
@@ -128,14 +141,16 @@ rel_by_region <- gss_sm %>%
 
 
 
-```{r 06-tables-and-labels-2 }
+```{r} 
+#| fig-label: 06-tables-and-labels-2 
 rel_by_region %>% group_by(bigregion) %>%
     summarize(total = sum(pct))      
 ```
 
 Vervolgens maak je de grafiek en zet je preferenties van religie naast elkaar.
 
-```{r 07-dodge2}
+```{r} 
+#| fig-label: 07-dodge2
 ## dodge2 presently requires the development version of ggplot
 ## devtools::install_github("tidyverse/ggplot2")
 
@@ -147,7 +162,8 @@ p + geom_col(position = "dodge2") +
 
 En dan verdeel je het duidelijk per regio en trek je die regio's uit elkaar.
 
-```{r 08-facet_dodge}
+```{r} 
+#| fig-label: 08-facet_dodge
 p <- ggplot(rel_by_region, aes(x = religion, y = pct, fill = religion))
 p + geom_col(position = "dodge2") +
     labs(x = NULL, y = "Percent", fill = "Religion") +
@@ -159,7 +175,8 @@ p + geom_col(position = "dodge2") +
 
 In dit hoofdstuk laat hij ook nog enkele aanvullingen zien waarmee je kunt werken. Je kunt er een tekst inzetten.
 
-```{r 09-tables-and-labels-22 }
+```{r} 
+#| fig-label: 09-tables-and-labels-22 
 p <- ggplot(data = organdata, mapping = aes(x = roads, y = donors))
 p + geom_point() + annotate(geom = "text", x = 91, y = 33,
                             label = "A surprisingly high \n recovery rate.",
@@ -169,7 +186,8 @@ p + geom_point() + annotate(geom = "text", x = 91, y = 33,
 
 Of een tekst en een blok om iets extra's aan te geven.
 
-```{r 10-tables-and-labels-23 }
+```{r} 
+#| fig-label: 10-tables-and-labels-23 
 p <- ggplot(data = organdata,
             mapping = aes(x = roads, y = donors))
 p + geom_point() +
@@ -183,7 +201,8 @@ p + geom_point() +
 Hij geeft ook aan hoe je de labels eraan zet.
 
 
-```{r 11-tables-and-labels-25 }
+```{r} 
+#| fig-label: 11-tables-and-labels-25 
 
 p <- ggplot(data = organdata,
             mapping = aes(x = roads,
@@ -199,7 +218,8 @@ p + geom_point() +
 Wanneer je het maken van een grafiek en wat daarbij komt kijken onder de knie hebt, gaat hij in de twee volgende hoofdstukken in op specieke onderwerpen. Modelleren is een belangrijk onderdeel van omgaan met data. Ook modellen kun je visualiseren en dat werken met modellen is voor hem het onderwerp van het zesde hoofdstuk (*Work with Models*).  Hieronder zie je bijvoorbeeld drie statistische modellen netjes op een rij gezet:
 
 
-```{r 12-severalfits}
+```{r} 
+#| fig-label: 12-severalfits
 
 model_colors <- RColorBrewer::brewer.pal(3, "Set1")
 model_colors
@@ -226,32 +246,39 @@ p1 + scale_color_manual(name = "Models", values = model_colors) +
 
 
 
-```{r models-1, echo=FALSE}
+```{r} 
+#| fig-label: models-1 
+#| echo: FALSE
 str(gapminder, strict.width = "wrap", nchar.max = 32, vec.len=1)
 ```
 
 
-```{r 13-models-2}
+```{r} 
+#| fig-label: 13-models-2
 out <- lm(formula = lifeExp ~ gdpPercap + pop + continent,
           data = gapminder)
 ```
 
-```{r 06-models-3}
+```{r} 
+#| fig-label: 06-models-3
 summary(out)
 ```
 
-```{r 06-models-8}
+```{r} 
+#| fig-label: 06-models-8
 library(broom)
 ```
 
-```{r 06-models-9}
+```{r} 
+#|fig-label: 06-models-9
 out_comp <- tidy(out)
 out_comp %>% round_df()
 
 ```
 
 
-```{r 06-models-10}
+```{r} 
+#| fig-label: 06-models-10
 p <- ggplot(out_comp, mapping = aes(x = term,
                                     y = estimate))
 
@@ -259,18 +286,21 @@ p + geom_point() + coord_flip()
 ```
 
 
-```{r 06-models-11}
+```{r} 
+#| fig-label: 06-models-11
 out_conf <- tidy(out, conf.int = TRUE)
 out_conf %>% round_df()
 ```
 
-```{r 06-models-12}
+```{r} 
+#| fig-label: 06-models-12
 out_conf <- subset(out_conf, term %nin% "(Intercept)")
 out_conf$nicelabs <- prefix_strip(out_conf$term, "continent")
 ```
 
 
-```{r 06-models-13}
+```{r} 
+#| fig-label: 06-models-13
 
 p <- ggplot(out_conf, mapping = aes(x = reorder(nicelabs, estimate),
                                     y = estimate, ymin = conf.low, ymax = conf.high))
@@ -281,21 +311,28 @@ p + geom_pointrange() + coord_flip() + labs(x="", y="OLS Estimate")
 Landen van Europa, provincies van Nederland of steden van een provincie kun je goed visualiseren. Soms kun je gegevens van die landen, provincies of steden ook goed zichtbaar maken. Dat kan ook met `ggplot2` en daarover schrijft Healey in hoofdstuk 7 (*Draw maps*). Hieronder zie je bijvoorbeeld het percentage 'black Americans' per countie afgebeeld.
 
 
-```{r 07-maps-3}
+```{r} 
+#| fig-label: 07-maps-3
 library(maps)
 us_states <- map_data("state")
 head(us_states)
 dim(us_states)
 ```
 
-```{r 07-maps-7}
+```{r} 
+#| fig-label: 07-maps-7
 election$region <- tolower(election$state)
 us_states_elec <- left_join(us_states, election)
 
 ```
 
 
-```{r 07-maps-8, fig.cap='Mapping the results', out.width="100%", fig.width=6, fig.height=5}
+```{r} 
+#| fig-label: 07-maps-8 
+#| fig.cap: 'Mapping the results' 
+#| out.width:"100%"
+#| fig.width: 6 
+#| fig.height: 5
 
 p <- ggplot(data = us_states_elec,
             aes(x = long, y = lat,
@@ -307,7 +344,8 @@ p + geom_polygon(color = "gray90", size = 0.1) +
 ```
 
 
-```{r 07-maps-9}
+```{r} 
+#|fig-label: 07-maps-9
 
 theme_map <- function(base_size=9, base_family="") {
     require(grid)
@@ -330,7 +368,11 @@ theme_map <- function(base_size=9, base_family="") {
 
 
 
-```{r ch-07-firstmap-05, fig.cap='Election 2016 by State', fig.width=8, fig.height=5}
+```{r} 
+#| fig-label: ch-07-firstmap-05 
+#| fig.cap:'Election 2016 by State' 
+#| fig.width: 8 
+#| fig.height: 5
 
 
 party_colors <- c("#2E74C0", "#CB454A") 
@@ -351,7 +393,10 @@ Op het verfijnen van de figuren gaat Healey in het laatste en achtste hoofdstuk 
 
 
 
-```{r yahoo-02, fig.cap="Redrawing as a connected scatterplot.", fig.width = 5, fig.height = 5}
+```{r} 
+#| fig-label: yahoo-02 
+#| fig.cap="Redrawing as a connected scatterplot." #| fig.width: 5 
+#| fig.height: 5
 p <- ggplot(data = yahoo,
             mapping = aes(x = Employees, y = Revenue))
 p + geom_path(color = "gray80") +
@@ -370,7 +415,11 @@ p + geom_path(color = "gray80") +
 En dan hier de betere figuur:
 
 
-```{r yahoo-03, fig.cap="Plotting the ratio of revenue to employees against time.", fig.width = 6, fig.height = 4}
+```{r} 
+#| fig-label: yahoo-03 
+#| fig.cap="Plotting the ratio of revenue to employees against time." 
+#| fig.width: 6 
+#| fig.height: 4
 
 p <- ggplot(data = yahoo,
             mapping = aes(x = Year, y = Revenue/Employees))
@@ -386,4 +435,4 @@ p + geom_vline(xintercept = 2012) +
 ```
 
 
-Healey's boek is een prachtig boek. Niet alleen omdat hij ons goed naar figuren laat kijken en ons leert hoe je die moet maken. Met *Data Visualization* leert hij ons hoe je op een moderne manier met data om kunt gaan: elegant, logisch en coherent. Naast zijn boek heeft hij een groot aantal codes geschreven en beschikbaar gesteld voor vrij gebruik (zie zijn website: https://kieranhealy.org/ of zijn codes op github: https://github.com/kjhealy). Hij laat je heel goed zien hoe hij alles heeft gemaakt en het klopt allemaal. Zijn boek zal ik blijven lezen en zijn werk zal ik blijven volgen. Mijn petje af Kieran, en heel hartelijke dank voor al die dingen die je gedaan hebt en met anderen deelt. Mij heb in in ieder geval geïnspireerd om er een cursus rondom op te bouwen. Binnenkort volgt hier de link van de cursus. Binnenkort staat hier ook de link naar de code van dit document (.rmd). 
+Healey's boek is een prachtig boek. Niet alleen omdat hij ons goed naar figuren laat kijken en ons leert hoe je die moet maken. Met *Data Visualization* leert hij ons hoe je op een moderne manier met data om kunt gaan: elegant, logisch en coherent. Naast zijn boek heeft hij een groot aantal codes geschreven en beschikbaar gesteld voor vrij gebruik (zie zijn website: https://kieranhealy.org/ of zijn codes op github: https://github.com/kjhealy). Hij laat je heel goed zien hoe hij alles heeft gemaakt en het klopt allemaal. Zijn boek zal ik blijven lezen en zijn werk zal ik blijven volgen. Mijn petje af Kieran, en heel hartelijke dank voor al die dingen die je gedaan hebt en met anderen deelt. Mij heb in in ieder geval geïnspireerd om er een cursus rondom op te bouwen.  

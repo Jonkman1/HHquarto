@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.345">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Euginio Petrovich, bewerking Harrie Jonkman">
+<meta name="dcterms.date" content="2022-05-05">
+<meta name="description" content="Hieronder een korte introductie op hoe je kaarten maakt met R, met name met het pakket sf.">
+
+<title>- Kaarten maken met R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">Harrie’s Hoekje</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Jonkman1"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Kaarten maken met R</h1>
+                          <div class="quarto-categories">
+                <div class="quarto-category">analyse</div>
+              </div>
+                  </div>
+  </div>
+    
+  <div>
+    <div class="description">
+      <p>Hieronder een korte introductie op hoe je kaarten maakt met R, met name met het pakket <code>sf</code>.</p>
+    </div>
+  </div>
+
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Euginio Petrovich, bewerking Harrie Jonkman </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">May 5, 2022</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#inleiding" id="toc-inleiding" class="nav-link active" data-scroll-target="#inleiding">Inleiding</a></li>
+  <li><a href="#met-r-kaarten-tekenen.-een-basishandleiding" id="toc-met-r-kaarten-tekenen.-een-basishandleiding" class="nav-link" data-scroll-target="#met-r-kaarten-tekenen.-een-basishandleiding">Met R kaarten tekenen. Een basishandleiding</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p><img src="DR2_map_Europe.png" class="img-fluid"></p>
+<section id="inleiding" class="level2">
+<h2 class="anchored" data-anchor-id="inleiding">Inleiding</h2>
+<p>Hieronder een korte handleidingen die je leert om met R kaarten te maken. Euginio Petrovich schreef: <a href="https://dr2blog.hcommons.org/2020/03/23/drawing-maps-with-r-a-basic-tutorial/">Drawing maps with R. A basic tutorial</a> in 2020. Hij laat je zien hoe je een kaart van Europa maakt met vooral de pakketten <code>sf</code>en `ggplot, hoe je geografische data combineert met een eenvoudige dataset en hoe je vervolgens deze kaart met deze gegevens verfijnt.Inderdaad een basishandleiding. Dank je Euginio.</p>
+</section>
+<section id="met-r-kaarten-tekenen.-een-basishandleiding" class="level2">
+<h2 class="anchored" data-anchor-id="met-r-kaarten-tekenen.-een-basishandleiding">Met R kaarten tekenen. Een basishandleiding</h2>
+<p>Met kaarten kun je op een krachtige wijze informatie visualiseren. Het plotten van gegevens op een kaart kan trends en patronen aan het licht brengen die moeilijk te zien zijn door alleen een spreadsheet te onderzoeken. Kaarten zijn ook zeer nuttig om informatie op een aantrekkelijke en makkelijkere manier over te brengen aan het publiek.</p>
+<p>In deze korte handleiding leren we hoe we eenvoudige geografische kaarten kunnen genereren met R. In het bijzonder zullen we leren hoe we de volgende kaart van de DR2 leden in Europa kunnen maken:</p>
+<section id="aan-de-slag" class="level3">
+<h3 class="anchored" data-anchor-id="aan-de-slag">Aan de slag</h3>
+<p>R is een gratis en open-source software die vele oplossingen biedt voor het berekenen van gegevens en het produceren van visualisaties. Een groot voordeel van R is dat de basisfunctionaliteiten kunnen worden uitgebreid met andere pakketten die vrij beschikbaar zijn op CRAN, het Comprehensive R Archive Network. Bovendien is er een actieve R-gemeenschap over de hele wereld die de meeste codeervragen beantwoordt die je kunt hebben.</p>
+<p>De pakketten die nodig zijn voor deze handleiding kunnen worden geïnstalleerd met:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(c("sf", "rnaturalearth" , "rnaturalearthdata", "rgeos", "ggspatial", "ggrepel", "tidyverse"))</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Ik heb een hekje geplaatst omdat ik deze pakketten al had binnengehaald. Heb je dat nog niet gedaan, dan moet je het hekje weghalen.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>De eerste vijf pakketten zijn specifiek ontwikkeld voor kaarten: <code>sf</code> wordt gebruikt om ruimtelijke gegevens te beheren, <code>rnaturalearth</code> en <code>rnaturalearthdata</code> bevatten informatie over alle landen van de wereld, alsook informatie die nodig is om die landen op een kaart uit te zetten, en <code>ggspatial</code> verbetert de visualisatie van ruimtelijke gegevens. <code>ggrepel</code> helpt ons bij het beheer van de labels op de kaart, terwijl <code>tidyverse</code> een set R-bibliotheken omvat die de standaard zijn geworden voor gegevensmanipulatie en -visualisatie.</p>
+<p>Na de installatie van de pakketten, moeten we ze laden:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"sf"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'sf' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Linking to GEOS 3.9.1, GDAL 3.2.1, PROJ 7.2.1; sf_use_s2() is TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rnaturalearth"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'rnaturalearth' was built under R version 4.1.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rnaturalearthdata"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'rnaturalearthdata' was built under R version 4.1.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rgeos"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'rgeos' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: sp</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'sp' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>rgeos version: 0.5-9, (SVN revision 684)
+ GEOS runtime version: 3.9.1-CAPI-1.14.2 
+ Please note that rgeos will be retired by the end of 2023,
+plan transition to sf functions using GEOS at your earliest convenience.
+ GEOS using OverlayNG
+ Linking to sp version: 1.4-6 
+ Polygon checking: TRUE </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggspatial"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'ggspatial' was built under R version 4.1.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggrepel"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: ggplot2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'ggplot2' was built under R version 4.1.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"tidyverse"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyverse' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>-- Attaching packages --------------------------------------- tidyverse 1.3.1 --</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>v tibble  3.1.7     v dplyr   1.0.9
+v tidyr   1.2.0     v stringr 1.4.1
+v readr   2.1.2     v forcats 0.5.1
+v purrr   0.3.4     </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tibble' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'readr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'dplyr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'stringr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>-- Conflicts ------------------------------------------ tidyverse_conflicts() --
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()</code></pre>
+</div>
+</div>
+<p>Alvorens de kaarten te maken, moeten we de geografische gegevens in R importeren. Wij hebben ze opgeslagen in DR2_data, het volgende dataframe.</p>
+<p>Zoals je kunt zien, zijn steden de basiseenheid van dit dataframe. Voor elk van hen hebben we het land opgegeven, het aantal leden (Members), het label dat we op de kaart zullen weergeven (het bestaat uit de naam van de stad plus het aantal leden tussen haakjes), en de breedtegraad en lengtegraad.</p>
+<p>We importeren het dataframe, dat is opgeslagen in een CSV bestand, in R met de functie read.csv. Aangezien we een header met de namen van de kolommen hebben gebruikt, zetten we het argument header op TRUE. We moeten ook specificeren dat het scheidingsteken tussen de kolommen de puntkomma is en dat het decimaal scheidingsteken de komma is (en niet de punt, omdat er een Italiaanse versie van Excel is gebruikt om het bestand te produceren).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>DR2_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file=</span><span class="st">"Dr2.CSV"</span>,</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">header=</span><span class="cn">TRUE</span>, </span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">sep=</span><span class="st">";"</span>, </span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">dec =</span> <span class="st">","</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Je kunt de eerste records van het dataframe controleren met het commando head(DR2_data).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(DR2_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  ï..ID      City     Country Members         Label      Lat      Lng
+1     1     Turin       Italy      14    Turin (14) 45.07049  7.68682
+2     2     Siena       Italy       2     Siena (2) 43.31822 11.33064
+3     3      Pisa       Italy       1      Pisa (1) 43.70853 10.40360
+4     4  Florence       Italy       1  Florence (1) 43.77925 11.24626
+5     5 Barcelona       Spain       1 Barcelona (1) 41.38879  2.15899
+6     6 Amsterdam Netherlands       1 Amsterdam (1) 52.37403  4.88969</code></pre>
+</div>
+</div>
+<p>We zijn nu klaar om onze kaart te maken.</p>
+</section>
+<section id="de-wereldkaart-maken" class="level3">
+<h3 class="anchored" data-anchor-id="de-wereldkaart-maken">De wereldkaart maken</h3>
+<p>De eerste stap van onze kaartoefening is het creëren van een wereldkaart. Om dit te doen, gebruiken we de functie ne_countries om landengegevens op te halen uit <code>rnaturalearth</code>. We specificeren medium als <code>scale</code> en <code>sf</code> als <code>returnclass</code> van het dataframe, zodat de gegevens al in het juiste formaat zijn voor geografische kaarten maken.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>world <span class="ot">&lt;-</span> <span class="fu">ne_countries</span>(<span class="at">scale =</span> <span class="st">"medium"</span>, <span class="at">returnclass =</span> <span class="st">"sf"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Wij plotten deze gegevens met <code>ggplot2</code>, het <code>tidyverse</code>pakket voor visualisatie, en <code>sf</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> world) <span class="sc">+</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">geom_sf</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="kaarten-maken-met-r_files/figure-html/wereldkaart-maken-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Wij zullen de wereldkaart gebruiken als basiskaart waarop wij de landen waar DR2-leden gevestigd zijn, zullen markeren.</p>
+<p>Om de DR2-landen op de kaart te markeren, moeten wij nu onze DR2-gegevens “toevoegen” aan het dataframe van de wereld. Wij doen dit met de functie left.join.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>world_joined <span class="ot">&lt;-</span> <span class="fu">left_join</span>(world, DR2_data, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"name"</span> <span class="ot">=</span> <span class="st">"Country"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Deze functie vertelt <code>R</code> dat het de DR2-data moet verbinden met de worlddata door te zoeken naar een overeenkomst op de naam van het land (we specificeren de overeenkomstige sleutel tussen de twee gegevenssets in het by argument). Wanneer een overeenkomst wordt gevonden, worden de records uit de twee tabellen gecombineerd. Wanneer geen overeenkomst wordt gevonden, zoals in het geval van Brazilië, wordt de waarde van de DR2-kolommen (bv. “Leden”) van de niet-overeenkomende records op <code>NA</code> gezet, de standaardcode die door <code>R</code> wordt gebruikt voor ontbrekende waarden. Zo zal de record Brazilië <code>NA</code> krijgen als waarde van de kolom “Members”. Het is belangrijk om alle landen in de wereld te behouden en niet alleen die met DR2-leden. Anders zullen wij, wanneer wij onze gegevens op de kaart uitzetten, alle landen zonder DR2 verliezen! Daarom hebben we de left.join gebruikt in plaats van de simple join: we willen dat R alle records in de “linker” dataset behoudt (d.w.z. degene die het eerste argument in de functie bevat).</p>
+<p>Wij willen nu de landen met DR2 leden op de wereldkaart markeren. Om dit te doen gebruiken we een <code>if...else</code> in het <code>fill</code> argument. Indien de waarde van de kolom “Members” null is (d.w.z. gelijk aan NA), stellen wij de kleur van het land in op grijs. Indien de waarde niet nul is, d.w.z. indien er DR2 leden zijn in dat land, stellen we de kleur in op rood. Merk op dat we in het eerste geval de kleurnaam hebben gebruikt, terwijl we in het tweede geval de hexadecimale kleurcode hebben gebruikt die overeenkomt met de kleur van het DR2-logo. Het argument kleur specificeert de kleur van de grenzen van de landen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a> DR2_countries_map <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span>  world_joined)<span class="sc">+</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(world_joined<span class="sc">$</span>Members), <span class="st">"lightgrey"</span>, <span class="st">"#c8242b"</span>), </span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"black"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>De Europese landen waar DR2-leden gevestigd zijn, zijn te klein om op een wereldkaart op te vallen. De wereldschaal is dus niet erg effectief om de geografische spreiding van DR2 weer te geven. We moeten inzoomen op het niveau van Europa. Een zeer nuttig kenmerk van het <code>sf</code>-pakket is dat dit zeer gemakkelijk kan worden gedaan door een reeks coördinaten op te geven van het gebied waarin wij geïnteresseerd zijn:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>DR2_countries_map <span class="sc">+</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_sf</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">16.1</span>, <span class="fl">32.88</span>), </span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">35</span>, <span class="dv">60</span>), </span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">expand =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="kaarten-maken-met-r_files/figure-html/Europe-plotten-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="steden-markeren-puntdata" class="level3">
+<h3 class="anchored" data-anchor-id="steden-markeren-puntdata">Steden markeren (puntdata)</h3>
+<p>Wij weten dat DR2-leden niet alleen in bepaalde landen gevestigd zijn, maar ook in specifieke steden binnen die landen. In ons DR2-dataset hadden we de DR2-steden samen met hun geografische coördinaten. We willen deze steden nu als punten op onze kaart plaatsen.</p>
+<p>We moeten eerst ons dataframe converteren naar een sf object:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>sf_DR2_cities <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(DR2_data, </span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"Lng"</span>, <span class="st">"Lat"</span>), </span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">remove =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">crs =</span> <span class="dv">4326</span>, </span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">agr =</span> <span class="st">"constant"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Merk op dat we de kolommen moesten aanduiden waarin de geografische coördinaten van onze steden zijn opgeslagen, evenals andere parameters zoals de gebruikte geografische projectie (hier WGS84, wat de CRS-code #4326 is).</p>
+<p>We kunnen nu de punten van de steden op de kaart plotten:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>DR2_countries_map <span class="sc">+</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="at">data =</span> sf_DR2_cities)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="kaarten-maken-met-r_files/figure-html/steden-plotten-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Om ze duidelijk te zien, laten we inzoomen op Europa, zoals we eerder hebben geleerd:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>DR2_countries_map <span class="sc">+</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="at">data =</span> sf_DR2_cities) <span class="sc">+</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_sf</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">16.1</span>, <span class="fl">32.88</span>), </span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">35</span>, <span class="dv">60</span>), </span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">expand =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="kaarten-maken-met-r_files/figure-html/inzoomen-Europa-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="labels-toevoegen" class="level3">
+<h3 class="anchored" data-anchor-id="labels-toevoegen">Labels toevoegen</h3>
+<p>Om de interpretatie van onze kaart te vergemakkelijken, is het zeer nuttig om enkele labels toe te voegen. Wij willen bijvoorbeeld weten hoeveel DR2-leden gevestigd zijn in de steden die wij eerder hebben aangegeven. We hebben de tekst van de labels al in de kolom “Label” van het DR2-datasetje. Nu moeten we deze tekst op de kaart visualiseren. We doen dit door gebruik te maken van de functie <code>geom_label_repel</code>. Deze functie, die is opgenomen in het pakket <code>ggrepel</code>, verbetert de positionering van labels op een plot: ze stoot labels van elkaar af, weg van datapunten, en weg van de randen van het plotgebied.</p>
+<p>In de parameter esthetica van de functie specificeren we dat we de etiketten op de kaart willen plaatsen op basis van de breedte- en lengtegraad van de steden, en dat hun tekst wordt aangegeven in de kolom “Label”. De andere parameters specificeren de kleur van de labels, de grootte van de tekst, en de hoeveelheid “afstotingskracht” van het positioneringsalgoritme.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>DR2_countries_map <span class="sc">+</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="at">data =</span> sf_DR2_cities) <span class="sc">+</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_label_repel</span>(<span class="at">data =</span> sf_DR2_cities, </span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">x =</span> Lng, <span class="at">y =</span> Lat, <span class="at">label =</span> Label), </span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">color =</span> <span class="st">"black"</span>, </span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">fontface =</span> <span class="st">"bold"</span>, </span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">size =</span> <span class="dv">3</span>, </span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">force =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: ggrepel: 9 unlabeled data points (too many overlaps). Consider
+increasing max.overlaps</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="kaarten-maken-met-r_files/figure-html/labels-toevoegen-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Er is echter een probleem. Als we inzoomen op Europa, vinden we een “indringer”: het label “Montreal (1)” zou niet mogen verschijnen op de Europese kaart!</p>
+<p>Om dit probleempje op te lossen, moeten we de steden in landen buiten Europa uitfilteren. We maken dus een deelverzameling van het DR2-datasetje en specificeren dat we alle records willen behouden waarvan het land niet ( != ) Canada is:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>DR2_european_cities <span class="ot">&lt;-</span> <span class="fu">subset</span>(DR2_data, </span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>            Country <span class="sc">!=</span> <span class="st">"Canada"</span>, </span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">select =</span> City<span class="sc">:</span>Lng)</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Convert to the sf format</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>sf_DR2_european_cities <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(DR2_european_cities, </span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"Lng"</span>, <span class="st">"Lat"</span>), </span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">remove =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">crs =</span> <span class="dv">4326</span>, </span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">agr =</span> <span class="st">"constant"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Als we de nieuwe dataset op de Europese kaart uitzetten, ontdekken we dat de indringer is verwijderd:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>DR2_countries_map <span class="sc">+</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="at">data =</span> sf_DR2_european_cities) <span class="sc">+</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_label_repel</span>(<span class="at">data =</span> sf_DR2_european_cities, </span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">x =</span> Lng, <span class="at">y =</span> Lat, <span class="at">label =</span> Label), </span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">color =</span> <span class="st">"black"</span>, </span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">fontface =</span> <span class="st">"bold"</span>,  </span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">size =</span> <span class="dv">3</span>, </span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">force =</span> <span class="dv">5</span>)<span class="sc">+</span></span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_sf</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">16.1</span>, <span class="fl">32.88</span>), </span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">35</span>, <span class="dv">60</span>), </span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">expand =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="kaarten-maken-met-r_files/figure-html/zonderCanada-plotten-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Het is duidelijk dat er redenen kunnen zijn om het label Montreal te behouden: bijvoorbeeld om aan te tonen dat DR2 ook overzeese leden heeft.</p>
+</section>
+<section id="verbetering-van-de-kaart" class="level3">
+<h3 class="anchored" data-anchor-id="verbetering-van-de-kaart">Verbetering van de kaart</h3>
+<p>In de tot nu toe gegenereerde versies van de kaart wordt de informatie over het aantal leden van DR2 in de labels weergegeven, als een getal tussen haakjes. Is het mogelijk om dit als een visueel kenmerk weer te geven, zodat het meteen in het oog springt? Een eerste idee zou kunnen zijn om de grootte van de labels evenredig met het aantal leden te veranderen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>DR2_countries_map <span class="sc">+</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="at">data =</span> sf_DR2_european_cities) <span class="sc">+</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_label_repel</span>(<span class="at">data =</span> sf_DR2_european_cities, </span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">x =</span> Lng, <span class="at">y =</span> Lat, <span class="at">label =</span> Label, <span class="at">size =</span> Members), </span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">color =</span> <span class="st">"black"</span>, </span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">fontface =</span> <span class="st">"bold"</span>,  </span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">force =</span> <span class="dv">5</span>)<span class="sc">+</span></span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_sf</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">16.1</span>, <span class="fl">32.88</span>), </span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">35</span>, <span class="dv">60</span>), </span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">expand =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="kaarten-maken-met-r_files/figure-html/evenredig-maken-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Het resultaat is echter vrij slecht, vanwege het grote verschil in grootte tussen Turijn en de andere steden. Aangezien de meeste steden slechts één lid hebben, zijn hun labels te klein om leesbaar te zijn. Merk op dat <code>R</code> automatisch een legende toevoegt om de grootte van de labels te interpreteren.</p>
+<p>Een betere oplossing is om de grootte van de stadspunten evenredig te laten zijn met het aantal leden:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>DR2_countries_map <span class="sc">+</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="at">data =</span> sf_DR2_european_cities, </span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">size =</span> Members))<span class="sc">+</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_label_repel</span>(<span class="at">data =</span> sf_DR2_european_cities, </span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">x =</span> Lng, <span class="at">y =</span> Lat, <span class="at">label =</span> Label), </span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">color =</span> <span class="st">"black"</span>, </span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">fontface =</span> <span class="st">"bold"</span>,</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">size =</span> <span class="dv">3</span>,   </span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">force =</span> <span class="dv">9</span>)<span class="sc">+</span></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_sf</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">16.1</span>, <span class="fl">32.88</span>), </span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">35</span>, <span class="dv">60</span>), </span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">expand =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="kaarten-maken-met-r_files/figure-html/evenredig-maken2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Merk op dat R automatisch een legende creëert op basis van de grootte van de punten:</p>
+<p>Op dezelfde manier kunnen we ook de kleur van de punten gebruiken om het aantal leden weer te geven. We passen de kleurenschaal aan door het uiterste in te stellen op blauw en groen, zodat de grote steden in blauw en de kleine steden in groen worden gekleurd:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>DR2_countries_map <span class="sc">+</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="at">data =</span> sf_DR2_european_cities, </span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">color =</span> Members, <span class="at">size =</span> Members))<span class="sc">+</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_gradient</span>(<span class="at">low =</span> <span class="st">"blue"</span>, <span class="at">high =</span> <span class="st">"green"</span>)<span class="sc">+</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_label_repel</span>(<span class="at">data =</span> sf_DR2_european_cities, </span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">x =</span> Lng, <span class="at">y =</span> Lat, <span class="at">label =</span> Label), </span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">color =</span> <span class="st">"black"</span>, </span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">fontface =</span> <span class="st">"bold"</span>,</span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">size =</span> <span class="dv">3</span>,   </span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">force =</span> <span class="dv">9</span>)<span class="sc">+</span></span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_sf</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">16.1</span>, <span class="fl">32.88</span>), </span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">35</span>, <span class="dv">60</span>), </span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">expand =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="kaarten-maken-met-r_files/figure-html/kleuren-gebruiken-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Merk op dat <code>R</code> een tweede legende toevoegt om de kleur van de punten te interpreteren:</p>
+<p>De laatste kaart lijkt me echter “overbelast”. Dezelfde informatie (de DR2 leden) wordt op drie verschillende manieren gevisualiseerd: met een getal in het label, met de grootte van de punten, en met de kleur van de punten. Persoonlijk vind ik deze oplossing overbodig. Ik denk dat de tweede kaart het meest evenwichtig (en esthetisch het meest aangenaam) is.</p>
+</section>
+<section id="laatste-accenten" class="level3">
+<h3 class="anchored" data-anchor-id="laatste-accenten">Laatste accenten</h3>
+<p>Een groot voordeel van <code>ggplot2</code> is dat het toelaat om bijna alle grafische aspecten van de visualisaties te controleren. Door de parameters in de thema-functie te wijzigen, kunnen we onze kaart verfijnen tot ze aan onze smaak beantwoordt. Om de uiteindelijke versie van de kaart te realiseren, veranderen we de kleur van de achtergrond van de kaart (dat is de oceaan) in lichtblauw, we verwijderen de titels van de assen, de teksten en de vinkjes en de legenda. Tenslotte voegen we een titel toe aan onze kaart.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>European_DR2_map2 <span class="ot">&lt;-</span> DR2_countries_map <span class="sc">+</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="at">data =</span> sf_DR2_european_cities, </span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">size =</span> Members))<span class="sc">+</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_label_repel</span>(<span class="at">data =</span> sf_DR2_european_cities, </span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">x =</span> Lng, <span class="at">y =</span> Lat, <span class="at">label =</span> Label), </span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">color =</span> <span class="st">"black"</span>, </span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">fontface =</span> <span class="st">"bold"</span>,</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">size =</span> <span class="dv">3</span>,   </span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">force =</span> <span class="dv">12</span>)<span class="sc">+</span></span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_sf</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">16.1</span>, <span class="fl">32.88</span>), </span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">35</span>, <span class="dv">60</span>), </span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">expand =</span> <span class="cn">TRUE</span>)<span class="sc">+</span></span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"aliceblue"</span>), </span>
+<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb47-18"><a href="#cb47-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb47-19"><a href="#cb47-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb47-20"><a href="#cb47-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb47-21"><a href="#cb47-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="st">"Map of DR2 Members in Europe"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>De laatste stap is het opslaan van de kaart in een geschikt formaat. We slaan zowel een PDF-versie van de kaart op, die de hoogste kwaliteit behoudt, als een lichtere PNG-versie:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"DR2_map_Europe.pdf"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Saving 7 x 5 in image</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"DR2_map_Europe.png"</span>, <span class="at">dpi =</span> <span class="st">"screen"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Saving 7 x 5 in image</code></pre>
+</div>
+</div>
+<center>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="DR2_map_Europe.png" class="img-fluid figure-img" style="width:150.0%"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Zo ziet het eruit</figcaption><p></p>
+</figure>
+</div>
+</center>
+</section>
+<section id="verder-lezen" class="level3">
+<h3 class="anchored" data-anchor-id="verder-lezen">Verder lezen</h3>
+<p>Deze korte handleiding is grotendeels geïnspireerd door de <a href="https://r-spatial.org/r/2018/10/25/ggplot2-sf.html">tutorial</a> die Euginio gebruikte om de basis van mapping met R te leren. Hij legt heel duidelijk verschillende andere onderwerpen uit die met maps te maken hebben en hij raadt deze zeker aan. Een andere nuttige tutorial is voor hem <a href="https://www.r-bloggers.com/2017/02/how-to-make-a-global-map-in-r-step-by-step/">deze</a>, die uitlegt hoe je een ander R-pakket voor kaarten, ggmap, gebruikt en een aantal veelvoorkomende data wrangling operaties.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

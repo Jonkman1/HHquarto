@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.345">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Michy Allice, bewerking HarrieJonkman">
+<meta name="dcterms.date" content="2022-05-08">
+<meta name="description" content="Over het pakket mice en missende waarden">
+
+<title>- Missende waarden</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">Harrie’s Hoekje</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Jonkman1"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Missende waarden</h1>
+                          <div class="quarto-categories">
+                <div class="quarto-category">analyse</div>
+              </div>
+                  </div>
+  </div>
+    
+  <div>
+    <div class="description">
+      <p>Over het pakket <code>mice</code> en missende waarden</p>
+    </div>
+  </div>
+
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Michy Allice, bewerking HarrieJonkman </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">May 8, 2022</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#data-imputeren-met-r-het-mice-pakket" id="toc-data-imputeren-met-r-het-mice-pakket" class="nav-link active" data-scroll-target="#data-imputeren-met-r-het-mice-pakket">Data imputeren met R; het <code>MICE</code> pakket</a></li>
+  <li><a href="#inleiding" id="toc-inleiding" class="nav-link" data-scroll-target="#inleiding">Inleiding</a></li>
+  <li><a href="#het-mice-pakket" id="toc-het-mice-pakket" class="nav-link" data-scroll-target="#het-mice-pakket">Het <code>mice</code>-pakket</a></li>
+  <li><a href="#snelle-classificatie-van-ontbrekende-gegevens" id="toc-snelle-classificatie-van-ontbrekende-gegevens" class="nav-link" data-scroll-target="#snelle-classificatie-van-ontbrekende-gegevens">Snelle classificatie van ontbrekende gegevens</a></li>
+  <li><a href="#gebruik-mice-voor-het-bekijken-van-ontbrekende-data-patronen" id="toc-gebruik-mice-voor-het-bekijken-van-ontbrekende-data-patronen" class="nav-link" data-scroll-target="#gebruik-mice-voor-het-bekijken-van-ontbrekende-data-patronen">Gebruik `mice voor het bekijken van ontbrekende data patronen</a></li>
+  <li><a href="#imputeren-van-missende-data" id="toc-imputeren-van-missende-data" class="nav-link" data-scroll-target="#imputeren-van-missende-data">Imputeren van missende data</a></li>
+  <li><a href="#de-verdeling-van-de-originele-en-geïmputeerde-data-bekijken" id="toc-de-verdeling-van-de-originele-en-geïmputeerde-data-bekijken" class="nav-link" data-scroll-target="#de-verdeling-van-de-originele-en-geïmputeerde-data-bekijken">De verdeling van de originele en geïmputeerde data bekijken</a></li>
+  <li><a href="#pooling" id="toc-pooling" class="nav-link" data-scroll-target="#pooling">Pooling</a></li>
+  <li><a href="#literatuur" id="toc-literatuur" class="nav-link" data-scroll-target="#literatuur">Literatuur</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p><img src="Screenshot.png" class="img-fluid"></p>
+<section id="data-imputeren-met-r-het-mice-pakket" class="level2">
+<h2 class="anchored" data-anchor-id="data-imputeren-met-r-het-mice-pakket">Data imputeren met R; het <code>MICE</code> pakket</h2>
+</section>
+<section id="inleiding" class="level2">
+<h2 class="anchored" data-anchor-id="inleiding">Inleiding</h2>
+<p>Onlangs gaf Stef van Buuren een verhelderende introductie op het pakket <code>mice</code> dat hij de laatste jaren ontwikkeld heeft en dat een standaardpakket geworden is om missende data om te gaan. Zijn presentatie is hier te vinden <a href="https://nscrweb.netlify.app/posts/2022-04-28-multiple-imputation-in-r/">slides</a>. Hij verwees tijdens de presentatie naar het artikel dat hij hierover eerder schreef (Van Buuren, and Groothuis-Oudshoorn, 2011)[hier](<a href="https://www.jstatsoft.org/article/view/v045i03">mice: Multivariate Imputation by Chained Equations in R by Stef van Buuren</a>, het boek dat hij hierover maakte <a href="https://stefvanbuuren.name/fimd/">hier</a> en ook verwees hij naar een korte Nederlandse talige introductie <a href="https://stefvanbuuren.name/publications/2012%20Vogelvlucht%20-%20STAtOR.pdf">hier</a>. Na zijn presentatie las ik via Rbloggers de korte post van Michy Allice <a href="https://www.r-bloggers.com/2015/10/imputing-missing-data-with-r-mice-package/">hier</a>.Voor deze blog heb ik dat artile van Allice bewerkt. Tot slot las ik ook nog het boek van Heymans en Eekhout over dit onderwerp <a href="https://bookdown.org/mwheymans/bookmi/">hier</a> dat ook goed is.</p>
+</section>
+<section id="het-mice-pakket" class="level2">
+<h2 class="anchored" data-anchor-id="het-mice-pakket">Het <code>mice</code>-pakket</h2>
+<p>Ontbrekende gegevens zijn niet zo’n triviaal probleem bij de analyse van een dataset. Het is meestal ook niet zo eenvoudig om er rekening mee te houden.</p>
+<p>Als de hoeveelheid ontbrekende gegevens zeer klein is in verhouding tot de grootte van de dataset, dan kan het weglaten van de weinige data met ontbrekende kenmerken de beste strategie zijn om de analyse niet te vertekenen,. Met hety weglaten van beschikbare datapunten verdwijnt een bepaalde hoeveelheid informatie. Afhankelijk van de situatie waarmee u te maken hebt, kunt u op zoek gaan naar andere oplossingen voordat u potentieel nuttige datapunten uit uw dataset verwijdert.</p>
+<p>Hoewel sommige snelle oplossingen zoals het vervangen door het gemiddelde in sommige gevallen goed kunnen zijn, heb je met zulke eenvoudige benaderingen gewoonlijk bias in de data. Het toepassen van gemiddelde-substitutie laat het gemiddelde onveranderd (wat wenselijk is), maar vermindert de variantie, wat onwenselijk kan zijn.</p>
+<blockquote class="blockquote">
+<p>Het <code>mice</code>pakket in R helpt bij het imputeren van ontbrekende waarden met plausibele gegevenswaarden. Deze plausibele waarden worden getrokken uit een distributie die speciaal ontworpen is voor elk ontbrekend datapunt.</p>
+</blockquote>
+<p>Hieronder gaan we ontbrekende waarden imputeren met behulp van de dataset <code>airquality</code> (standaard beschikbaar in R). Voor dit blog verwijder ik een aantal datapunten uit de dataset.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mice)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'mice' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'mice'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:stats':
+
+    filter</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    cbind, rbind</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> airquality</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>data[<span class="dv">4</span><span class="sc">:</span><span class="dv">10</span>,<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>,<span class="dv">7</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>data[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,<span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Ozone           Solar.R           Wind             Temp      
+ Min.   :  1.00   Min.   :  7.0   Min.   : 1.700   Min.   :57.00  
+ 1st Qu.: 18.00   1st Qu.:115.8   1st Qu.: 7.400   1st Qu.:73.00  
+ Median : 31.50   Median :205.0   Median : 9.700   Median :79.00  
+ Mean   : 42.13   Mean   :185.9   Mean   : 9.806   Mean   :78.28  
+ 3rd Qu.: 63.25   3rd Qu.:258.8   3rd Qu.:11.500   3rd Qu.:85.00  
+ Max.   :168.00   Max.   :334.0   Max.   :20.700   Max.   :97.00  
+ NA's   :37       NA's   :7       NA's   :7        NA's   :5      
+     Month            Day      
+ Min.   :5.000   Min.   : 1.0  
+ 1st Qu.:6.000   1st Qu.: 8.0  
+ Median :7.000   Median :16.0  
+ Mean   :6.993   Mean   :15.8  
+ 3rd Qu.:8.000   3rd Qu.:23.0  
+ Max.   :9.000   Max.   :31.0  
+                               </code></pre>
+</div>
+</div>
+<p>Wat categorische variabelen betreft, is het vervangen van categorische variabelen gewoonlijk niet aan te bevelen. Het is wel gebruikelijk om ontbrekende categorische variabelen te vervangen door de modus van de waargenomen variabelen, maar het is de vraag of dat een goede keuze is. Ook al ontbreken er in dit geval geen datapunten van de categorische variabelen (Month, Day), we verwijderen ze uit onze dataset (we kunnen ze later weer toevoegen als dat nodig is) en bekijken de gegevens met <code>summary()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">6</span>)]</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Ozone           Solar.R           Wind             Temp      
+ Min.   :  1.00   Min.   :  7.0   Min.   : 1.700   Min.   :57.00  
+ 1st Qu.: 18.00   1st Qu.:115.8   1st Qu.: 7.400   1st Qu.:73.00  
+ Median : 31.50   Median :205.0   Median : 9.700   Median :79.00  
+ Mean   : 42.13   Mean   :185.9   Mean   : 9.806   Mean   :78.28  
+ 3rd Qu.: 63.25   3rd Qu.:258.8   3rd Qu.:11.500   3rd Qu.:85.00  
+ Max.   :168.00   Max.   :334.0   Max.   :20.700   Max.   :97.00  
+ NA's   :37       NA's   :7       NA's   :7        NA's   :5      </code></pre>
+</div>
+</div>
+<p>Ozon is blijkbaar de variabele met de meeste ontbrekende datapunten. Hieronder gaan we dieper in op de ontbrekende datapatronen.</p>
+</section>
+<section id="snelle-classificatie-van-ontbrekende-gegevens" class="level2">
+<h2 class="anchored" data-anchor-id="snelle-classificatie-van-ontbrekende-gegevens">Snelle classificatie van ontbrekende gegevens</h2>
+<p>Er zijn twee soorten ontbrekende gegevens:</p>
+<ul>
+<li>MCAR: volledig willekeurig ontbrekend. Dit is het wenselijke scenario in geval van ontbrekende data.<br>
+</li>
+<li>MNAR: missing not at random. Niet-willekeurig ontbrekende gegevens zijn een ernstiger probleem en in dit geval kan het verstandig zijn het proces van gegevensverzameling verder te controleren en te proberen te begrijpen waarom de informatie ontbreekt. Als bijvoorbeeld de meeste mensen in een enquête een bepaalde vraag niet hebben beantwoord, waarom hebben zij dat dan gedaan? Was de vraag onduidelijk?</li>
+</ul>
+<p>Ervan uitgaande dat de gegevens MCAR zijn, kan een teveel aan ontbrekende gegevens ook een probleem zijn. Gewoonlijk is een veilige maximumdrempel 5% van het totaal voor grote datasets. Als de ontbrekende gegevens voor een bepaald kenmerk of een bepaalde steekproef meer dan 5% bedragen, moet u dat kenmerk of die steekproef waarschijnlijk weglaten. Daarom controleren we op kenmerken (kolommen) en steekproeven (rijen) waar meer dan 5% van de data ontbreekt met een eenvoudige functie</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>pMiss <span class="ot">&lt;-</span> <span class="cf">function</span>(x){<span class="fu">sum</span>(<span class="fu">is.na</span>(x))<span class="sc">/</span><span class="fu">length</span>(x)<span class="sc">*</span><span class="dv">100</span>}</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(data,<span class="dv">2</span>,pMiss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Ozone   Solar.R      Wind      Temp 
+24.183007  4.575163  4.575163  3.267974 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(data,<span class="dv">1</span>,pMiss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1]  25  25  25  50 100  50  25  25  25  50  25   0   0   0   0   0   0   0
+ [19]   0   0   0   0   0   0  25  25  50   0   0   0   0  25  25  25  25  25
+ [37]  25   0  25   0   0  25  25   0  25  25   0   0   0   0   0  25  25  25
+ [55]  25  25  25  25  25  25  25   0   0   0  25   0   0   0   0   0   0  25
+ [73]   0   0  25   0   0   0   0   0   0   0  25  25   0   0   0   0   0   0
+ [91]   0   0   0   0   0  25  25  25   0   0   0  25  25   0   0   0  25   0
+[109]   0   0   0   0   0   0  25   0   0   0  25   0   0   0   0   0   0   0
+[127]   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+[145]   0   0   0   0   0  25   0   0   0</code></pre>
+</div>
+</div>
+<p>We zien dat Ozon bijna 25% van de datapunten mist, dus we kunnen overwegen om het uit de analyse te laten of meer metingen te verzamelen. De andere variabelen blijven onder de drempel van 5%, zodat we ze kunnen behouden. Wat de data betreft, leidt het ontbreken van slechts één kenmerk tot 25% ontbrekende gegevens per dataset.</p>
+</section>
+<section id="gebruik-mice-voor-het-bekijken-van-ontbrekende-data-patronen" class="level2">
+<h2 class="anchored" data-anchor-id="gebruik-mice-voor-het-bekijken-van-ontbrekende-data-patronen">Gebruik `mice voor het bekijken van ontbrekende data patronen</h2>
+<p>Het <code>mice</code> pakket biedt een mooie functie <code>md.pattern()</code> om een beter inzicht te krijgen in het patroon van ontbrekende gegevens.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">md.pattern</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="missende-waarden_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Temp Solar.R Wind Ozone   
+104    1       1    1     1  0
+34     1       1    1     0  1
+3      1       1    0     1  1
+1      1       1    0     0  2
+4      1       0    1     1  1
+1      1       0    1     0  2
+1      1       0    0     1  2
+3      0       1    1     1  1
+1      0       1    0     1  2
+1      0       0    0     0  4
+       5       7    7    37 56</code></pre>
+</div>
+</div>
+<p>De output vertelt ons dat 104 gegevens compleet zijn, 34 data missen alleen de Ozonmeting, 3 data missen alleen de Solar.R waarde enzovoort.</p>
+<p>Een wellicht meer behulpzame visuele weergave kan worden verkregen met behulp van het VIM pakket als volgt</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(VIM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'VIM' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: colorspace</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: grid</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>VIM is ready to use.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Suggestions and bug-reports can be submitted at: https://github.com/statistikat/VIM/issues</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'VIM'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:datasets':
+
+    sleep</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>aggr_plot <span class="ot">&lt;-</span> <span class="fu">aggr</span>(data, <span class="at">col=</span><span class="fu">c</span>(<span class="st">'navyblue'</span>,<span class="st">'red'</span>), <span class="at">numbers=</span><span class="cn">TRUE</span>, <span class="at">sortVars=</span><span class="cn">TRUE</span>, <span class="at">labels=</span><span class="fu">names</span>(data), <span class="at">cex.axis=</span>.<span class="dv">7</span>, <span class="at">gap=</span><span class="dv">3</span>, <span class="at">ylab=</span><span class="fu">c</span>(<span class="st">"Histogram van missende data"</span>,<span class="st">"Patroon"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="missende-waarden_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ Variables sorted by number of missings: 
+ Variable      Count
+    Ozone 0.24183007
+  Solar.R 0.04575163
+     Wind 0.04575163
+     Temp 0.03267974</code></pre>
+</div>
+</div>
+<p>Uit de grafiek kunnen we opmaken dat bij bijna 70% van de data geen informatie ontbreekt, bij 22% ontbreekt de ozonwaarde en bij de overige variabelen ontbreekt zo’n 5%. Door deze aanpak ziet de situatie er naar mijn mening een stuk duidelijker uit.</p>
+<p>Een andere (hopelijk) behulpzame visuele benadering is een speciale boxplot</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">marginplot</span>(data[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="missende-waarden_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Uiteraard zijn we hier beperkt tot het plotten van slechts 2 variabelen tegelijk, maar desalniettemin kunnen we hier een aantal interessante inzichten uit verkrijgen. De rode boxplot links toont de verdeling van Solar.R waarbij Ozone ontbreekt, terwijl de blauwe boxplot de verdeling van de resterende datapunten toont. Hetzelfde geldt voor de boxplots van Ozone onderaan de grafiek. Als onze aanname van MCAR-gegevens juist is, dan verwachten we dat de rode en blauwe boxplots sterk op elkaar lijken.</p>
+</section>
+<section id="imputeren-van-missende-data" class="level2">
+<h2 class="anchored" data-anchor-id="imputeren-van-missende-data">Imputeren van missende data</h2>
+<p>De <code>mice()</code> functie zorgt voor het imputatieprocess</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>tempData <span class="ot">&lt;-</span> <span class="fu">mice</span>(data,<span class="at">m=</span><span class="dv">5</span>,<span class="at">maxit=</span><span class="dv">50</span>,<span class="at">meth=</span><span class="st">'pmm'</span>,<span class="at">seed=</span><span class="dv">500</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ iter imp variable
+  1   1  Ozone  Solar.R  Wind  Temp
+  1   2  Ozone  Solar.R  Wind  Temp
+  1   3  Ozone  Solar.R  Wind  Temp
+  1   4  Ozone  Solar.R  Wind  Temp
+  1   5  Ozone  Solar.R  Wind  Temp
+  2   1  Ozone  Solar.R  Wind  Temp
+  2   2  Ozone  Solar.R  Wind  Temp
+  2   3  Ozone  Solar.R  Wind  Temp
+  2   4  Ozone  Solar.R  Wind  Temp
+  2   5  Ozone  Solar.R  Wind  Temp
+  3   1  Ozone  Solar.R  Wind  Temp
+  3   2  Ozone  Solar.R  Wind  Temp
+  3   3  Ozone  Solar.R  Wind  Temp
+  3   4  Ozone  Solar.R  Wind  Temp
+  3   5  Ozone  Solar.R  Wind  Temp
+  4   1  Ozone  Solar.R  Wind  Temp
+  4   2  Ozone  Solar.R  Wind  Temp
+  4   3  Ozone  Solar.R  Wind  Temp
+  4   4  Ozone  Solar.R  Wind  Temp
+  4   5  Ozone  Solar.R  Wind  Temp
+  5   1  Ozone  Solar.R  Wind  Temp
+  5   2  Ozone  Solar.R  Wind  Temp
+  5   3  Ozone  Solar.R  Wind  Temp
+  5   4  Ozone  Solar.R  Wind  Temp
+  5   5  Ozone  Solar.R  Wind  Temp
+  6   1  Ozone  Solar.R  Wind  Temp
+  6   2  Ozone  Solar.R  Wind  Temp
+  6   3  Ozone  Solar.R  Wind  Temp
+  6   4  Ozone  Solar.R  Wind  Temp
+  6   5  Ozone  Solar.R  Wind  Temp
+  7   1  Ozone  Solar.R  Wind  Temp
+  7   2  Ozone  Solar.R  Wind  Temp
+  7   3  Ozone  Solar.R  Wind  Temp
+  7   4  Ozone  Solar.R  Wind  Temp
+  7   5  Ozone  Solar.R  Wind  Temp
+  8   1  Ozone  Solar.R  Wind  Temp
+  8   2  Ozone  Solar.R  Wind  Temp
+  8   3  Ozone  Solar.R  Wind  Temp
+  8   4  Ozone  Solar.R  Wind  Temp
+  8   5  Ozone  Solar.R  Wind  Temp
+  9   1  Ozone  Solar.R  Wind  Temp
+  9   2  Ozone  Solar.R  Wind  Temp
+  9   3  Ozone  Solar.R  Wind  Temp
+  9   4  Ozone  Solar.R  Wind  Temp
+  9   5  Ozone  Solar.R  Wind  Temp
+  10   1  Ozone  Solar.R  Wind  Temp
+  10   2  Ozone  Solar.R  Wind  Temp
+  10   3  Ozone  Solar.R  Wind  Temp
+  10   4  Ozone  Solar.R  Wind  Temp
+  10   5  Ozone  Solar.R  Wind  Temp
+  11   1  Ozone  Solar.R  Wind  Temp
+  11   2  Ozone  Solar.R  Wind  Temp
+  11   3  Ozone  Solar.R  Wind  Temp
+  11   4  Ozone  Solar.R  Wind  Temp
+  11   5  Ozone  Solar.R  Wind  Temp
+  12   1  Ozone  Solar.R  Wind  Temp
+  12   2  Ozone  Solar.R  Wind  Temp
+  12   3  Ozone  Solar.R  Wind  Temp
+  12   4  Ozone  Solar.R  Wind  Temp
+  12   5  Ozone  Solar.R  Wind  Temp
+  13   1  Ozone  Solar.R  Wind  Temp
+  13   2  Ozone  Solar.R  Wind  Temp
+  13   3  Ozone  Solar.R  Wind  Temp
+  13   4  Ozone  Solar.R  Wind  Temp
+  13   5  Ozone  Solar.R  Wind  Temp
+  14   1  Ozone  Solar.R  Wind  Temp
+  14   2  Ozone  Solar.R  Wind  Temp
+  14   3  Ozone  Solar.R  Wind  Temp
+  14   4  Ozone  Solar.R  Wind  Temp
+  14   5  Ozone  Solar.R  Wind  Temp
+  15   1  Ozone  Solar.R  Wind  Temp
+  15   2  Ozone  Solar.R  Wind  Temp
+  15   3  Ozone  Solar.R  Wind  Temp
+  15   4  Ozone  Solar.R  Wind  Temp
+  15   5  Ozone  Solar.R  Wind  Temp
+  16   1  Ozone  Solar.R  Wind  Temp
+  16   2  Ozone  Solar.R  Wind  Temp
+  16   3  Ozone  Solar.R  Wind  Temp
+  16   4  Ozone  Solar.R  Wind  Temp
+  16   5  Ozone  Solar.R  Wind  Temp
+  17   1  Ozone  Solar.R  Wind  Temp
+  17   2  Ozone  Solar.R  Wind  Temp
+  17   3  Ozone  Solar.R  Wind  Temp
+  17   4  Ozone  Solar.R  Wind  Temp
+  17   5  Ozone  Solar.R  Wind  Temp
+  18   1  Ozone  Solar.R  Wind  Temp
+  18   2  Ozone  Solar.R  Wind  Temp
+  18   3  Ozone  Solar.R  Wind  Temp
+  18   4  Ozone  Solar.R  Wind  Temp
+  18   5  Ozone  Solar.R  Wind  Temp
+  19   1  Ozone  Solar.R  Wind  Temp
+  19   2  Ozone  Solar.R  Wind  Temp
+  19   3  Ozone  Solar.R  Wind  Temp
+  19   4  Ozone  Solar.R  Wind  Temp
+  19   5  Ozone  Solar.R  Wind  Temp
+  20   1  Ozone  Solar.R  Wind  Temp
+  20   2  Ozone  Solar.R  Wind  Temp
+  20   3  Ozone  Solar.R  Wind  Temp
+  20   4  Ozone  Solar.R  Wind  Temp
+  20   5  Ozone  Solar.R  Wind  Temp
+  21   1  Ozone  Solar.R  Wind  Temp
+  21   2  Ozone  Solar.R  Wind  Temp
+  21   3  Ozone  Solar.R  Wind  Temp
+  21   4  Ozone  Solar.R  Wind  Temp
+  21   5  Ozone  Solar.R  Wind  Temp
+  22   1  Ozone  Solar.R  Wind  Temp
+  22   2  Ozone  Solar.R  Wind  Temp
+  22   3  Ozone  Solar.R  Wind  Temp
+  22   4  Ozone  Solar.R  Wind  Temp
+  22   5  Ozone  Solar.R  Wind  Temp
+  23   1  Ozone  Solar.R  Wind  Temp
+  23   2  Ozone  Solar.R  Wind  Temp
+  23   3  Ozone  Solar.R  Wind  Temp
+  23   4  Ozone  Solar.R  Wind  Temp
+  23   5  Ozone  Solar.R  Wind  Temp
+  24   1  Ozone  Solar.R  Wind  Temp
+  24   2  Ozone  Solar.R  Wind  Temp
+  24   3  Ozone  Solar.R  Wind  Temp
+  24   4  Ozone  Solar.R  Wind  Temp
+  24   5  Ozone  Solar.R  Wind  Temp
+  25   1  Ozone  Solar.R  Wind  Temp
+  25   2  Ozone  Solar.R  Wind  Temp
+  25   3  Ozone  Solar.R  Wind  Temp
+  25   4  Ozone  Solar.R  Wind  Temp
+  25   5  Ozone  Solar.R  Wind  Temp
+  26   1  Ozone  Solar.R  Wind  Temp
+  26   2  Ozone  Solar.R  Wind  Temp
+  26   3  Ozone  Solar.R  Wind  Temp
+  26   4  Ozone  Solar.R  Wind  Temp
+  26   5  Ozone  Solar.R  Wind  Temp
+  27   1  Ozone  Solar.R  Wind  Temp
+  27   2  Ozone  Solar.R  Wind  Temp
+  27   3  Ozone  Solar.R  Wind  Temp
+  27   4  Ozone  Solar.R  Wind  Temp
+  27   5  Ozone  Solar.R  Wind  Temp
+  28   1  Ozone  Solar.R  Wind  Temp
+  28   2  Ozone  Solar.R  Wind  Temp
+  28   3  Ozone  Solar.R  Wind  Temp
+  28   4  Ozone  Solar.R  Wind  Temp
+  28   5  Ozone  Solar.R  Wind  Temp
+  29   1  Ozone  Solar.R  Wind  Temp
+  29   2  Ozone  Solar.R  Wind  Temp
+  29   3  Ozone  Solar.R  Wind  Temp
+  29   4  Ozone  Solar.R  Wind  Temp
+  29   5  Ozone  Solar.R  Wind  Temp
+  30   1  Ozone  Solar.R  Wind  Temp
+  30   2  Ozone  Solar.R  Wind  Temp
+  30   3  Ozone  Solar.R  Wind  Temp
+  30   4  Ozone  Solar.R  Wind  Temp
+  30   5  Ozone  Solar.R  Wind  Temp
+  31   1  Ozone  Solar.R  Wind  Temp
+  31   2  Ozone  Solar.R  Wind  Temp
+  31   3  Ozone  Solar.R  Wind  Temp
+  31   4  Ozone  Solar.R  Wind  Temp
+  31   5  Ozone  Solar.R  Wind  Temp
+  32   1  Ozone  Solar.R  Wind  Temp
+  32   2  Ozone  Solar.R  Wind  Temp
+  32   3  Ozone  Solar.R  Wind  Temp
+  32   4  Ozone  Solar.R  Wind  Temp
+  32   5  Ozone  Solar.R  Wind  Temp
+  33   1  Ozone  Solar.R  Wind  Temp
+  33   2  Ozone  Solar.R  Wind  Temp
+  33   3  Ozone  Solar.R  Wind  Temp
+  33   4  Ozone  Solar.R  Wind  Temp
+  33   5  Ozone  Solar.R  Wind  Temp
+  34   1  Ozone  Solar.R  Wind  Temp
+  34   2  Ozone  Solar.R  Wind  Temp
+  34   3  Ozone  Solar.R  Wind  Temp
+  34   4  Ozone  Solar.R  Wind  Temp
+  34   5  Ozone  Solar.R  Wind  Temp
+  35   1  Ozone  Solar.R  Wind  Temp
+  35   2  Ozone  Solar.R  Wind  Temp
+  35   3  Ozone  Solar.R  Wind  Temp
+  35   4  Ozone  Solar.R  Wind  Temp
+  35   5  Ozone  Solar.R  Wind  Temp
+  36   1  Ozone  Solar.R  Wind  Temp
+  36   2  Ozone  Solar.R  Wind  Temp
+  36   3  Ozone  Solar.R  Wind  Temp
+  36   4  Ozone  Solar.R  Wind  Temp
+  36   5  Ozone  Solar.R  Wind  Temp
+  37   1  Ozone  Solar.R  Wind  Temp
+  37   2  Ozone  Solar.R  Wind  Temp
+  37   3  Ozone  Solar.R  Wind  Temp
+  37   4  Ozone  Solar.R  Wind  Temp
+  37   5  Ozone  Solar.R  Wind  Temp
+  38   1  Ozone  Solar.R  Wind  Temp
+  38   2  Ozone  Solar.R  Wind  Temp
+  38   3  Ozone  Solar.R  Wind  Temp
+  38   4  Ozone  Solar.R  Wind  Temp
+  38   5  Ozone  Solar.R  Wind  Temp
+  39   1  Ozone  Solar.R  Wind  Temp
+  39   2  Ozone  Solar.R  Wind  Temp
+  39   3  Ozone  Solar.R  Wind  Temp
+  39   4  Ozone  Solar.R  Wind  Temp
+  39   5  Ozone  Solar.R  Wind  Temp
+  40   1  Ozone  Solar.R  Wind  Temp
+  40   2  Ozone  Solar.R  Wind  Temp
+  40   3  Ozone  Solar.R  Wind  Temp
+  40   4  Ozone  Solar.R  Wind  Temp
+  40   5  Ozone  Solar.R  Wind  Temp
+  41   1  Ozone  Solar.R  Wind  Temp
+  41   2  Ozone  Solar.R  Wind  Temp
+  41   3  Ozone  Solar.R  Wind  Temp
+  41   4  Ozone  Solar.R  Wind  Temp
+  41   5  Ozone  Solar.R  Wind  Temp
+  42   1  Ozone  Solar.R  Wind  Temp
+  42   2  Ozone  Solar.R  Wind  Temp
+  42   3  Ozone  Solar.R  Wind  Temp
+  42   4  Ozone  Solar.R  Wind  Temp
+  42   5  Ozone  Solar.R  Wind  Temp
+  43   1  Ozone  Solar.R  Wind  Temp
+  43   2  Ozone  Solar.R  Wind  Temp
+  43   3  Ozone  Solar.R  Wind  Temp
+  43   4  Ozone  Solar.R  Wind  Temp
+  43   5  Ozone  Solar.R  Wind  Temp
+  44   1  Ozone  Solar.R  Wind  Temp
+  44   2  Ozone  Solar.R  Wind  Temp
+  44   3  Ozone  Solar.R  Wind  Temp
+  44   4  Ozone  Solar.R  Wind  Temp
+  44   5  Ozone  Solar.R  Wind  Temp
+  45   1  Ozone  Solar.R  Wind  Temp
+  45   2  Ozone  Solar.R  Wind  Temp
+  45   3  Ozone  Solar.R  Wind  Temp
+  45   4  Ozone  Solar.R  Wind  Temp
+  45   5  Ozone  Solar.R  Wind  Temp
+  46   1  Ozone  Solar.R  Wind  Temp
+  46   2  Ozone  Solar.R  Wind  Temp
+  46   3  Ozone  Solar.R  Wind  Temp
+  46   4  Ozone  Solar.R  Wind  Temp
+  46   5  Ozone  Solar.R  Wind  Temp
+  47   1  Ozone  Solar.R  Wind  Temp
+  47   2  Ozone  Solar.R  Wind  Temp
+  47   3  Ozone  Solar.R  Wind  Temp
+  47   4  Ozone  Solar.R  Wind  Temp
+  47   5  Ozone  Solar.R  Wind  Temp
+  48   1  Ozone  Solar.R  Wind  Temp
+  48   2  Ozone  Solar.R  Wind  Temp
+  48   3  Ozone  Solar.R  Wind  Temp
+  48   4  Ozone  Solar.R  Wind  Temp
+  48   5  Ozone  Solar.R  Wind  Temp
+  49   1  Ozone  Solar.R  Wind  Temp
+  49   2  Ozone  Solar.R  Wind  Temp
+  49   3  Ozone  Solar.R  Wind  Temp
+  49   4  Ozone  Solar.R  Wind  Temp
+  49   5  Ozone  Solar.R  Wind  Temp
+  50   1  Ozone  Solar.R  Wind  Temp
+  50   2  Ozone  Solar.R  Wind  Temp
+  50   3  Ozone  Solar.R  Wind  Temp
+  50   4  Ozone  Solar.R  Wind  Temp
+  50   5  Ozone  Solar.R  Wind  Temp</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(tempData)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Class: mids
+Number of multiple imputations:  5 
+Imputation methods:
+  Ozone Solar.R    Wind    Temp 
+  "pmm"   "pmm"   "pmm"   "pmm" 
+PredictorMatrix:
+        Ozone Solar.R Wind Temp
+Ozone       0       1    1    1
+Solar.R     1       0    1    1
+Wind        1       1    0    1
+Temp        1       1    1    0</code></pre>
+</div>
+</div>
+<p>Een paar opmerkingen over de parameters:</p>
+<ul>
+<li><code>m=5</code> verwijst naar het aantal geïmputeerde datasets. Vijf is de standaard waarde.<br>
+</li>
+<li><code>meth='pmm'</code> verwijst naar de imputatie methode. In dit geval gebruiken we pmm (predictive mean matching) als imputatiemethode. Er kunnen ook andere imputatiemethoden worden gebruikt, type <code>methods(mice)</code> voor een lijst van de beschikbare imputatiemethoden.</li>
+</ul>
+<p>Als u de geïmputeerde gegevens wilt controleren, bijvoorbeeld voor de variabele Ozon, moet u de volgende regel code invoeren</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>tempData<span class="sc">$</span>imp<span class="sc">$</span>Ozone</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     1   2   3   4   5
+5   13  19  12 115  63
+10  30  12  13  21   7
+25   8  28   6  18  28
+26   9  32   4  18  37
+27  37  21   4  32  32
+32  40  39  35  32  47
+33  44  28  36  52  20
+34  20  23  37  37  19
+35  32  28  16  32  35
+36  89  80  48  49 115
+37  18   7  16  30  22
+39  96  77 135  76  85
+42  50 168  64  50  41
+43  96  78  96  96  78
+45  63  20  18  24  31
+46  71  37  20  20  28
+52  20  35  37  63  63
+53  16  78  73  48 115
+54  59  35  46  44  23
+55  16  39  28  40  49
+56  24  36  52  21  44
+57  36  20  20  18  23
+58  11  11  24   7  23
+59  44  13  23  23  27
+60  23   4  19   4  32
+61  44  16  46  37  35
+65  30  23  65  30  30
+72  45  37  63  63  44
+75  39  46  32  39  28
+83  37  40  59  32  35
+84  40  59  28  28  35
+102 61  85  96  79  78
+103 31  59  20  31  36
+107 32  24  11  21  21
+115 52  16  11  14  13
+119 78  96 168  76  50
+150 14  12  13  23  11</code></pre>
+</div>
+</div>
+<p>De uitvoer toont de geïmputeerde data voor elke observatie (eerste kolom links) binnen elke geïmputeerde dataset (eerste rij bovenaan). Als u de gebruikte imputatiemethode voor elke variabele wilt controleren, kunt u dat met <code>mice</code> heel eenvoudig doen</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>tempData<span class="sc">$</span>meth</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Ozone Solar.R    Wind    Temp 
+  "pmm"   "pmm"   "pmm"   "pmm" </code></pre>
+</div>
+</div>
+<p>Nu kunnen we de voltooide dataset terugkrijgen met de <code>complete()</code>functie. Het is bijna gewoon Engels:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>completedData <span class="ot">&lt;-</span> <span class="fu">complete</span>(tempData,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>De ontbrekende waarden zijn vervangen door de geïmputeerde waarden in de eerste van de vijf datasets. Als je een andere wilt gebruiken, verander dan de tweede parameter in de <code>complete()</code> functie.</p>
+</section>
+<section id="de-verdeling-van-de-originele-en-geïmputeerde-data-bekijken" class="level2">
+<h2 class="anchored" data-anchor-id="de-verdeling-van-de-originele-en-geïmputeerde-data-bekijken">De verdeling van de originele en geïmputeerde data bekijken</h2>
+<p>Laten we de verdelingen van de originele en geïmputeerde data vergelijken met behulp van een aantal handige plots. Allereerst kunnen we een scatterplot gebruiken en Ozon uitzetten tegen alle andere variabelen.</p>
+<p>Hier is dat het geval:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xyplot</span>(tempData,Ozone <span class="sc">~</span> Wind<span class="sc">+</span>Temp<span class="sc">+</span>Solar.R,<span class="at">pch=</span><span class="dv">18</span>,<span class="at">cex=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="missende-waarden_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Wat wij willen zien is dat de vorm van de magenta punten (geïmputeerd) overeenkomt met de vorm van de blauwe punten (waargenomen). De overeenkomstige vorm zegt ons dat de geïmputeerde waarden inderdaad “plausibele waarden” zijn. Een andere nuttige grafiek is de densitygrafiek:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">densityplot</span>(tempData)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="missende-waarden_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>De dichtheid van de geïmputeerde gegevens voor elke geïmputeerde dataset wordt getoond in magenta, terwijl de dichtheid van de waargenomen gegevens in blauw wordt getoond. Nogmaals, onder onze eerdere aannames verwachten we dat de verdelingen vergelijkbaar zijn.</p>
+<p>Een andere nuttige visuele kijk op de verdelingen kan worden verkregen met de <code>stripplot()</code> functie die de verdelingen van de variabelen als afzonderlijke punten toont</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stripplot</span>(tempData, <span class="at">pch =</span> <span class="dv">20</span>, <span class="at">cex =</span> <span class="fl">1.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="missende-waarden_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="pooling" class="level2">
+<h2 class="anchored" data-anchor-id="pooling">Pooling</h2>
+<p>Veronderstel dat de volgende stap in onze analyse erin bestaat een lineair model op de gegevens toe te passen. Dan kun je je afvragen welke geïmputeerde dataset je moet kiezen. Het <code>mice</code> pakket maakt het weer heel gemakkelijk om een model te passen op elk van de geïmputeerde datasets en dan deze resultaten samen te voegen</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>modelFit1 <span class="ot">&lt;-</span> <span class="fu">with</span>(tempData,<span class="fu">lm</span>(Temp<span class="sc">~</span> Ozone<span class="sc">+</span>Solar.R<span class="sc">+</span>Wind))</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">pool</span>(modelFit1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         term    estimate   std.error statistic        df      p.value
+1 (Intercept) 72.70719792 2.761360433 26.330209 117.27936 0.000000e+00
+2       Ozone  0.15924872 0.025914423  6.145177  49.30693 1.367056e-07
+3     Solar.R  0.01252384 0.008678358  1.443112  18.19046 1.659893e-01
+4        Wind -0.34547006 0.207866970 -1.661977 123.65905 9.905045e-02</code></pre>
+</div>
+</div>
+<p>De variabele <code>modelFit1</code> bevat de resultaten van de aanpassing die is uitgevoerd over de geïmputeerde datasets, terwijl de <code>pool()</code> functie ze allemaal samenvoegt. Blijkbaar is alleen de Ozon variabele statistisch significant.</p>
+<p>Vergeet niet dat we de <code>mice</code>-functie hebben geïnitialiseerd met een specifieke ‘seed’-instelling. Daarom zijn de resultaten enigszins afhankelijk van onze initiële keuze. Om dit effect te verminderen, kunnen we een hoger aantal datasets toerekenen, door de standaard <code>m=5</code> parameter in de <code>mice()</code> functie als volgt te wijzigen</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>tempData2 <span class="ot">&lt;-</span> <span class="fu">mice</span>(data,<span class="at">m=</span><span class="dv">50</span>,<span class="at">seed=</span><span class="dv">245435</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ iter imp variable
+  1   1  Ozone  Solar.R  Wind  Temp
+  1   2  Ozone  Solar.R  Wind  Temp
+  1   3  Ozone  Solar.R  Wind  Temp
+  1   4  Ozone  Solar.R  Wind  Temp
+  1   5  Ozone  Solar.R  Wind  Temp
+  1   6  Ozone  Solar.R  Wind  Temp
+  1   7  Ozone  Solar.R  Wind  Temp
+  1   8  Ozone  Solar.R  Wind  Temp
+  1   9  Ozone  Solar.R  Wind  Temp
+  1   10  Ozone  Solar.R  Wind  Temp
+  1   11  Ozone  Solar.R  Wind  Temp
+  1   12  Ozone  Solar.R  Wind  Temp
+  1   13  Ozone  Solar.R  Wind  Temp
+  1   14  Ozone  Solar.R  Wind  Temp
+  1   15  Ozone  Solar.R  Wind  Temp
+  1   16  Ozone  Solar.R  Wind  Temp
+  1   17  Ozone  Solar.R  Wind  Temp
+  1   18  Ozone  Solar.R  Wind  Temp
+  1   19  Ozone  Solar.R  Wind  Temp
+  1   20  Ozone  Solar.R  Wind  Temp
+  1   21  Ozone  Solar.R  Wind  Temp
+  1   22  Ozone  Solar.R  Wind  Temp
+  1   23  Ozone  Solar.R  Wind  Temp
+  1   24  Ozone  Solar.R  Wind  Temp
+  1   25  Ozone  Solar.R  Wind  Temp
+  1   26  Ozone  Solar.R  Wind  Temp
+  1   27  Ozone  Solar.R  Wind  Temp
+  1   28  Ozone  Solar.R  Wind  Temp
+  1   29  Ozone  Solar.R  Wind  Temp
+  1   30  Ozone  Solar.R  Wind  Temp
+  1   31  Ozone  Solar.R  Wind  Temp
+  1   32  Ozone  Solar.R  Wind  Temp
+  1   33  Ozone  Solar.R  Wind  Temp
+  1   34  Ozone  Solar.R  Wind  Temp
+  1   35  Ozone  Solar.R  Wind  Temp
+  1   36  Ozone  Solar.R  Wind  Temp
+  1   37  Ozone  Solar.R  Wind  Temp
+  1   38  Ozone  Solar.R  Wind  Temp
+  1   39  Ozone  Solar.R  Wind  Temp
+  1   40  Ozone  Solar.R  Wind  Temp
+  1   41  Ozone  Solar.R  Wind  Temp
+  1   42  Ozone  Solar.R  Wind  Temp
+  1   43  Ozone  Solar.R  Wind  Temp
+  1   44  Ozone  Solar.R  Wind  Temp
+  1   45  Ozone  Solar.R  Wind  Temp
+  1   46  Ozone  Solar.R  Wind  Temp
+  1   47  Ozone  Solar.R  Wind  Temp
+  1   48  Ozone  Solar.R  Wind  Temp
+  1   49  Ozone  Solar.R  Wind  Temp
+  1   50  Ozone  Solar.R  Wind  Temp
+  2   1  Ozone  Solar.R  Wind  Temp
+  2   2  Ozone  Solar.R  Wind  Temp
+  2   3  Ozone  Solar.R  Wind  Temp
+  2   4  Ozone  Solar.R  Wind  Temp
+  2   5  Ozone  Solar.R  Wind  Temp
+  2   6  Ozone  Solar.R  Wind  Temp
+  2   7  Ozone  Solar.R  Wind  Temp
+  2   8  Ozone  Solar.R  Wind  Temp
+  2   9  Ozone  Solar.R  Wind  Temp
+  2   10  Ozone  Solar.R  Wind  Temp
+  2   11  Ozone  Solar.R  Wind  Temp
+  2   12  Ozone  Solar.R  Wind  Temp
+  2   13  Ozone  Solar.R  Wind  Temp
+  2   14  Ozone  Solar.R  Wind  Temp
+  2   15  Ozone  Solar.R  Wind  Temp
+  2   16  Ozone  Solar.R  Wind  Temp
+  2   17  Ozone  Solar.R  Wind  Temp
+  2   18  Ozone  Solar.R  Wind  Temp
+  2   19  Ozone  Solar.R  Wind  Temp
+  2   20  Ozone  Solar.R  Wind  Temp
+  2   21  Ozone  Solar.R  Wind  Temp
+  2   22  Ozone  Solar.R  Wind  Temp
+  2   23  Ozone  Solar.R  Wind  Temp
+  2   24  Ozone  Solar.R  Wind  Temp
+  2   25  Ozone  Solar.R  Wind  Temp
+  2   26  Ozone  Solar.R  Wind  Temp
+  2   27  Ozone  Solar.R  Wind  Temp
+  2   28  Ozone  Solar.R  Wind  Temp
+  2   29  Ozone  Solar.R  Wind  Temp
+  2   30  Ozone  Solar.R  Wind  Temp
+  2   31  Ozone  Solar.R  Wind  Temp
+  2   32  Ozone  Solar.R  Wind  Temp
+  2   33  Ozone  Solar.R  Wind  Temp
+  2   34  Ozone  Solar.R  Wind  Temp
+  2   35  Ozone  Solar.R  Wind  Temp
+  2   36  Ozone  Solar.R  Wind  Temp
+  2   37  Ozone  Solar.R  Wind  Temp
+  2   38  Ozone  Solar.R  Wind  Temp
+  2   39  Ozone  Solar.R  Wind  Temp
+  2   40  Ozone  Solar.R  Wind  Temp
+  2   41  Ozone  Solar.R  Wind  Temp
+  2   42  Ozone  Solar.R  Wind  Temp
+  2   43  Ozone  Solar.R  Wind  Temp
+  2   44  Ozone  Solar.R  Wind  Temp
+  2   45  Ozone  Solar.R  Wind  Temp
+  2   46  Ozone  Solar.R  Wind  Temp
+  2   47  Ozone  Solar.R  Wind  Temp
+  2   48  Ozone  Solar.R  Wind  Temp
+  2   49  Ozone  Solar.R  Wind  Temp
+  2   50  Ozone  Solar.R  Wind  Temp
+  3   1  Ozone  Solar.R  Wind  Temp
+  3   2  Ozone  Solar.R  Wind  Temp
+  3   3  Ozone  Solar.R  Wind  Temp
+  3   4  Ozone  Solar.R  Wind  Temp
+  3   5  Ozone  Solar.R  Wind  Temp
+  3   6  Ozone  Solar.R  Wind  Temp
+  3   7  Ozone  Solar.R  Wind  Temp
+  3   8  Ozone  Solar.R  Wind  Temp
+  3   9  Ozone  Solar.R  Wind  Temp
+  3   10  Ozone  Solar.R  Wind  Temp
+  3   11  Ozone  Solar.R  Wind  Temp
+  3   12  Ozone  Solar.R  Wind  Temp
+  3   13  Ozone  Solar.R  Wind  Temp
+  3   14  Ozone  Solar.R  Wind  Temp
+  3   15  Ozone  Solar.R  Wind  Temp
+  3   16  Ozone  Solar.R  Wind  Temp
+  3   17  Ozone  Solar.R  Wind  Temp
+  3   18  Ozone  Solar.R  Wind  Temp
+  3   19  Ozone  Solar.R  Wind  Temp
+  3   20  Ozone  Solar.R  Wind  Temp
+  3   21  Ozone  Solar.R  Wind  Temp
+  3   22  Ozone  Solar.R  Wind  Temp
+  3   23  Ozone  Solar.R  Wind  Temp
+  3   24  Ozone  Solar.R  Wind  Temp
+  3   25  Ozone  Solar.R  Wind  Temp
+  3   26  Ozone  Solar.R  Wind  Temp
+  3   27  Ozone  Solar.R  Wind  Temp
+  3   28  Ozone  Solar.R  Wind  Temp
+  3   29  Ozone  Solar.R  Wind  Temp
+  3   30  Ozone  Solar.R  Wind  Temp
+  3   31  Ozone  Solar.R  Wind  Temp
+  3   32  Ozone  Solar.R  Wind  Temp
+  3   33  Ozone  Solar.R  Wind  Temp
+  3   34  Ozone  Solar.R  Wind  Temp
+  3   35  Ozone  Solar.R  Wind  Temp
+  3   36  Ozone  Solar.R  Wind  Temp
+  3   37  Ozone  Solar.R  Wind  Temp
+  3   38  Ozone  Solar.R  Wind  Temp
+  3   39  Ozone  Solar.R  Wind  Temp
+  3   40  Ozone  Solar.R  Wind  Temp
+  3   41  Ozone  Solar.R  Wind  Temp
+  3   42  Ozone  Solar.R  Wind  Temp
+  3   43  Ozone  Solar.R  Wind  Temp
+  3   44  Ozone  Solar.R  Wind  Temp
+  3   45  Ozone  Solar.R  Wind  Temp
+  3   46  Ozone  Solar.R  Wind  Temp
+  3   47  Ozone  Solar.R  Wind  Temp
+  3   48  Ozone  Solar.R  Wind  Temp
+  3   49  Ozone  Solar.R  Wind  Temp
+  3   50  Ozone  Solar.R  Wind  Temp
+  4   1  Ozone  Solar.R  Wind  Temp
+  4   2  Ozone  Solar.R  Wind  Temp
+  4   3  Ozone  Solar.R  Wind  Temp
+  4   4  Ozone  Solar.R  Wind  Temp
+  4   5  Ozone  Solar.R  Wind  Temp
+  4   6  Ozone  Solar.R  Wind  Temp
+  4   7  Ozone  Solar.R  Wind  Temp
+  4   8  Ozone  Solar.R  Wind  Temp
+  4   9  Ozone  Solar.R  Wind  Temp
+  4   10  Ozone  Solar.R  Wind  Temp
+  4   11  Ozone  Solar.R  Wind  Temp
+  4   12  Ozone  Solar.R  Wind  Temp
+  4   13  Ozone  Solar.R  Wind  Temp
+  4   14  Ozone  Solar.R  Wind  Temp
+  4   15  Ozone  Solar.R  Wind  Temp
+  4   16  Ozone  Solar.R  Wind  Temp
+  4   17  Ozone  Solar.R  Wind  Temp
+  4   18  Ozone  Solar.R  Wind  Temp
+  4   19  Ozone  Solar.R  Wind  Temp
+  4   20  Ozone  Solar.R  Wind  Temp
+  4   21  Ozone  Solar.R  Wind  Temp
+  4   22  Ozone  Solar.R  Wind  Temp
+  4   23  Ozone  Solar.R  Wind  Temp
+  4   24  Ozone  Solar.R  Wind  Temp
+  4   25  Ozone  Solar.R  Wind  Temp
+  4   26  Ozone  Solar.R  Wind  Temp
+  4   27  Ozone  Solar.R  Wind  Temp
+  4   28  Ozone  Solar.R  Wind  Temp
+  4   29  Ozone  Solar.R  Wind  Temp
+  4   30  Ozone  Solar.R  Wind  Temp
+  4   31  Ozone  Solar.R  Wind  Temp
+  4   32  Ozone  Solar.R  Wind  Temp
+  4   33  Ozone  Solar.R  Wind  Temp
+  4   34  Ozone  Solar.R  Wind  Temp
+  4   35  Ozone  Solar.R  Wind  Temp
+  4   36  Ozone  Solar.R  Wind  Temp
+  4   37  Ozone  Solar.R  Wind  Temp
+  4   38  Ozone  Solar.R  Wind  Temp
+  4   39  Ozone  Solar.R  Wind  Temp
+  4   40  Ozone  Solar.R  Wind  Temp
+  4   41  Ozone  Solar.R  Wind  Temp
+  4   42  Ozone  Solar.R  Wind  Temp
+  4   43  Ozone  Solar.R  Wind  Temp
+  4   44  Ozone  Solar.R  Wind  Temp
+  4   45  Ozone  Solar.R  Wind  Temp
+  4   46  Ozone  Solar.R  Wind  Temp
+  4   47  Ozone  Solar.R  Wind  Temp
+  4   48  Ozone  Solar.R  Wind  Temp
+  4   49  Ozone  Solar.R  Wind  Temp
+  4   50  Ozone  Solar.R  Wind  Temp
+  5   1  Ozone  Solar.R  Wind  Temp
+  5   2  Ozone  Solar.R  Wind  Temp
+  5   3  Ozone  Solar.R  Wind  Temp
+  5   4  Ozone  Solar.R  Wind  Temp
+  5   5  Ozone  Solar.R  Wind  Temp
+  5   6  Ozone  Solar.R  Wind  Temp
+  5   7  Ozone  Solar.R  Wind  Temp
+  5   8  Ozone  Solar.R  Wind  Temp
+  5   9  Ozone  Solar.R  Wind  Temp
+  5   10  Ozone  Solar.R  Wind  Temp
+  5   11  Ozone  Solar.R  Wind  Temp
+  5   12  Ozone  Solar.R  Wind  Temp
+  5   13  Ozone  Solar.R  Wind  Temp
+  5   14  Ozone  Solar.R  Wind  Temp
+  5   15  Ozone  Solar.R  Wind  Temp
+  5   16  Ozone  Solar.R  Wind  Temp
+  5   17  Ozone  Solar.R  Wind  Temp
+  5   18  Ozone  Solar.R  Wind  Temp
+  5   19  Ozone  Solar.R  Wind  Temp
+  5   20  Ozone  Solar.R  Wind  Temp
+  5   21  Ozone  Solar.R  Wind  Temp
+  5   22  Ozone  Solar.R  Wind  Temp
+  5   23  Ozone  Solar.R  Wind  Temp
+  5   24  Ozone  Solar.R  Wind  Temp
+  5   25  Ozone  Solar.R  Wind  Temp
+  5   26  Ozone  Solar.R  Wind  Temp
+  5   27  Ozone  Solar.R  Wind  Temp
+  5   28  Ozone  Solar.R  Wind  Temp
+  5   29  Ozone  Solar.R  Wind  Temp
+  5   30  Ozone  Solar.R  Wind  Temp
+  5   31  Ozone  Solar.R  Wind  Temp
+  5   32  Ozone  Solar.R  Wind  Temp
+  5   33  Ozone  Solar.R  Wind  Temp
+  5   34  Ozone  Solar.R  Wind  Temp
+  5   35  Ozone  Solar.R  Wind  Temp
+  5   36  Ozone  Solar.R  Wind  Temp
+  5   37  Ozone  Solar.R  Wind  Temp
+  5   38  Ozone  Solar.R  Wind  Temp
+  5   39  Ozone  Solar.R  Wind  Temp
+  5   40  Ozone  Solar.R  Wind  Temp
+  5   41  Ozone  Solar.R  Wind  Temp
+  5   42  Ozone  Solar.R  Wind  Temp
+  5   43  Ozone  Solar.R  Wind  Temp
+  5   44  Ozone  Solar.R  Wind  Temp
+  5   45  Ozone  Solar.R  Wind  Temp
+  5   46  Ozone  Solar.R  Wind  Temp
+  5   47  Ozone  Solar.R  Wind  Temp
+  5   48  Ozone  Solar.R  Wind  Temp
+  5   49  Ozone  Solar.R  Wind  Temp
+  5   50  Ozone  Solar.R  Wind  Temp</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>modelFit2 <span class="ot">&lt;-</span> <span class="fu">with</span>(tempData2,<span class="fu">lm</span>(Temp<span class="sc">~</span> Ozone<span class="sc">+</span>Solar.R<span class="sc">+</span>Wind))</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">pool</span>(modelFit2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         term    estimate   std.error statistic        df      p.value
+1 (Intercept) 72.60178955 2.915916315 24.898448 105.59368 0.000000e+00
+2       Ozone  0.16345639 0.026054628  6.273603  99.86352 9.122568e-09
+3     Solar.R  0.01193645 0.007134344  1.673097 120.41496 9.690433e-02
+4        Wind -0.33592048 0.222350762 -1.510768 107.41496 1.337838e-01</code></pre>
+</div>
+</div>
+<p>Na aanpassing, krijgen we (in dit geval) min of meer dezelfde resultaten als voorheen, waarbij alleen Ozone statistische significantie vertoont.</p>
+<p>De code kun je <a href="https://gist.github.com/mick001/df77b69b30ef6ff9fc0b">hier</a> vinden.</p>
+</section>
+<section id="literatuur" class="level2">
+<h2 class="anchored" data-anchor-id="literatuur">Literatuur</h2>
+<p>Alice, M. (2015). Imputing missing data with R; <code>mice</code>package. R-bloggers, 4-10-2015. https://www.r-bloggers.com/2015/10/imputing-missing-data-with-r-mice-package/</p>
+<p>Heymans, M. en Eekhout, I. (2019). <em>Applied Missing Data Analysis With SPSS and (R)Studio</em>. Amsterdam. https://bookdown.org/mwheymans/bookmi/</p>
+<p>Van Buuren, S. and Groothuis-Oudshoorn, C.G.M. (2011).<code>mice</code>: Multivariate Imputation by Chained Equations in R. <em>Journal of Statistical Software, 45(3)</em>, 1–67.</p>
+<p>Van Buuren (2012). <em>Multiple imputatie in vogelvlucht</em>. https://stefvanbuuren.name/publications/2012%20Vogelvlucht%20-%20STAtOR.pdf</p>
+<p>Van Buuren, S. (2018). <em>Flexible Imputation of Missing Data</em>. Second Edition. Chapman &amp; Hall/CRC, Boca Raton, FL</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.345">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Lisa Lendway, vertaling Harrie Jonkman">
+<meta name="dcterms.date" content="2021-02-19">
+<meta name="description" content="Website met blog maken">
+
+<title>- Website met distill</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">Harrie’s Hoekje</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Jonkman1"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Website met distill</h1>
+                          <div class="quarto-categories">
+                <div class="quarto-category">analyse</div>
+              </div>
+                  </div>
+  </div>
+    
+  <div>
+    <div class="description">
+      <p>Website met blog maken</p>
+    </div>
+  </div>
+
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Lisa Lendway, vertaling Harrie Jonkman </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">February 19, 2021</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#distill" id="toc-distill" class="nav-link active" data-scroll-target="#distill">Distill</a></li>
+  <li><a href="#waarom-een-website" id="toc-waarom-een-website" class="nav-link" data-scroll-target="#waarom-een-website">Waarom een website?</a></li>
+  <li><a href="#bronnen" id="toc-bronnen" class="nav-link" data-scroll-target="#bronnen">Bronnen</a></li>
+  <li><a href="#bouwen-van-de-site" id="toc-bouwen-van-de-site" class="nav-link" data-scroll-target="#bouwen-van-de-site">Bouwen van de site</a></li>
+  <li><a href="#de-site-voor-de-eerste-keer-bouwen" id="toc-de-site-voor-de-eerste-keer-bouwen" class="nav-link" data-scroll-target="#de-site-voor-de-eerste-keer-bouwen">De site voor de eerste keer bouwen</a></li>
+  <li><a href="#aanpassen-van-de-home-page" id="toc-aanpassen-van-de-home-page" class="nav-link" data-scroll-target="#aanpassen-van-de-home-page">Aanpassen van de home page</a></li>
+  <li><a href="#voeg-het-blog-toe-en-maak-jouw-eerste-post" id="toc-voeg-het-blog-toe-en-maak-jouw-eerste-post" class="nav-link" data-scroll-target="#voeg-het-blog-toe-en-maak-jouw-eerste-post">Voeg het blog toe en maak jouw eerste post</a></li>
+  <li><a href="#pas_site.yml-aan" id="toc-pas_site.yml-aan" class="nav-link" data-scroll-target="#pas_site.yml-aan">Pas<code>_site.yml</code> aan</a></li>
+  <li><a href="#netlify" id="toc-netlify" class="nav-link" data-scroll-target="#netlify">Publiseer de site via netlify</a></li>
+  <li><a href="#maak-het-je-eigen" id="toc-maak-het-je-eigen" class="nav-link" data-scroll-target="#maak-het-je-eigen">Maak het je eigen!</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="distill" class="level2">
+<h2 class="anchored" data-anchor-id="distill">Distill</h2>
+<p>Mijn eigen Harrie’s Hoekje blog, over een aantal ontwikkelingen in de dataanalyse, maak ik ook met het gebruik van het pakket Distill. Met Distill kun je wetenschappelijke websites maken, een blog en artikelen schrijven. Over hoe je dat doet schreef Lisa Lendway een kort en krachtige blog. Dat kan ik niet beter. Dank je, Lisa, hiervoor. Haar blog staat <a href="https://lisalendway.netlify.app/posts/2020-12-09-buildingdistill/?utm_source=dlvr.it&amp;utm_medium=facebook">hier</a></p>
+</section>
+<section id="waarom-een-website" class="level2">
+<h2 class="anchored" data-anchor-id="waarom-een-website">Waarom een website?</h2>
+<p>Nou, eindelijk heb ik het gedaan!, zo begint zij haar blog dat ik (Harrie) hier verder volg.</p>
+<p>Ik (Lisa) heb een website gemaakt. En om dat te vieren, ga ik met jullie delen hoe ik het gedaan heb. En waarom heb ik dat gedaan? Twee belangrijke redenen zijn er: 1. om materiaal te delen dat nuttig kan zijn voor anderen, 2. om wat dingen voor mezelf te documenteren, allemaal op één plek.</p>
+<p>Ik koos voor een {distill} site omdat het me genoeg vrijheid leek te geven om mijn site aan te passen en ook weer niet zo veel vrijheid dat ik zou verzanden in details (bv. kleuren kiezen … oeps, daar heb ik toch nog veel tijd aan besteed).</p>
+</section>
+<section id="bronnen" class="level2">
+<h2 class="anchored" data-anchor-id="bronnen">Bronnen</h2>
+<p>Voordat ik begin, zal ik wat bronnen delen die ik heb gebruikt.</p>
+<ul>
+<li><p>Alison Hill en Desirée De Leon’s <a href="https://rstudio.com/resources/webinars/sharing-on-short-notice-how-to-get-your-materials-online-with-r-markdown/">webinar</a> over <code>Sharing on Short Notice</code>. <strong>KIJK HIERNAAR</strong> voordat je verder gaat. Hier werd ik voor het eerst geïntroduceerd op <a href="https://www.netlify.com/">netlify</a> en toen zag ik pas hoe makkelijk het is om html-files tot een website om te vormen website. Je zou daar zelfs eerst mee kunnen beginnen voordat jij je op een website springt. Misschien spreken sommige van de andere opties die ze bespreken jou meer aan dan {distill}.</p></li>
+<li><p>De distill <a href="https://rstudio.github.io/distill/">documentatie</a>, ook al in de vorm van een … distill website!</p></li>
+<li><p>Distill websites van anderen: <a href="https://ijeamaka-anyene.netlify.app/">Ijeamaka Anyene</a>, <a href="https://www.pipinghotdata.com/about.html">Shannon Pileggi</a>(aka Piping Hot Data), <a href="https://milesmcbain.xyz/">Miles McBain</a>, <a href="https://themockup.blog/">Tom Mock</a>, en meer!</p></li>
+<li><p>Alison Hill’s <a href="https://alison.rbind.io/">website</a> voor hoog niveau inhoud en design inspiratie. Iedere keer vind ik wel een nieuw bron als ik haar website bezoek. Bijvoorbeeld, bekijk eens haar <a href="https://alison.rbind.io/talk/2020-larug/">praatje</a> op ‘Recent updates in the R markdown family’.</p></li>
+<li><p>En meer! Ik zal proberen in dit blog op enkele bronnen terug te komen.</p></li>
+</ul>
+<p>Kijk ook naar de video die Lisa maakte en die je <a href="https://youtu.be/Fm3bsYCilEU">hier</a> vindt.</p>
+</section>
+<section id="bouwen-van-de-site" class="level2">
+<h2 class="anchored" data-anchor-id="bouwen-van-de-site">Bouwen van de site</h2>
+<p>Laten we nu verder gaan met het maken van de site. Onderweg kom ik terug op de YouTube-video. Ik kom steeds terug op dezelfde YouTube-video, maar ik zal ze daar zetten waar ik het op dat moment over heb. Zo is het makkelijker voor je om delen over te slaan als je dat wilt.</p>
+<section id="een-github-repo-opzetten-het-project-starten" class="level3">
+<h3 class="anchored" data-anchor-id="een-github-repo-opzetten-het-project-starten">Een GitHub repo opzetten &amp; het project starten</h3>
+<p><em>Kijk naar Tom Mock’s post <a href="https://themockup.blog/posts/2020-08-01-building-a-blog-with-distill/#step-7-add-to-git">hier</a>. Ik denk dat zijn manier om dit te doen logischer is dan de mijne. Helaas, zag ik het toen ik mijn ding had gedaan :(</em></p>
+<p>Ik probeer er een gewoonte van te maken om al mijn projecten met een GitHub repo te beginnen. Dus, dat is wat ik hier ook heb gedaan. Hier zijn alle stappen:</p>
+<ul>
+<li><p>Maak een repo<br>
+</p></li>
+<li><p>Creëer project in R Studio door de repo te klonen * Laad de {<code>distill</code>} bibliotheek<br>
+</p></li>
+<li><p>Maak een “starter” site met de <code>create_website()</code> functie. Ik heb dit gebruikt in plaats van <code>create_blog()</code> omdat ik van mijn hoofdpagina een <em>About</em> pagina wilde maken in plaats van een blog. Ik zal het blog gedeelte later toevoegen. Lees de {<code>distill</code>} <a href="https://rstudio.github.io/distill/website.html#getting-started">documentatie</a> om je te helpen bij het beslissingsproces. Omdat ik eerst mijn GitHub repo heb gemaakt, moest ik wat rare dingen doen om de mappenstructuur te fixen. Het werkt, maar het is een beetje lelijk.</p>
+<ul>
+<li>Verplaats alle bestanden behalve het .Rproj bestand van de zojuist gemaakte map naar de hoofdmap van het archief.<br>
+</li>
+<li>Verwijder de website map (zou leeg moeten zijn, behalve het .Rproj bestand).<br>
+</li>
+<li>Verwijder het README.md bestand in de hoofdmap van het archief (als ik dat niet deed, bouwde de site later niet).</li>
+</ul></li>
+</ul>
+<p>Of kijk naar dit deel van de video (tot minuut 8:04):</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Fm3bsYCilEU?start=186" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="">
+</iframe>
+</section>
+</section>
+<section id="de-site-voor-de-eerste-keer-bouwen" class="level2">
+<h2 class="anchored" data-anchor-id="de-site-voor-de-eerste-keer-bouwen">De site voor de eerste keer bouwen</h2>
+<p>Vervolgens willen we de site bouwen. Om dit op een eenvoudige manier te doen, sla je jouw bestanden op, sluit je RStudio en open je het opnieuw, waarbij jij ervoor zorgt dat je je in het project van jouw distill-site bevindt. Wanneer je dit doet, zou er een Build tab moeten verschijnen in jouw paneel aan de rechterbovenhoek (of waar u gewoonlijk jouw Environment, History, enz. hebt). Klik op het Build Website-icoon en je zou je site moeten zien! (8:25 in de video, als je het mij wilt zien doen).</p>
+<p>Op dit punt zijn er veel verschillende richtingen die je op kunt gaan. Ik zal je vertellen wat ik gedaan heb. Als je niet veel meer wilt aanpassen, kun je naar @ref(netlify) gaan om een eenvoudige manier te vinden om je website te publiceren.</p>
+</section>
+<section id="aanpassen-van-de-home-page" class="level2">
+<h2 class="anchored" data-anchor-id="aanpassen-van-de-home-page">Aanpassen van de home page</h2>
+<p>Ik wilde dat mijn “Home” pagina mijn “About” pagina zou worden. Om dit te doen, heb ik eerst wat veranderingen aangebracht in het <code>_site.yml</code> bestand, het “About” gedeelte van de navigatiebalk verwijderd en de tekst voor de homepage hernoemd naar “About”.</p>
+<p>Dan, om te beginnen met het aanpassen van mijn “About” pagina, voeg ik een foto van mezelf toe aan het <code>index.Rmd</code> bestand en plaats ik wat plaatshouders voor plaatsen waar ik wat informatie zal schrijven.</p>
+<p>Bekijk dit in de video (tot minuut 17:35):</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Fm3bsYCilEU?start=556" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="">
+</iframe>
+</section>
+<section id="voeg-het-blog-toe-en-maak-jouw-eerste-post" class="level2">
+<h2 class="anchored" data-anchor-id="voeg-het-blog-toe-en-maak-jouw-eerste-post">Voeg het blog toe en maak jouw eerste post</h2>
+<p>Als je de blog route vanaf het begin hebt gevolgd, hoef je dit deel niet te doen. Merk op dat ik in de video de dingen in de verkeerde volgorde deed</p>
+<ul>
+<li>Voeg een post toe met <code>create_post("mijnpost")</code>. Dit genereert een R Markdown bestand met de naam <code>mypost.Rmd</code> (tenzij je de slug verandert), een <code>_posts</code> map, en een map die de datum en de naam van het bericht heeft. Door te beginnen met de datum, houdt het je berichten in een mooie volgorde :)<br>
+</li>
+<li>Bewerk jouuw blog post-Rmarkdownbestand naar believen. Zorg ervoor dat je dit bestand <strong>knit</strong> zodat het op de blog verschijnt. Deze bestanden worden niet automatisch gebreid. Dat is met opzet.<br>
+</li>
+<li>Maak een nieuw R Markdown bestand met ALLEEN een yaml kop met een titel en listing. Sla het op in de hoofd repository.</li>
+<li>Wijzig het <code>_site.yml</code> bestand om de listing pagina te linken. De tekst kan zijn wat je maar wilt - dit is wat er op de navigatiebalk komt te staan. De href waarde is de .html van het listing .Rmd bestand.<br>
+</li>
+<li>Voeg een aangepaste blog preview afbeelding toe. Zet de afbeelding die je hiervoor wilt gebruiken in de map voor de blog post. In de yaml kop van het R Markdown bestand van uw blog, voeg je <code>preview: image.png</code> toe, waar <code>image.png</code> de naam van jouw afbeelding is. Standaard zal de preview de eerste plot zijn die gegenereerd wordt in uw R code.</li>
+</ul>
+<p>Bekijk dit in de video (tot minuut 33:27):</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Fm3bsYCilEU?start=1054" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="">
+</iframe>
+</section>
+<section id="pas_site.yml-aan" class="level2">
+<h2 class="anchored" data-anchor-id="pas_site.yml-aan">Pas<code>_site.yml</code> aan</h2>
+<p>In dit deel voeg ik enkele aangepaste iconen toe aan de bovenste navigatiebalk van de site. Deze bevatten een persoonlijke favicon aan de linkerkant (die ik uiteindelijk toch weer weghaal) en links naar mijn GitHub, LinkedIn en Twitter pagina’s (en later voeg ik er een toe aan mijn YouTube kanaal).</p>
+<p>Voeg het volgende toe aan het <code>_site.yml</code> bestand na de <code>navbar</code> koptekst. Wees voorzichtig met inspringen. Je kunt mijn bestand <a href="https://github.com/llendway/lisalendway_distill/blob/main/_site.yml">hier</a> bekijken (ik heb meer bewerkt sinds het maken van de video, dat wel).</p>
+<pre><code>- icon: fa fa-github
+  href: https://github.com/YOUR_USERNAME
+- icon: fa fa-linkedin
+  href: https://www.linkedin.com/in/YOUR_LINKEDIN/
+- icon: fa fa-twitter
+  href: https://twitter.com/YOUR_TWITTER</code></pre>
+<p>Om een gepersonaliseerde favicon toe te voegen, voeg het volgende toe na <code>navbar:</code>, waar <code>ll.png</code> de persoonlijke favicon is. Je kunt ook een link naar een website toevoegen waar hij naartoe gaat als je er op klikt. Nogmaals, wees voorzichtig met inspringen.</p>
+<pre><code>  logo:
+    image: ll.png</code></pre>
+<p>Volg de video hieronder (tot minuut 44:22). Toen ik dit de eerste keer deed, maakte ik wat fouten, dus ik laat je dat deel van de video overslaan.</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Fm3bsYCilEU?start=2443" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="">
+</iframe>
+</section>
+<section id="netlify" class="level2">
+<h2 class="anchored" data-anchor-id="netlify">Publiseer de site via netlify</h2>
+<p>Nu je een website hebt, kun je die gemakkelijk publiceren via <a href="https://www.netlify.com/">netlify</a>. Ik zal je laten zien hoe je deze aan je GitHub repo kunt koppelen, zodat iedere keer dat je wijzigingen naar GitHub stuurt, je website die wijzigingen zal weergeven. Ik raad aan om eerst een account op netlify aan te maken.</p>
+<p>Bekijk de video om te zien hoe ik het doe (tot minuut 48:22):</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Fm3bsYCilEU?start=2740" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="">
+</iframe>
+</section>
+<section id="maak-het-je-eigen" class="level2">
+<h2 class="anchored" data-anchor-id="maak-het-je-eigen">Maak het je eigen!</h2>
+<p>Het laatste stuk is om wat aanpassingen te doen. Dankzij de geweldige {<code>distill</code>} auteurs, kunnen we de <code>create_theme()</code> functie gebruiken om ons door het aanpassen van wat css te leiden. Ik ben een echte beginner als het op css aankomt, dus er is van een makkelijkere manier. Ik raad ten zeerste aan om de documentatie over <a href="https://rstudio.github.io/distill/website.html#theming">theming</a> en de <a href="https://blog.rstudio.com/2020/12/07/distill/#theming">recente updates</a> door te lezen. En lees grondig de tekst van de website (misschien heb ik dat de eerste keer niet gedaan)!</p>
+<ul>
+<li>Voeg<code>theme: "my_theme.css"</code> aan de bodem van de <code>_site.yml</code> file toe.</li>
+</ul>
+<p>Je kunt de video tot het einde bekijken:</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Fm3bsYCilEU?start=2964" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="">
+</iframe>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

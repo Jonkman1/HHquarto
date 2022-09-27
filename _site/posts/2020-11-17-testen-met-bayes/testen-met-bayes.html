@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.345">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Makowski en anderen, vertaling Harrie Jonkman">
+<meta name="dcterms.date" content="2020-11-17">
+<meta name="description" content="Resultaten testen met Bayesiaanse onderzoekstechnieken.">
+
+<title>- Testen met Bayes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">Harrie’s Hoekje</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Jonkman1"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Testen met Bayes</h1>
+                </div>
+  </div>
+    
+  <div>
+    <div class="description">
+      <p>Resultaten testen met Bayesiaanse onderzoekstechnieken.</p>
+    </div>
+  </div>
+
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Makowski en anderen, vertaling Harrie Jonkman </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">November 17, 2020</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#korte-inleiding" id="toc-korte-inleiding" class="nav-link active" data-scroll-target="#korte-inleiding">Korte inleiding</a>
+  <ul class="collapse">
+  <li><a href="#waarom-zou-je-het-bayesiaanse-kader-gebruiken" id="toc-waarom-zou-je-het-bayesiaanse-kader-gebruiken" class="nav-link" data-scroll-target="#waarom-zou-je-het-bayesiaanse-kader-gebruiken">Waarom zou je het Bayesiaanse kader gebruiken?</a></li>
+  <li><a href="#wat-is-het-bayesiaanse-kader" id="toc-wat-is-het-bayesiaanse-kader" class="nav-link" data-scroll-target="#wat-is-het-bayesiaanse-kader">Wat is het Bayesiaanse kader?</a></li>
+  <li><a href="#een-eenvoudig-voorbeeld" id="toc-een-eenvoudig-voorbeeld" class="nav-link" data-scroll-target="#een-eenvoudig-voorbeeld">Een eenvoudig voorbeeld</a></li>
+  <li><a href="#initiatie-tot-bayesiaanse-modellen" id="toc-initiatie-tot-bayesiaanse-modellen" class="nav-link" data-scroll-target="#initiatie-tot-bayesiaanse-modellen">1. Initiatie tot Bayesiaanse modellen</a></li>
+  <li><a href="#bevestiging-van-bayesiaanse-vaardigheden" id="toc-bevestiging-van-bayesiaanse-vaardigheden" class="nav-link" data-scroll-target="#bevestiging-van-bayesiaanse-vaardigheden">Bevestiging van Bayesiaanse vaardigheden</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="korte-inleiding" class="level1">
+<h1>Korte inleiding</h1>
+<p>De laatste weken lees ik weer regelmatig over de achtergronden, de principes en de voordelen van bayesiaanse onderzoekstechnieken. De update van <em>Statistical Rethinking. A Bayesian Course with Examples in R and Stan</em> (McElreath, 2020) en het nieuwe boek <em>Regression and other stories</em> (Gelman, Hill &amp; Vehtari, 2020) geven veel inspiratie. Daarover later meer. Ondertussen verscheen vorig jaar het R-pakket <code>bayestestR</code> met een hele duidelijke bijbehorende <a href="https://easystats.github.io/bayestestR/">website</a> waarin een aantal uitgangspunten heel duidelijk worden uitgelegd en de voordelen van deze manier van onderzoek doen worden vergeleken met de klassieke onderzoekstechniek. Ik kon het niet laten om een aantal lessen te vertalen. Mogelijk dat ik hier later nog een keer aandacht aan besteed. De website is gebaseerd op twee artikelen waar de wetenschappers naar refereren. Natuurlijk moet ik deze artikelen hier aan het begin noemen.</p>
+<p>Makowski, D., Ben-Shachar, M. S., &amp; Lüdecke, D. (2019). bayestestR: Describing Effects and their Uncertainty, Existence and Significance within the Bayesian Framework. <em>Journal of Open Source Software, 4(40), 1541.</em> <a href="https://joss.theoj.org/papers/10.21105/joss.01541">10.21105/joss.01541</a></p>
+<p>Makowski, D., Ben-Shachar, M. S., Chen, S. H. A., &amp; Lüdecke, D. (2019). Indices of Effect Existence and Significance in the Bayesian Framework. <em>Frontiers in Psychology 2019;10:2767</em>. <a href="https://www.frontiersin.org/articles/10.3389/fpsyg.2019.02767/full">10.3389/fpsyg.2019.02767</a></p>
+<section id="waarom-zou-je-het-bayesiaanse-kader-gebruiken" class="level2">
+<h2 class="anchored" data-anchor-id="waarom-zou-je-het-bayesiaanse-kader-gebruiken">Waarom zou je het Bayesiaanse kader gebruiken?</h2>
+<p>Het Bayesiaanse statistische raamwerk wint snel aan populariteit onder wetenschappers, wat samenhangt met de algemene verschuiving naar <strong>open en eerlijke wetenschap</strong>. Redenen om de voorkeur te geven aan deze aanpak zijn <strong>betrouwbaarheid, nauwkeurigheid</strong> (in rommelige data en kleine steekproeven), de mogelijkheid om <strong>prior kennis</strong> in de analyse te introduceren en, kritisch gezien, de intuïtiviteit van de resultaten en hun <strong>rechtstreekse interpretatie</strong> (Andrews &amp; Baguley, 2013; Etz &amp; Vandekerckhove, 2016; Kruschke, 2010; Kruschke, Aguinis, &amp; Joo, 2012; Wagenmakers et al., 2018).</p>
+<p>In het algemeen wordt de frequentistische aanpak geassocieerd met de focus op null hypothesetests en het misbruik van p-waarden blijkt kritisch bij te dragen aan de reproduceerbaarheidscrisis van psychologische wetenschap (Chambers, Feredoes, Muthukumaraswamy, &amp; Etchells, 2014; Szucs &amp; Ioannidis, 2016). Men is het er algemeen over eens dat de veralgemening van de Bayesiaanse aanpak een manier is om deze problemen te overwinnen (Benjamin et al., 2018; Etz &amp; Vandekerckhove, 2016).</p>
+<p>Als we het er eenmaal over eens zijn dat het Bayesiaanse raamwerk de juiste weg is, kun je je vervolgens afvragen wat het Bayesiaanse raamwerk is.</p>
+<p><strong>Waar gaat al dat gedoe over?</strong></p>
+</section>
+<section id="wat-is-het-bayesiaanse-kader" class="level2">
+<h2 class="anchored" data-anchor-id="wat-is-het-bayesiaanse-kader">Wat is het Bayesiaanse kader?</h2>
+<p>Het aannemen van het Bayesiaanse raamwerk is meer een verschuiving in paradigma dan een verandering in methodologie. Inderdaad, alle gemeenschappelijke statistische procedures (t-tests, correlaties, ANOVA’s, regressies, …) kunnen nog steeds worden uitgevoerd met behulp van het Bayesiaanse raamwerk. Een van de kernverschillen is dat in het <strong>frequentische perspectief</strong> (de “klassieke” statistiek, met p- en t-waarden, evenals met die rare vrijheidsgraden), <strong>de effecten vastliggen</strong> (maar onbekend zijn) en <strong>data random zijn</strong>. Aan de andere kant wordt in het Bayesiaanse inferentieproces, in plaats van schattingen van het “ware effect”, de waarschijnlijkheid van verschillende effecten berekend gegeven de waargenomen gegevens. Dat resulteert in een verdeling van mogelijke waarden voor de parameters, de zogenaamde <strong>posterior-distributie</strong>.</p>
+<p>De onzekerheid in de Bayesiaanse inferentie kan bijvoorbeeld worden samengevat door de <strong>mediaan</strong> van de verdeling, evenals een reeks waarden van de posterior distributie die de 95% meest waarschijnlijke waarden omvat (het 95% <strong>waarschijnlijke interval</strong>). Deze kunnen worden beschouwd als de tegenhangers van de punt-schatting en het betrouwbaarheidsinterval in een frequentistisch kader. Om het verschil in interpretatie te illustreren, laat het Bayesiaanse raamwerk toe om te zeggen <em>“gezien de geobserveerde gegevens, heeft het effect een 95% kans om binnen dit bereik te vallen”</em>. Het minder eenvoudige alternatief voor de frequentist zou zijn <em>“wanneer herhaaldelijk betrouwbaarheidsintervallen uit deze reeks gegevens worden berekend, is er een 95% kans dat het effect binnen een bepaald bereik valt”</em>. In wezen geven de Bayesiaanse samplingsalgoritmen (met MCMC-technieken) een waarschijnlijkheidsverdeling (<em>de posterior</em>) van een effect dat compatibel is met de waargenomen gegevens. Zo kan een effect worden beschreven door de posterior verdeling te karakteriseren in relatie tot de centraliteit (punt-schattingen), en gaat het over onzekerheid en het bestaan en de betekenis ervan.</p>
+<p>Met andere woorden, als we de ingewikkelde wiskunde achterwege laten, kunnen we zeggen dat:</p>
+<ul>
+<li>De frequentist probeert “het <strong>reële effect</strong>” in te schatten, bijvoorbeeld, de “echte” waarde van de correlatie tussen x en y. Vandaar dat de modellen van frequentisten een “<strong>punt-schatting</strong>” opleveren. (d.w.z. één enkele waarde) van de “echte” correlatie (bv. r = 0,42) die wordt geschat op basis van een aantal onduidelijke veronderstellingen (minimaal, aangezien de gegevens willekeurig worden onttrokken van een “ouder”, meestal een normale verdeling).<br>
+</li>
+<li><strong>De Bayesiaan gaat niet van zoiets uit</strong>. De gegevens zijn wat ze zijn. Op basis van deze geobserveerde gegevens (en een eerdere overtuiging over het resultaat) geeft het Bayesiaanse samplingsalgoritme (soms ook wel <strong>MCMC</strong> sampling genoemd) een waarschijnlijkheidsverdeling (de zogenaamde <strong>posterior</strong>) van het effect dat compatibel is met de geobserveerde gegevens. Voor de correlatie tussen x en y geeft het een verdeling, die bijvoorbeeld zegt: “het meest waarschijnlijke effect is 0,42, maar deze gegevens zijn ook compatibel met correlaties tussen 0,12 en 0,74”.<br>
+</li>
+<li>Om onze effecten te karakteriseren is <strong>geen behoefte aan p-waarden</strong> of andere cryptische indices. We beschrijven gewoon de posterior verdeling van het effect. We kunnen bijvoorbeeld de mediaan, de 89% Credible Interval of andere indices rapporteren.</li>
+</ul>
+<p>Met andere woorden, als we de wiskunde even achterwege laten, kunnen we zeggen dat:</p>
+<blockquote class="blockquote">
+<p>Hoewel het doel van dit pakket is het gebruik van Bayesiaanse statistieken te verdedigen, zijn er serieuze argumenten die de frequentie-indexen ondersteunen (zie bijvoorbeeld <a href="https://discourse.datamethods.org/t/language-for-communicating-frequentist-results-about-treatment-effects/934/15">hier</a>). Zoals altijd is de wereld niet zwart-wit (p &lt; .001).</p>
+</blockquote>
+<p><strong>Nou… hoe werkt het?</strong></p>
+</section>
+<section id="een-eenvoudig-voorbeeld" class="level2">
+<h2 class="anchored" data-anchor-id="een-eenvoudig-voorbeeld">Een eenvoudig voorbeeld</h2>
+<section id="installatie-van-bayestestr" class="level3">
+<h3 class="anchored" data-anchor-id="installatie-van-bayestestr">Installatie van BayestestR</h3>
+<p>U kunt bayestestR samen met de hele <a href="https://github.com/easystats/easystats">easystats</a> suite installeren (of alleen <code>bayestestR</code>, omdat de suite installeren bij mij niet werkte) door het volgende uit te voeren: ## A simple example</p>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'bayestestR' was built under R version 4.1.3</code></pre>
+</div>
+</div>
+<p>Laten we ook het pakket <code>rstanarm</code> installeren en laden, die het mogelijk maakt om de Bayesiaanse modellen, evenals de bayestestR, te werken.</p>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'rstanarm' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: Rcpp</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'Rcpp' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>This is rstanarm version 2.21.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>- See https://mc-stan.org/rstanarm/articles/priors for changes to default priors!</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>- Default priors may change, so it's safest to specify priors, even if equivalent to the defaults.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>- For execution on a local, multicore CPU with excess RAM we recommend calling</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>  options(mc.cores = parallel::detectCores())</code></pre>
+</div>
+</div>
+</section>
+<section id="traditionele-lineaire-regressie" class="level3">
+<h3 class="anchored" data-anchor-id="traditionele-lineaire-regressie">Traditionele lineaire regressie</h3>
+<p>Laten we beginnen met een eenvoudige frequentistische lineaire regressie (de <code>lm()</code> functie staat voor lineair model) tussen twee numerieke variabelen, Sepal.Length en Petal.Length uit de beroemde <code>iris</code>-dataset, standaard opgenomen in R.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Sepal.Length ~ Petal.Length, data = iris)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.24675 -0.29657 -0.01515  0.27676  1.00269 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   4.30660    0.07839   54.94   &lt;2e-16 ***
+Petal.Length  0.40892    0.01889   21.65   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.4071 on 148 degrees of freedom
+Multiple R-squared:   0.76, Adjusted R-squared:  0.7583 
+F-statistic: 468.6 on 1 and 148 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>Deze analyse laat een <strong>significante</strong> (wat dat ook moge betekenen) en een <strong>positieve</strong> (met een coëfficiënt van 0,41) lineaire relatie zien tussen de twee variabelen.</p>
+<p>Het aanpassen en interpreteren van <strong>frequentiemodellen is zo eenvoudig</strong> dat het duidelijk is dat mensen het gebruiken in plaats van het Bayesiaanse kader… toch?</p>
+<p><strong>Niet meer</strong>.</p>
+</section>
+<section id="bayesiaanse-lineaire-regressie" class="level3">
+<h3 class="anchored" data-anchor-id="bayesiaanse-lineaire-regressie">Bayesiaanse lineaire regressie</h3>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
+Chain 1: 
+Chain 1: Gradient evaluation took 0 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
+Chain 1: Adjust your expectations accordingly!
+Chain 1: 
+Chain 1: 
+Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 1: 
+Chain 1:  Elapsed Time: 0.03 seconds (Warm-up)
+Chain 1:                0.044 seconds (Sampling)
+Chain 1:                0.074 seconds (Total)
+Chain 1: 
+
+SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
+Chain 2: 
+Chain 2: Gradient evaluation took 0 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
+Chain 2: Adjust your expectations accordingly!
+Chain 2: 
+Chain 2: 
+Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 2: 
+Chain 2:  Elapsed Time: 0.033 seconds (Warm-up)
+Chain 2:                0.039 seconds (Sampling)
+Chain 2:                0.072 seconds (Total)
+Chain 2: 
+
+SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
+Chain 3: 
+Chain 3: Gradient evaluation took 0 seconds
+Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
+Chain 3: Adjust your expectations accordingly!
+Chain 3: 
+Chain 3: 
+Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 3: 
+Chain 3:  Elapsed Time: 0.031 seconds (Warm-up)
+Chain 3:                0.038 seconds (Sampling)
+Chain 3:                0.069 seconds (Total)
+Chain 3: 
+
+SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
+Chain 4: 
+Chain 4: Gradient evaluation took 0 seconds
+Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
+Chain 4: Adjust your expectations accordingly!
+Chain 4: 
+Chain 4: 
+Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 4: 
+Chain 4:  Elapsed Time: 0.03 seconds (Warm-up)
+Chain 4:                0.04 seconds (Sampling)
+Chain 4:                0.07 seconds (Total)
+Chain 4: </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Summary of Posterior Distribution
+
+Parameter    | Median |       95% CI |   pd |          ROPE | % in ROPE |  Rhat |     ESS
+-----------------------------------------------------------------------------------------
+(Intercept)  |   4.31 | [4.15, 4.46] | 100% | [-0.08, 0.08] |        0% | 1.000 | 3898.00
+Petal.Length |   0.41 | [0.37, 0.45] | 100% | [-0.08, 0.08] |        0% | 1.000 | 3663.00</code></pre>
+</div>
+</div>
+<p><strong>Dat is het!</strong> Je hebt een Bayesiaanse versie van het model gedraaid door eenvoudigweg <code>stan_glm()</code> te gebruiken in plaats van <code>lm()</code> en hebt de posterior distributie van de parameters beschreven. De conclusie die we kunnen trekken, voor dit voorbeeld, zijn zeer vergelijkbaar. Het effect (de mediaan van de posterior verdeling van het effect) is ongeveer 0,41, en het kan ook als significant worden beschouwd in de Bayesiaanse zin (meer daarover later).</p>
+<p><strong>Dus, klaar om meer te leren?</strong></p>
+</section>
+</section>
+<section id="initiatie-tot-bayesiaanse-modellen" class="level2">
+<h2 class="anchored" data-anchor-id="initiatie-tot-bayesiaanse-modellen">1. Initiatie tot Bayesiaanse modellen</h2>
+<p>Nu je de beginsectie hebt gelezen, laten we een duik nemen in de <strong>subtiliteiten van Bayesiaanse modellering met behulp van R</strong>.</p>
+<section id="laden-van-pakketten" class="level3">
+<h3 class="anchored" data-anchor-id="laden-van-pakketten">Laden van pakketten</h3>
+<p>Als je de benodigde pakketten hebt geïnstalleerd, kun je <code>rstanarm</code> laden (om de modellen te draaien) en ook <code>bayestestR</code> (om bruikbare indices te berekenen) en <code>insight</code> (om toegang te krijgen tot de parameters).</p>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'insight' was built under R version 4.1.3</code></pre>
+</div>
+</div>
+</section>
+<section id="eenvoudig-lineair-model-ook-wel-regressie-genoemd" class="level3">
+<h3 class="anchored" data-anchor-id="eenvoudig-lineair-model-ook-wel-regressie-genoemd">Eenvoudig lineair model (ook wel regressie genoemd)</h3>
+<p>We beginnen met het uitvoeren van een eenvoudige lineaire regressie om het verband tussen <code>Petal.Length</code> (onze voorspeller, of <em>onafhankelijke</em>, variabele) en <code>Sepal.Length</code> (onze respons-, of <em>afhankelijke</em>-variabele) te testen vanuit de <code>iris</code>dataset die standaard is opgenomen in R.</p>
+</section>
+<section id="passend-bij-het-model" class="level3">
+<h3 class="anchored" data-anchor-id="passend-bij-het-model">Passend bij het model</h3>
+<p>Laten we beginnen met het draaien van de <strong>frequentistische</strong> versie van het model, gewoon om een referentiepunt te hebben:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Sepal.Length ~ Petal.Length, data = iris)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.24675 -0.29657 -0.01515  0.27676  1.00269 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   4.30660    0.07839   54.94   &lt;2e-16 ***
+Petal.Length  0.40892    0.01889   21.65   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.4071 on 148 degrees of freedom
+Multiple R-squared:   0.76, Adjusted R-squared:  0.7583 
+F-statistic: 468.6 on 1 and 148 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>In dit model is de lineaire relatie tussen Petal.Length en Sepal.Length <strong>positief en significant</strong> (beta = 0,41, t(148) = 21,6, p &lt; .001). Dit betekent dat je voor elke toename van Petal.Length (de voorspeller) met één eenheid kunt verwachten dat de Sepal.Length (het antwoord) met <strong>0,41</strong> zal toenemen. Dit effect kan worden gevisualiseerd door de voorspellingswaarden op de x-as en de responswaarden als y te plotten met behulp van het <code>ggplot2</code> pakket:</p>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'ggplot2' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="testen-met-bayes_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Laten we nu een Bayesiaanse versie van het model draaien door gebruik te maken van de <code>stan_glm</code>-functie dat in het <code>rstanarm</code>pakket zit:</p>
+<div class="cell">
+
+</div>
+<p>Je ziet dat het samplingsalgoritme draait.</p>
+</section>
+<section id="de-posterior-eruit-halen" class="level3">
+<h3 class="anchored" data-anchor-id="de-posterior-eruit-halen">De posterior eruit halen</h3>
+<p>Laten we, als het bovenstaande eenmaal gedaan is, de parameters (d.w.z. de coëfficiënten) van het model extraheren.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>  (Intercept) Petal.Length
+1    4.359494    0.3961450
+2    4.273491    0.4224131
+3    4.226132    0.4292590
+4    4.314438    0.4130788
+5    4.240116    0.4387224
+6    4.252441    0.4297079</code></pre>
+</div>
+</div>
+<p>Zoals we kunnen zien, hebben de parameters de vorm van een lange dataframe met twee kolommen, die overeenkomen met de intercept en het effect van Petal.Length. Deze kolommen bevatten de <strong>posterior distributies</strong> van deze twee parameters. Eenvoudig gezegd is de posterior distributie een set van verschillende plausibele waarden voor elke parameter.</p>
+<section id="over-de-posterior-trekkingen" class="level4">
+<h4 class="anchored" data-anchor-id="over-de-posterior-trekkingen">Over de posterior trekkingen</h4>
+<p>Laten we eerst eens kijken naar de lengtes van de posteriors.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4000</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>Waarom zijn dit er 4000, en niet meer of minder?</p>
+</blockquote>
+<p>In de eerste plaats worden deze waarnemingen (de rijen) meestal aangeduid als <strong>posterior ‘draws’ (trekkingen)</strong>. De achterliggende gedachte is dat het Bayesiaanse samplingsalgoritme (b.v. <strong>Monte Carlo Markov Chains - MCMC</strong>) zal putten uit de verborgen ware posterior distributie Het is dus door middel van deze ‘posterior draws’ dat we de onderliggende ware posterior distribution kunnen inschatten. <strong>Hoe meer trekkingen je hebt, hoe beter je de posterior distriubtion kunt inschatten.</strong> Meer trekkingen betekent echter ook een langere rekentijd.</p>
+<p>Als we kijken naar de documentatie (?sampling) voor het <code>rstanarm</code>“sampling”-algoritme dat standaard in het bovenstaande model wordt gebruikt, kunnen we verschillende parameters zien die het aantal posterior draws beïnvloeden. Standaard zijn er 4 ketens (je kunt het zien als aparte sampling runs), die elk <strong>2000</strong> iter (trekkingen, iteraties) aanmaken. Echter, slechts de helft van deze iteraties wordt behouden, aangezien de helft wordt gebruikt voor de opwarming (het convergeren van het algoritme). Het totaal is dus <strong>4 ketens * (2000 iteraties - 1000 warming-up) = 4000</strong> posterior trekkingen. Dat kunnen we aanpassen naar 2 ketens, bijvoorbeeld:</p>
+<div class="cell">
+
+</div>
+<p>In dit geval hebben we, zoals verwacht, <strong>2 ketens * (1000 iteraties - 250 warming-up) = 1500</strong> posterior trekkingen. Maar laten we ons eerste model de standaard instelling aanhouden (omdat het meer trekkingen heeft).</p>
+</section>
+<section id="het-visualiseren-van-de-posterieure-verdeling" class="level4">
+<h4 class="anchored" data-anchor-id="het-visualiseren-van-de-posterieure-verdeling">Het visualiseren van de posterieure verdeling</h4>
+<p>Nu we hebben begrepen waar deze waarden vandaan komen, laten we er eens naar kijken. We zullen beginnen met het visualiseren van de posterieure distributie van de parameter waarin we geïnteresseerd zijn, het effect van <code>Petal.Length</code>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="testen-met-bayes_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Deze verdeling vertegenwoordigt de <strong>waarschijnlijkheid</strong> (de y-as) van verschillende effecten (de x-as). De centrale waarden zijn waarschijnlijker dan de extreme waarden. Zoals u ziet varieert deze verdeling van ongeveer <strong>0,35 tot 0,50</strong>, waarbij het grootste deel rond <strong>0,41</strong> ligt.</p>
+<blockquote class="blockquote">
+<p>Gefeliciteerd! Je hebt zojuist je posterior distribution beschreven.</p>
+</blockquote>
+<p>En dit is het hart van de Bayesiaanse analyse. We hebben geen p-waarden, t-waarden of vrijheidsgraden nodig: <strong>Alles is aanwezig</strong>, binnen deze posterior verdeling.</p>
+<p>Onze beschrijving hierboven is consistent met de waarden verkregen uit de frequentistische regressie (die resulteerde in een bèta van <strong>0,41</strong>). Dit is geruststellend! Inderdaad, <strong>in de meeste gevallen verandert een Bayesiaanse analyse de resultaten niet drastisch</strong> of hun interpretatie. Het maakt de resultaten wel beter interpreteerbaar en intuïtief en uiteindelijk gemakkelijker te begrijpen en te beschrijven.</p>
+<p>We kunnen nu doorgaan en <strong>deze posterior verdeling</strong> nauwkeurig karakteriseren.</p>
+</section>
+</section>
+<section id="de-posterior-beschrijven" class="level3">
+<h3 class="anchored" data-anchor-id="de-posterior-beschrijven">De Posterior beschrijven</h3>
+<p>Helaas, het is vaak niet praktisch om de hele posterior verdelingen als grafiek te rapporteren. We moeten een <strong>beknopte manier vinden om het samen te vatten</strong>. We raden aan om de posterior verdeling te beschrijven op basis van <strong>3 elementen</strong>:</p>
+<ol type="1">
+<li>Een <strong>puntschatting</strong> die een samenvatting is van één waarde (vergelijkbaar met de bèta in frequente regressies).<br>
+</li>
+<li>Een <strong>credible interval</strong> die de bijbehorende onzekerheid weergeeft.<br>
+</li>
+<li>Sommige <strong>indices van betekenis</strong>, die informatie geven over het relatieve belang van dit effect.</li>
+</ol>
+<section id="puntschatting" class="level4">
+<h4 class="anchored" data-anchor-id="puntschatting">Puntschatting</h4>
+<p><strong>Welke ene waarde kan het beste mijn posterior distributie representeren?</strong></p>
+<p>Centrale indices, zoals het gemiddelde, de mediaan of de modus worden meestal gebruikt als puntschatting - maar wat is het verschil tussen het frequentische en Bayesiaanse raamwerk? Laten we dit beantwoorden door eerst het <strong>gemiddelde</strong> te inspecteren:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.4089547</code></pre>
+</div>
+</div>
+<p>Dit ligt dicht bij de frequentistische beta. Maar zoals we weten, is het gemiddelde vrij gevoelig voor uitschieters of extremen. Misschien is de <strong>mediaan</strong> robuuster?</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.4086475</code></pre>
+</div>
+</div>
+<p>Nou, dit ligt <strong>zeer dicht bij het gemiddelde</strong> (en identiek als de waarden worden afgerond). Misschien kunnen we de modus nemen, dat wil zeggen, de piek van de posterior verdeling? In het Bayesiaanse kader wordt deze waarde de <strong>Maximum A Posteriori (MAP)</strong> genoemd. Laten we daar eens kijken:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>MAP Estimate: 0.41</code></pre>
+</div>
+</div>
+<p>Ze zitten allemaal heel dichtbij elkaar! Laten we deze drie waarden visualiseren op de posterior distributie:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="testen-met-bayes_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Nou, al deze waarden geven zeer gelijkaardige resultaten. We zullen <strong>de mediaan</strong> kiezen, omdat deze waarde een directe betekenis heeft vanuit een probabilistisch perspectief: <strong>er is 50% kans dat het werkelijke effect hoger is en 50% kans dat het effect lager is</strong> (omdat het de verdeling in twee gelijke delen verdeelt).</p>
+</section>
+<section id="onzekerheid" class="level4">
+<h4 class="anchored" data-anchor-id="onzekerheid">Onzekerheid</h4>
+<p>Nu we een puntschatting hebben, moeten we de onzekerheid beschrijven. We zouden het bereik kunnen berekenen:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.3326759 0.4725683</code></pre>
+</div>
+</div>
+<p>Maar heeft het zin om al deze extreme waarden op te nemen? Waarschijnlijk niet. Dus, we zullen een <strong>credible interval</strong> berekenen. Lang verhaal kort, het lijkt een beetje op een frequentistische <strong>confidence interval</strong>, maar is makkelijker te interpreteren en gemakkelijker te berekenen - <em>en het is logischer</em>.</p>
+<p>We zullen dit <strong>credible interval</strong> berekenen op basis van het <strong>Highest Density Interval (HDI)</strong>. Het geeft ons het bereik dat de 89% meest waarschijnlijke effectwaarden bevat. <strong>We zullen 89% CIs gebruiken in plaats van 95% CIs</strong> (zoals in het frequentistische kader), omdat het 89%-niveau stabielere resultaten geeft (Kruschke, 2014) en ons herinnert aan de willekeur van dergelijke conventies (McElreath, 2020).</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>89% HDI: [0.38, 0.44]</code></pre>
+</div>
+</div>
+<p>Mooi, dus we kunnen concluderen dat <strong>het effect 89% kans heeft om binnen het [0,38, 0,44] bereik te vallen</strong>. We hebben zojuist de twee belangrijkste stukken informatie berekend om onze effecten te beschrijven.</p>
+</section>
+</section>
+<section id="effect-significantie" class="level3">
+<h3 class="anchored" data-anchor-id="effect-significantie">Effect significantie</h3>
+<p>Op veel wetenschappelijke gebieden is het echter niet voldoende om alleen de effecten te beschrijven. Wetenschappers willen ook weten of dit effect betekenis heeft in praktische of statistische termen. Of, om het met andere woorden te zeggen, of het effect belangrijk is. Wijkt het effect af van 0? Dus hoe berekenen we <strong>de significantie van een effect</strong>. Hoe kunnen we dit doen?</p>
+<p>Wel, in dit specifieke geval is het zeer welsprekend: <strong>Alle mogelijke effectwaarden (d.w.z. de hele posterior distributie) zijn positief en meer dan 0,35, wat al een substantieel bewijs is dat het effect niet nul is</strong>.</p>
+<p>Maar toch willen we een objectief beslissingscriterium, om te zeggen of <strong>het effect ja of nee ‘significant’ is</strong>. Een benadering, vergelijkbaar met het frequentistisch kader, zou zijn om te kijken of het <strong>Credible Interval</strong> een 0 bevat. Als dat niet het geval is, zou dat betekenen dat ons <strong>effect ‘significant’</strong> is.</p>
+<p>Maar deze index is toch niet erg fijnmazig? <strong>Kunnen we het beter doen? Ja</strong>.</p>
+</section>
+<section id="een-lineair-model-met-een-categorische-voorspeller" class="level3">
+<h3 class="anchored" data-anchor-id="een-lineair-model-met-een-categorische-voorspeller">Een lineair model met een categorische voorspeller</h3>
+<p>Stel je voor dat je geïnteresseerd bent in hoe het gewicht van de kippen varieert, afhankelijk van twee verschillende <strong>voedersoorten</strong>. Voor dit examen zullen we beginnen met het selecteren van twee voor ons interessante voersoorten uit de <code>chickwts</code>-dataset (zit ook in basis R) (we hebben wel bijzondere interesses): <strong>vleesmaaltijden (‘meat meals’)</strong> en <strong>zonnebloemen (‘sunflowers’)</strong>.</p>
+<section id="data-voorbereiden-en-model-draaien" class="level4">
+<h4 class="anchored" data-anchor-id="data-voorbereiden-en-model-draaien">Data voorbereiden en model draaien</h4>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'dplyr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+</div>
+<p>Laten we nog een Bayesiaanse regressie uitvoeren om het <strong>gewicht</strong> te voorspellen met de <strong>twee voertypesoorten</strong>.</p>
+<div class="cell">
+
+</div>
+</section>
+<section id="posterior-beschrijving" class="level4">
+<h4 class="anchored" data-anchor-id="posterior-beschrijving">Posterior beschrijving</h4>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="testen-met-bayes_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Dit representeert de <strong>posterior distributie van het verschil tussen ‘meatmeal’ (‘0’) en ‘sunflowers’(‘1’)</strong>. Het lijkt erop dat het verschil eerder <strong>positief</strong> is (de waarden lijken geconcentreerd aan de rechterkant van 0). Het eten van zonnebloemen maakt je dikker (tenminste, als je een kip bent). Maar, <strong>door hoeveel? </strong> Laten we de <strong>mediaan</strong> en de <strong>CI</strong> berekenen:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 52.68758</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>95% HDI: [3.07, 99.60]</code></pre>
+</div>
+</div>
+<p>Het maakt je met ongeveer 51 gram (de mediaan) dikker. De onzekerheid is echter vrij groot: <strong>er is 89% kans dat het verschil tussen de twee voersoorten tussen 14 en 91</strong> ligt.</p>
+<blockquote class="blockquote">
+<p>Verschilt dit effect van 0?</p>
+</blockquote>
+</section>
+<section id="rope-percentage" class="level4">
+<h4 class="anchored" data-anchor-id="rope-percentage">ROPE Percentage</h4>
+<p>Testen of deze verdeling anders is dan 0 heeft geen zin, omdat 0 een enkele waarde is (en de kans dat een verdeling anders is dan een enkele waarde is oneindig).</p>
+<p>Een manier om <strong>significantie</strong> te beoordelen kan echter zijn om een gebied rond 0 te definiëren, wat als praktisch equivalent van nul zal worden beschouwd (d.w.z. afwezigheid van, of verwaarloosbaar, effect). Dit wordt de ‘Region of Practical Equivalence’ (ROPE) genoemd en is een manier om de betekenis van de parameters te testen.</p>
+<p><strong>Hoe definiëren we dit gebied?</strong></p>
+<blockquote class="blockquote">
+<p>Tringgg Tringgg</p>
+</blockquote>
+<p>– <strong>U spreekt met het easystatsteam. Hoe kunnen we u helpen?</strong></p>
+<p>– <strong>Ja met Prof.&nbsp;Sanders. Ik ben kippenexpert. Ik bel u vanwege mijn expertkennis. Een effect tussen -20 en 20 is verwaarloosbaar. Tot ziens.</strong></p>
+<p>Nou, dat komt goed uit. Nu weten we dat we de ROPE kunnen definiëren als het [-20, 20] bereik. Alle effecten binnen dit bereik worden als nihil (te verwaarlozen) beschouwd. We kunnen nu het <strong>aandeel van de 89% meest waarschijnlijke waarden (de 89% CI) berekenen die niet nul zijn,</strong> d.w.z., die buiten dit bereik liggen.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># Proportion of samples inside the ROPE [-20.00, 20.00]:
+
+inside ROPE
+-----------
+4.21 %     </code></pre>
+</div>
+</div>
+<p><strong>5% van de 89% CI kan als nihil worden beschouwd</strong>. Is dat veel? Gebaseerd op onze richtlijnen, ja, het is te veel. <strong>Op basis van deze specifieke definitie van ROPE</strong> concluderen we dat dit effect niet significant is (de kans dat het verwaarloosbaar is, is te groot).</p>
+<p>Hoewel, om eerlijk te zijn, heb ik <strong>een aantal twijfels over deze Prof.&nbsp;Sanders</strong>. Ik vertrouw zijn definitie van <strong>ROPE</strong> niet echt. Is er een meer <strong>objectieve</strong> manier om het te definiëren?</p>
+<p><strong>Ja</strong>. Een betrouwbare manier is bijvoorbeeld het gebruik van een <strong>tiende (1/10 = 0,1) van de standaardafwijking (SD)</strong> van de responsvariabele, die als een “verwaarloosbare” effectomvang kan worden beschouwd (Cohen, 1988).</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -6.17469  6.17469</code></pre>
+</div>
+</div>
+<p>Laten we onze ROPE opnieuw definiëren als de regio binnen het [-6.2, 6.2] bereik. <strong>Merk op dat dit direct kan worden verkregen met de <code>rope_range</code> functie :)</strong></p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -6.17469  6.17469</code></pre>
+</div>
+</div>
+<p>Laten we nu het <strong>percentage in ROPE</strong> opnieuw berekenen:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># Proportion of samples inside the ROPE [-6.17, 6.17]:
+
+inside ROPE
+-----------
+0.00 %     </code></pre>
+</div>
+</div>
+<p>Met deze redelijke definitie van ROPE stellen we vast dat de 89% van de posterior distributie van het effect niet overlapt met de ROPE. We kunnen dus concluderen dat <strong>het effect significant is</strong> (in de zin van belangrijk genoeg om op te merken).</p>
+</section>
+<section id="waarschijnlijkheid-van-richting-probability-of-direction-pd" class="level4">
+<h4 class="anchored" data-anchor-id="waarschijnlijkheid-van-richting-probability-of-direction-pd">Waarschijnlijkheid van Richting (Probability of Direction (pd))</h4>
+<p>Misschien zijn we niet geïnteresseerd in de vraag of het effect niet te verwaarlozen is. Misschien willen we <strong>alleen weten of dit effect positief of negatief is</strong>. In dit geval kunnen we eenvoudigweg berekenen welk deel van de posterior distributie positief is, ongeacht de “grootte” van het effect.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 98.15</code></pre>
+</div>
+</div>
+<p>We kunnen concluderen dat <strong>het effect positief is met een waarschijnlijkheid van 98%</strong>. We noemen deze index de Waarschijnlijkheid van Richting (pd). Het kan in feite gemakkelijker worden berekend met het volgende:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Probability of Direction: 0.98</code></pre>
+</div>
+</div>
+<p>Interessant is dat <strong>deze index meestal sterk gecorreleerd is met de meest frequente p-waarde.</strong> We kunnen de overeenkomstige p-waarde bijna ruwweg afleiden met een eenvoudige transformatie:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0436</code></pre>
+</div>
+</div>
+<p>Als we ons model in het frequentistisch kader hebben uitgevoerd, zouden we ongeveer een effect moeten waarnemen met een p-waarde van 0.04. <strong>Is dat waar?</strong></p>
+</section>
+<section id="vergelijking-met-frequentisten" class="level4">
+<h4 class="anchored" data-anchor-id="vergelijking-met-frequentisten">Vergelijking met frequentisten</h4>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = weight ~ feed, data = data)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-123.909  -25.913   -6.917   32.091  103.091 
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)     276.91      17.20  16.097 2.74e-13 ***
+feedsunflower    52.01      23.82   2.184   0.0405 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 57.05 on 21 degrees of freedom
+Multiple R-squared:  0.1851,    Adjusted R-squared:  0.1463 
+F-statistic: 4.769 on 1 and 21 DF,  p-value: 0.04047</code></pre>
+</div>
+</div>
+<p>Het frequentistische model vertelt ons dat het verschil <strong>positief en significant</strong> (beta = 52, p = 0.04) is.</p>
+<p><strong>Alhoewel we tot een gelijkaardige conclusie kwamen, liet het Bayesiaanse kader ons toe om een meer diepgaand en intuïtief begrip te ontwikkelen van ons effect en van de onzekerheid van de inschatting ervan.</strong></p>
+</section>
+</section>
+<section id="alles-met-één-functie" class="level3">
+<h3 class="anchored" data-anchor-id="alles-met-één-functie">Alles met één functie</h3>
+<p>En toch, ik ben het ermee eens, het was een beetje <strong>omslachtig</strong> om alle indices eruit te halen en te berekenen. <strong>Maar wat als ik je vertel dat we dit allemaal kunnen doen, en meer, met slechts één functie?</strong></p>
+<blockquote class="blockquote">
+<p>Zie, beschrijf_posterior!</p>
+</blockquote>
+<p>Deze functie berekent alle genoemde indexen, en kan direct op het model worden uitgevoerd:</p>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Sampling priors, please wait...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Bayes factors might not be precise.
+For precise Bayes factors, sampling at least 40,000 posterior samples is recommended.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Summary of Posterior Distribution
+
+Parameter     | Median |           95% CI |     pd |          ROPE | % in ROPE |  Rhat |     ESS |       BF
+-----------------------------------------------------------------------------------------------------------
+(Intercept)   | 276.27 | [240.98, 311.87] |   100% | [-6.17, 6.17] |        0% | 1.001 | 3274.00 | 1.01e+13
+feedsunflower |  52.69 | [  3.24,  99.93] | 98.15% | [-6.17, 6.17] |     0.66% | 1.000 | 3389.00 |    0.758</code></pre>
+</div>
+</div>
+<p><strong>Tada!</strong> Daar hebben we het! De <strong>mediaan</strong>, de <strong>CI</strong>, de <strong>pd</strong> en het <strong>ROPE percentage</strong>!</p>
+<p>Het begrijpen en beschrijven van posterior distributies is slechts één aspect van Bayesiaanse modellering… <strong>Ben je klaar voor meer? </strong></p>
+</section>
+</section>
+<section id="bevestiging-van-bayesiaanse-vaardigheden" class="level2">
+<h2 class="anchored" data-anchor-id="bevestiging-van-bayesiaanse-vaardigheden">Bevestiging van Bayesiaanse vaardigheden</h2>
+<p>Nu het beschrijven en begrijpen van posterior distributies van lineaire regressies voor jou geen geheimen meer heeft, zullen we een stap terug doen en wat eenvoudigere modellen bestuderen: <strong>correlaties</strong> en <strong>t-testen</strong>.</p>
+<p>Maar laten we eerst even stilstaan bij het feit dat <strong>alle statistische basisprocedures</strong> zoals correlaties, t-testen, ANOVA’s of Chisquare-testen ** lineaire regressies** zijn (we raden <a href="https://lindeloev.github.io/tests-as-linear/">deze</a> uitstekende demonstratie ten zeerste aan). Op basis van deze eenvoudige modellen introduceren we een complexere index, zoals de <strong>Bayes-factor</strong>.</p>
+<section id="correlaties" class="level3">
+<h3 class="anchored" data-anchor-id="correlaties">Correlaties</h3>
+<section id="frequentistische-versie" class="level4">
+<h4 class="anchored" data-anchor-id="frequentistische-versie">Frequentistische versie</h4>
+<p>Laten we opnieuw beginnen met een <strong>frequentistische correlatie</strong> tussen twee continue variabelen, de <strong>breedte</strong> en de <strong>lengte</strong> van de kelkbladen van sommige bloemen (‘sepals’). De gegevens zijn beschikbaar in R als de <code>iris</code> dataset (dezelfde die we hierboven hebben gebruikt).</p>
+<p>We zullen een Pearson’s correlatietest berekenen, de resultaten opslaan in een object met de naam resultaat en vervolgens deze resultaten weergeven:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's product-moment correlation
+
+data:  iris$Sepal.Width and iris$Sepal.Length
+t = -1.4403, df = 148, p-value = 0.1519
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ -0.27269325  0.04351158
+sample estimates:
+       cor 
+-0.1175698 </code></pre>
+</div>
+</div>
+<p>Zoals je in de output kunt zien, heeft de test die we hebben gedaan eigenlijk twee hypothesen vergeleken: de <strong>nul-hypothese</strong> (h0; geen correlatie) met de <strong>alternatieve hypothese</strong> (h1; een niet-nul-correlatie). Op basis van de p-waarde kan de nulhypothese niet worden verworpen: de correlatie tussen de twee variabelen is <strong>negatief maar niet significant</strong> (r = -.12, p &gt; .05).</p>
+</section>
+<section id="bayesiaanse-correlatie" class="level4">
+<h4 class="anchored" data-anchor-id="bayesiaanse-correlatie">Bayesiaanse correlatie</h4>
+<p>Om een Bayesiaanse correlatietest te berekenen, hebben we het BayesFactor-pakket nodig (u kunt het installeren door install.packages (“BayesFactor”) uit te voeren). We kunnen dan dit pakket laden, de correlatie berekenen met behulp van de correlatieBF() functie en de resultaten op een vergelijkbare manier opslaan.</p>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'BayesFactor' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: coda</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: Matrix</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in .recacheSubclasses(def@className, def, env): undefined subclass
+"packedMatrix" of class "replValueSp"; definition not updated</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in .recacheSubclasses(def@className, def, env): undefined subclass
+"packedMatrix" of class "mMatrix"; definition not updated</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>************
+Welcome to BayesFactor 0.9.12-4.3. If you have questions, please contact Richard Morey (richarddmorey@gmail.com).
+
+Type BFManual() to open the manual.
+************</code></pre>
+</div>
+</div>
+<p>Laten we nu eens onze <code>describe_posterior()</code>-functie hierop los:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Summary of Posterior Distribution
+
+Parameter | Median |        95% CI |     pd |          ROPE | % in ROPE |    BF |         Prior
+-----------------------------------------------------------------------------------------------
+rho       |  -0.11 | [-0.27, 0.04] | 92.05% | [-0.05, 0.05] |    20.13% | 0.509 | Beta (3 +- 3)</code></pre>
+</div>
+</div>
+<p>We zien hier weer veel dingen, maar de belangrijke indices voor nu zijn de <strong>mediaan</strong> van de posterior distributie, -.11. Dit komt (weer) dicht in de buurt van de frequentistische correlatie. We zouden, zoals eerder, het credible interval, de pd of het ROPE-percentage kunnen beschrijven, maar we zullen ons hier richten op een andere index die door het Bayesiaanse kader wordt geboden, de <strong>Bayes-factor (BF)</strong>.</p>
+</section>
+<section id="bayes-factor-bf" class="level4">
+<h4 class="anchored" data-anchor-id="bayes-factor-bf">Bayes-factor (BF)</h4>
+<p>We zeiden eerder dat een correlatietest eigenlijk twee hypothesen vergelijkt, een nul (afwezigheid van effect) met een alarmerende (aanwezigheid van een effect). De Bayes-factor (BF) laat dezelfde vergelijking toe en bepaalt <strong>onder welke van twee modellen de geobserveerde gegevens waarschijnlijker zijn</strong>: een model met het effect waarin we geinteresseerd zijn, en een nulmodel zonder het effect daarvan. We kunnen de <code>bayes-factor()</code> gebruiken om de Bayes-factor specifiek te berekenen bij het vergelijken van die modellen:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Bayes Factors for Model Comparison
+
+    Model         BF
+[2] (rho != 0) 0.509
+
+* Against Denominator: [1] (rho = 0)
+*   Bayes Factor Type: JZS (BayesFactor)</code></pre>
+</div>
+</div>
+<p>We hebben een <em>BF</em> van 0,51. Wat betekent dat?</p>
+<p>Bayes-factoren zijn <strong>continue metingen van het relatieve bewijs</strong>, waarbij een Bayes-factor groter dan 1 bewijs geeft ten gunste van één van de modellen (vaak de <em>teller</em> genoemd), en een Bayes-factor kleiner dan 1 die bewijs geeft ten gunste van het andere model (de <em>noemer</em>).</p>
+<blockquote class="blockquote">
+<p>Ja, je hebt het goed gehoord, bewijs ten gunste van de nul!</p>
+</blockquote>
+<p>Dat is een van de redenen waarom het Bayesiaanse kader soms als superieur wordt beschouwd aan het frequentistische kader. Onthoud uit je statistiekenlessen, dat de <strong>p waarde alleen gebruikt kan worden om h0</strong> af te wijzen, maar niet om het te accepteren. Met de Bayes-factor kunt je <strong>-evidentie meten tegen - en ook ten gunste van - de nul</strong>.</p>
+<p>BF’s die het bewijs voor het alternatief tegen de null vertegenwoordigen kunnen worden teruggedraaid met 𝐵𝐹01=1/𝐵𝐹10 (de 01 en 10 komen respectievelijk overeen met h0 tegen h1 en h1 tegen h0) om het bewijs voor de null weer te geven. Dit verbetert de leesbaarheid in gevallen waarin het BF van het alternatief tegen de nul kleiner is dan 1 (d.w.z. ter ondersteuning van de nul).</p>
+<p>In ons geval, BF = 1/0,51 = 2, geeft aan dat de gegevens <strong>2 keer meer waarschijnlijk zijn onder de null in vergelijking met de alternatieve hypothese</strong>. Die weliswaar de voorkeur geeft aan de nul-hypothese, maar slechts als anekdotisch bewijs moet wordt beschouwd.</p>
+<p>We kunnen dus concluderen dat er <strong>anecdotisch bewijs is ten gunste van de hypothese ‘gebrek aan correlatie tussen de twee variabelen’ (mediaan = 0,11, BF = 0,51)</strong>, wat veel meer informatie geeft dan wat we kunnen doen met de frequentistische statistiek.</p>
+<p><strong>En dat is nog niet alles!</strong></p>
+</section>
+<section id="visualiseren-van-de-bayes-factor" class="level4">
+<h4 class="anchored" data-anchor-id="visualiseren-van-de-bayes-factor">Visualiseren van de Bayes-factor</h4>
+<p>In het algemeen zijn <strong>taartgrafieken een absolute ‘no-go’ in datavisualisatie</strong>, omdat het waarnemingssysteem van onze hersenen de gepresenteerde informatie op deze manier sterk vervormt. Toch is er één uitzondering: pizzagrafieken.</p>
+<p>Het is een intuïtieve manier om de bewijskracht van BFs te interpreteren als een soort verrassing</p>
+<p>Dergelijke “pizzapercelen” kunnen direct worden aangemaakt via het zie visualisatiepakket voor easystats (u kunt het installeren door het uitvoeren van</p>
+<p>Dergelijke ‘pizzagrafieken’ kunnen direct worden aangemaakt met het visualisatiepakket voor <code>easystats</code> (u kunt het installeren door <code>install.packages("see")</code>) uit te voeren):</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="testen-met-bayes_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Dus, na het zien van deze pizza, ben je dan nog verrast door de uitkomst?</p>
+</section>
+<section id="t-testen" class="level4">
+<h4 class="anchored" data-anchor-id="t-testen">t-testen</h4>
+<blockquote class="blockquote">
+<p>“Ik weet dat ik niets weet, en vooral niet als <code>versicolor</code> en <code>virginica</code> verschillen in termen van <code>Sepal.Width</code>”, zei de beroemde Socrates.</p>
+</blockquote>
+<p>Tijd om eindelijk een antwoord te geven op deze cruciale vraag!</p>
+</section>
+<section id="versicolor-vs.-virginica" class="level4">
+<h4 class="anchored" data-anchor-id="versicolor-vs.-virginica">Versicolor vs.&nbsp;virginica</h4>
+<p>Bayesiaanse t-testen kunnen worden uitgevoerd op een zeer vergelijkbare manier als correlaties. We zijn met name geïnteresseerd in twee niveaus van de <code>Specie factor</code>, <em>versicolor</em> en <em>virginica</em>. We zullen beginnen met het uit <code>iris</code> uitfilteren van de niet-relevante waarnemingen die overeenkomen met de <code>setosa specie</code>, en we zullen dan de waarnemingen en de distributie van de <code>Sepal.Width</code> variabele visualiseren.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="testen-met-bayes_files/figure-html/unnamed-chunk-38-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="bereken-de-bayesiaanse-t-test" class="level4">
+<h4 class="anchored" data-anchor-id="bereken-de-bayesiaanse-t-test">Bereken de Bayesiaanse t-test</h4>
+<p>Het lijkt er (visueel) op dat <em>virgnica</em> bloemen gemiddeld een iets grotere kelkbladbreedte hebben. Laten we dit verschil statistisch beoordelen met behulp van de <code>ttestBF</code> in het BayesFactor pakket.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Summary of Posterior Distribution
+
+Parameter  | Median |         95% CI |     pd |          ROPE | % in ROPE |    BF |              Prior
+------------------------------------------------------------------------------------------------------
+Difference |  -0.19 | [-0.31, -0.07] | 99.85% | [-0.03, 0.03] |        0% | 17.72 | Cauchy (0 +- 0.71)</code></pre>
+</div>
+</div>
+<p>Op basis van de indexen kunnen we zeggen dat het verschil tussen virginica en versicolor (van Sepal.Width) een kans heeft van <strong>100% om negatief te zijn</strong> [van de pd en het teken van de mediaan] (mediaan = -0,19, 89% CI [-0,29, -0,092]). De gegevens leveren een <strong>sterk bewijs tegen de nulhypothese</strong> (BF = 18).</p>
+<p>Houd dat in gedachten, want we zullen een andere manier zien om deze vraag te onderzoeken.</p>
+</section>
+<section id="logistisch-model" class="level4">
+<h4 class="anchored" data-anchor-id="logistisch-model">Logistisch Model</h4>
+<p>Een hypothese waarvoor men een t-test gebruikt, kan ook getest worden met een binomiaal model (bv. een <strong>logistisch model</strong>). Het is inderdaad mogelijk om de volgende hypothese te herformuleren, <em>“er is een belangrijk verschil in deze variabele tussen de twee groepen” door “deze variabele in staat te stellen om te discrimineren tussen (of te classificeren in) de twee groepen”.</em> Deze modellen zijn echter veel krachtiger dan een gewone t-test.</p>
+<p>In het geval van het verschil van <code>Sepal.Width</code> tussen <em>virginica</em> en <em>versicolor</em> wordt de vraag, <em>hoe goed kunnen we de twee soorten classificeren met alleen</em> <code>Sepal.Width</code>.</p>
+</section>
+<section id="het-model-fitten" class="level4">
+<h4 class="anchored" data-anchor-id="het-model-fitten">Het model fitten</h4>
+<div class="cell">
+
+</div>
+</section>
+<section id="prestatie-en-parameters" class="level4">
+<h4 class="anchored" data-anchor-id="prestatie-en-parameters">Prestatie en parameters</h4>
+<p>Eerst prestatie van het model in kaart brengen.</p>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'performance' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Indices of model performance
+
+ELPD    | ELPD_SE |   LOOIC | LOOIC_SE |    WAIC |    R2 |  RMSE | Sigma | Log_loss | Score_log | Score_spherical
+-----------------------------------------------------------------------------------------------------------------
+-66.252 |   3.081 | 132.505 |    6.161 | 132.496 | 0.101 | 0.477 | 1.000 |    0.643 |   -35.484 |           0.014</code></pre>
+</div>
+</div>
+<p>Vervolgens de resultaten van enkele indices presenteren.</p>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Sampling priors, please wait...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Bayes factors might not be precise.
+For precise Bayes factors, sampling at least 40,000 posterior samples is recommended.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Summary of Posterior Distribution
+
+Parameter   | Median |          95% CI |   pd |          ROPE | % in ROPE |  Rhat |     ESS |    BF
+---------------------------------------------------------------------------------------------------
+(Intercept) |  -6.21 | [-10.44, -2.29] | 100% | [-0.18, 0.18] |        0% | 1.000 | 2683.00 | 36.57
+Sepal.Width |   2.16 | [  0.83,  3.62] | 100% | [-0.18, 0.18] |        0% | 0.999 | 2693.00 | 19.90</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="referenties" class="level3">
+<h3 class="anchored" data-anchor-id="referenties">Referenties</h3>
+<p>Andrews, M., &amp; Baguley, T. (2013). Prior approval: The growth of bayesian methods in psychology. <em>British Journal of Mathematical and Statistical Psychology, 66(1)</em>, 1–7.</p>
+<p>Benjamin, D. J., Berger, J. O., Johannesson, M., Nosek, B. A., Wagenmakers, E.-J., Berk, R., … others. (2018). Redefine statistical significance. <em>Nature Human Behaviour, 2(1), 6</em>.</p>
+<p>Chambers, C. D., Feredoes, E., Muthukumaraswamy, S. D., &amp; Etchells, P. (2014). Instead of ’playing the game’ it is time to change the rules: Registered reports at aims neuroscience and beyond. <em>AIMS Neuroscience, 1(1)</em>, 4–17.</p>
+<p>Etz, A., &amp; Vandekerckhove, J. (2016). A bayesian perspective on the reproducibility project: Psychology. <em>PloS One, 11(2)</em>, e0149794.</p>
+<p>Kruschke, J. K. (2010). What to believe: Bayesian methods for data analysis. <em>Trends in Cognitive Sciences, 14(7)</em>, 293–300.</p>
+<p>Kruschke, J. K., Aguinis, H., &amp; Joo, H. (2012). The time has come: Bayesian methods for data analysis in the organizational sciences. <em>Organizational Research Methods, 15(4)</em>, 722–752.</p>
+<p>Szucs, D., &amp; Ioannidis, J. P. (2016). Empirical assessment of published effect sizes and power in the recent cognitive neuroscience and psychology literature. <em>BioRxiv, 071530</em>.</p>
+<p>Wagenmakers, E.-J., Marsman, M., Jamil, T., Ly, A., Verhagen, J., Love, J., … others. (2018). Bayesian inference for psychology. Part i: Theoretical advantages and practical ramifications. <em>Psychonomic Bulletin &amp; Review, 25(1)</em>, 35–57.</p>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

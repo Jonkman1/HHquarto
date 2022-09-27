@@ -1,0 +1,382 @@
+---
+title: "Classificeren met Tidymodels"
+description: |
+    Dit is bewerking van een blog over classificeren met het pakket Tidymodels die Rahul Raoniar in Towards data science schreef.
+author: "Rahul Raoniar, bewerking Harrie Jonkman"
+date: "07-05-2021"
+categories: [analyse]
+image: "Screenshot1.png"
+---
+
+### Inleiding
+Een gids om stap voor stap een logissche regressie uit te voeren met gebruik van het `tidymodels` pakket
+
+Dit is bewerking van een blog die [Rahul Raoniar, Towards data science](https://towardsdatascience.com/modelling-binary-logistic-regression-using-tidymodels-library-in-r-part-1-c1bdce0ac055) begin 2021 schreef. 
+
+
+In de wereld van 'supervised machine learning' worden vaak twee soorten analyses uitgevoerd. De ene heet regressie (voorspellen van continue waarden), de andere heet classificatie (voorspellen van discrete waarden). In deze blog geef ik een voorbeeld van een binair classificatiealgoritme, "**Binaire Logistische Regressie**" genaamd. Dat valt onder de Binomiale familie met een logit koppelingsfunctie. Binaire logistische regressie wordt gebruikt voor het voorspellen van binaire klassen. Bijvoorbeeld in gevallen waarin je ja/nee, winst/verlies, negatief/positief, waar/onwaar enzovoort wilt voorspellen.
+
+*Deze blog leidt jou door een proces van hoe het 'tidymodels'-pakket te gebruiken om een model toe te passen en te evalueren met heel weinig en eenvoudige stappen.* 
+
+
+### Achtergrond van de data
+In dit voorbeeld maak je gebruik maken van de **Pima Indian Diabetes 2** data, verkregen uit de UCI Repository van de machine learning data (*Newman et al. 1998*).
+
+Deze data zijn oorspronkelijk afkomstig van het 'National Institute of Diabetes and Digestive and Kidney Diseases'. Het doel van de dataset is diagnostisch te voorspellen of een patiënt al dan niet diabetes heeft, op basis  bepaalde diagnostische metingen die in de dataset zijn opgenomen. Bij de selectie van deze data uit een grotere databank werden verschillende beperkingen opgelegd. In het bijzonder zijn alle patiënten hier vrouwen van ten minste 21 jaar oud van Pima Indiaanse afkomst.
+De Pima Indian Diabetes 2-data is de verfijnde versie (alle ontbrekende waarden zijn toegewezen als NA) van de Pima Indian diabetes-gegevens. De dataset bevat de volgende onafhankelijke en afhankelijke variabelen.
+
+*Onafhankelijke variabelen (met symbool: O)*
+- O1: pregnant: Aantal keren zwanger    
+- O2: glucose: Plasma glucose concentratie (glucose tolerantie test)    
+- O3: pressure: Diastolische bloed druk (mm Hg)    
+- O4: triceps: Triceps huidplooidikte (mm)   
+- O5: insulin: 2-uur serum insuline (mu U/ml)   
+- O6: mass: Body mass index (gewicht in kg/(lengte in m)\²)    
+- O7: pedigree: Diabetes pedigree functie    
+- O8: age: Leeftijd (jaren)   
+
+*Dependent Variable (met symbool: A)*   
+- A1: diabetes: diabetes geval (pos/neg)    
+
+### Doel van de modellering
+- aanpassen van een binair logistisch regressie-machineleermodel met behulp van de bibliotheek `tidymodels`   
+- het testen van de voorspellingskracht van het getrainde model (evaluatie van het model) op de ongeziene/geteste dataset met behulp van verschillende evaluatiemetrieken. 
+
+### Bibliotheken en Datasets laden
+**Stap1:** Eerst moeten we de volgende pakketten worden geïnstalleerd met de `install.packages( )` functie (als ze al niet zijn geïnstalleerd en ze laden met de `library( )` functie.
+
+
+```{r}
+library(mlbench)     # voor de PimaIndiansDiabetes2 dataset
+library(tidymodels)  # voor modelpreparatie en fitten van modellen
+```
+
+**Stap2:** Vervolgens moet je de dataset binnen halen uit het `mlbench` pakket met behulp van de `data( )` functie.
+
+Na het laden van de data, is de volgende essentiële stap het uitvoeren van een verkennende data-analyse, die zal helpen bij het vertrouwd raken met de data. Gebruik de `head( )` functie om de bovenste zes rijen van de data te bekijken.
+
+```{r}
+data(PimaIndiansDiabetes2)
+head(PimaIndiansDiabetes2)
+```
+
+De Diabetes-gegevensreeks telt 768 waarnemingen en negen variabelen. De eerste acht variabelen zijn van het numerieke type en de afhankelijke/output variabele (diabetes) is een factor/categorische variabele. Het is ook merkbaar dat veel variabelen `NA` waarden bevatten (missende waarde). Onze volgende taak is het de gegevens te verfijnen/wijzigen, zodat ze compatibel worden met het modelleeralgoritme. Eerst nog eens beter naar de data kijken.
+
+```{r}
+# Een blik op de datastructuur
+glimpse(PimaIndiansDiabetes2)
+```
+
+### Voorbereiding van de gegevens
+De eerste stap is het verwijderen van data rijen met `NA` waarden met behulp van `na.omit( )` functie. De volgende stap is nogmaals het controleren van de gegevens met behulp van de `glimpse( )` functie.
+
+```{r}
+Diabetes <- na.omit(PimaIndiansDiabetes2) #weghalen van NA waarden
+glimpse(Diabetes)
+```
+
+De uiteindelijke (voorbereide) gegevens bevatten 392 waarnemingen en 9 kolommen. De onafhankelijke variabelen zijn van het type numeriek/dubbel, terwijl de afhankelijke/uitgaande binaire variabele van het type factor/categorie is (neg/ pos).
+
+### Gegevensniveaus
+We kunnen het referentieniveau van de afhankelijke variabele controleren met de functie `levels( )`. We kunnen zien dat het referentieniveau *neg* is (het allereerste niveau).
+
+
+```{r}
+levels(Diabetes$diabetes)
+```
+
+### Instellen referentieniveau
+Voor een betere interpretatie (later voor het uitzetten van de ROC curve) moeten we het referentieniveau van onze afhankelijke variabele "diabetes" op *positief (pos)* zetten met de `relevel( )` functie.
+
+```{r}
+Diabetes$diabetes <- relevel(Diabetes$diabetes, ref = "pos")
+levels(Diabetes$diabetes)
+```
+
+### Splitsing training en testset
+De volledige dataset wordt in het algemeen opgesplitst in 75% train en 25% test data set (algemene vuistregel). 75% van de trainingsdata wordt gebruikt om het model te trainen, terwijl de overige 25% wordt gebruikt om te controleren hoe het model generaliseerde op ongeziene/test data set.
+
+Om een split object te maken kun je de `initial_split( )` functie gebruiken waar je de dataset, proportie en een strata argument voor moet opgeven. Door de afhankelijke variabele in het strata-attribuut op te geven, wordt gestratificeerde steekproeftrekking uitgevoerd. Gestratificeerde steekproeftrekking is nuttig als je afhankelijke variabele een ongelijke klasse heeft.
+
+De volgende stap is het aanroepen van de `training( )` en `testing( )` functies op het split object (d.w.z. `diabetes_split`) om de trainings- (`diabetes_train`) en test- (`diabetes_test`) datasets op te slaan.
+
+De training set bevat 295 waarnemingen, terwijl de test set 97 waarnemingen bevat.
+
+```{r}
+set.seed(123)
+# Creëer datasplit voor training en test
+diabetes_split <- initial_split(Diabetes,
+                                prop = 0.75,
+                                strata = diabetes)
+
+# Creëer trainingsdata
+diabetes_train <- diabetes_split %>%
+                    training()
+
+# Creëer testdata
+diabetes_test <- diabetes_split %>%
+                    testing()
+# Aantal rijen in trainings- en testset
+nrow(diabetes_train)
+nrow(diabetes_test)
+```
+
+### Fitten van logistische regressie
+Je kunt met `tidymodels` elk type model pasklaar maken met behulp van de volgende stappen.
+l
+*Stap 1*: roep de modelfunctie op: hier gebruiken we `logistic_reg( )` omdat we een logistisch regressiemodel willen draaien.   
+
+*Stap 2*: gebruik de `set_engine( )` functie om de familie van het model op te geven. We geven het `glm` argument op, omdat logistische regressie onder de 'Generalized Linear Regression'-familie valt.   
+
+*Stap 3*: gebruik de `set_mode( )` functie en geef het type model op dat je wilt toepassen. Hier willen we pos vs neg classificeren, dus het is een *classificatie*.   
+
+*Stap 4*: Vervolgens moet je de `fit( )` functie gebruiken om het model te fitten en daarbinnen moet je de formule notatie en de dataset (`diabetes_train`) opgeven.
+
+*plus notatie →*
+`diabetes ~ ind_variable 1 + ind_variable 2 + …….so on`   
+
+*tilde punt notatioe →*   
+diabetes~.
+betekent dat diabetes wordt voorspeld door de rest van de variabelen in het gegevensbestand (d.w.z. alle onafhankelijke variabelen), behalve de afhankelijke variabele, d.w.z. diabetes.
+
+Na het draaien van het model is de volgende stap het genereren van de modeloverzichtstabel. Je kunt een mooie tabel maken met behulp van de `tidy( )` functie van de `broom` bibliotheek (die is ingebouwd in de `tidymodels` bibliotheek). De gerapporteerde coëfficiënten zijn in log-odds termen.
+
+```{r}
+fitted_logistic_model<- logistic_reg() %>%
+        # Set the engine
+        set_engine("glm") %>%
+        # Set the mode
+        set_mode("classification") %>%
+        # Fit the model
+        fit(diabetes~., data = diabetes_train)
+tidy(fitted_logistic_model)    # Generate Summary Table
+```
+
+**Opgelet:** *Het teken en de waarde van de coëfficiënten veranderen afhankelijk van de referentie die u voor de afhankelijke variabele hebt ingesteld (in ons geval is pos het referentieniveau) en de waarneming die u op basis van de aselecte steekproefselectie in de opleidingssteekproef hebt opgenomen [bovenstaande resultaten zijn slechts een voorbeeld].*
+
+De interpretatie van coëfficiënten in de log-odds term heeft niet veel zin als je die moet rapporteren in je artikel of publicatie. Daarom werd het begrip odds ratio geïntroduceerd.
+
+De ODDS is de verhouding van de kans dat een gebeurtenis zich voordoet tot de kans dat de gebeurtenis zich niet voordoet. Wanneer we een verhouding van twee zulke kansen nemen, noemen we dat Odds Ratio.
+
+
+![Odds ratio](Screenshot1.png)
+
+
+Wiskundig kan men de odds ratio berekenen door de exponent van de geschatte coëfficiënten te nemen. Je kunt bijvoorbeeld direct de odds ratio's van de coëfficiënten krijgen door de *exponentiate = True* mee te geven in de `tidy( )` functie.
+
+Het resultaat is alleen afhankelijk van de steekproeven die we hebben verkregen tijdens het splitsen. Je kunt een ander resultaat krijgen (odds ratio waarden).
+
+```{r}
+tidy(fitted_logistic_model, exponentiate = TRUE)
+```
+
+### Significante kansen
+De tabel geproduceerd door `tidy( )` functie kan worden gefilterd. Hier hebben we de variabelen uitgefilterd waarvan de p-waarden lager zijn dan 0.05 (5%) significant niveau. Voor onze steekproef hebben glucose en massa een significante invloed op diabetes.
+
+```{r}
+tidy(fitted_logistic_model, exponentiate = TRUE) %>%
+  filter(p.value < 0.05)
+```
+
+### Model voorspelling
+### Voorspelling van de testgegevensklasse
+De volgende stap is het genereren van de testvoorspellingen die we kunnen gebruiken voor de evaluatie van het model. Om de klassevoorspelling (pos/neg) te genereren kunnen wij de predict-functie gebruiken en het *getrainde modelobject, de testdataset* en het type opgeven, dat hier "klasse" is, aangezien wij de klassevoorspelling willen, geen waarschijnlijkheden.
+
+```{r}
+# Class prediction
+pred_class <- predict(fitted_logistic_model,
+                      new_data = diabetes_test,
+                      type = "class")
+
+pred_class[1:5,]
+```
+
+### Testdata klasse waarschijnlijkheden
+We kunnen ook voorspellingen genereren voor de klassenwaarschijnlijkheden door het argument "prob" in het type-attribuut mee te geven.
+
+
+```{r}
+# Voorspelling waarschijnlijkheden
+pred_proba <- predict(fitted_logistic_model,
+                      new_data = diabetes_test,
+                      type = "prob")
+
+pred_proba[1:5,]
+```
+
+### Voorbereiding van de uiteindelijke gegevens voor de evaluatie van het model
+De volgende stap is het voorbereiden van een gegevensframe dat de kolom diabetes uit de oorspronkelijke testdataset, de voorspelde klasse en de klassevoorspellingswaarschijnlijkheid bevat. We gaan dit dataframe gebruiken voor de evaluatie van het model.
+
+```{r}
+diabetes_results <- diabetes_test %>%
+  select(diabetes) %>%
+  bind_cols(pred_class, pred_proba)
+
+diabetes_results[1:5, ]
+```
+
+
+### Modelevaluatie
+### Confusiematrix
+
+We kunnen een confusiematrix genereren met de `conf_mat( )`-functie door het uiteindelijke dataframe, `diabetes_results`, de waarheidskolom, `diabetes` en `voorspelde klasse (.pred_class)` in het schattingsattribuut op te geven.
+
+Uit de confusiematrix blijkt dat de testdataset 65 gevallen van negatieve (neg) en 32 gevallen van positieve (pos) waarnemingen bevat. Het getrainde model classificeert 61 negatieven (neg) en 18 positieven (pos) accuraat.
+
+```{r}
+conf_mat(diabetes_results, truth = diabetes,
+         estimate = .pred_class)
+```
+
+We kunnen ook het `yardstick` pakket gebruiken dat bij het `tidymodels` pakket hoort om verschillende evaluatie metrieken te genereren voor de testdata set.
+
+### Nauwkeurigheid
+We kunnen de classificatienauwkeurigheid berekenen met de `accuracy( )`-functie door het uiteindelijke dataframe, `diabetes_results`, de waarheidskolom, `diabetes` en `voorspelde klasse (.pred_class)` in het schattingsattribuut op te geven. De classificatienauwkeurigheid van het model op de testdataset is ongeveer 81,4%.
+
+
+```{r}
+accuracy(diabetes_results, truth = diabetes,
+         estimate = .pred_class)
+```
+
+### Sensitiviteit
+De *sensitiviteit* van een classificator is de verhouding tussen het aantal dat correct als positief wordt geïdentificeerd (TP) en het aantal dat daadwerkelijk positief is (FN+TP).
+
+*Sensitivity = TP / FN+TP*
+
+
+De geschatte sensitiviteitswaarde is 0,562, wat wijst op een slechte detectie van positieve klassen in de testdataset.
+
+```{r}
+sens(diabetes_results, truth = diabetes,
+    estimate = .pred_class)
+```
+
+### Specificiteit
+*Specificiteit* van een classificator is de verhouding tussen het aantal dat correct als negatief werd geclassificeerd (TN) en het aantal dat werkelijk negatief was (FP+TN).
+
+*Specificity = TN/FP+TN*
+
+De geschatte specificiteitswaarde is 0,938, wat wijst op een algemeen goede detectie van negatieve klassen in de testdataset.
+
+```{r}
+spec(diabetes_results, truth = diabetes,
+    estimate = .pred_class)
+```
+
+### Precisie
+Hoeveel van alle positieven werden correct als positief geclassificeerd?
+
+
+*Precisie = TP/TP+FP*
+
+De geschatte *precisie* waarde is 0.818.
+
+```{r}
+precision(diabetes_results, truth = diabetes,
+    estimate = .pred_class)
+```
+
+### Recall
+*Recall* en sensitiviteit zijn hetzelfde.
+
+*Recall = TP / FN+TP*
+
+De geschatte recall-waarde is 0.562.
+
+```{r}
+recall(diabetes_results, truth = diabetes,
+      estimate = .pred_class)
+```
+
+### F-maat
+*F-maat* is een gewogen harmonisch gemiddelde van precisie en recall met de beste score 1 en de slechtste score 0. De F-maatscore geeft het evenwicht tussen precisie en recall weer. De F1-score is ongeveer 0,667, wat betekent dat het getrainde model een classificatiekracht van 66,7% heeft.
+
+
+```{r}
+f_meas(diabetes_results, truth = diabetes,
+       estimate = .pred_class)
+```
+
+### Kappa
+Cohen Kappa geeft informatie over hoeveel beter een model is dan de willekeurige classificator. Kappa kan gaan van -1 tot +1. De waarde <0 betekent geen overeenstemming, terwijl 1,0 een perfecte overeenstemming aangeeft. Uit de geschatte kappastatistieken bleek een matige overeenkomst.
+
+
+```{r}
+kap(diabetes_results, truth = diabetes,
+    estimate = .pred_class)
+```
+
+### Matthews Correlatie Coefficient (MCC)
+De *Matthews correlatiecoëfficiënt (MCC)* wordt gebruikt als maatstaf voor de kwaliteit van een binaire classificator. De waarde varieert van -1 tot +1.
+
+MCC: -1 wijst op totale onenigheid
+MCC: 0 wijst op geen overeenstemming
+MCC: +1 wijst op totale overeenstemming
+
+Uit de geschatte MCC-statistieken bleek een matige overeenstemming.
+
+```{r}
+mcc(diabetes_results, truth = diabetes,
+    estimate = .pred_class)
+```
+
+### Evaluatiematen genereren
+We kunnen de `custom_metrics( )`-functie gebruiken om verschillende metrieken tegelijk te genereren.
+
+*Stap 1:* laat eerst zien wat je wilt laten zien door `metric_set( )` te gebruiken
+*Step 2:* gebruik de`custom_metrics( )` functie en betrek dit op de `diabetes_results` dataframe, `diabaets` kolom en op de voorspelde klasse (`.pred_class`).
+
+```{r}
+custom_metrics <- metric_set(accuracy, sens, spec, precision, recall, f_meas, kap, mcc)
+custom_metrics(diabetes_results,
+               truth = diabetes,
+               estimate = .pred_class)
+```
+
+### ROC-AUC
+ROC-AUC is a performance measurement for the classification problem at various thresholds settings. ROC_AUC tells how much the model is capable of distinguishing between classes. The trained logistic regression model has a ROC-AUC of 0.921 indicating overall good predictive performance.
+
+```{r}
+roc_auc(diabetes_results,
+        truth = diabetes,
+        .pred_pos)
+```
+
+### ROC-curve
+ROC-AUC is een evaluatiemaat voor het classificatieprobleem bij verschillende drempelinstellingen. ROC-AUC geeft aan in welke mate het model in staat is een onderscheid te maken tussen de klassen. Het getrainde logistische regressiemodel heeft een ROC-AUC van 0,921, wat wijst op een algemeen goede voorspellende prestatie.
+
+
+De ROC-curve wordt uitgezet met TPR (Sensitiviteit) tegen de FPR/ (1- Specificiteit), waarbij Sensitiviteit op de y-as staat en 1-Specificiteit op de x-as. Een lijn wordt diagonaal getrokken om de 50-50 verdeling van de grafiek aan te geven. Als de kromme dichter bij de lijn ligt, is de prestatie van de classificeerder lager en dan niet beter dan een toevallige gok.
+
+Je kunt een ROC Curve genereren met de `roc_curve( )` functie waarbij je de waarheidskolom (`diabetes`) en de voorspelde kansen voor de positieve klasse (`.pred_pos`) moet opgeven.
+
+Ons model heeft een ROC-AUC score van 0.921 wat aangeeft dat het een goed model is dat onderscheid kan maken tussen patiënten met diabetes en zonder diabetes.
+
+
+```{r}
+diabetes_results %>%
+  roc_curve(truth = diabetes, .pred_pos) %>%
+  autoplot()
+```
+
+
+```{r}
+
+# Schatting van verschillende evaluatiematenmet behulp van het caret-pakket
+library(caret)
+
+confusionMatrix(diabetes_results$.pred_class,
+                diabetes_results$diabetes,
+                positive="pos")
+```
+
+
+Binaire logistische regressie is nog steeds een enorm populair ML-algoritme (voor binaire classificatie) in het bèta/technische onderzoeksdomein. Het is nog steeds zeer eenvoudig te trainen en te interpreteren, in vergelijking met veel complexere modellen.
+
+
+### Referenties
+Newman, C. B. D. & Merz, C. (1998). *UCI Repository of machine learning databases, Technical report*, University of California, Irvine, Dept. of Information and Computer Sciences.
+
+Shrikant I. Bangdiwala (2018). Regression: binary logistic, *International Journal of Injury Control and Safety Promotion*, DOI: 10.1080/17457300.2018.1486503
+

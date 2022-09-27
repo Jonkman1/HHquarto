@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Presentatie Ninja</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Yihui Xie, overgezet Harrie Jonkman" />
+    <meta name="date" content="2019-08-17" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <script src="libs/htmlwidgets/htmlwidgets.js"></script>
+    <script src="libs/jquery/jquery.min.js"></script>
+    <link href="libs/leaflet/leaflet.css" rel="stylesheet" />
+    <script src="libs/leaflet/leaflet.js"></script>
+    <link href="libs/leafletfix/leafletfix.css" rel="stylesheet" />
+    <script src="libs/Proj4Leaflet/proj4-compressed.js"></script>
+    <script src="libs/Proj4Leaflet/proj4leaflet.js"></script>
+    <link href="libs/rstudio_leaflet/rstudio_leaflet.css" rel="stylesheet" />
+    <script src="libs/leaflet-binding/leaflet.js"></script>
+    <link href="libs/datatables-css/datatables-crosstalk.css" rel="stylesheet" />
+    <script src="libs/datatables-binding/datatables.js"></script>
+    <link href="libs/dt-core/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="libs/dt-core/css/jquery.dataTables.extra.css" rel="stylesheet" />
+    <script src="libs/dt-core/js/jquery.dataTables.min.js"></script>
+    <link href="libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
+    <script src="libs/crosstalk/js/crosstalk.min.js"></script>
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Presentatie Ninja
+## Werken met Xaringan
+### Yihui Xie, overgezet Harrie Jonkman
+### 2019-08-17
+
+---
+
+
+
+
+
+
+
+
+class: inverse, center, middle
+
+# Laten we eens beginnen
+
+---
+
+# Hello World
+
+Installeer het **xaringan**-pakket van [Github](https://github.com/yihui/xaringan):
+
+
+```r
+devtools::install_github("yihui/xaringan")
+```
+
+--
+
+We raden je aan [RStudio IDE](https://www.rstudio.com/products/rstudio/) te gebruiken, maar dat hoef je niet te doen.
+
+- Creëeer een R Markdown-document van het menu `File -&gt; New File -&gt; R Markdown -&gt; From Template -&gt; Ninja Presentation`;&lt;sup&gt;1&lt;/sup&gt;
+
+--
+
+- Klik op de `Knit` knop en voeg de onderdelen samen;
+
+--
+
+- of gebruik de [RStudio Addin](https://rstudio.github.io/rstudioaddins/)&lt;sup&gt;2&lt;/sup&gt; "Infinite Moon Reader" om jouw slides steeds te zien (elke keer als update en het Rmd document opslaat, worden de slides automatisch opgeslagen in de RStudio Viewer).
+
+.footnote[
+
+[1] See [#2](https://github.com/yihui/xaringan/issues/2) if you do not see the template or addin in RStudio.
+]
+
+---
+background-image: url(https://github.com/yihui/xaringan/releases/download/v0.0.2/karl-moustache.jpg)
+background-position: 50% 50%
+class: center, bottom, inverse
+
+# Je leeft maar één keer!
+
+---
+
+# Hello Ninja
+
+Wat de presentatie van Ninja betreft, moet je niet tevreden zijn met het "Hello World" voorbeeld. Je moet twee dingen beter begrijpen:
+
+1. De [remark.js](https://remarkjs.com) bibliotheek;
+
+1. Het **xaringan** pakket;
+
+Het komt erop neer dat **xaringan** de chakra van R Markdown (minus Pandoc) binnen **remark.js** injecteerde. De slides worden door remark.js in de web browser gerenderd en de Markdown bron die remark.js nodig heeft, wordt gegenereerd via R Markdown (**knitr**).
+
+---
+
+# remark.js
+
+Je kunt een introductie op remark.js zien via [its homepage](https://remarkjs.com). Je moet [remark.js Wiki](https://github.com/gnab/remark/wiki) ten minste een keer lezen om het volgende te begrijpen: 
+
+- een nieuwe slide creëren (Markdown syntax&lt;sup&gt;*&lt;/sup&gt; and slide properties);
+
+- een nieuwe slide maken (bv. hoe je tekst uitlijnt);
+
+- een slideshow maken;
+
+- de presentatie gebruiken (met shortcuts van het toetsenbord).
+
+Het is belangijk om bekend te zijn met remark.js voordat je de opties in **xaringan** begrijpt.
+
+.footnote[[*] Het is anders dan Pandoc's Markdown! Het is beperkt maar het moet genoeg zijn voor presentatiedoelen. Je hoeft toch geen slide voor de inhoudsopgave te hebben? Nou, de Markdown support remark.js [zou in de toekomst verbeterd kunnen worden](https://github.com/gnab/remark/issues/142)
+
+---
+background-image: url(https://github.com/yihui/xaringan/releases/download/v0.0.2/karl-moustache.jpg)
+background-size: cover
+class: center, bottom, inverse
+
+# Ik was blij om remark.js te ontdekken!
+
+---
+class: inverse, middle, center
+
+# Xaringan gebruiken
+
+---
+
+# xaringan
+
+Biedt een R Markdown output format `xaringan::moon_reader` als een omslag voor remark.js en je kunt het in de YAML metadata gebruiken, b.v.
+
+```yaml
+---
+title: "Een hippe presentatie"
+output:
+  xaringan::moon_reader:
+    yolo: true
+    nature:
+      autoplay: 30000
+---
+```
+
+Bekikjk de pagina `?xaringan::moon_reader` voor alle mogelijke opties die je kunt gebruiken.
+
+---
+
+# remark.js tov xaringan
+
+Enkele verschillen in het gebruik van **remark.js** (links) en **xaringan** (rechts):
+
+.pull-left[
+1. Begint als HTML file;
+
+1. Kaal Markdown;
+
+1. Maakt JavaScript van de slides;
+
+1. Met de hand maak je er MathJax van;
+
+1. Code onderstreep je met `*`;
+
+1. Pas de Markdownbron aan en ververs om de slides resultaten te zien;
+]
+
+.pull-right[
+1. Begin met een R Markdown document;
+
+1. R Markdown (kan met R/andere code chunks werken);
+
+1. Heeft ook een `autoplay` functie;
+
+1. MathJax werkt gewoon;&lt;sup&gt;*&lt;/sup&gt;
+
+1. Code onderstreep je met `{{}}`;
+
+1. De RStudio addin "Infinite Moon Reader" ververst automatisch bij veranderingen;
+]
+
+.footnote[[*] Niet echt. Zie volgende pagina.]
+
+---
+
+# Wiskundige Expressies
+
+Je kunt LaTeX-wiskundige expressies gebruiken door ze tussen een paar dollartekens te plaatsen, b.v. &amp;#36;\alpha+\beta$ wordt `\(\alpha+\beta\)`. Je kunt de display style gebruiken met dubbele dollartekens:
+
+```
+$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
+```
+
+`$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$`
+
+Beperkingen:
+
+1. De wiskundige expressie van Latex moet in een regel zijn opgenomen, tenzijn het binnen een  paar van dubbele dollar tekens staat; in dat geval moet de `$$` helemaal aan het begin van de regel staan, gevolgd door een niet-ruimtelijk karakter, en de laatste `$$` moet aan het einde staan, gevolgd door een niet-ruimtelijk karakter;
+
+1. Er moet geen ruimte zijn tussen de eerste `$` of de laatste `$`.
+
+1. Wiskundige expressies werken niet in de titelslide (zie ook [#61](https://github.com/yihui/xaringan/issues/61)).
+
+---
+
+# R Code
+
+
+```r
+# a boring regression
+fit = lm(dist ~ 1 + speed, data = cars)
+coef(summary(fit))
+```
+
+```
+#               Estimate Std. Error   t value     Pr(&gt;|t|)
+# (Intercept) -17.579095  6.7584402 -2.601058 1.231882e-02
+# speed         3.932409  0.4155128  9.463990 1.489836e-12
+```
+
+---
+
+# R Grafieken
+
+
+```r
+par(mar = c(4, 4, 1, .1))
+plot(cars, pch = 19, col = 'darkgray', las = 1)
+abline(fit, lwd = 2)
+```
+
+![](Prachtigepresentaties_files/figure-html/cars-1.svg)&lt;!-- --&gt;
+
+---
+
+# Tabellen
+
+Als je een tabel wilt maken, wees er dan zeker van dat het in HTML format is (in plaats van Markdown of ander formaten), b.v.,
+
+
+```r
+knitr::kable(head(iris), format = 'html')
+```
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; Sepal.Length &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Sepal.Width &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Petal.Length &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Petal.Width &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Species &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 5.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; setosa &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 4.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; setosa &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 4.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; setosa &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 4.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; setosa &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 5.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; setosa &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 5.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.4 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; setosa &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+# HTML Widgets
+
+Xie heeft de HTML widgets niet uitvoerig in **xaringan** gebruikt. Sommigen kunnen werken, anderen misschien niet. Het is een beetje link, denkt hij.
+
+Tegelijkertijd, hij weet dat de Shiny modus (`runtime: shiny`) niet werkt. Misschien dat Xie daar in de toekomst nog aan werkt, maar dat heeft niet zijn prioriteit. Hij zet zijn presentatie nooit in een Shiny app. Als hij ingewikkelder voorbeelden wil laten zien, behandelt hij ze apart. Het is makkelijk om slides met anderen te delen als ze enkel in HTML/JS applicaties zijn gemaakt.
+
+Zie de volgende pagina voor twee HTML widgets.
+
+---
+
+
+```r
+library(leaflet)
+leaflet() %&gt;% addTiles() %&gt;% setView(-93.65, 42.0285, zoom = 17)
+```
+
+<div id="htmlwidget-d29c1d45fb765bceaf76" style="width:100%;height:432px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d29c1d45fb765bceaf76">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]}],"setView":[[42.0285,-93.65],17,[]]},"evals":[],"jsHooks":[]}</script>
+
+---
+
+
+```r
+DT::datatable(
+  head(iris, 10),
+  fillContainer = FALSE, options = list(pageLength = 8)
+)
+```
+
+<div id="htmlwidget-436e8287d747fde6af20" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-436e8287d747fde6af20">{"x":{"filter":"none","fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10"],[5.1,4.9,4.7,4.6,5,5.4,4.6,5,4.4,4.9],[3.5,3,3.2,3.1,3.6,3.9,3.4,3.4,2.9,3.1],[1.4,1.4,1.3,1.5,1.4,1.7,1.4,1.5,1.4,1.5],[0.2,0.2,0.2,0.2,0.2,0.4,0.3,0.2,0.2,0.1],["setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Sepal.Length<\/th>\n      <th>Sepal.Width<\/th>\n      <th>Petal.Length<\/th>\n      <th>Petal.Width<\/th>\n      <th>Species<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+
+---
+
+# Enkele Tips
+
+- Als je de "Infinite Moon Reader" addin in RStudio gebruikt, zal jouw R sessie automatisch worden geblokkeerd. Je kunt op de rode knop bovenaan rechts in de console klikken om het presenteren van de slides te stoppen of gebruik de _daemonized_ modus zodat het niet jouw R-sessie blokkeert. Die handeling kun je als volgt instellen:
+
+    ```r
+    options(servr.daemon = TRUE)
+    ```
+    
+    Plaats dat in jouw R-sessie, of in `~/.Rprofile` zodat het wordt toegepast in al jouw toekomstige R-sessies. Dat laatste doet Xie zelf.
+    
+    Om meer over de web server te weten, bekijk het [**servr**](https://github.com/yihui/servr) pakket.
+
+--
+
+- Vergeet niet de `yolo` optie van `xaringan::moon_reader` te proberen.
+
+    ```yaml
+    output:
+      xaringan::moon_reader:
+        yolo: true
+    ```
+
+---
+
+# Enkele Tips
+
+- Slides kunnen automatische afgespeeld worden als jij de `autoplay` optie onder `nature` instelt, b.v. ga naar de volgende slide elke 30 seconds na een korte toelichting:
+
+    ```yaml
+    output:
+      xaringan::moon_reader:
+        nature:
+          autoplay: 30000
+    ```
+
+--
+
+- Als je de tijdklok op elke pagina van de slides wilt zien die aftelt kun je de `countdown` optie onder `nature` gebruiken, b.v. als je een minuut aan elke pagina wilt besteden als jij jouw praatje houdt, stel het dan als volgt in:
+
+    ```yaml
+    output:
+      xaringan::moon_reader:
+        nature:
+          countdown: 60000
+    ```
+
+    Je zult dan de tijdklok zien teruggaan van `01:00`, naar `00:59`, `00:58`, ... als de tijd op is, zal ,de klok doorgaan maar de tijd wordt dan rood.
+    
+---
+
+# Enkele Tips
+
+- De titel-slide wordt automatisch door **xaringan** gecreëerd, maar het is enkel een andere remark.js slide die voor de rest wordt gezet.
+
+    De titelslide is standaard ingesteld als `class: center, middle, inverse, title-slide`. Je kunt de klasse van de titel-slide aanpassen met de `titleSlideClass` optie van `nature` (`title-slide` wordt altijd gebruikt).
+
+    ```yaml
+    output:
+      xaringan::moon_reader:
+        nature:
+          titleSlideClass: [top, left, inverse]
+    ```
+    
+--
+
+- Als jij jouw eigen titel slide wilt maken, zet dan **xaringan**'s titelslide uit met de `seal = FALSE` optie van `moon_reader`.
+
+    ```yaml
+    output:
+      xaringan::moon_reader:
+        seal: false
+    ```
+
+---
+
+# Enkele Tips
+
+- Er zijn verschillende manieren om oplopende slides te maken. Kijk bijvoorbeeld naar [deze presentatie](https://slides.yihui.name/xaringan/incremental.html) voor voorbeelden.
+
+- De optie `highlightLines: true` van `nature` zal de codelijnen oplichten die met `*` beginnen, die zijn ingepakt in `{{ }}` of die wat opmerkingen omvatten `#&lt;&lt;`;
+
+    ```yaml
+    output:
+      xaringan::moon_reader:
+        nature:
+          highlightLines: true
+    ```
+
+    Op de volgende pagina zien we enkele voorbeelden.
+
+---
+
+# Enkele Tips
+
+
+.pull-left[
+Een voorbeeld dat `*` gebruikt:
+
+    ```r
+    if (TRUE) {
+    ** message("Very important!")
+    }
+    ```
+Output:
+```r
+if (TRUE) {
+* message("Very important!")
+}
+```
+
+Dit is een foute R-code, zodat het een kale code blok blijft dat niet wordt uitgevoerd.
+]
+
+.pull-right[
+Een voorbeeld dat `{{}}` gebruikt:
+
+````
+```{r tidy=FALSE}
+if (TRUE) {
+*{{ message("Very important!") }}
+}
+```
+````
+Output:
+
+```r
+if (TRUE) {
+* message("Very important!") 
+}
+```
+
+```
+## Very important!
+```
+
+Dit is een goede R-code zodat die wel draait. Merk op dat de `{{}}` R-expressie verschillende regels kan omvatten.
+]
+
+---
+
+# Enkele Tips
+
+Een voorbeeld om de laatste optie (`#&lt;&lt;`) te laten zien die regels oplich:
+
+````markdown
+```{r tidy=FALSE}
+library(ggplot2)
+ggplot(mtcars) + 
+  aes(mpg, disp) + 
+  geom_point() +   #&lt;&lt;
+  geom_smooth()    #&lt;&lt;
+```
+````
+
+Output:
+
+
+```r
+library(ggplot2)
+ggplot(mtcars) + 
+  aes(mpg, disp) + 
+* geom_point() +
+* geom_smooth()
+```
+
+---
+
+# Enkele Tips
+
+Als je bepaalde regels wilt benadrukken, kun je ook de chunk optie `highlight.output` gebruiken om bepaalde regels in de tekstoutput van die code chunk te laten oplichten. Bijvoorbeeld, `highlight.output = TRUE` licht alle regels op  en `highlight.output = c(1, 3)` betekent oplichten van de eerste en derde regel.
+
+````md
+```{r, highlight.output=c(1, 3)}
+head(iris)
+```
+````
+
+
+```
+*##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1          5.1         3.5          1.4         0.2  setosa
+*## 2          4.9         3.0          1.4         0.2  setosa
+## 3          4.7         3.2          1.3         0.2  setosa
+## 4          4.6         3.1          1.5         0.2  setosa
+## 5          5.0         3.6          1.4         0.2  setosa
+## 6          5.4         3.9          1.7         0.4  setosa
+```
+
+Vraag: wat zou `highlight.output = c(TRUE, FALSE)` betekenen? (Hint: denk aan het opnieuw gebruiken van de vectoren van R)
+
+---
+
+# Enkele Tips
+
+- Om slides off-line te maken, moet je van te voren een kopie van remark.js binnenhalen, omdat **xaringan** standaard de on-line versie gebruikt (bekijk de help pagina `?xaringan::moon_reader`).
+
+- Je kunt `xaringan::summon_remark()` gebruiken om de laatste of een gespecificeerde versie van remark.js binnen te halen. Standaard wordt het gedownload naar `libs/remark-latest.min.js`.
+
+- Verander de `chakra` optie in YAML om naar deze file te verwijzen, b.v.
+
+    ```yaml
+    output:
+      xaringan::moon_reader:
+        chakra: libs/remark-latest.min.js
+    ```
+
+- Als je Google-fonts in jouw slides gebruikt, moet je weten dat standaard _Yanone Kaffeesatz_, _Droid Serif_ en _Source Code Pro_ worden gebruikt. Offline werkt het niet tenzij je ze downloadt of lokaal installeert. De Heroku app [google-webfonts-helper](https://google-webfonts-helper.herokuapp.com/fonts) kan jou verder helpen bij het downloaden van fonts en het genereren van het CSS die je nodig hebt.
+
+---
+
+# Macro's
+
+- remark.js [stelt de gebruiker in staat zijn eigen macro's te definiëren ](https://github.com/yihui/xaringan/issues/80) (JS functies) kunnen worden toegepast op Markdown tekst die de syntax gebruikt `![:macroName arg1, arg2, ...]` of `![:macroName arg1, arg2, ...](this)`. B.v., voordat remark.js de slides initialiseert als slides, kun je een macro definiëren die `scale` heet:
+
+    ```js
+    remark.macros.scale = function (percentage) {
+      var url = this;
+      return '&lt;img src="' + url + '" style="width: ' + percentage + '" /&gt;';
+    };
+    ```
+
+    Dan de Markdown tekst
+
+    ```markdown
+    ![:scale 50%](image.jpg)
+    ```
+
+    zal worden omgezet naar
+    
+    ```html
+    &lt;img src="image.jpg" style="width: 50%" /&gt;
+    ```
+
+---
+
+# Macro's (vervolg)
+
+- Om macro's binnen **xaringan** slides te plaatsen, kun je de optie `beforeInit` onder de optie `nature` plaatsen, b.v.,
+
+    ```yaml
+    output:
+      xaringan::moon_reader:
+        nature:
+          beforeInit: "macros.js"
+    ```
+
+    Je bewaart jouw remark.js macro's in de file `macros.js`.
+
+- Macro's is een van de mogelijkheden.
+
+---
+
+# CSS
+
+Van alle opties in `xaringan::moon_reader`, is de meest uitdagende en mogelijk ook de meest belonende `css`, omdat het jou in staat stelt de vormgeving van jouw slides te bepalen door regels en hacks van CSS te gebruiken die je kent.
+
+De standaard CSS file zie je [hier](https://github.com/yihui/xaringan/blob/master/inst/rmarkdown/templates/xaringan/resources/default.css). Die kun je vervangen door jouw eigen CSS files of door nieuwe regels die de standaard overruled. Zie pagina `?xaringan::moon_reader` voorr meer informatie.
+
+---
+
+# CSS
+
+Bijvoorbeeld, stel je wilt het font van de code veranderen van de standaard "Source Code Pro" naar "Ubuntu Mono". Je kunt zo'n CSS-file maken met de naam, zeg, `ubuntu-mono.css`:
+
+```css
+@import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+.remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+```
+
+Definieer de `css` optie in de YAML metadata:
+
+```yaml
+output:
+  xaringan::moon_reader:
+    css: ["default", "ubuntu-mono.css"]
+```
+
+Ga er daarbij vanuit dat n`ubuntu-mono.css` onder dezelfde directory valt als jouw Rmd.
+
+Zie [yihui/xaringan#83](https://github.com/yihui/xaringan/issues/83) voor een voorbeeld waarbij de [Fira Code](https://github.com/tonsky/FiraCode) font wordt gebruikt, die ligaturen in een program code ondersteunt.
+
+---
+
+# Thema's
+
+Wil je CSS niet leren? Okay, je kunt altijd bepaalde thema's gebruiken. Een thema bestaat in het algemeen altijd uit twee CSS files `foo.css` en `foo-fonts.css`, waarvan `foo` de thema naam is. Hieronder zie je de thema's die bestaan:
+
+
+```r
+names(xaringan:::list_css())
+```
+
+```
+##  [1] "chocolate-fonts"  "chocolate"        "default-fonts"   
+##  [4] "default"          "duke-blue"        "hygge-duke"      
+##  [7] "hygge"            "kunoichi"         "lucy-fonts"      
+## [10] "lucy"             "metropolis-fonts" "metropolis"      
+## [13] "middlebury-fonts" "middlebury"       "ninjutsu"        
+## [16] "rladies-fonts"    "rladies"          "robot-fonts"     
+## [19] "robot"            "rutgers-fonts"    "rutgers"         
+## [22] "shinobi"          "tamu-fonts"       "tamu"            
+## [25] "uo-fonts"         "uo"
+```
+
+---
+
+# Thema's
+
+Om een thema te gebruiken, kun je de `css` optie specificeren in de CSS filenames (zonder de `.css` extensies), b.v.,
+
+```yaml
+output:
+  xaringan::moon_reader:
+    css: [default, metropolis, metropolis-fonts]
+```
+
+Als je een thema aan **xaringan** wilt toevoegen, lees dan [deze blogpost](https://yihui.name/en/2017/10/xaringan-themes).
+
+---
+class: inverse, middle, center
+background-image: url(https://upload.wikimedia.org/wikipedia/commons/3/39/Naruto_Shiki_Fujin.svg)
+background-size: contain
+
+# Naruto
+
+---
+background-image: url(https://upload.wikimedia.org/wikipedia/commons/b/be/Sharingan_triple.svg)
+background-size: 100px
+background-position: 90% 8%
+
+# Sharingan
+
+De naam **xaringan** komt van **Sharingan** &lt;sup&gt;1&lt;/sup&gt;, een dōjutsu in de Japanse animmatie _Naruto_ met twee mogelijkheden:
+
+- het "Oog van Inzicht";
+
+- het "Oog van Hypnose".
+
+Persoonlijk denkt Xie dat presentatie niet anders is dan inzichten op het publiek overbrengen en dat een goede presentatie het publiek "hypnotiseert".&lt;sup&gt;2,3&lt;/sup&gt;
+
+.footnote[
+[1] In het Chinees is de uitdrukking van _X_ als _Sh_ /ʃ/ (als in _shrimp_ in het Engels). Dan heb je ook een beter idee hoe je de naam _Xie_ (ontwikkelaar van dit pakket, en zoveel meer in R, uitdrukt).
+
+[2] In vergelijking, slechte presentaties brengen het publiek alleen maar in slaap.
+
+[3] Persoonlijk denkt Xie dat de inzet van achtergrondplaatjes in slides remark.js zo interessant maakt. Het is een effectieve manier om visuele impact in de presentaties aan te brengen.
+]
+
+---
+
+# Naruto terminologie
+
+Het **xaringan** pakket heeft enkele termen geleend van Naruto, zoals
+
+- [Sharingan](http://naruto.wikia.com/wiki/Sharingan) (de naam van het pakket)
+
+- De [moon reader](http://naruto.wikia.com/wiki/Moon_Reader) (een attractief R Markdown output format)
+
+- [Chakra](http://naruto.wikia.com/wiki/Chakra) (het pad naar de remark.js bibliotheek, de kracht achter de presentatie)
+
+- [Nature transformation](http://naruto.wikia.com/wiki/Nature_Transformation) (transformeert de chakra door verschillende opties in te stellen)
+
+- De [infinite moon reader](http://naruto.wikia.com/wiki/Infinite_Tsukuyomi) (start een lokale web server om jouw slides continu te draaien)
+
+- De [summoning technique](http://naruto.wikia.com/wiki/Summoning_Technique) (download remark.js van het web)
+
+Je kunt op de links klikken als je meer wilt weten over bepaalde elementen. De jutsu "Moon Reader" mag wat vreemd lijken, maar al jouw slides lijken wat vreemd.
+
+---
+
+
+
+# Bedankt!
+
+Slides gemaakt met het R pakket [**xaringan**](https://github.com/yihui/xaringan).
+
+De chakra heeft Xie van [remark.js](https://remarkjs.com), [**knitr**](http://yihui.name/knitr) en [R Markdown](https://rmarkdown.rstudio.com).
+
+
+Maar ik (Harrie Jonkman) moet natuurlijk vooral Yihui Xie bedanken, voor al die prachtige programma's die hij gemaakt heeft voor R/RStudio en ook voor dit Xaringan-programma en de voorbeeldpresentatie die hij ermee heeft gemaakt om te laten zien hoe het werkt. De vertaling van zijn presentatie heeft mij veel geleerd.
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script>
+(function() {
+  var i, text, code, codes = document.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+})();
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

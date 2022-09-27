@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+  <title>R als een Gis</title>
+  
+  <meta property="description" itemprop="description" content="Over ruimtelijke data en het gebruik van R als een GIS"/>
+  
+  
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2019-12-15"/>
+  <meta property="article:created" itemprop="dateCreated" content="2019-12-15"/>
+  <meta name="article:author" content="Harrie Jonkman"/>
+  
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="R als een Gis"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="Over ruimtelijke data en het gebruik van R als een GIS"/>
+  <meta property="og:locale" content="en_US"/>
+  
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="R als een Gis"/>
+  <meta property="twitter:description" content="Over ruimtelijke data en het gebruik van R als een GIS"/>
+  
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["R als een Gis"]},{"type":"character","attributes":{},"value":["Over ruimtelijke data en het gebruik van R als een GIS\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Harrie Jonkman"]},{"type":"character","attributes":{},"value":["www.harriejonkman.nl"]}]}]},{"type":"character","attributes":{},"value":["12-15-2019"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["gemeente_2018_v2.shp","kwb-2018.xls","r-als-een-gis_files/bowser-1.9.3/bowser.min.js","r-als-een-gis_files/distill-2.2.21/template.v2.js","r-als-een-gis_files/figure-html5/unnamed-chunk-19-1.png","r-als-een-gis_files/figure-html5/unnamed-chunk-24-1.png","r-als-een-gis_files/jquery-1.11.3/jquery.min.js","r-als-een-gis_files/webcomponents-2.0.0/webcomponents.js","ScreenShot_1.png","StaatJeugdKort.xlsx","WerkdocumentNEDoriginal.pdf","wijkindeling.cpg","wijkindeling.dbf","wijkindeling.prj","wijkindeling.sbn","wijkindeling.sbx","wijkindeling.shp","wijkindeling.shp.xml","wijkindeling.shx","Wijkprofiel.zip"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+  
+  <style type="text/css">
+  
+  body {
+    background-color: white;
+  }
+  
+  .pandoc-table {
+    width: 100%;
+  }
+  
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+  
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+  
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+  
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+  
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+  
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+  
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .shaded-content {
+    background: white;
+  }
+  
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  d-article {
+    padding-bottom: 30px;
+  }
+  
+  d-appendix {
+    padding-top: 30px;
+  }
+  
+  d-article>p>img {
+    width: 100%;
+  }
+  
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for table of contents */
+  
+  .d-toc {
+    color: rgba(0,0,0,0.8);
+    font-size: 0.8em;
+    line-height: 1em;
+  }
+  
+  .d-toc-header {
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 1.3em;
+  }
+  
+  .d-toc a {
+    border-bottom: none;
+  }
+  
+  .d-toc ul {
+    padding-left: 0;
+  }
+  
+  .d-toc li>ul {
+    padding-top: 0.8em;
+    padding-left: 16px;
+    margin-bottom: 0.6em;
+  }
+  
+  .d-toc ul,
+  .d-toc li {
+    list-style-type: none;
+  }
+  
+  .d-toc li {
+    margin-bottom: 0.9em;
+  }
+  
+  .d-toc-separator {
+    margin-top: 20px;
+    margin-bottom: 2em;
+  }
+  
+  .d-article-with-toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  
+  
+  
+  /* Tweak code blocks (note that this CSS is repeated above in an injection
+     into the d-code shadow dom) */
+  
+  d-code {
+    overflow-x: auto !important;
+  }
+  
+  pre.d-code code.d-code {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+  
+  pre.text-output {
+  
+    font-size: 12px;
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  @media(min-width: 768px) {
+  
+  d-code {
+    overflow-x: visible !important;
+  }
+  
+  pre.d-code code.d-code  {
+      padding-left: 18px;
+      font-size: 14px;
+  }
+  pre.text-output {
+    font-size: 14px;
+  }
+  }
+  
+  /* Figure */
+  
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+  
+  .figure img {
+    width: 100%;
+  }
+  
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+  
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+  
+  
+  
+  /* Tweak 1000px media break to show more text */
+  
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+  
+    .grid {
+      grid-column-gap: 16px;
+    }
+  
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+  
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+  
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+  
+  
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+  
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  
+  /* Social footer */
+  
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+  
+  .disqus-comments {
+    margin-right: 30px;
+  }
+  
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+  
+  #disqus_thread {
+    margin-top: 30px;
+  }
+  
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+  
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+  
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+  
+  
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+  
+  
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+  
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+  
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+  
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+  
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+  
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+  
+  
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+  
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+  
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+  
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+  
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  </style>
+  
+  <script type="application/javascript">
+  
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+  
+  // show body when load is complete
+  function on_load_complete() {
+  
+    // set body to visible
+    document.body.style.visibility = 'visible';
+  
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+  
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+  
+  function init_distill() {
+  
+    init_common();
+  
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+  
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+  
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+  
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+  
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+  
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+  
+    // create d-bibliography
+    var bibliography = $('<d-bibliography></d-bibliography>');
+    $('#distill-bibliography').wrap(bibliography);
+  
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+  
+    // replace citations with <d-cite>
+    $('.citation').each(function(i, val) {
+      appendix = true;
+      var cites = $(this).attr('data-cites').split(" ");
+      var dt_cite = $('<d-cite></d-cite>');
+      dt_cite.attr('key', cites.join());
+      $(this).replaceWith(dt_cite);
+    });
+    // remove refs
+    $('#refs').remove();
+  
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+  
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+  
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+  
+    // replace code blocks with d-code
+    $('pre>code').each(function(i, val) {
+      var code = $(this);
+      var pre = code.parent();
+      var clz = "";
+      var language = pre.attr('class');
+      if (language) {
+        // map unknown languages to "clike" (without this they just dissapear)
+        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                                 "javascript", "js", "julia", "lua", "markdown",
+                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
+          language = "clike";
+        language = ' language="' + language + '"';
+        var dt_code = $('<d-code block' + language + clz + '></d-code>');
+        dt_code.text(code.text());
+        pre.replaceWith(dt_code);
+      } else {
+        code.addClass('text-output').unwrap().changeElementType('pre');
+      }
+    });
+  
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+  
+      // capture layout
+      var layout = $(this).attr('data-layout');
+  
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('d-code, pre.text-output, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+  
+  
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+  
+    // load distill framework
+    load_distill_framework();
+  
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+  
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+  
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+  
+      // table of contents
+      if (have_authors) // adjust border if we are in authors
+        $('.d-toc').parent().addClass('d-article-with-toc');
+  
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+  
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+  
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+  
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+  
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+  
+      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+      $('d-code').each(function(i, val) {
+        var style = document.createElement('style');
+        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+        if (this.shadowRoot)
+          this.shadowRoot.appendChild(style);
+      });
+  
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+  
+      // clear polling timer
+      clearInterval(tid);
+  
+      // show body now that everything is ready
+      on_load_complete();
+    }
+  
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+  
+  }
+  
+  function init_downlevel() {
+  
+    init_common();
+  
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+  
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+  
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+  
+    // remove toc
+    $('.d-toc-header').remove();
+    $('.d-toc').remove();
+    $('.d-toc-separator').remove();
+  
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+  
+  
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+  
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+  
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+  
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+  
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+  
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+  
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+  
+    $('body').addClass('downlevel');
+  
+    on_load_complete();
+  }
+  
+  
+  function init_common() {
+  
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+  
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+  
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+  
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+  
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+  
+      }
+    });
+  
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+  
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+  
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+  
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+  
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+  
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+  
+  </script>
+  
+  <!--/radix_placeholder_distill-->
+  <script src="r-als-een-gis_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="r-als-een-gis_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="r-als-een-gis_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="r-als-een-gis_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"R als een Gis","description":"Over ruimtelijke data en het gebruik van R als een GIS","authors":[{"author":"Harrie Jonkman","authorURL":"www.harriejonkman.nl","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2019-12-15T00:00:00.000+01:00","citationText":"Jonkman, 2019"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>R als een Gis</h1>
+<p><p>Over ruimtelijke data en het gebruik van R als een GIS</p></p>
+</div>
+
+<div class="d-byline">
+  Harrie Jonkman www.harriejonkman.nl 
+  
+<br/>12-15-2019
+</div>
+
+<div class="d-article">
+<h2 id="introduction-to-spatial-data-using-r-as-a-gis">Introduction to Spatial Data &amp; Using R as a GIS</h2>
+<p>Dit is een bewerking en verkorte versie van de tutorial die Nick Bearman eerder schreef (Introduction to Spatial Data &amp; Using R as a GIS) en die vrij toegankelijk is <a href="https://github.com/nickbearman/intro-r-spatial-analysis">hier</a>. De data die in deze tutorial worden gebruikt zijn eigen data of open data ook om de techniek goed onder de knie te krijgen. Dank je wel Nick Bearman.</p>
+<h2 id="eindtermen-r-functies-bibliotheken">Eindtermen: R Functies &amp; Bibliotheken:</h2>
+<ul>
+<li>R gebruiken om CSV data in te lezen: read.csv()<br />
+</li>
+<li>R gebruiken om ruimtelijke gegevens in te lezen: st_read()</li>
+<li>Weten hoe ruimtelijke gegevens te plotten met behulp van R: qtm() &amp; tm_shape()<br />
+</li>
+<li>Weten hoe je kleuren en classificaties moet aanpassen: style</li>
+<li>Begrijpen hoe je loops moet gebruiken om meerdere kaarten te maken: for(){}</li>
+<li>Weten hoe je ruimtelijke gegevens opnieuw geprojecteerd krijgt: st_transform()<br />
+</li>
+<li>In staat zijn om punten te gebruiken in veelhoekanalyse: poly.counts()</li>
+<li>Weten hoe je shapefiles moet opslaan: st_write()</li>
+</ul>
+<h2 id="intro-op-r-gis">Intro op R &amp; GIS</h2>
+<h3 id="r-basis">R Basis</h3>
+<p>R begon als een statistisch programma en wordt nog steeds door veel gebruikers als een programma gebruikt. We gaan een programma gebruiken dat RStudio heet, dat bovenop R werkt en een goede gebruikersinterface biedt. Ik zal het in de presentatie even hebben over RStudio, en de belangrijkste gebieden van het venster zijn op de achterzijde gemarkeerd.</p>
+<ul>
+<li>Open RStudio (klik op Start en typ RStudio in of dubbelklik op het icoontje op het bureaublad). R kan in eerste instantie als rekenmachine worden gebruikt - voer het volgende in de linkerkant van het venster in - het gedeelte met de titel Console:</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+[1] 14</code></pre>
+</div>
+<p>Maak je voorlopig geen zorgen over de [1] - let wel dat R 14 heeft afgedrukt, want dit is het antwoord op de som die je hebt ingetikt. In deze werkbladen laat ik soms de resultaten zien van wat je hebt ingetypt, zoals hieronder:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+[1] 20</code></pre>
+</div>
+<p>Merk ook op dat <code>*</code> hier het symbool voor vermenigvuldiging is - in het laatste commando vroeg R om de berekening <code>5 maal 4</code> uit te voeren. Andere symbolen zijn - voor aftrekken en / voor delen:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+[1] -2</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+[1] 0.3529412</code></pre>
+</div>
+<p>Je kunt de antwoorden van de berekeningen ook toewijzen aan variabelen en gebruiken in berekeningen.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Hier wordt de waarde 300 opgeslagen in de variabele prijs. Het <code>&lt;-</code> symbool betekent dat de waarde rechts in de variabele links in de variabele wordt gezet, deze wordt getypt met een <code>&lt;&lt;</code> gevolgd door een <code>-</code>. De variabelen worden getoond in het venster met de naam Environment, rechtsboven in het venster. Variabelen kunnen gebruikt worden in volgende berekeningen. Om bijvoorbeeld een korting van 20% op deze prijs toe te passen, kunt je het volgende invoeren:</p>
+<p>#<img src="ScreenShot_1" alt="Figure 1: Screenshot of RStudio" /></p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+[1] 240</code></pre>
+</div>
+<p>of gebruik tussenvariabelen:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+[1] 240</code></pre>
+</div>
+<p>R kan ook werken met lijsten met nummers, maar ook met individuele nummers. Lijsten worden gespecificeerd met behulp van de c-functie. Stel dat je een lijst hebt met huizenprijzen in duizenden euro’s. Je zou ze kunnen opslaan in een variabele die house.prices genoemd wordt, zoals hieronder:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+[1] 120 150 212  99 199 299 159</code></pre>
+</div>
+<p>Merk op dat er geen probleem is met punten in het midden van variabelenamen. U kunt dan functies toepassen op deze lijsten.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+[1] 176.8571</code></pre>
+</div>
+<p>Als de huizenprijzen in duizenden euro’s zijn, dan zegt dit ons dat de gemiddelde huizenprijs 176.900 EURO bedraagt. Merk op dat het antwoord op jouw scherm meer cijfers kan weergegeven. Dus je kunt iets als 176.8571429 voor gemiddelde waarde hebben.</p>
+<h2 id="het-dataframe">Het Dataframe</h2>
+<p>R heeft een manier om gegevens op te slaan in een object dat een dataframe wordt genoemd. Dit lijkt op een interne spreadsheet.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+[1] 240</code></pre>
+</div>
+<p>Waar alle relevante gegevenselementen samen als een set kolommen worden opgeslagen.</p>
+<p>We hebben een CSV-bestand van huizenprijzen en inbraakcijfers, dat we in R kunnen laden. We kunnen gebruik maken van een functie genaamd read.csv die, zoals je misschien wel kunt bedenken, CSV-bestanden leest. Voer de onderstaande coderegel uit, die het CSV-bestand in een variabele met de naam hp.data laadt.</p>
+<h1 id="rotterdam">Rotterdam</h1>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Als we de gegevens inlezen, is het altijd een goed idee om te controleren of ze goed zijn binnengekomen. Om dit te doen, kunnen we een voorbeeld van de dataset bekijken. Het <code>head</code>-commando toont de eerste 6 rijen van de data.</p>
+<p>Hieronder lezen we dan ons databestand in.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+# A tibble: 6 x 2
+  buurtenrotterdam            NNGB
+  &lt;chr&gt;                      &lt;dbl&gt;
+1 Afrikaanderwijk             0.86
+2 Agniesebuurt               NA   
+3 Bedrijvenpark Noord_West   NA   
+4 Bedrijventerrein Schieveen NA   
+5 Bergpolder                 NA   
+6 Beverwaard                  0.78</code></pre>
+</div>
+<p>Je kunt ook op de variabele in het venster Environment klikken, die de gegevens in een nieuw tabblad zal tonen. Je kunt ook zelf invoeren en een tabblad openen met de gegevens:</p>
+<pre><code>
+#Probeer onderstaande, hier niet afgedrukt want dit wordt te lang
+View(RotterdamStaat)</code></pre>
+<p>Je kunt ook elke kolom in de dataset beschrijven met behulp van de <code>summary</code>-functie:</p>
+<p>Item Beschrijving</p>
+<p>Min. De kleinste waarde in de kolom 1st. Qu. Het eerste kwartiel (de waarde 1/4 van de variabele) Median De mediaan (de waarde 1/2 van de variabele) Mean Het gemiddelde van de kolom 3rd. Qu. Het derde kwartiel (de waarde 3/4 van de variabele) Max. De hoogste waarde in de kolom</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+ buurtenrotterdam        NNGB       
+ Length:93          Min.   :0.6500  
+ Class :character   1st Qu.:0.7650  
+ Mode  :character   Median :0.8000  
+                    Mean   :0.8006  
+                    3rd Qu.:0.8400  
+                    Max.   :0.9000  
+                    NA&#39;s   :30      </code></pre>
+</div>
+<p>Voor elke kolom wordt een aantal waarden genoemd:</p>
+<p><em>Op basis van deze getallen kan een indruk worden verkregen van de spreiding van de waarden van elke variabele. Met name kan worden vastgesteld dat de mediaan van de huizenprijs in St. Helens per wijk varieert van 65.000 EURO tot 260.000 EURO en dat de helft van de prijzen tussen 152.500 EURO en 210.000 EURO ligt. Ook kan worden vastgesteld dat, aangezien de mediaan van het gemeten inbraakpercentage nul is, ten minste de helft van de gebieden geen inbraken had in de maand waarin de tellingen werden samengesteld.</em>.</p>
+<p>We kunnen vierkante haken gebruiken om specifieke delen van het dataframe te bekijken, bijvoorbeeld hp.data[1,] of hp.data[,1]. We kunnen ook kolommen verwijderen en nieuwe kolommen aanmaken met behulp van de onderstaande code. Vergeet niet om het <code>head()</code> commando te gebruiken zoals we eerder deden om naar het dataframe te kijken.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+# A tibble: 6 x 3
+  buurtenrotterdam            NNGB counciltax
+  &lt;chr&gt;                      &lt;dbl&gt; &lt;lgl&gt;     
+1 Afrikaanderwijk             0.86 NA        
+2 Agniesebuurt               NA    NA        
+3 Bedrijvenpark Noord_West   NA    NA        
+4 Bedrijventerrein Schieveen NA    NA        
+5 Bergpolder                 NA    NA        
+6 Beverwaard                  0.78 NA        </code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+# A tibble: 6 x 3
+  buurtenrotterdam            NNGB `Price-thousands`
+  &lt;chr&gt;                      &lt;dbl&gt; &lt;lgl&gt;            
+1 Afrikaanderwijk             0.86 NA               
+2 Agniesebuurt               NA    NA               
+3 Bedrijvenpark Noord_West   NA    NA               
+4 Bedrijventerrein Schieveen NA    NA               
+5 Bergpolder                 NA    NA               
+6 Beverwaard                  0.78 NA               </code></pre>
+</div>
+<h2 id="geograpfische-informatie">Geograpfische Informatie</h2>
+<p>R heeft zich ontwikkeld tot een GIS waar gebruikers aan hebben bijgedragen met pakketten, of ‘libraries’ zoals R ze noemt. We zullen in de tutorial verschillende van dit soort ‘libraries’ gebruiken en zullen ze laden als dat nodig is.</p>
+<p>Als u uw computer gebruikt, moet u de R-libraries installeren en ze ook laden. Om dit te doen, start u <code>install.packages</code> (“library_name”).</p>
+<p>Om met ruimtelijke gegevens te kunnen werken, moeten we na dat installeren een aantal ‘libraries’ laden&gt;</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Om met ruimtelijke gegevens te werken, moeten we enkele <code>libraries</code> laden. Daarmee is R echter alleen maar in staat om geografische data te verwerken. Het laadt nog geen specifieke data sets. Om dit te doen, moeten we enkele gegevens inlezen. Hiervoor gaan we <strong>shapefiles</strong> gebruiken - een bekend GIS-dataformat. We gaan LSOA(Lower layer Super Output Areas)-data gebruiken voor St. Helens in Merseyside.</p>
+<p>R gebruikt werkmappen om informatie op te slaan die relevant is voor het huidige project waaraan je werkt. Ik stel voor dat je een map een bepaalde naam geeft die het R-werk ergens zinvol maakt. Dan moeten we R vertellen waar deze map staat, dus klik op <strong>Session &gt; Set Working Directory &gt; Choose Directory. .</strong> en selecteer de map die je hebt aangemaakt.</p>
+<p>Zoals met de meeste programma’s, zijn er meerdere manieren om dingen te doen. Om bijvoorbeeld de werkmap in te stellen, kunnen we het volgende typen: setwd(“M:/R_werk”). Jouw versie kan een langere titel hebben, afhankelijk van hoe je de map noemt. Merk ook op dat schuine streepjes worden aangegeven met een ‘/’ en niet ’'.</p>
+<p>Er is een set van shapefiles voor de St. Helens-wijken op dezelfde locatie als de dataset die je eerder hebt gelezen. Omdat er meerdere bestanden nodig zijn, heb ik deze in één zip-bestand gebundeld. Deze download je naar jouw lokale map en pakt deze vervolgens uit. Dit doe je met de volgende R-functies:</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>De eerste functie downloadt het zip-bestand daadwerkelijk in uw werkmap. De tweede functie pakt het zip-bestand uit. Nu kunnen we het bestand in R lezen.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+Reading layer `wijkindeling&#39; from data source `C:\HARRIE\Tijdelijk\Git\HarriesHoekje\_posts\2019-12-15-r-als-een-gis\wijkindeling.shp&#39; using driver `ESRI Shapefile&#39;
+Simple feature collection with 85 features and 14 fields
+geometry type:  POLYGON
+dimension:      XY
+bbox:           xmin: 55500 ymin: 428647.4 xmax: 101032.6 ymax: 447000
+epsg (SRID):    NA
+proj4string:    +proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs</code></pre>
+</div>
+<p>De st_read functie doet dit en slaat ze op als een Simple Features (of sf) object. Je kunt de qtm-functie gebruiken om de polygonen (d.w.z. de kaart van de LSOA) te tekenen.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="r-als-een-gis_files/figure-html5/unnamed-chunk-19-1.png" width="624" /></p>
+</div>
+<p>We kunnen ook het head()-commando gebruiken om de eerste zes rijen te tonen, precies hetzelfde als bij een data frame.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+Simple feature collection with 6 features and 14 fields
+geometry type:  POLYGON
+dimension:      XY
+bbox:           xmin: 87699.71 ymin: 433848.1 xmax: 96594.48 ymax: 440401.8
+epsg (SRID):    NA
+proj4string:    +proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs
+  GROEP CODE GEMEENTE GEBIED BUURT SUBBUURT SBTDEEL BLOK TEKST
+1   TIR   15      599     10    79       -1      -1   -1  1079
+2   TIR   15      599      3    27       -1      -1   -1  0327
+3   TIR   15      599     19    26       -1      -1   -1  1926
+4   TIR   15      599      3    22       -1      -1   -1  0322
+5   TIR   15      599      8    42       -1      -1   -1  0842
+6   TIR   15      599     10    82       -1      -1   -1  1082
+             GEBDNAAM                    BUURTNAAM wijknr Shape_Leng
+1          Feijenoord      Kop van Zuid - Entrepot     79   4134.193
+2          Delfshaven    Oud Mathenesse/Witte Dorp   3004   4828.106
+3    Nieuw Mathenesse             Nieuw Mathenesse      0   6494.563
+4          Delfshaven                 Tussendijken     22   2853.695
+5 Kralingen-Crooswijk Kralingen Oost/Kralingse Bos   3005  12400.652
+6          Feijenoord                   Hillesluis     82   4786.269
+  Shape_Area                       geometry
+1   671847.0 POLYGON ((93530.4 436049.7,...
+2   880203.0 POLYGON ((89592.66 437446.3...
+3  2071912.9 POLYGON ((87705.53 436406.7...
+4   399761.8 POLYGON ((89484.61 436419.5...
+5  6521950.1 POLYGON ((95980.45 440392, ...
+6   902617.3 POLYGON ((94062.15 434700.2...</code></pre>
+</div>
+<p><em>Voor degene die met GIS werkt: Dit is hetzelfde als de attribuutentententabel in programma’s als ArcGIS, QGIS of MapInfo. Als u het shapefile in QGIS of ArcGIS wilt openen om vast te stellen hoe het er zo’n beetje uit ziet, kunt u dat doen.</em></p>
+<p>Je kunt zien dat er veel informatie beschikbaar is, inclusief de geometrie. Voor ons is het ID-veld belangrijk, en zien dat dit overeenkomt met het ID-veld in het hp.data bestand. We kunnen dit gebruiken om de twee datasets samen te voegen om de inbraakgegevens op de kaart te tonen.</p>
+<p>Het idee is dat er in elke dataset een veld is dat we kunnen gebruiken om de twee samen te voegen; in dit geval hebben we het ID-veld in <code>sthelens</code> en het ID-veld in <code>hp.data</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Gebruik de head-functie om te controleren of de gegevens correct zijn samengevoegd.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+Simple feature collection with 6 features and 16 fields
+geometry type:  POLYGON
+dimension:      XY
+bbox:           xmin: 88174.91 ymin: 432495.7 xmax: 99128.64 ymax: 442409.5
+epsg (SRID):    NA
+proj4string:    +proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs
+                   BUURTNAAM GROEP CODE GEMEENTE GEBIED BUURT
+1            Afrikaanderwijk   TIR   15      599     10    86
+2               Agniesebuurt   TIR   15      599      5    15
+3 Bedrijventerrein Schieveen   TIR   15      599     26    50
+4                 Bergpolder   TIR   15      599      5    31
+5                 Beverwaard   TIR   15      599     12    90
+6                   Bloemhof   TIR   15      599     10    81
+  SUBBUURT SBTDEEL BLOK TEKST                   GEBDNAAM wijknr
+1       -1      -1   -1  1086                 Feijenoord     86
+2       -1      -1   -1  0515                      Noord     15
+3       -1      -1   -1  2650 Bedrijventerrein Schieveen      0
+4       -1      -1   -1  0531                      Noord     31
+5       -1      -1   -1  1290                IJsselmonde     90
+6       -1      -1   -1  1081                 Feijenoord     81
+  Shape_Leng Shape_Area NNGB Price-thousands
+1   3461.527   621148.9 0.86              NA
+2   2809.173   384570.5   NA              NA
+3   5036.165  1518931.1   NA              NA
+4   3253.672   454195.3   NA              NA
+5   6592.857  1514886.2 0.78              NA
+6   3613.866   788457.4 0.81              NA
+                        geometry
+1 POLYGON ((93595.07 434773.5...
+2 POLYGON ((91881.82 438449.9...
+3 POLYGON ((88174.91 441742.2...
+4 POLYGON ((91216.07 439018.2...
+5 POLYGON ((97775.88 434798.3...
+6 POLYGON ((93506.9 434355.2,...</code></pre>
+</div>
+<p>Nu we de gegevens hebben samengevoegd, kunnen we een kaart maken van deze huizen-prijzen.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="r-als-een-gis_files/figure-html5/unnamed-chunk-24-1.png" width="624" /></p>
+</div>
+<p>Dit is een zeer snelle manier om een kaart met R te maken. Om de kaart te gebruiken, klikt u op de <code>Export</code>-knop en kiest u vervolgens voor <code>Copy</code> naar <code>Clipboard</code>. . . . Kies vervolgens <code>Copy Plot</code>. Als je ook Word hebt, kun je de kaart in je document plakken. Je kunt de kaart ook opslaan als Afbeelding of PDF.</p>
+<p>Een Kaart maken Census Data</p>
+<p>Werken met R vereist vaak meerdere coderegels code om een output te krijgen. In plaats van de code in de <strong>Console</strong> in te typen, kunnen we in plaats daarvan een script gebruiken. Daar kunnen we altijd naar teruggaan en de code zeer eenvoudig te bewerken, om fouten te corrigeren!</p>
+<p>Maak een nieuw script aan (<strong>File &gt; New File &gt; R-script</strong>) en voer de code daar in. Vervolgens kunt je de regels die je wilt uitvoeren selecteren door ze te markeren en vervolgens op Ctrl+Enter te drukken, of door de <strong>Run</strong> knop bovenaan te gebruiken.</p>
+<p>Nu gaan we hetzelfde principe gebruiken als voorheen om een kaart te maken van enkele gegevens uit 2018. We moeten de gegevens eerst downloaden.</p>
+<ul>
+<li>Ga naar <a href="https://www.cbs.nl/nl-nl/dossier/nederland-regionaal/wijk-en-buurtstatistieken/kerncijfers-wijken-en-buurten-2004-2019" class="uri">https://www.cbs.nl/nl-nl/dossier/nederland-regionaal/wijk-en-buurtstatistieken/kerncijfers-wijken-en-buurten-2004-2019</a>.</li>
+<li>Open vervolgens <a href="https://www.cbs.nl/nl-nl/maatwerk/2018/30/kerncijfers-wijken-en-buurten-2018" class="uri">https://www.cbs.nl/nl-nl/maatwerk/2018/30/kerncijfers-wijken-en-buurten-2018</a>.</li>
+<li>sla het bestand kwb-2018.xls op in map Buurtexcel.</li>
+</ul>
+<p>Omdat de bestanden te zwaar zijn, vind je de informatie hierover niet hier. In het pdf bestand kun je hier wel over lezen (zie in deze map WerkdocumentNEDoriginal.pdf).</p>
+<h2 id="referenties">Referenties</h2>
+<p>Nick Bearman. <em>Introduction to Spatial Data &amp; Using R as a GIS</em>. <a href="https://github.com/nickbearman/intro-r-spatial-analysis/blob/master/workbook.pdf" class="uri">https://github.com/nickbearman/intro-r-spatial-analysis/blob/master/workbook.pdf</a></p>
+<p>Lovelace, R., Nowosad, J. and Muenchow, J. <em>Geocomputation with R</em>. <a href="https://geocompr.github.io/" class="uri">https://geocompr.github.io/</a></p>
+<hr />
+<p>Deze ‘practical’ is geschreven met R 3.5.1 (2018-07-02) en RStudio 1.1.463 door Dr. Nick Bearman (nick@ geospatialtrainingsolutions.co.uk).</p>
+<p>Het werk is gelicenseerd onder Creative Commons Attribution-ShareAlike 4.0 International License. Om een kopie van deze licentie te zien, ga dan naar <a href="http://creativecommons.org/licenses/by-sa/4.0/deed.en" class="uri">http://creativecommons.org/licenses/by-sa/4.0/deed.en</a>. De laatste PDF-versie kun je hier <a href="https://github.com/nickbearman/intro-r-spatial-analysis" class="uri">https://github.com/nickbearman/intro-r-spatial-analysis</a> vinden. Deze versie is op 18 May 2019 gemaakt.</p>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>

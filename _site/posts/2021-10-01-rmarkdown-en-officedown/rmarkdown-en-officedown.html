@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.345">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jakub Sobolewski, bewerking Harrie Jonkman">
+<meta name="dcterms.date" content="2021-10-01">
+<meta name="description" content="Een blog over documentatie en hoe ze dat in de farmaceutische industrie kunnen doen">
+
+<title>- Rmarkdown en Officedown</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">Harrie’s Hoekje</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Jonkman1"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Rmarkdown en Officedown</h1>
+                          <div class="quarto-categories">
+                <div class="quarto-category">analyse</div>
+              </div>
+                  </div>
+  </div>
+    
+  <div>
+    <div class="description">
+      <p>Een blog over documentatie en hoe ze dat in de farmaceutische industrie kunnen doen</p>
+    </div>
+  </div>
+
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Jakub Sobolewski, bewerking Harrie Jonkman </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">October 1, 2021</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#inleiding" id="toc-inleiding" class="nav-link active" data-scroll-target="#inleiding">Inleiding</a></li>
+  <li><a href="#rmarkdown-en-de-eisen" id="toc-rmarkdown-en-de-eisen" class="nav-link" data-scroll-target="#rmarkdown-en-de-eisen"><code>RMarkdown</code> en de eisen</a></li>
+  <li><a href="#voordelen-van-het-gebruik-van-r-markdown" id="toc-voordelen-van-het-gebruik-van-r-markdown" class="nav-link" data-scroll-target="#voordelen-van-het-gebruik-van-r-markdown">Voordelen van het gebruik van R Markdown</a></li>
+  <li><a href="#beperkingen-van-rmarkdown" id="toc-beperkingen-van-rmarkdown" class="nav-link" data-scroll-target="#beperkingen-van-rmarkdown">Beperkingen van <code>RMarkdown</code></a></li>
+  <li><a href="#officedown-en-de-eisen" id="toc-officedown-en-de-eisen" class="nav-link" data-scroll-target="#officedown-en-de-eisen"><code>Officedown</code> en de eisen</a>
+  <ul class="collapse">
+  <li><a href="#nauwkeurige-controle-van-de-documentstructuur" id="toc-nauwkeurige-controle-van-de-documentstructuur" class="nav-link" data-scroll-target="#nauwkeurige-controle-van-de-documentstructuur">Nauwkeurige controle van de documentstructuur</a></li>
+  <li><a href="#stijl-van-tekst-en-tabellen" id="toc-stijl-van-tekst-en-tabellen" class="nav-link" data-scroll-target="#stijl-van-tekst-en-tabellen">Stijl van tekst en tabellen</a></li>
+  <li><a href="#stijldocumenten-als-templates" id="toc-stijldocumenten-als-templates" class="nav-link" data-scroll-target="#stijldocumenten-als-templates">Stijldocumenten als templates</a></li>
+  <li><a href="#meerdere-documenten-combineren" id="toc-meerdere-documenten-combineren" class="nav-link" data-scroll-target="#meerdere-documenten-combineren">Meerdere documenten combineren</a></li>
+  <li><a href="#pagina-in-landschap" id="toc-pagina-in-landschap" class="nav-link" data-scroll-target="#pagina-in-landschap">Pagina in landschap</a></li>
+  <li><a href="#officedown-voor-betere-documentatiemanagement" id="toc-officedown-voor-betere-documentatiemanagement" class="nav-link" data-scroll-target="#officedown-voor-betere-documentatiemanagement"><code>officedown</code> voor betere documentatiemanagement</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="inleiding" class="level1">
+<h1>Inleiding</h1>
+<p>Onlangs kwam ik op <code>R-bloggers</code> een blog tegen waar mijn oog op viel. Hierin werden enkele mogelijkheden van rmarkdown en officedown met elkaar vergeleken. Ik dacht ik zet deze blog eens over als manier om voor en nadelen van beide pakketten te vergelijken. Dank je wel, Jakub.</p>
+<p>Accuraatheid, betrouwbaarheid en zichtbaarheid van data staat centraal in het farmaceutische kwaliteitssysteem. Daarvoor zijn er allerlei richlijnen die weer onder controle staan van FDA in Amerika en EMA in Europa.</p>
+<p>Goede documentatie hoort daarbij. De eisen die daaraan gesteld worden richten zich op 3 belangrijke gebieden van naleving:</p>
+<p><strong>Traceerbaarheid</strong>: de mogelijkheid om de hele levenscyclus van het product te traceren, compleet met alle veranderingen. <strong>Verantwoordingsplicht</strong>:de mogelijkheid om alle personen die bijdragen te identificeren en vast te kunnen stellen wanneer belangrijke wijzigingen zijn doorgevoerd. <strong>Gegevensintegriteit</strong>:de betrouwbaarheid van de door het systeem gegenereerde gegevens.</p>
+<p>Volgens de richtlijnen voor kwaliteit moet elk verslag niet alleen de resultaten en conclusies bevatten, maar ook alle gegevens en gegevensbronnen die zijn gebruikt om ze op te stellen. Daarom is rapportage erg foutgevoelig, vooral als documentatie elke keer met de hand wordt gemaakt op een copy-paste manier. Bovendien kost handmatige rapportage veel tijd en moeite. De invoering van een documentbeheersysteem en programmatisch opgestelde rapporten kunnen deze problemen beperken.</p>
+</section>
+<section id="rmarkdown-en-de-eisen" class="level1">
+<h1><code>RMarkdown</code> en de eisen</h1>
+<p><code>RMarkdown</code> is een bestandsformaat voor het maken van dynamische documenten met R. Onder de motorkap wordt een R Markdown bestand door het <code>knitr</code>pakket verwerkt tot een Markdown document. Het wordt dan verwerkt door Pandoc dat het uiteindelijke document rendert. Zowel Markdown als Pandoc zijn onafhankelijk van de R-omgeving.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Screenshot1.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Rmarkdown workflow</figcaption><p></p>
+</figure>
+</div>
+<p><code>RMarkdown</code> bestanden laten je toe om rijke en reproduceerbare documenten te maken. Dit automatiseringselement maakt van R Markdown een krachtig instrument in de handen van klinisch-farmaceutische wetenschappers en technologen.</p>
+</section>
+<section id="voordelen-van-het-gebruik-van-r-markdown" class="level1">
+<h1>Voordelen van het gebruik van R Markdown</h1>
+<p>Met behulp van R Markdown worden uw documenten met voorschriften, zoals klinische onderzoeksrapporten:</p>
+<p>Geautomatiseerd: vermijd tijd te besteden aan herhaalbare taken en alledaagse handmatige rapportcreatie. Reproduceerbaar: iedereen kan het rapport regenereren met dezelfde of nieuwe gegevens. Toetsbaar: er kunnen tests worden ingevoerd om te garanderen dat de gegevens geldig zijn of dat de rapportstructuur de richtlijnen volgt. Beschikbaar in meerdere formaten: Word-, PowerPoint-, PDF- en HTML-documenten kunnen gemakkelijk worden aangemaakt. In overeenstemming met kwaliteitseisen: automatiseringsopties omvatten een standaardvereiste om een auteur toe te wijzen aan elk gegenereerd rapport.</p>
+<p>Bovendien kunt u <code>RStudio Connect</code>() gebruiken om <code>RMarkdown</code>-bestanden te implementeren met een klik op een knop. De bestanden worden dan automatisch gerenderd en kunnen gemakkelijk worden gedeeld als view-only of downloadables. Zowel render- als toegangsgebeurtenissen kunnen gemonitord en gevolgd worden. Als er een nieuwe versie van de <code>RMarkdown</code>-bestanden beschikbaar is, kunnen ze snel opnieuw worden gegenereerd. Hetzelfde automatische proces kan ook periodiek worden toegepast.</p>
+</section>
+<section id="beperkingen-van-rmarkdown" class="level1">
+<h1>Beperkingen van <code>RMarkdown</code></h1>
+<p>Op een bepaald moment kan u gevraagd worden om uw rapporten aan te passen ivm kwaliteitseisen:</p>
+<ul>
+<li>“Maak aub een pagina met informatie over auteur, datum, bronnen, beoordeling. Het moet de eerste pagina van het rapport zijn voor de inhoudsopgave”<br>
+</li>
+<li>“Pagina 50 moet worden gepresenteerd als een landschap, we moeten alle kolommen met gegevens bevatten en het zal niet passen in portret modus.”<br>
+</li>
+<li>“Alle veranderlijke gegevens moeten cursief blauw worden geformatteerd, ongeacht of ze in een tabel of in de tekst staan.”</li>
+</ul>
+<p>Het kan erg moeilijk worden om aan zulke gedetailleerde richtlijnen te voldoen met <code>RMarkdown</code>, omdat het niet altijd even flexibel is.</p>
+</section>
+<section id="officedown-en-de-eisen" class="level1">
+<h1><code>Officedown</code> en de eisen</h1>
+<p>Met het <code>officedown</code>-pakket kunt u de beperkingen van <code>RMarkdown</code> overwinnen, zoals het stylen van specifieke Word elementen. Het is beter geschikt voor het genereren van Office-documenten en biedt meer mogelijkheden voor het maken en opmaken van Microsoft Word- of PowerPoint-documenten.</p>
+<p><code>Officedown</code> bevat enkele van de belangrijkste functies van het <code>officer</code>-pakket, dat speciaal gebouwd is voor het werken met Word en PowerPoint documenten. Onder andere kunt u met <code>officer</code> blokken tekst opmaken, stijlen uit Microsoft Word toepassen en automatisch kruisverwijzingen maken.</p>
+<p>Zowel <code>officedown</code> als <code>officer</code> pakketten zijn een onderdeel van een groter <code>officeverse</code>, dat een ecosysteem is van 4 pakketten.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Screenshot2.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Officeverse</figcaption><p></p>
+</figure>
+</div>
+<p>Met <code>mschart</code> kunt u bewerkbare grafieken maken, vergelijkbaar met die in een Excel spreadsheet. De <code>flextable</code> interface is een uiterst handige manier om zeer aanpasbare tabellen te maken.</p>
+<p>Wanneer je de kwaliteitseisen de sleutel is tot uw onderzoeks- en ontwikkelingsproces, kunt u <code>officedown</code> gebruiken om uw documentatie workflow te stroomlijnen. De <code>officedown</code> functies die hieronder worden beschreven, pakken enkele van de grootste uitdagingen aan wanneer je wilt voldoen aan Goede Documentatie Praktijken.</p>
+<section id="nauwkeurige-controle-van-de-documentstructuur" class="level2">
+<h2 class="anchored" data-anchor-id="nauwkeurige-controle-van-de-documentstructuur">Nauwkeurige controle van de documentstructuur</h2>
+<p>Vanuit een kwaltiteitsperspectief kan het van cruciaal belang zijn dat de documentatie een specifieke volgorde van secties heeft. Met <code>RMarkdown</code> kun je een inhoudsopgave toevoegen, maar je hebt weinig controle over waar die verschijnt. Met <code>pagedown</code> kun je niet alleen een TOC toevoegen, maar ook een lijst van tabellen en een lijst van figuren. Het is echter moeilijk om de volgorde van deze secties te veranderen en het is niet mogelijk om het rapport te exporteren als een Word Document.</p>
+<p>Dit is waar <code>officedown</code> om de hoek komt kijken, het geeft je veel meer flexibiliteit. Het helpt je om secties van het rapport precies te plaatsen waar je ze wilt in het document door gebruik te maken van HTML commentaar tags.</p>
+</section>
+<section id="stijl-van-tekst-en-tabellen" class="level2">
+<h2 class="anchored" data-anchor-id="stijl-van-tekst-en-tabellen">Stijl van tekst en tabellen</h2>
+<p>Het maken van bewerkbare documenten in een onderzoeksomgeving kan extra opmaakopties vereisen. U wilt bijvoorbeeld belangrijke gegevens markeren, of dat nu tekst is of cellen in tabellen. Terwijl de opmaak van tabellen met verschillende pakketten kan worden gedaan, is de opmaak van tekstparagrafen alleen mogelijk met <code>officedown</code>. Door een eenvoudige variabele toe te voegen, kunt u ook de opmaak automatiseren, bijv. de oplichtingskleur in cellen alleen veranderen als de waarde lager of hoger is dan de referentiewaarde.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Screenshot3.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Tekst en tabellen</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="stijldocumenten-als-templates" class="level2">
+<h2 class="anchored" data-anchor-id="stijldocumenten-als-templates">Stijldocumenten als templates</h2>
+<p>Met <code>officedown</code> is het mogelijk om stijlen toe te passen die bekend zijn van Microsoft Word. In plaats van eigen CSS-styl te gebruiken, kun je een template .docx bestand maken met daarin gestylde elementen, dat vervolgens wordt doorgegeven aan de YAML header van het RMarkdown bestand. Dezelfde stijlen zullen worden toegepast op onderdelen in het resulterende .docx bestand. Op deze manier zal de aangepaste opmaak die u nodig hebt voor uw GxP-rapporten of -documentatie automatisch worden opgenomen in alle nieuw gegenereerde bestanden.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Screenshot4.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Templates gebruiken</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="meerdere-documenten-combineren" class="level2">
+<h2 class="anchored" data-anchor-id="meerdere-documenten-combineren">Meerdere documenten combineren</h2>
+<p>Wat als u liever een paar kleinere documenten of rapporten maakt en ze later samenvoegt in één bestand? Met <code>officedown</code> kunt u gemakkelijk meerdere documenten samenvoegen tot één. Bovendien blijven alle referenties behouden, terwijl de nummering van secties, figuren en tabellen automatisch wordt bijgewerkt en in een nieuwe inhoudsopgave wordt opgenomen.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Screenshot5.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Combineren van documenten</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="pagina-in-landschap" class="level2">
+<h2 class="anchored" data-anchor-id="pagina-in-landschap">Pagina in landschap</h2>
+<p>Het gebruik van <code>officedown</code> geeft je ook meer flexibiliteit in termen van het veranderen van pagina oriëntatie voor geselecteerde delen van het rapport. Met een enkele opmerking in de code, kunt u de liggende modus toepassen op elk blok in het document. Deze eenvoudige functionaliteit komt zeer goed van pas wanneer u brede tabellen of grotere figuren moet opnemen.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Screenshot6.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Landschapbreed</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="officedown-voor-betere-documentatiemanagement" class="level2">
+<h2 class="anchored" data-anchor-id="officedown-voor-betere-documentatiemanagement"><code>officedown</code> voor betere documentatiemanagement</h2>
+<p>Met het naleven van de kwaliteitseisen bereikt het automatiseren van het creatieproces en bijwerken van documenten een nieuw niveau in de farmaceutische industrie. Waar handmatige processen en andere pakketten tekort schieten, biedt <code>officedown</code> een levensvatbare oplossing. Het is een eenvoudige en effectieve manier om de functies van Microsoft Word naar R Markdown te brengen en aangepaste opmaakopties te ontsluiten.</p>
+<p>Laten we eens samenvatten hoe <code>officedown</code> u kan helpen te voldoen aan de kwaliteitseisen:</p>
+<ul>
+<li>meer controle over document lay-out en structuur<br>
+</li>
+<li>robuuste opmaak van tekst en tabellen<br>
+</li>
+<li>globale toepassing van aangepaste stijlen in rapporten<br>
+</li>
+<li>handige compilatie van meerdere documenten</li>
+</ul>
+<p>Deze eigenschappen van <code>officedown</code> vertalen zich in een sterker kwaliteitssysteem, beter risico- en wijzigingsbeheer en nauwkeuriger versiebeheer. Het is een win-win situatie voor zowel uw R&amp;D team als alle mensen die vertrouwen op de kwaliteit van uw medische product om te herstellen of een gezonder leven te leiden.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

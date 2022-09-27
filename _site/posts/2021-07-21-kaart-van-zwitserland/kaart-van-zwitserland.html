@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.345">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Giulia Ruggeri, bewerking Harrie Jonkman">
+<meta name="dcterms.date" content="2021-07-21">
+<meta name="description" content="Dit is een mooie blog van Giulia Ruggeri over kaarten maken met ggplot2 en sf, in dit geval van Zwitserland">
+
+<title>- Kaart van Zwitserland</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">Harrie’s Hoekje</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Jonkman1"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Kaart van Zwitserland</h1>
+                          <div class="quarto-categories">
+                <div class="quarto-category">analyse</div>
+              </div>
+                  </div>
+  </div>
+    
+  <div>
+    <div class="description">
+      <p>Dit is een mooie blog van Giulia Ruggeri over kaarten maken met <code>ggplot2</code> en <code>sf</code>, in dit geval van Zwitserland</p>
+    </div>
+  </div>
+
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Giulia Ruggeri, bewerking Harrie Jonkman </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">July 21, 2021</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#kaarten-maken" id="toc-kaarten-maken" class="nav-link active" data-scroll-target="#kaarten-maken">Kaarten maken</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="kaarten-maken" class="level2">
+<h2 class="anchored" data-anchor-id="kaarten-maken">Kaarten maken</h2>
+<p>Op Medium verscheen eind 2020 dit duidelijke blog van Giulia Ruggeri <a href="https://medium.com/epfl-extension-school/making-a-map-of-covid-19-incidence-in-switzerland-using-ggplot2-and-sf-e765f8ea0221">Hier de link</a>. Ik wilde weer eens met <code>ggplot2</code> en <code>sf</code> werken en Giulia’s blog vond ik interessant en heb ik vervolgens bewerkt.</p>
+<p>In de afgelopen jaren is het maken van mooie kaarten in R vrij eenvoudig geworden, dankzij het <code>{sf}</code> pakket. In dit artikel gaan we de ruimtelijke verspreiding van de COVID-19 incidentie van de laatste 14 dagen in Zwitserland visualiseren door een thematische kaart te maken, een <em>choropleth</em> kaart zoals dat heet. We maken daarbij gebruik van <code>{sf}</code> en <code>{ggplot2}</code> als onze belangrijkste hulpmiddelen.</p>
+<p><code>{sf}</code>, wat staat voor <em>simple feature</em> (eenvoudige eigenschap), is de ‘go-to’ bibliotheek om om te gaan met ruimtelijke vectoriële gegevens, dat zijn gegevens die geografische geometrieën beschrijven als een reeks van punten, die worden beschreven door hun <em>lengteg-</em> en <em>breedtegraad</em> coördinaten. Hiermee kunnen geografische vormen worden geïmporteerd, gemanipuleerd en geplot en kunnen we gegevens verwerken in een tabel-achtig formaat, net als een data.frame. Wat een opluchting!</p>
+<p>In deze kleine oefening gebruiken we <code>{readxl}</code> om het Excel bestand te importeren en binnen te halen van de <a href="https://www.bag.admin.ch/bag/en/home/krankheiten/ausbrueche-epidemien-pandemien/aktuelle-ausbrueche-epidemien/novel-cov/situation-schweiz-und-international.html">website van het Zwitsers Federaal Bureau van Publieke Gezondheid</a>.</p>
+<p><code>{rcartocolor}</code> is de R bibliotheek die mooi uitziende kleurschalen bevat, die zijn ontwikkeld voor cartografie. Zoals David Letterman zou zeggen, <code>{tidyverse}</code>‘needs no introduction’. Dit zijn de programma’s die we hier binnenhalen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rcartocolor)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Laten we beginnen met het laden van de gegevens, met <code>read_excel()</code>, waarin we de exacte naam van het <code>blad</code> dat we willen laden kunnen opgeven, hoeveel regels we mogen <code>overslaan</code> en hoeveel regels we in totaal willen <code>behouden</code>.</p>
+<p>We hebben een rij per kanton en een rij voor de titel, wat betekent dat we slechts 27 rijen hoeven te behouden (er zijn 26 Zwitserse kantons).</p>
+<p>We schonen ook de kolomnamen een beetje op met <code>clean_names</code> uit het <code>{janitor}</code> pakket en gebruiken <code>transmute</code> om de gewenste kolommen te hernoemen en de andere te laten vallen.</p>
+<blockquote class="blockquote">
+<p>Tot nu toe, eenvoudige dataimport en manipulatie.</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>covid_incidence <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"resources/200325_dati di base_grafica_COVID-19-rapporto.xlsx"</span>, </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">sheet =</span> <span class="st">"COVID19 casi per cantone"</span>, <span class="at">skip =</span> <span class="dv">6</span>, </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_max =</span> <span class="dv">27</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">clean_names</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(<span class="at">canton =</span> cantone, <span class="at">incidence =</span> incidenza_100_000_6)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>New names:
+* `Casi confermati` -&gt; `Casi confermati...2`
+* `Incidenza/100 000` -&gt; `Incidenza/100 000...3`
+* `` -&gt; `...4`
+* `Casi confermati` -&gt; `Casi confermati...5`
+* `Incidenza/100 000` -&gt; `Incidenza/100 000...6`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(covid_incidence)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 x 2
+  canton incidence
+  &lt;chr&gt;      &lt;dbl&gt;
+1 AG          45.1
+2 AI          99.1
+3 AR          92.3
+4 BE          73  
+5 BL          33  
+6 BS          47.7</code></pre>
+</div>
+</div>
+<p>Wij hebben nu een variabele die de kantoncodes bevat en een variabele die de incidentie per 100.000, per kanton, van COVID-19 in de laatste 14 dagen bevat.</p>
+<p>We zijn nu klaar om de <strong>shapefiles</strong> te laden.</p>
+<blockquote class="blockquote">
+<p>Wacht even, wat zijn de shapefiles?</p>
+</blockquote>
+<p>Shapefiles, zijn de bestanden die de geografische vormen bevatten die we willen plotten. We willen de data van de kantons plotten, dus hebben we de Zwitserse kantons nodig, die kunnen worden gedownload van [hier] (https://www.bfs.admin.ch/bfs/en/home/services/geostat/swiss-federal-statistics-geodata/administrative-boundaries/generalized-boundaries-local-regional-authorities.html).</p>
+<p>Shapefiles zijn eigenlijk een set van bestanden, die verschillende geografische informatie bevatten (b.v. info over de projecties). Een van deze bestanden heeft de extensie <code>.shp</code> en dit is het bestand dat we gaan laden.</p>
+<blockquote class="blockquote">
+<p>Let op dat je alle andere bestanden in dezelfde map hebt staan.</p>
+</blockquote>
+<p>Nu kunnen we dus 2 shapefiles laden, één die de vormen van de kantongrenzen bevat en één die de vorm van de grote meren van Zwitserland bevat.</p>
+<p>Laten we ze eens laden en kijken hoe ze eruit zien.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>swiss_lakes <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"resources/g2s15.shp"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `g2s15' from data source 
+  `C:\FilesHarrie\HHQuarto\posts\2021-07-21-kaart-van-zwitserland\resources\g2s15.shp' 
+  using driver `ESRI Shapefile'
+Simple feature collection with 22 features and 9 fields
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: 500253.8 ymin: 63872.4 xmax: 774495.3 ymax: 297632.2
+Projected CRS: CH1903 / LV03</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>swiss_cantons <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"resources/G1K09.shp"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `G1K09' from data source 
+  `C:\FilesHarrie\HHQuarto\posts\2021-07-21-kaart-van-zwitserland\resources\G1K09.shp' 
+  using driver `ESRI Shapefile'
+Simple feature collection with 26 features and 3 fields
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: 485414 ymin: 75286 xmax: 833837 ymax: 295935
+Projected CRS: CH1903 / LV03</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(swiss_cantons)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "sf"         "data.frame"</code></pre>
+</div>
+</div>
+<p><code>swiss_cantons</code> en <code>swiss_lakes</code>, worden opgeslagen als <code>sf data.frame</code>s (als dataframe van sf dus), zodat we ze kunnen manipuleren, net zoals we tibbles (of data.frames) kunnen manipuleren. Dit is mogelijk omdat geometrieën worden opgeslagen op een zeer nette manier: als een geneste variabele meestal genaamd <code>geometry</code>. Dit zal je enige <em>speciale</em> variabele zijn, de andere (die attributen worden genoemd) zullen gewoon normale variabelen zijn. Bijvoorbeeld, elk kanton heeft zijn naam en code gekoppeld aan de geometrie die het beschrijft.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(swiss_cantons)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Simple feature collection with 6 features and 3 fields
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: 546871 ymin: 130593 xmax: 768722 ymax: 295935
+Projected CRS: CH1903 / LV03
+  KT         NAME KURZ                       geometry
+1 17   St. Gallen   SG MULTIPOLYGON (((738559 1968...
+2 12  Basel-Stadt   BS MULTIPOLYGON (((608728 2681...
+3  7    Nidwalden   NW MULTIPOLYGON (((671030 1822...
+4  2         Bern   BE MULTIPOLYGON (((572954 1936...
+5 14 Schaffhausen   SH MULTIPOLYGON (((684561 2726...
+6 10     Fribourg   FR MULTIPOLYGON (((584435 1976...</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>Het voordeel van <code>{sf}</code> te gebruiken als ons hoofdgereedschap om met deze datatypes om te gaan? We kunnen <code>{ggplot2}</code> gebruiken om ze te plotten!</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> swiss_cantons)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="kaart-van-zwitserland_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>En, net als met elke <code>{ggplot2}</code> grafiek, kunnen we het bouwen van de kaart laag voor laag opbouwen. Laten we nu de Zwitserse meren toevoegen bovenop de kantonvormen en <code>theme_void()</code> gebruiken om de achtergrond en de as te verwijderen. In deze stap kunnen we ook de kantons transparant maken door het <code>fill</code> argument op NA te zetten en een lichte groenblauwe kleur toe te voegen om de meren te vullen. <code>geom_sf()</code> werkt inderdaad net als elke andere <code>geom_</code> functie, geen alarmen en geen verrassingen hier.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> swiss_cantons, <span class="at">fill =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> swiss_lakes,  <span class="at">fill =</span> <span class="st">"#d1eeea"</span>, <span class="at">color =</span> <span class="st">"#d1eeea"</span>) <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="kaart-van-zwitserland_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Hoe kunnen we nu elk kanton kleuren naar de grootte van de COVID-19 incidentie per 100’000 mensen?</p>
+<p>We hoeven alleen maar de <code>covid_incidence</code> tabel en de <code>swiss_cantons</code> tabel samen te voegen, met de kantoncode als verbindingsvariabele. Hiermee kunnen we de variabele incidentie in kaart brengen naar de <code>fill</code> esthetiek en ereen <strong>choropleth</strong> kaart van maken, d.w.z. een thematische kaart.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>swiss_cantons <span class="ot">&lt;-</span> swiss_cantons <span class="sc">%&gt;%</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(covid_incidence, <span class="fu">c</span>(<span class="st">"KURZ"</span> <span class="ot">=</span> <span class="st">"canton"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Om onze kaart er mooi te laten uitzien, verdelen wij, in plaats van een numerieke variabele te gebruiken, de incidentie in categorieën. Zo is het voor de gebruiker gemakkelijker te zien in welke categorie elk kanton valt.</p>
+<p>Dit is een typische praktijk voor choropleth kaarten en het kan op verschillende manieren worden gedaan. In dit geval kiezen we voor een brute kracht aanpak, we doen het handmatig.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>swiss_cantons <span class="ot">&lt;-</span> swiss_cantons <span class="sc">%&gt;%</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">incidence_cat =</span> <span class="fu">case_when</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    incidence <span class="sc">&lt;=</span> <span class="dv">50</span> <span class="sc">~</span> <span class="st">"0-50"</span>,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    incidence <span class="sc">&lt;=</span> <span class="dv">100</span> <span class="sc">~</span> <span class="st">"51-100"</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    incidence <span class="sc">&lt;=</span> <span class="dv">150</span> <span class="sc">~</span> <span class="st">"101-150"</span>,</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    incidence <span class="sc">&lt;=</span> <span class="dv">300</span> <span class="sc">~</span> <span class="st">"251-300"</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">incidence_cat =</span> <span class="fu">factor</span>(incidence_cat, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"0-50"</span>, <span class="st">"51-100"</span>,<span class="st">"101-150"</span>,<span class="st">"151-200"</span>,<span class="st">"251-300"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Nu kunnen we de kleur toewijzen aan de <code>incidence_cat</code> variabele en de eerste choropleth kaart maken.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(swiss_cantons) <span class="sc">+</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> incidence_cat), <span class="at">size =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_carto_d</span>(<span class="at">palette =</span> <span class="st">"BrwnYl"</span>) <span class="sc">+</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> swiss_lakes, <span class="at">fill =</span> <span class="st">"#d1eeea"</span>, <span class="at">color =</span> <span class="st">"#d1eeea"</span>)<span class="sc">+</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"bottom"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="kaart-van-zwitserland_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>En we hebben onze eerste choropleth kaart, gebouwd met alleen <code>{sf}</code> en <code>{ggplot2}</code>. Laten we nog wat puntjes op de i zetten: we zijn niet tevreden met hoe de legende eruit ziet en we kunnen die veranderen met <code>guide_legend()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(swiss_cantons) <span class="sc">+</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> incidence_cat), <span class="at">size =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_carto_d</span>(<span class="at">palette =</span> <span class="st">"BrwnYl"</span>,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">guide =</span> <span class="fu">guide_legend</span>(<span class="at">direction =</span> <span class="st">"horizontal"</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">keyheight =</span> <span class="fu">unit</span>(<span class="dv">2</span>, <span class="at">units =</span> <span class="st">"mm"</span>),</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">keywidth =</span> <span class="fu">unit</span>(<span class="dv">70</span> <span class="sc">/</span> <span class="dv">5</span>, <span class="at">units =</span> <span class="st">"mm"</span>),</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">title.position =</span> <span class="st">'top'</span>,</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">title.hjust =</span> <span class="fl">0.5</span>,</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">label.hjust =</span> <span class="fl">0.5</span>,</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">nrow =</span> <span class="dv">1</span>,</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">byrow =</span> T,</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">label.position =</span> <span class="st">"bottom"</span>)) <span class="sc">+</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> swiss_lakes, <span class="at">fill =</span> <span class="st">"#d1eeea"</span>, <span class="at">color =</span> <span class="st">"#d1eeea"</span>)<span class="sc">+</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"bottom"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="kaart-van-zwitserland_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Nu kunnen we een titel, een ondertitel en labels toevoegen aan de bovenkant van elke kanton. We zullen <code>{ggrepel}</code> gebruiken om ervoor te zorgen dat de labels elkaar niet overlappen, we zullen ook <code>{ggtext}</code> gebruiken zodat we markdown syntax kunnen gebruiken voor onze titel en ondertitel.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(swiss_cantons) <span class="sc">+</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> incidence_cat), <span class="at">size =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_carto_d</span>(<span class="at">palette =</span> <span class="st">"BrwnYl"</span>,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">guide =</span> <span class="fu">guide_legend</span>(<span class="at">direction =</span> <span class="st">"horizontal"</span>,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">keyheight =</span> <span class="fu">unit</span>(<span class="dv">2</span>, <span class="at">units =</span> <span class="st">"mm"</span>),</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">keywidth =</span> <span class="fu">unit</span>(<span class="dv">70</span> <span class="sc">/</span> <span class="dv">5</span>, <span class="at">units =</span> <span class="st">"mm"</span>),</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">title.position =</span> <span class="st">'top'</span>,</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">title.hjust =</span> <span class="fl">0.5</span>,</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">label.hjust =</span> <span class="fl">0.5</span>,</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">nrow =</span> <span class="dv">1</span>,</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">byrow =</span> T,</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">label.position =</span> <span class="st">"bottom"</span>)) <span class="sc">+</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> swiss_lakes, <span class="at">fill =</span> <span class="st">"#d1eeea"</span>, <span class="at">color =</span> <span class="st">"#d1eeea"</span>)<span class="sc">+</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  ggrepel<span class="sc">::</span><span class="fu">geom_label_repel</span>(</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> swiss_cantons,</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste0</span>(KURZ,<span class="st">":"</span>,<span class="fu">round</span>(incidence, <span class="at">digits =</span> <span class="dv">0</span>)), </span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">geometry =</span> geometry),</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">stat =</span> <span class="st">"sf_coordinates"</span>,</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">min.segment.length =</span> <span class="fl">0.2</span>,</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">"#541f3f"</span>,</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">3</span>,</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">segment.alpha =</span> <span class="fl">0.5</span></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"&lt;b style='color:#541f3f'&gt; COVID-19 gevallen per kanton, laatste 14 dagen &lt;/b&gt;"</span>,</span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"&lt;span style='font-size:10pt'&gt;Incidentie per 100'000 inwoners,per canton &lt;/span&gt;"</span>,</span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"Bron: OFSP | updated 12.10.2020"</span>) <span class="sc">+</span></span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"bottom"</span>,</span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> ggtext<span class="sc">::</span><span class="fu">element_markdown</span>(),</span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.subtitle =</span> ggtext<span class="sc">::</span><span class="fu">element_markdown</span>()) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="kaart-van-zwitserland_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We hebben nu de code om een choropleth kaart te maken en we hebben gezien hoe we die stap voor stap kunnen bouwen met <code>{ggplot2}</code>. Met een beetje maatwerk hebben we nu een statische kaart die we in een ander formaat opslaan en delen.</p>
+<p>Als je geïnteresseerd bent in het omgaan met geografische gegevens, is een van de beste vrij beschikbare bronnen het <a href="https://geocompr.robinlovelace.net">Geocomputation with R-boek</a>. De auteurs van het boek maken veel gebruik van verschillende pakketten voor het plotten van thematische kaarten, met name <code>{tmap}</code>, dat ook de moeite waard is om te onderzoeken. Als u pakketten zoals <code>{ggtext}</code> wilt gebruiken om uw plots aan te passen, is <code>{ggplot2}</code> de bibliotheek waarop u wilt vertrouwen, vooral als u al gewend bent om ermee te werken.</p>
+<p>Ik hoop dat je dit artikel met plezier las en blijf op de hoogte van meer voorbeelden over hoe kaarten in R zijn te maken.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

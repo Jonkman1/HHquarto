@@ -1,0 +1,924 @@
+---
+title: "BBC en data-journalisme"
+description: |
+  Een blog over hoe de BBC omgaat met visualisatie en data-journalisme
+author:
+  - name: R-bloggers, bewerking Harrie Jonkman.
+    url: https://Harriejonkman.nl
+date: 02-20-2019
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE, echo=TRUE, warning=FALSE}
+pacman::p_load('dplyr', 'tidyr', 'gapminder',
+               'ggplot2',  'ggalt',
+               'forcats', 'R.utils', 'png', 
+               'grid', 'ggpubr', 'scales',
+               'bbplot', 'knitr', 'pander')
+
+options(scipen = 999)
+```
+
+## Hoe kunnen we grafieken in BBC-stijl produceren
+
+Bij het BBC datateam hebben ze een R-pakket en een R-kookboek ontwikkeld. Met dat pakket en kookboek wordt het proces van het maken van publicatieklare grafieken in hun huisstijl geautomatiseerd. Met behulp van R's `ggplot2`-pakket wordt er een meer reproduceerbaar proces van gemaakt. Voor nieuwe R-gebruikers wordt het zo ook gemakkelijker gemaakt om deze grafieken te maken.
+
+
+![](bbplot_example_plots.png)
+
+
+Het kookboek, dat in februari 2019 [hier](https://www.r-bloggers.com/create-data-visualizations-like-bbc-news-with-the-bbcs-r-cookbook/) verscheen, heb ik in het Nederlands vertaald om zelf goed door te krijgen hoe het allemaal werkt. Het kookboek en deze Nederlandse versie wil iedereen helpen om dit soort grafieken te maken:
+
+  
+
+Laten we eens zien hoe we de verschillende elementen van deze grafieken in elkaar kunnen zetten. Maar **eerst eens enkele administratieve zaken...**
+
+### Laad eerst alle pakketten die je nodig hebt in R
+
+Een paar van de stappen in dit kookboek - om grafieken in R in het algemeen te kunnen maken - vereisen dat bepaalde pakketten worden geïnstalleerd en geladen. Zo hoeft u ze niet één voor één te installeren en te laden. Door de `p_load`-functie in het `pacman`-pakket kunt u ze allemaal tegelijk laden met de volgende code. 
+
+
+```{r eval=FALSE}
+# Deze code installeert pacman als je deze al niet geinstalleerd hebt - heb je dat wel gedaan dan wordt pacman (of de pakketten die erin zitten) gewoon geladen
+if(!require(pacman))install.packages("pacman")
+
+pacman::p_load('dplyr', 'tidyr', 'gapminder',
+               'ggplot2',  'ggalt',
+               'forcats', 'R.utils', 'png', 
+               'grid', 'ggpubr', 'scales',
+               'bbplot')
+```
+
+### Installeer in ieder geval het bbplot pakket
+
+`bbplot` staat niet op CRAN (het algemene platform voor R-pakketten). U moet het direct vanaf Github installeren met behulp van `devtools`. 
+
+Als u het `devtools`-pakket niet heeft geïnstalleerd, moet u ook de eerste regel in de code hieronder uitvoeren.
+
+``` {r eval = FALSE}
+# dit eerst doen, als u het pakket niet heeft: 
+# install.packages('devtools')
+devtools::install_github('bbc/bbplot')
+```
+
+Voor meer informatie over `bbplot`-pakket, bekijk het volgende [Github repo](https://github.com/bbc/bbplot). Dat wat u moet weten over het gebruik van het pakket en de functies, is hieronder gedetailleerd te vinden. 
+
+Wanneer u het pakket hebt gedownload en met succes hebt geïnstalleerd, bent u in staat om grafieken te gaan maken. 
+
+### Hoe werkt dat `bbplot`-pakket eigenlijk?
+
+Het pakket heeft twee functies, `bbc_style()` en `finalise_plot()`.
+
+`bbc_style()`: heeft geen argumenten en wordt toegevoegd aan de ggplot 'keten' nadat je een plot hebt gemaakt. Wat het doet is over het algemeen tekstgrootte, lettertype en kleur, aslijnen, aslijnen, as-tekst, marges en vele andere standaardgrafiekonderdelen in BBC-stijl. Die zijn geformuleerd op basis van aanbevelingen en feedback van het ontwerpteam.
+
+Merk op dat kleuren voor lijnen in het geval van een lijndiagram bijvoorbeeld of balken voor een staafdiagram, niet uit het kader van de `bbc_style()` functie komen. Die moeten expliciet worden ingesteld in uw standaard `ggplot`-grafiekfuncties.
+
+De code hieronder laat zien hoe de `bbc_style()` gebruikt moet worden binnen de standaard workflow om grafieken te maken. Dit is een voorbeeld van een zeer eenvoudige lijndiagram. De data waar gebruik van wordt gemaakt komen uit het `gapminder`-pakket.
+
+
+```{r message = FALSE, warning = FALSE}
+#Eerst de data van Malawi uit het pakket Gapminder halen
+line_df <- gapminder %>%
+  filter(country == "Malawi") 
+
+#Een grafiek maken
+line <- ggplot(line_df, aes(x = year, y = lifeExp)) +
+  geom_line(colour = "#1380A1", size = 1) +
+  geom_hline(yintercept = 0, size = 1, colour="#333333") +
+  bbc_style() +
+  labs(title="Langer leven",
+       subtitle = "Levensverwachting Malawi, 1952-2007")
+```
+
+```{r echo=FALSE, warning = FALSE, message = FALSE}
+plot(line)
+```
+
+Dit is wat de `bbc_style()`-functie eigenlijk onder de motorkap doet. Het wijzigt in wezen bepaalde argumenten in de `thema` functie van `ggplot2`.
+
+Het eerste argument is bijvoorbeeld het instellen van het lettertype, de grootte, het lettertype en de kleur van het titelelement van de grafiek.
+
+```{r echo=FALSE}
+bbplot::bbc_style
+```
+
+U kunt deze instellingen voor uw grafiek wijzigen of extra thema-argumenten toevoegen. Dit kan door `thema`-functie aan te roepen met de argumenten die u wilt. Maar, let op: om het te laten werken, moet u de `bbc_style` functie hebben aangeroepen. Anders zal `bbc_style()` deze overrulen. 
+
+Dit voegt enkele rasterlijnen toe, door extra thema-argumenten toe te voegen aan wat er in de `bbc_style()` functie zit. Er zitten verschillende gelijkaardige voorbeelden in het kookboek.
+
+
+```{r eval=FALSE}
+theme(panel.grid.major.x = element_line(color="#cbcbcb"), 
+        panel.grid.major.y=element_blank())
+```
+
+
+### Sla jouw afgeronde grafiek op 
+
+Na het toevoegen van de `bbc_style()` aan uw grafiek is er nog een stap om uw grafiek klaar te maken voor publicatie. `finalise_plot()`, de tweede functie van het `bbplot`-pakket, zal de titel links uitlijnen, ondertitelen en de footer toevoegen met een bron en een afbeelding in de rechter benedenhoek van uw grafiek. Het zal het ook opslaan op de door u opgegeven locatie. De functie heeft vijf argumenten:
+
+
+Hier zijn de argumenten van de functie:
+`finalise_plot(plot_name, source, save_filepath, width_pixels = 640, height_pixels = 450)`.
+
+* `plot_name`: de variabelenaam die u uw plot heeft genoemd, bijvoorbeeld voor het voorbeeld hierboven zou "lijn" de `plot_name` zijn    
+* source: de brontekst die u linksonder in uw plot wilt weergeven. U moet het woord `"Source: "Bron:" `voor het woord typen, dus bijvoorbeeld `source = "Bron": Gapminder"` zou de juiste manier zijn om dat te doen.
+* `Save_filepath`: type hier het precieze bestandspad waarin u uw afbeelding wilt opslaan, inclusief de `.png` extensie aan het einde. Dit is afhankelijk van uw werkmap en of u zich in een specifiek R-project bevindt. Een voorbeeld van een bestandspad zou zijn: `Desktop/R_projecten/figuren/lijngrafiek.png`.
+* `width_pixels`: dit is standaard ingesteld op 640px, dus noem dit argument alleen als u wilt dat de grafiek een andere breedte heeft, en geef aan wat u wilt dat het is. 
+* `hoogte_pixels`: dit is standaard ingesteld op 450px, dus noem dit argument alleen als u wilt dat de grafiek een andere hoogte heeft en geef aan wat u wilt dat het is. 
+* `logo_image_path`: dit argument specificeert het pad voor het beeld/logo in de rechter benedenhoek van het diagram. De standaardinstelling is voor een PNG-bestand met een achtergrond die overeenkomt met de achtergrondkleur van het diagram. Dus specificeer het argument niet als u wilt dat het zonder logo verschijnt. Als u uw eigen logo wilt toevoegen, hoeft u alleen het pad naar uw PNG-bestand te specificeren. Het pakket is opgezet met een brede en dunne afbeelding in gedachten.
+
+
+Voorbeeld van hoe de `finalise_plot()` wordt gebruikt in een standaard workflow. Deze functie wordt aangeroepen zodra u uw grafiekgegevens, titels en de `bbc_style()` eraan hebt toegevoegd:
+
+
+``` {r eval = FALSE}
+finalise_plot(plot_name = my_line_plot,
+              source = "Bron: Gapminder",
+              save_filepath = "filename_that_my_plot_should_be_saved_to.png",
+              width_pixels = 640,
+              height_pixels = 450,
+              logo_image_path = "placeholder.png")
+```
+
+Als u eenmaal uw plot hebt gemaakt en er relatief tevreden mee bent, kunt u de `finalise_plot()` functie gebruiken om de laatste aanpassingen te maken en uw grafiek op te slaan zodat u er buiten RStudio naar kunt kijken.
+
+
+Het is belangrijk om te vermelden dat het een goed idee is om dit in een vroeg stadium te doen omdat de positie van de tekst en andere elementen niet nauwkeurig worden weergegeven in het RStudio Plots paneel. Hier is het afhankelijk van de grootte en de aspect ratio die u wilt dat uw plot verschijnt. Het opslaan en openen van de bestanden geeft u een nauwkeurige weergave van hoe de grafiek eruit ziet.
+
+
+De `finalise_plot()`-functie doet meer dan alleen het opslaan van je grafiek. Het lijnt ook de titel en ondertiteling links uit zoals standaard is voor BBC-grafieken, voegt een footer toe met het logo aan de rechterkant en laat je de brontekst aan de linkerkant invoeren.
+
+
+Dus hoe kunt u de bovenstaande voorbeeldplot opslaan?
+
+
+``` {r eval = FALSE}
+finalise_plot(plot_name = line,
+              source = "Bron: Gapminder",
+              save_filepath = "images/line_plot_finalised_test.png",
+              width_pixels = 640,
+              height_pixels = 550)
+```
+
+***
+
+## Maak een lijn figuur
+
+```{r message = FALSE}
+#Data prepareren
+line_df <- gapminder %>%
+  filter(country == "China") 
+
+#Grafiek maken
+line <- ggplot(line_df, aes(x = year, y = lifeExp)) +
+  geom_line(colour = "#1380A1", size = 1) +
+  geom_hline(yintercept = 0, size = 1, colour="#333333") +
+  bbc_style() +
+  labs(title="Langer leven",
+       subtitle = "Levensverwachting China, 1952-2007")
+```
+
+```{r echo=FALSE}
+plot(line)
+```
+
+## Make een grafiek met verschillende lijnen
+
+```{r}
+#Data prepareren
+multiple_line_df <- gapminder %>%
+  filter(country == "China" | country == "United States") 
+
+#Grafiek maken
+multiple_line <- ggplot(multiple_line_df, aes(x = year, y = lifeExp, colour = country)) +
+  geom_line(size = 1) +
+  geom_hline(yintercept = 0, size = 1, colour="#333333") +
+  scale_colour_manual(values = c("#FAAB18", "#1380A1")) +
+  bbc_style() +
+  labs(title="Langer leven",
+       subtitle = "Levensverwachting China en VS")
+```
+
+
+```{r echo=FALSE}
+plot(multiple_line)
+```
+
+## Maak een staafdiagram
+
+```{r}
+#Data prepareren
+bar_df <- gapminder %>%
+  filter(year == 2007 & continent == "Africa") %>%
+  arrange(desc(lifeExp)) %>%
+  head(5)
+
+#Grafiek maken
+bars <- ggplot(bar_df, aes(x = country, y = lifeExp)) +
+  geom_bar(stat="identity", 
+           position="identity", 
+           fill="#1380A1") +
+  geom_hline(yintercept = 0, size = 1, colour="#333333") +
+  bbc_style() +
+  labs(title="Reunion is het hoogst",
+       subtitle = "Afrika's hoogste levensverwachting, 2007")
+```
+
+```{r echo=FALSE}
+plot(bars)
+```
+
+## Maak een gestapelde staaf diagram
+
+```{r}
+#Data prepareren
+stacked_df <- gapminder %>% 
+  filter(year == 2007) %>%
+  mutate(lifeExpGrouped = cut(lifeExp, 
+                    breaks = c(0, 50, 65, 80, 90),
+                    labels = c("-50", "50-65", "65-80", "80+"))) %>%
+  group_by(continent, lifeExpGrouped) %>%
+  summarise(continentPop = sum(as.numeric(pop)))
+
+#Order in de stacks door het veranderen van factorniveaus
+stacked_df$lifeExpGrouped = factor(stacked_df$lifeExpGrouped, levels = rev(levels(stacked_df$lifeExpGrouped)))
+
+#Grafiek creeren
+stacked_bars <- ggplot(data = stacked_df, 
+                       aes(x = continent,
+                           y = continentPop,
+                           fill = lifeExpGrouped)) +
+  geom_bar(stat = "identity", 
+           position = "fill") +
+  bbc_style() +
+  scale_y_continuous(labels = scales::percent) +
+  scale_fill_viridis_d(direction = -1) +
+  geom_hline(yintercept = 0, size = 1, colour = "#333333") +
+  labs(title = "Hoe levensverwachting varieert",
+       subtitle = "% bevolking binnen bandbreedtes van levensverwachting, 2007") +
+  theme(legend.position = "top", 
+        legend.justification = "left") +
+  guides(fill = guide_legend(reverse = TRUE))
+
+```
+
+```{r echo=FALSE}
+plot(stacked_bars)
+```
+
+Dit voorbeeld toont proporties, maar u wilt misschien een gestapelde staafdiagram maken met nummerwaarden - dit is eenvoudig te veranderen!
+
+
+De waarde die wordt doorgegeven aan het `position`-argument zal bepalen of uw gestapelde grafiek verhoudingen of werkelijke waarden toont. 
+
+
+`positie = "fill"` zal uw stapels vertonen als proporties, en `position = "identity"` zal getalwaarden laten zien. 
+
+## Maak een gegroepeerde staafdiagram
+
+Het maken van een gegroepeerde staafdiagram lijkt erg op het maken van een staafdiagram. 
+
+Je hoeft alleen maar `position = "identity"` te veranderen in `position="dodge"` en de `vulling` wordt esthetisch.
+
+```{r}
+#Data prepareren
+grouped_bar_df <- gapminder %>%
+  filter(year == 1967 | year == 2007) %>%
+  select(country, year, lifeExp) %>%
+  spread(year, lifeExp) %>%
+  mutate(gap = `2007` - `1967`) %>%
+  arrange(desc(gap)) %>%
+  head(5) %>%
+  gather(key = year, 
+         value = lifeExp,
+         -country,
+         -gap) 
+  
+#Grafiek maken
+grouped_bars <- ggplot(grouped_bar_df, 
+                       aes(x = country, 
+                           y = lifeExp, 
+                           fill = as.factor(year))) +
+  geom_bar(stat="identity", position="dodge") +
+  geom_hline(yintercept = 0, size = 1, colour="#333333") +
+  bbc_style() +
+  scale_fill_manual(values = c("#1380A1", "#FAAB18")) +
+  labs(title="Wij leven langer",
+       subtitle = "Grootste toename levensverwachting, 1967-2007")
+```
+
+```{r echo=FALSE}
+plot(grouped_bars)
+```
+
+## Maak een halter grafiek
+
+Een andere manier om het verschil te laten zien is een 'dumbbell'-grafiek:
+
+```{r}
+library("ggalt")
+library("tidyr")
+
+#Data prepareren
+dumbbell_df <- gapminder %>%
+  filter(year == 1967 | year == 2007) %>%
+  select(country, year, lifeExp) %>%
+  spread(year, lifeExp) %>%
+  mutate(gap = `2007` - `1967`) %>%
+  arrange(desc(gap)) %>%
+  head(10)
+
+#Grafiek maken
+ggplot(dumbbell_df, aes(x = `1967`, xend = `2007`, y = reorder(country, gap), group = country)) + 
+  geom_dumbbell(colour = "#dddddd",
+                size = 3,
+                colour_x = "#FAAB18",
+                colour_xend = "#1380A1") +
+  bbc_style() + 
+  labs(title="Wij leven langer",
+       subtitle="Grootste toename van levensverwachting, 1967-2007")
+```
+
+## Maak een histogram
+
+```{r message = FALSE, warning = FALSE}
+hist_df <- gapminder %>%
+  filter(year == 2007)
+
+ggplot(hist_df, aes(lifeExp)) +
+  geom_histogram(binwidth = 5, colour = "white", fill = "#1380A1") +
+  geom_hline(yintercept = 0, size = 1, colour="#333333") +
+  bbc_style() +
+  scale_x_continuous(limits = c(35, 95),
+                     breaks = seq(40, 90, by = 10),
+                     labels = c("40", "50", "60", "70", "80", "90 jaar")) +
+  labs(title = "Hoe levensverwachting varieert",
+       subtitle = "Verdeling levensverwachting, 2007")
+```
+
+
+## Breng veranderingen aan in de legenda
+
+### Verwijder de legenda
+
+Verwijder de legende - het is beter om de gegevens direct te labelen met tekstannotaties.
+
+Gebruik `guides(colour=FALSE)` om de legende te verwijderen voor een specifieke esthetiek (vervang `kleur` door de relevante esthetiek). 
+
+```{r eval=FALSE}
+multiple_line + guides(colour=FALSE)
+```
+
+U kunt ook alle legenden in één keer verwijderen met behulp van `theme(legend.position = "none")`:
+
+```{r}
+multiple_line + theme(legend.position = "none")
+```
+
+### Verander de positie van de legenda
+
+De standaardpositie van de legenda staat bovenaan uw grafiek. Verplaats de legenda naar links, rechts of onderaan buiten de plot met:
+
+```{r}
+multiple_line + theme(legend.position = "right")
+```
+
+Om echt precies te zijn over waar we onze legenda naartoe willen, in plaats van "rechts" of "boven" te specificeren om de algemene positie van waar de legende in onze grafiek verschijnt te veranderen, kunnen we het specifieke coördinaten geven. 
+
+
+Bijvoorbeeld `legend.position=c(0.98,0.1)` zal de legenda naar rechtsonder verplaatsen. Ter referentie, c(0,0) is linksonder, c(1,0) is rechtsonder, c(0,1) is linksboven en zo verder). Het vinden van de exacte positie kan wat vallen en opstaan met zich meebrengen. 
+
+
+Om de exacte positie te controleren waar de legenda in uw definitieve plot verschijnt, moet u het bestand controleren dat is opgeslagen nadat u uw `finalise_plot()` functie hebt uitgevoerd, aangezien de positie relevant is voor de afmetingen van de grafiek.
+
+
+```{r eval=FALSE}
+  multiple_line + theme(legend.position = c(0.115,1.05),
+                      legend.direction = "horizontal") +  
+  labs(title="Langer leven",
+       subtitle = "Levensverwachting China en VS")
+
+```
+
+Om de legenda tegen de linkerkant van uw grafiek te laten aankomenen, kan het makkelijker zijn om een negatieve linkermarge voor de legenda in te stellen met behulp van `legend.margin`. De syntaxis is `margin(top, right, bottom, left)`. 
+
+U zult moeten experimenteren om het juiste getal te vinden om de marge voor uw grafiek in te stellen. Sla het op met `finalise_plot()` en bekijk hoe het eruit ziet.
+
+```{r eval=FALSE}
+  + theme(legend.margin = margin(0, 0, 0, -200))
+```
+
+### Verwijder de titel van de legenda
+
+Verwijder de titel van de legenda door uw `thema()`aan te passen. Vergeet niet dat eventuele wijzigingen aan het thema moeten worden toegevoegd nadat u `bbc_style()` hebt opgeroepen!
+
+
+```{r eval = FALSE}
++ theme(legend.title = element_blank())
+```
+
+### Gooi de volgorde van de legenda om
+
+Soms moet u de volgorde van uw legenda wijzigen, zodat deze overeenkomt met de volgorde van uw balken. Hiervoor heb je `guides` nodig:
+
+
+```{r eval = FALSE}
++ guides(fill = guide_legend(reverse = TRUE))
+```
+
+### Verander de layout van jouw legenda
+
+Als u veel waarden in uw legenda hebt, moet u de lay-out misschien om esthetische redenen aanpassen. 
+
+
+U kunt het aantal rijen opgeven dat u wilt dat u in uw legenda door als argument `guides` te gebruiken gebruiken. Het onderstaande codefragment, bijvoorbeeld, zal een legende met 4 rijen maken:
+
+```{r eval = FALSE}
++ guides(fill = guide_legend(nrow = 4, byrow = T))
+```
+
+Het kan nodig zijn om `fill` in de bovenstaande code te veranderen in een esthetiek die uw legenda beschrijft, zoals `size`, `colour`, enz.
+
+
+### Laat de legendasymbolen er anders uit zien
+
+U kunt het standaardinstelling van de legendesymbolen overschrijven, zonder de manier waarop ze in de plot verschijnen, door het argument `override.aes` toe te voegen aan `guides`. 
+
+Het onderstaande maakt bijvoorbeeld de grootte van de legendesymbolen groter:
+
+```{r eval = FALSE}
++ guides(fill = guide_legend(override.aes = list(size = 4))))
+```
+
+### Breng wat ruimte aan tussen de legenda labels
+
+De standaard `ggplot`-legenda heeft bijna geen ruimte tussen individuele legenda-items. Niet ideaal.
+
+U kunt ruimte toevoegen door de schaallabels handmatig te wijzigen. 
+
+Als u bijvoorbeeld de kleur van uw geoms zo hebt ingesteld dat deze afhankelijk is van uw gegevens, krijgt u een legenda voor de kleur en kunt u de exacte labels aanpassen om wat extra ruimte te krijgen met behulp van het onderstaande fragment:
+
+
+```{r eval = F}
++ scale_colour_manual(labels = function(x) paste0(" ", x, "  "))
+```
+
+Als uw legende iets anders laat zien, moet u de code dienovereenkomstig wijzigen. Bijvoorbeeld, voor het vullen heeft u `scale_fill_manual()` in plaats daarvan nodig. 
+
+
+## Pas de assen aan
+
+### Gooi de coordinaten van een plot om
+
+Voeg `coord_flip()` toe om verticale staven horizontaal te maken:
+
+```{r}
+bars <- bars + coord_flip()
+```
+
+```{r echo=FALSE}
+plot(bars)
+```
+
+### Toevoegen/weghalen van gridlijnen
+
+Het standaard thema heeft alleen rasterlijnen voor de y-as. Voeg x rasterlijnen toe met `panel.grid.major.x = element_line`. 
+
+(Verwijder op dezelfde manier de rasterlijnen op de y-as met `panel.grid.major.y=element_blank()`)
+
+
+```{r}
+bars <- bars + coord_flip() +
+  theme(panel.grid.major.x = element_line(color="#cbcbcb"), 
+        panel.grid.major.y=element_blank())
+```
+
+```{r echo=FALSE}
+plot(bars)
+```
+
+### Verander de astekst met de hand
+
+U kunt de tekstlabels van de assen vrij wijzigen met `scale_y_continuous` of `scale_x_continuous`:
+
+```{r}
+bars <- bars + scale_y_continuous(limits=c(0,85),
+                   breaks = seq(0, 80, by = 20),
+                   labels = c("0","20", "40", "60", "80 jaar"))
+
+bars
+```
+
+Dit specificeert ook de grenzen van uw grafiek en waar u as-tekens wilt hebben.
+
+### Voeg duizend scheidingstekens toe aan u as-labels
+
+U kunt aangeven dat u wilt dat uw as-tekst duizend scheidingstekens heeft met een argument  `schale_y_continuous`. 
+
+Er zijn twee manieren om dit te doen, een in basis R die een beetje lastig is:
+
+
+```{r eval = FALSE}
++ scale_y_continuous(labels = function(x) format(x, big.mark = ",",
+                                                 scientific = FALSE))
+```
+
+De tweede manier is gebaseerd op het `scales`- pakket, maar is veel beknopter: 
+
+```{r eval = FALSE}
++ scale_y_continuous(labels = scales::comma)
+```
+
+### Voeg een percentagesymbool toe aan jouw aslabels
+
+Dit is ook gemakkelijk met een argument toe te voegen aan `scale_y_continuous`:
+
+```{r eval = FALSE}
++ scale_y_continuous(labels = function(x) paste0(x, "%"))
+```
+
+### Verander de limieten van de plot
+
+De lange manier om de grenzen van uw grafiek expliciet in te stellen is met `scale_y_continuous` zoals hierboven. Maar als u de pauzes of labels niet hoeft op te geven, dan is dat met `xlim` of `ylim`:
+
+```{r}
+bars + ylim(c(0,500))
+```
+
+### Voeg astitels toe
+
+Ons standaardthema heeft geen as-titels, maar u kunt ze misschien handmatig toevoegen. Dit doet u door `theme()` - merk op dat je dit moet doen na de aanroep naar `bbc_style()` anders worden je wijzigingen overruled:
+
+
+```{r eval = FALSE}
++ theme(axis.title = element_text(size = 18))
+```
+
+### Pas astitels aan
+
+Als u in de assen titels toevoegt, zijn dit standaard de kolomnamen van uw dataset. U kunt dit veranderen door `labs()`op te roepen in wat u doet. 
+
+Als u bijvoorbeeld wilt dat de x-as de titel "Ik ben een as" krijgt en de y-as label leeg is, dan is dit het formaat:
+
+```{r eval = FALSE}
++ labs(x = "I'm an axis", 
+       y = "")
+```
+
+### Add axis ticks
+
+U kunt as-streepjes toevoegen door `axis.ticks.x` of `axis.ticks.y` toe te voegen aan uw `theme`:
+
+```{r}
+multiple_line + theme(
+  axis.ticks.x = element_line(colour = "#333333"), 
+  axis.ticks.length =  unit(0.26, "cm"))
+```
+
+## Toevoegen van annotaties
+
+### Voeg een annotatie toe
+
+De eenvoudigste manier om een tekstannotatie toe te voegen aan uw grafiek is met behulp van `geom_label`:  
+
+```{r}
+multiple_line + geom_label(aes(x = 1980, y = 45, label = "Ik ben geen annotatie!"), 
+                           hjust = 0, 
+                           vjust = 0.5, 
+                           colour = "#555555", 
+                           fill = "white", 
+                           label.size = NA, 
+                           family="Helvetica", 
+                           size = 6)
+```
+
+De exacte positionering van de annotatie zal afhangen van de `x` en `y` argumenten (wat een beetje lastig is!) en de tekstuitlijning, met behulp van `hjust` en `vjust` - maar meer van dat hieronder.
+
+Voeg regelafbrekingen waar nodig in uw label toe met `n\` en stel de regelhoogte in met `lineheight`. 
+
+
+```{r}
+multiple_line <- multiple_line + 
+  geom_label(aes(x = 1980, y = 45, label = "Ik ben een vrij lange\nannotatie over\ndrie rijen"), 
+             hjust = 0, 
+             vjust = 0.5, 
+             lineheight = 0.8,
+             colour = "#555555", 
+             fill = "white", 
+             label.size = NA, 
+             family="Helvetica", 
+             size = 6) 
+```
+
+Laten we onze directe labels erin krijgen!
+
+```{r}
+multiple_line <- multiple_line + 
+  theme(legend.position = "none") + 
+  xlim(c(1950, 2011)) +
+  geom_label(aes(x = 2007, y = 79, label = "US"), 
+             hjust = 0, 
+             vjust = 0.5, 
+             colour = "#1380A1", 
+             fill = "white", 
+             label.size = NA, 
+             family="Helvetica", 
+             size = 6) +
+  geom_label(aes(x = 2007, y = 72, label = "China"), 
+             hjust = 0, 
+             vjust = 0.5, 
+             colour = "#FAAB18", 
+             fill = "white", 
+             label.size = NA, 
+             family="Helvetica", 
+             size = 6)
+```
+
+```{r echo=FALSE}
+plot(multiple_line)
+```
+
+### Tekst links en rechts uitlijnen
+
+De argumenten `hjust` en `vjust` dicteren horizontale en verticale tekstuitlijning. Ze kunnen een waarde tussen 0 en 1 hebben, waarbij 0 links-uitlijnend en 1 rechts-uitlijnend is (of onder- en boven-uitlijnend voor verticale tekstuitlijning).
+ 
+
+### Voeg labels toe op basis van jouw data
+
+Met de bovenstaande methode voor het toevoegen van annotaties aan uw grafiek kunt u de x- en y-coördinaten precies aangeven. Dit is erg handig als we een tekstannotatie op een bepaalde plaats willen toevoegen, maar het zou erg vervelend zijn om te herhalen. 
+
+Gelukkig, als u labels wilt toevoegen aan al uw datapunten, kunt u in plaats daarvan eenvoudigweg de positie instellen op basis van uw gegevens. 
+
+Laten we zeggen dat we gegevenslabels willen toevoegen aan onze staafdiagram:
+
+
+```{r}
+labelled.bars <- bars +
+  geom_label(aes(x = country, y = lifeExp, label = round(lifeExp, 0)),
+             hjust = 1, 
+             vjust = 0.5, 
+             colour = "white", 
+             fill = NA, 
+             label.size = NA, 
+             family="Helvetica", 
+             size = 6)
+
+labelled.bars
+```
+
+Bovenstaande code voegt automatisch één tekstlabel toe voor elk continent zonder dat we vijf keer `geom_label` moeten toevoegen. 
+
+(Als je in de war raakt over waarom we de `x` instellen als de continenten en `y` als levensverwachting, als de grafiek ze andersom lijkt te tekenen, dan is dat omdat we de coördinaten van de plot hebben omgedraaid met `coord_flip()`, wat je kunt doen [lees meer over hier](https://github.com/bbc/vjdata.rcookbook#flip-the-coordinates-of-a-plot).)
+
+### Voeg links uitgelijnde labels toe aan jouw staafdiagrammen
+
+Als u liever links uitgelijnde labels voor uw balken toevoegt, stelt u gewoon het `x` argument in op basis van uw gegevens, maar specificeer dan het `y` argument direct, met een numerieke waarde. 
+
+De exacte waarde van `y` hangt af van het bereik van uw gegevens. 
+
+
+```{r}
+labelled.bars.v2 <- bars +
+  geom_label(aes(x = country, 
+                 y = 4, 
+                 label = round(lifeExp, 0)),
+             hjust = 0, 
+             vjust = 0.5, 
+             colour = "white", 
+             fill = NA, 
+             label.size = NA, 
+             family="Helvetica", 
+             size = 6)
+
+labelled.bars.v2
+```
+
+### Voeg een lijn toe
+
+Voeg een lijn toe met `geom_segment`:
+
+```{r}
+multiple_line + geom_segment(aes(x = 1979, y = 45, xend = 1965, yend = 43), 
+                             colour = "#555555", 
+                             size=0.5)
+```
+
+Het `size`-argument specificeert de dikte van de lijn. 
+
+### Voeg een gecurfte lijn toe
+
+Voor een gekromde lijn gebruikt u `geom_curve` in plaats van `geom_segment`:
+
+```{r}
+multiple_line + geom_curve(aes(x = 1979, y = 45, xend = 1965, yend = 43), 
+                           colour = "#555555", 
+                           curvature = -0.2,
+                           size=0.5)
+```
+
+Het `curvature` argument bepaalt de kromming van de curve: 0 is een rechte lijn, negatieve waarden geven een linkse curve en positieve waarden geven een rechtse curve.
+
+
+### Voeg een pijl toe
+
+Een lijn in een pijl omzetten is vrij eenvoudig: voeg gewoon het `arrow` argument toe aan je `geom_segment` of `geom_curve`:
+
+```{r}
+multiple_line + geom_curve(aes(x = 1979, y = 45, xend = 1965, yend = 43), 
+                             colour = "#555555", 
+                             size=0.5, 
+                             curvature = -0.2,
+                             arrow = arrow(length = unit(0.03, "npc")))
+```
+
+Het eerste argument, `unit`, stelt de grootte van de pijlpunt in. 
+
+
+### Voeg een lijn over de hele figuur toe
+
+De eenvoudigste manier om een lijn over het hele perceel toe te voegen is met `geom_vline()`, voor een verticale lijn, of `geom_hline()`, voor een horizontale lijn. 
+
+Optionele extra argumenten stellen u in staat om de grootte, kleur en het type lijn te specificeren (de standaard optie is een effen lijn).
+
+```{r}
+multiple_line + geom_hline(yintercept = 10, size = 1, colour = "red", linetype = "dashed")
+```
+
+De lijn voegt natuurlijk niet veel toe in dit voorbeeld, maar dit is handig als je iets wilt benadrukken, bijvoorbeeld een drempelwaarde of een gemiddelde waarde. 
+
+Het is ook vooral handig omdat onze ontwerpstijl - zoals u misschien al hebt gemerkt in de grafieken op deze pagina - bestaat uit het toevoegen van een verticale of horizontale basislijn aan onze grafieken. Dit is de code om te gebruiken:
+
+```{r eval = FALSE}
++ geom_hline(yintercept = 0, size = 1, colour = "#333333")
+```
+
+## Werken met kleinere figuren
+
+Kleine, meervoudige kaarten zijn eenvoudig te maken met ggplot: het heet facetteren.
+
+### Facetteren
+
+Als u gegevens hebt die u wilt visualiseren opgesplitst naar een variabele, moet u `facet_wrap` of `facet_grid` gebruiken. 
+
+Voeg de variabele die je wilt delen aan deze regel code toe: facet_wrap( ~ variabele) `.
+
+Een extra argument bij facet_wrap, `ncol`, stelt u in staat om het aantal kolommen te specificeren:
+
+```{r}
+#Data prepareren
+facet <- gapminder %>%
+  filter(continent != "Americas") %>%
+  group_by(continent, year) %>%
+  summarise(pop = sum(as.numeric(pop)))
+
+#Grafiek maken
+facet_plot <- ggplot() +
+  geom_area(data = facet, aes(x = year, y = pop, fill = continent)) +
+  scale_fill_manual(values = c("#FAAB18", "#1380A1","#990000", "#588300")) + 
+  facet_wrap( ~ continent, ncol = 5) + 
+  scale_y_continuous(breaks = c(0, 2000000000, 4000000000),
+                     labels = c(0, "2bn", "4bn")) +
+  bbc_style() +
+  geom_hline(yintercept = 0, size = 1, colour = "#333333") +
+  theme(legend.position = "none",
+        axis.text.x = element_blank()) +
+  labs(title = "Snelle groei van Azie",
+       subtitle = "Populatiegroei per continent, 1952-2007")
+
+```
+
+```{r echo=FALSE}
+plot(facet_plot)
+```
+
+### Vrije schalen
+
+Het is u wellicht opgevallen dat Oceanië, met zijn relatief kleine bevolking, volledig is verdwenen in de bovenstaande grafiek. 
+
+Standaard wordt bij facetteren gebruik gemaakt van vaste asschalen over de kleine veelvouden. Het is altijd het beste om dezelfde y-as schaal over kleine veelvouden te gebruiken, om misleiding te voorkomen, maar soms moet je deze onafhankelijk van elkaar instellen voor elk veelvoud, wat we kunnen doen door het argument `schales= "free"`. 
+
+Als je alleen de schalen voor één as wilt vrijgeven, zet je het argument op `free_x` of `free_y`. 
+
+```{r}
+#Grafiek maken
+facet_plot_free <- ggplot() +
+  geom_area(data = facet, aes(x = year, y = pop, fill = continent)) +
+  facet_wrap(~ continent, scales = "free") + 
+  bbc_style() +
+  scale_fill_manual(values = c("#FAAB18", "#1380A1","#990000", "#588300")) +
+  geom_hline(yintercept = 0, size = 1, colour = "#333333") +
+  theme(legend.position = "none",
+        axis.text.x = element_blank(),
+        axis.text.y = element_blank()) +
+  labs(title = "Het is allemaal relatief",
+       subtitle = "Relatieve populatiegroei per continent, 1952-2007")
+
+```
+
+```{r echo=FALSE}
+plot(facet_plot_free)
+```
+
+## Doe iets anders uiteindelijk
+
+### Toename en afname van marges
+
+U kunt de marge rond bijna elk element van uw plot - de titel, ondertitels, legenda - of de grafiek zelf wijzigen. 
+
+Normaal gesproken hoeft u de standaardmarges van het thema niet te wijzigen, maar als u dat wel doet, is de syntaxis `theme(ELEMENT=element_text(margin=margin(0, 5, 10, 0)))`.  
+
+De getallen specificeren respectievelijk de boven-, rechter-, onder-, en linkermarge - maar u kunt ook direct aangeven welke marge u wilt wijzigen. Laten we bijvoorbeeld proberen de ondertitel een extra grote ondermarge te geven: 
+You can change the margin around almost any element of your plot - the title, subtitles, legend - or the plot itself. 
+
+
+```{r}
+bars + theme(plot.subtitle=element_text(margin=margin(b=75)))
+```
+
+Hm... misschien niet. 
+
+### Exporteer jouw figuur en x-as marges
+
+U moet wel nadenken over uw x-as margematen wanneer u een figuur produceert dat buiten de standaardhoogte in `bbplot` ligt, dat is 450px. Dit kan bijvoorbeeld het geval zijn als u een staafdiagram maakt met veel balken en ervoor wilt zorgen dat er wat ademruimte is tussen elke staaf en labels. Als u de marges laat zoals ze zijn voor figuren met een grotere hoogte, dan kunt u een grotere afstand tussen de as en uw labels krijgen.
+
+Hier is een handleiding waar we aan werken als het gaat om de marges en de hoogte van uw staafdiagram (met coord_flip erop toegepast):
+
+```{r echo = F, prepping_table, results = 'asis'} 
+
+size <- c("550px", "650px", "750px", "850px")
+t <- c(5, 7, 10, 14) 
+b <- c(rep(10, 4))
+table <- data.frame(size, t, b)
+pandoc.table(table, style = 'rmarkdown') 
+```
+
+Dus wat u zou moeten doen is deze code toevoegen aan uw grafiek als u bijvoorbeeld de hoogte van je plot 650px wilde hebben in plaats van 450px. 
+
+```{r}
+bar_chart_tall <- bars + theme(axis.text.x = element_text(margin=margin(t = 7, b = 10)))
+bar_chart_tall
+```
+
+Hoewel het veel minder waarschijnlijk is, maar als u het equivalent wilt doen voor een lijndiagram en het wilt exporteren op een grotere hoogte dan de standaard hoogte, moet u hetzelfde doen. Maar ook uw waarden voor t veranderen in negatieve waarden op basis van de bovenstaande tabel.  
+
+### Heroderdenen van de staven op basis van de grootte
+
+Standaard zal R uw gegevens in alfabetische volgorde weergeven, maar in plaats daarvan herordenen op basis van grootte is eenvoudig: gewoon `reorder()` om de `x` of `y` variabele leggen die u wilt herschikken, en geef aan voor welke variabele u de gegevens wilt herschikken. 
+
+Bijvoorbeeld `x = reorder (country, pop)`. Oplopende volgorde is de standaard, maar u kunt deze veranderen in aflopende volgorde door `desc()` rond de variabele te plaatsen waar u de volgorde van wilt wijzigen:
+
+
+```{r}
+bars <- ggplot(bar_df, aes(x = reorder(country, lifeExp), y = lifeExp)) +
+  geom_bar(stat="identity", position="identity", fill="#1380A1") +
+  geom_hline(yintercept = 0, size = 1, colour="#333333") +
+  bbc_style() +
+  coord_flip() +
+  labs(title="Reunion hoogste",
+       subtitle = "Hoogste levensverwachting Afrika, 2007") +
+  theme(panel.grid.major.x = element_line(color="#cbcbcb"), 
+        panel.grid.major.y=element_blank())
+```
+
+```{r echo=FALSE}
+plot(bars)
+```
+
+### Staven met de hand herordenen
+
+Soms moet u uw gegevens ordenen op een manier die niet alfabetisch of gerangschikt op grootte is. 
+
+Om deze correct te ordenen moet u de factorniveaus van uw gegevens instellen voordat u het figuur maakt.
+
+Specificeer de volgorde waarin u de categorieën in het `levels` argument wilt afdrukken:
+
+
+```{r eval=FALSE}
+dataset$column <- factor(dataset$column, levels = c("18-24","25-64","65+"))
+```
+
+U kunt dit ook gebruiken om de delen van een gestapelde staafdiagram opnieuw te ordenen.  
+
+### Kleur staven conditioneel
+
+U kunt esthetische waarden zoals vulling, alpha en grootte voorwaardelijk instellen met `ifelse()`. 
+
+De syntaxis is  `fill=ifelse(logical_condition, fill_if_true, fill_if_false)`. 
+
+```{r}
+ggplot(bar_df, 
+       aes(x = reorder(country, lifeExp), y = lifeExp)) +
+  geom_bar(stat="identity", position="identity", fill=ifelse(bar_df$country == "Mauritius", "#1380A1", "#dddddd")) +
+  geom_hline(yintercept = 0, size = 1, colour="#333333") +
+  bbc_style() +
+  coord_flip() +
+  labs(title="Reunion is hoogsgte",
+       subtitle = "Hoogste levensverwachting Afrika, 2007") +
+  theme(panel.grid.major.x = element_line(color="#cbcbcb"), 
+        panel.grid.major.y=element_blank()) 
+```
+

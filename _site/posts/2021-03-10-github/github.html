@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.345">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Lisa Lendway, vertaling Harrie Jonkman">
+<meta name="dcterms.date" content="2021-03-10">
+<meta name="description" content="Lisa Lendway heeft een aantal interessante repositories op haar GitHub account staan, zie hier. Ze zijn vaak kort, maar helder en concreet. Haar stijl en de consistentie daarin bevallen mij zeer. Van haar manier van doen leer ik veel. Zij maakt haar stukken vaak voor haar statistieklessen en deelt zo haar kennis met haar studenten en anderen buiten haar klas. Ik heb mij voorgenomen om er een aantal goed te lezen, te vertalen en te bewerken waar nodig, en deze op mijn website over te nemen. Vorige maand deed ik dat al met een blof over Distill en nu een over GitHub.">
+
+<title>- GitHub voor samenwerking</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">Harrie’s Hoekje</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Jonkman1"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">GitHub voor samenwerking</h1>
+                          <div class="quarto-categories">
+                <div class="quarto-category">analyse</div>
+              </div>
+                  </div>
+  </div>
+    
+  <div>
+    <div class="description">
+      <p>Lisa Lendway heeft een aantal interessante repositories op haar GitHub account staan, <a href="https://github.com/llendway">zie hier</a>. Ze zijn vaak kort, maar helder en concreet. Haar stijl en de consistentie daarin bevallen mij zeer. Van haar manier van doen leer ik veel. Zij maakt haar stukken vaak voor haar statistieklessen en deelt zo haar kennis met haar studenten en anderen buiten haar klas. Ik heb mij voorgenomen om er een aantal goed te lezen, te vertalen en te bewerken waar nodig, en deze op mijn website over te nemen. Vorige maand deed ik dat al met een blof over Distill en nu een over GitHub.</p>
+    </div>
+  </div>
+
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Lisa Lendway, vertaling Harrie Jonkman </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 10, 2021</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#github" id="toc-github" class="nav-link active" data-scroll-target="#github">GitHub</a></li>
+  <li><a href="#video-uitleg" id="toc-video-uitleg" class="nav-link" data-scroll-target="#video-uitleg">Video uitleg</a></li>
+  <li><a href="#git-en-github" id="toc-git-en-github" class="nav-link" data-scroll-target="#git-en-github">Git en GitHub</a></li>
+  <li><a href="#maak-eerst-een-github-account-aan" id="toc-maak-eerst-een-github-account-aan" class="nav-link" data-scroll-target="#maak-eerst-een-github-account-aan">Maak eerst een GitHub account aan</a></li>
+  <li><a href="#installeer-git" id="toc-installeer-git" class="nav-link" data-scroll-target="#installeer-git">Installeer Git</a></li>
+  <li><a href="#maak-een-eerste-repo-repository-en-gebruik-rstudio-daarbij" id="toc-maak-een-eerste-repo-repository-en-gebruik-rstudio-daarbij" class="nav-link" data-scroll-target="#maak-een-eerste-repo-repository-en-gebruik-rstudio-daarbij">Maak een eerste repo (repository) en gebruik RStudio daarbij</a></li>
+  <li><a href="#klonen-van-een-repo" id="toc-klonen-van-een-repo" class="nav-link" data-scroll-target="#klonen-van-een-repo">Klonen van een repo</a></li>
+  <li><a href="#partners-toevoegen" id="toc-partners-toevoegen" class="nav-link" data-scroll-target="#partners-toevoegen">Partners toevoegen</a></li>
+  <li><a href="#commit-push-pull-en-communicatie" id="toc-commit-push-pull-en-communicatie" class="nav-link" data-scroll-target="#commit-push-pull-en-communicatie">Commit –&gt; Push –&gt; Pull –&gt; … (en Communicatie)</a></li>
+  <li><a href="#conflicten-samenvoegen" id="toc-conflicten-samenvoegen" class="nav-link" data-scroll-target="#conflicten-samenvoegen">Conflicten samenvoegen</a></li>
+  <li><a href="#laten-we-dit-eens-proberen" id="toc-laten-we-dit-eens-proberen" class="nav-link" data-scroll-target="#laten-we-dit-eens-proberen">Laten we dit eens proberen!</a></li>
+  <li><a href="#bron" id="toc-bron" class="nav-link" data-scroll-target="#bron">Bron</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="github" class="level1">
+<h1>GitHub</h1>
+<p>Ik was al vaker van plan hier een stukje over te schrijven. Lisa Lendways tekst hierover vind ik heel duidelijk. Lisa, ik hoop dat je het goed vindt dat ik mij aan jou op trek zo. Dank je wel.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/Screenshot.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Mijn eigen GitHub account</figcaption><p></p>
+</figure>
+</div>
+<p>Lisa Lendway heeft veel van haar materiaal weghaald uit <a href="https://happygitwithr.com/">Happy git with R by Jenny Bryan</a>. Dat is inderdaad een uitstekende bron, maar bevat ook veel informatie die we niet altijd nodig hebben. Als je Git en GitHub op meer geavanceerde manieren wilt gebruiken of als dit stuk onduidelijk is voor je, dan moet je het zeker bekijken. Het is trouwens überhaupt een goede bron.</p>
+</section>
+<section id="video-uitleg" class="level1">
+<h1>Video uitleg</h1>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/QLFc9gw_Hfs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="">
+</iframe>
+<p><a href="https://voicethread.com/share/15440257/">Voicethread tutorial</a></p>
+</section>
+<section id="git-en-github" class="level1">
+<h1>Git en GitHub</h1>
+<p>Git is een versie controle systeem. Het is net zoiets als Googledocs, maar het biedt ruimte aan veel soorten bestanden, ook bestanden waar Google docs niets mee kan … zoals .rmd bestanden! GitHub is een online interface om met Git te werken.</p>
+<p>Waarom leren we deze dingen?!</p>
+<ol type="1">
+<li><p>GitHub is goed geïntegreerd met R Studio. Dus, we zullen geen command-line functies hoeven te gebruiken, tenminste niet nadat we alles hebben ingesteld.</p></li>
+<li><p>Je bent verplicht om R te gebruiken voor je eindproject. De presentatie of paper moet worden opgeslagen als een .rmd document dat kan worden ‘geknit’ tot een html document. Door GitHub te gebruiken, kun je gemakkelijk met je groep samenwerken, ook als je niet bij elkaar bent.</p></li>
+<li><p>GitHub leert je een aantal goede gewoontes aan. Je wordt gedwongen om na te denken over wanneer je ieets opslaat en om notities te maken over welke wijzigingen je hebt gemaakt, bijvoorbeeld.</p></li>
+</ol>
+</section>
+<section id="maak-eerst-een-github-account-aan" class="level1">
+<h1>Maak eerst een GitHub account aan</h1>
+<ul>
+<li>Ga naar http://github.com</li>
+<li>Gebruik een username … zie Jenny Bryan’s <a href="https://happygitwithr.com/github-acct.html">tips</a>. Incorporeer jouw eigen naam, maar gebruik een andere usernaam die je verder gebrukkt, <em>neem iets waar jouw toekomstige baas zich prettig bij voelt</em>. De username van de universiteit is misschien een goede optie.</li>
+</ul>
+</section>
+<section id="installeer-git" class="level1">
+<h1>Installeer Git</h1>
+<pre><code>1. Controleer of je Git al geïnstalleerd hebt. Dit zal alleen het geval zijn als je het ergens anders gebruikt hebt. Om dit te doen, open je de commandoregel of, in R Studio, vouw je de Console uit. Er zou een tabblad moeten zijn dat Terminal zegt. In dat gebied type je</code></pre>
+<pre><code>which git</code></pre>
+<p>Het geeft iets terug als</p>
+<pre><code>/usr/bin/git</code></pre>
+<p>dan ben je klaar en hoef je Git niet meer te installeren. Op een Windows machine kun je misschien niet eens het <code>which git</code> commando succesvol intypen. Dit zou verholpen moeten zijn door git te installeren. Of je zult de shell moeten gebruiken.</p>
+<ol start="2" type="1">
+<li>Als je Git niet geïnstalleerd hebt, moet je het installeren. De instructies zijn iets anders voor Windows en Macs.</li>
+</ol>
+<p><strong>Voor een Windows machine:</strong></p>
+<ul>
+<li>Installeer <a href="https://gitforwindows.org/">Git for Windows</a>. Als er gevraagd wordt naar “Aanpassen van uw PATH omgeving”, zorg er dan voor dat u “Git vanaf de commandoregel en ook van software van derden” selecteert. Anders denken we dat het goed is om de standaardinstellingen te accepteren.</li>
+<li>R Studio voor Windows geeft er de voorkeur aan dat Git geïnstalleerd wordt onder C:/Program Files en dit lijkt de standaard te zijn. Dit houdt bijvoorbeeld in dat de Git executable op mijn Windows systeem te vinden is in C:/Program Files/Git/bin/git.exe. Tenzij je specifieke redenen hebt om anders te doen, volg deze conventie.</li>
+</ul>
+<p><strong>Voor een Mac machine:</strong></p>
+<ul>
+<li>Ga naar jouw <em>shell/terminal</em> en voer <strong>één</strong> van deze commando’s in om een aanbod te krijgen om <code>developer command line tools</code> te installeren. Accepteer het aanbod … klik op installeren.</li>
+</ul>
+<pre><code>git --version
+git config</code></pre>
+<ul>
+<li>Sommigen van jullie die op een Mac werken moeten misschien eerst het volgende doen in de <em>terminal</em> als je een project zonder succes probeert te openen.</li>
+</ul>
+<pre><code>xcode-select --install</code></pre>
+<p>Je komt er zo achter of dit het geval is.</p>
+<ol start="3" type="1">
+<li><p>Ga nu terug naar de <em>Console</em> in R Studio en installeer het <code>usethis</code> pakket in R Studio. Sluit vervolgens R Studio en open het opnieuw.</p></li>
+<li><p>Laad de <code>usethis</code> bibliotheek door het volgende stukje code in de <em>console</em> uit te voeren:</p></li>
+</ol>
+<pre><code>library(usethis)</code></pre>
+<ol start="5" type="1">
+<li>Voer de volgende code uit in de <em>console</em> met enkele kleine wijzigingen. De <code>user.name</code> is je Git gebruikersnaam. Dit kan anders zijn dan je GitHub gebruikersnaam, hoewel het misschien een goed idee is om het gewoon hetzelfde te houden. De <code>user.email</code> <em>MOET</em> hetzelfde zijn als je GitHub gebruikers email.</li>
+</ol>
+<pre><code>use_git_config(user.name = "Jane Doe", user.email =       "jane@example.org")</code></pre>
+</section>
+<section id="maak-een-eerste-repo-repository-en-gebruik-rstudio-daarbij" class="level1">
+<h1>Maak een eerste repo (repository) en gebruik RStudio daarbij</h1>
+<p>Het woord “repo” is een afkorting van “repository”, en dat is precies wat het is: een plaats waar dingen (onze bestanden, in dit geval) worden opgeslagen. Het is als de map die je gemaakt hebt om al je werk voor deze les in op te slaan.</p>
+<p>Laten we naar <a href="https://github.com/">GitHub</a> gaan en inloggen. Nadat je ingelogd bent, zou je een klein icoontje in de rechter bovenhoek moeten zien. Het mijne is een afbeelding van mij. Als ik daar op klik verschijnt er een drop-down en kan ik “Your repositories” kiezen. Doe dat. Je zou nu zoiets als dit moeten zien:</p>
+<p><img src="images/new_repo.png" class="img-fluid"></p>
+<p>Klik op de “New” knop. Geef jouw repository een naam, bv <code>NAME_test_repo</code>, waar <code>NAME</code> eigenlijk jouw naam is. Kies <code>Public</code> en klik de <code>README file</code> aan. Klik dan op <code>Create repository</code>.</p>
+<p><img src="images/create_new_repo.png" class="img-fluid"></p>
+<p>Er zijn dingen die je direct binnen GitHub kunt doen, maar we zullen ons richten op de integratie met R Studio.</p>
+</section>
+<section id="klonen-van-een-repo" class="level1">
+<h1>Klonen van een repo</h1>
+<p>Denk aan het klonen van een repo als het “kopiëren” van de repository naar je computer. Maar als met het kopiëren doet, houdt het de verbinding met de online repo.</p>
+<p>Laten we dit doen. Op je mijn_test_repo pagina, kies je de groene knop met Code en kopieer je het pad door het icoontje met een pijl erop te selecteren en erop te klikken.</p>
+<p>Ga nu naar R Studio. Klik op Bestand –&gt; Nieuw Project … Je zou nu een venster moeten zien dat er als volgt uitziet:</p>
+<p><img src="images/new_project.png" class="img-fluid"></p>
+<p>Kies <code>Version Control</code>. Dan zie je een scherm dat er zo’n beetje zo uitziet:</p>
+<p><img src="images/github.png" class="img-fluid"></p>
+<p>Kies Git. Dan zou je een scherm moeten zien dat er uitziet als dit, zonder alle details ingevuld. De Repository URL is waar je de repo URL moet plakken die je gekloond hebt van github. Het zal ook de Project mapnaam invullen. Laat die gewoon staan. <strong>Let op</strong> waar de project directory zich bevindt en verander het naar een betere directory indien nodig. Klik op <code>Create Project</code>.</p>
+<p><img src="images/clone_git.png" class="img-fluid"></p>
+<p>Als je in de Bestanden tab kijkt in het rechter ondervenster van R Studio, dan zou je het .gitignore bestand moeten zien, het project bestand (eindigt op .Rproj), en het README.md bestand. Je zou ook een Git tab moeten zien in het rechter bovenvenster van R Studio. Als je nu op de Git tab klikt, zul je daar niets zien.</p>
+<p>Met de Git tab open, laten we het README.md bestand in R Studio openen. Maak een kleine wijziging in het bestand door de zin “Ik verander iets in dit bestand.” toe te voegen. Klik dan op het save icoon. Als je dit doet, zul je README.md zien verschijnen in de Git tab.</p>
+<p>Klik nu op de Commit knop in de Git tab. Zet een vinkje in het vakje naast het README.md bestand onder het woord <em>Staged</em> (in de toekomst kun je meerdere bestanden tegelijk <code>stagen</code> door de vakjes naast meerdere bestanden aan te vinken) en <strong>voeg een commentaar toe aan het commit vakje</strong>.</p>
+<p>Het zou er ongeveer zo uit moeten zien:</p>
+<p><img src="images/git_stage_commit_msg.png" class="img-fluid"></p>
+<p>Klik tenslotte op commit. Je krijgt dan een bericht dat het voltooid is. Het bericht kan cryptisch overkomen als je er niet aan gewend bent. Het ziet er ongeveer zo uit:</p>
+<p><img src="images/git_commit.png" class="img-fluid"></p>
+<p>De wijziging die je hebt gemaakt is nu <code>gecommit</code> in het lokale geheugen. Het gewijzigde bestand is alleen gewijzigd op je computer, NIET online als je op GitHub kijkt … ga maar eens kijken. Klik op de Diff knop in de Git tab en je kunt de geschiedenis van je commits zien.</p>
+<p>Vervolgens gaan we die wijzigingen naar GitHub <code>pushen</code> door op de groene pijl omhoog in de Git tab te klikken. Dit zal je een bericht geven dat er ongeveer zo uitziet:</p>
+<p><img src="images/push_message.png" class="img-fluid"></p>
+<p>Werd je gevraagd om een gebruikersnaam en wachtwoord? Probeer een andere wijziging te maken, vast te leggen en te pushen. Wordt er nog steeds om een gebruikersnaam en wachtwoord gevraagd? Zo ja, dan kun je hier zien hoe je dat doet <a href="https://happygitwithr.com/rstudio-git-github.html#were-you-challenged-for-github-username-and-password">Jenny Bryans bron</a>.</p>
+<p><strong>PROBEER HET EENS!!</strong></p>
+<ol type="1">
+<li><p>Voeg een .rmd bestand toe aan je project. Doe dit door te gaan naar Bestand –&gt; Nieuw bestand –&gt; R Markdown … Voeg wat woorden en een R code chunk toe aan het .rmd bestand. Sla het op, commit het (vergeet het bericht niet!), en push het. Controleer GitHub online om er zeker van te zijn dat je het .rmd bestand daar ziet.</p></li>
+<li><p>Nu, <code>knit</code> je het bestand lokaal. Commit de wijzigingen (zorg ervoor dat je een vinkje zet naast alles wat je ge-staged wilt hebben - .rmd, .html, etc.) en push ze naar GitHub. Controleer GitHub online om er zeker van te zijn dat je alles ziet wat je verwacht.</p></li>
+</ol>
+</section>
+<section id="partners-toevoegen" class="level1">
+<h1>Partners toevoegen</h1>
+<p>Tot nu toe hebben we eigenlijk alleen technieken geleerd om GitHub te gebruiken om onze eigen bestanden te beheren, maar het coolste eraan zijn de samenwerkingsmogelijkheden. De manier waarop we dit gaan leren is door medewerkers aan de repo toe te voegen.</p>
+<p>Zoek iemand om mee samen te werken. Als er een oneven aantal is, maak dan een groepje van drie. In je groepje, voeg elkaar toe als medewerkers aan je project. In GitHub, op de repo pagina, ga naar Instellingen. Een van de opties aan de linkerkant is Collaborators. Klik daarop en doe wat er staat.</p>
+<p>De persoon die is uitgenodigd om samen te werken zal een email ontvangen en zou ook in staat moeten zijn om de uitnodiging op GitHub te zien. Ze moeten deze accepteren. Eenmaal geaccepteerd, zouden jullie beiden (of alle drie) toegang moeten hebben om wijzigingen in het bestand vast te leggen.</p>
+</section>
+<section id="commit-push-pull-en-communicatie" class="level1">
+<h1>Commit –&gt; Push –&gt; Pull –&gt; … (en Communicatie)</h1>
+<p>Zodra je medewerkers hebt toegevoegd, kunnen alle medewerkers committen en pushen. Maar, wat gebeurt er als iemand iets commit en terugzet en jij gaat er dan aan werken op je computer… hoe krijg je dan die wijzigingen? … PULL!</p>
+<p>Probeer in jullie groepen het volgende. Jullie moeten allemaal meewerken aan elkaars projecten, dus je kunt van rol wisselen nadat je het één keer gedaan hebt.</p>
+<ol type="1">
+<li><p>De medewerker moet eerst de repo klonen waaraan hij gevraagd is om mee te werken. Als ze een ander project open hebben, sla dan op, commit, en push alle wijzigingen. Sluit dan dat project en open het project waar ze om gevraagd is om aan mee te werken door de GitHub repo te klonen. De medewerker moet het project open hebben in R Studio.</p></li>
+<li><p>De medewerker moet proberen te trekken (<code>pullen</code>) door op de aqua pijl omlaag te klikken in de Git tab. Je zou een bericht moeten krijgen dat er als volgt uitziet:</p></li>
+</ol>
+<p><img src="images/good_pull.png" class="img-fluid"></p>
+<ol start="3" type="1">
+<li><p>De persoon die de repo heeft aangemaakt, maakt een wijziging in zijn .rmd bestand. Het kan een kleine wijziging zijn, zoals het toevoegen van een zin. Diezelfde persoon slaat het bestand op, commit (staged en schrijft een commit boodschap), en pushed het naar GitHub. Controleer online om er zeker van te zijn dat de meest recente wijzigingen zijn gepushed.</p></li>
+<li><p>De medewerker haalt nu die wijzigingen naar zijn lokale map (naar zijn computer). Klik op het pull icoon. Je zou een bericht moeten zien dat er ongeveer zo uitziet:</p></li>
+</ol>
+<p><img src="images/pull_with_stuff.png" class="img-fluid"></p>
+<p>En controleer het bestand waarin een wijziging is aangebracht om er zeker van te zijn dat de wijziging wordt weerspiegeld in het bestand op uw computer.</p>
+<ol start="5" type="1">
+<li>Ga nog een paar keer heen en weer en breng kleine wijzigingen aan. Degene die eigenaar is van de repo zou de wijziging moeten maken en de medewerker zou het moeten binnenhalen. Wissel dan van rol. Als je wisselt, wees er dan zeker van dat je aan het juiste project werkt.</li>
+</ol>
+</section>
+<section id="conflicten-samenvoegen" class="level1">
+<h1>Conflicten samenvoegen</h1>
+<p>Als je samen aan een project werkt, is de kans groot dat je tegen een moment aanloopt waarop twee van jullie hetzelfde bestand tegelijkertijd aan het bewerken zijn. Soms, als je allebei je wijzigingen probeert te pushen, zul je wat genoemd wordt een “merge conflict” krijgen. GitHub zal niet weten welke te gebruiken. Dus, zal het je dwingen om te beslissen.</p>
+<p>Als je probeert je wijzigingen naar GitHub te pushen en iemand anders heeft zijn wijzigingen met betrekking tot hetzelfde bestand al gepushed, dan zul je een bericht als dit krijgen:</p>
+<p><img src="images/git_push_merge_conflict.png" class="img-fluid"></p>
+<p>Dan, wanneer je de wijzigingen binnenhaalt, krijg je een bericht zoals dit:</p>
+<p><img src="images/git_pull_merge_conflict.png" class="img-fluid"></p>
+<p>Merk op dat het je vertelt in welk bestand het samenvoegconflict zich voordeed. Je moet dat bestand openen en beslissen hoe de conflicterende informatie samengevoegd moet worden. In het begin zal het er ongeveer zo uitzien:</p>
+<p><img src="images/merge_conflict_fix_code.png" class="img-fluid"></p>
+<p>Het deel na het woord <code>HEAD</code> is wat in je lokale bestand staat. Alles na de <code>======</code> is wat in het bestand op afstand staat (d.w.z. de wijzigingen die je medewerker heeft gemaakt). Je kunt besluiten om dit op te lossen op elke manier die je wilt: combineer de twee ideeën, verwijder ze allebei, houd er maar een over, etc. Als je klaar bent, zorg er dan voor dat je de <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code> en <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> verwijdert, gevolgd door de alfanumerieke string, plus alle andere vreemde tekens.</p>
+<p>Sla het bestand dan op en doe de gebruikelijke commit en push. Je zou de wijzigingen naar GitHub gepushed moeten zien worden.</p>
+</section>
+<section id="laten-we-dit-eens-proberen" class="level1">
+<h1>Laten we dit eens proberen!</h1>
+<ol type="1">
+<li>In groepjes van 3-4, oefen je GitHub vaardigheden.</li>
+</ol>
+<ol type="a">
+<li>Kies iemand om een nieuwe repo aan te maken op GitHub genaamd <code>our_collaborative_graph</code>.<br>
+</li>
+<li>De maker voegt de anderen toe als collaborators.<br>
+</li>
+<li>De medewerkers moeten hun e-mail controleren en accepteren dat ze medewerkers zijn.<br>
+</li>
+<li>De maker en de medewerkers klonen de repo lokaal.<br>
+</li>
+<li>Een medewerker voegt lokaal een .rmd bestand aan het project toe. De titel moet zijn “Onze grafiek” en voeg alle groepsleden toe als auteurs. Voeg een R code stuk toe dat de <code>tidyverse</code> bibliotheek laadt. Sla het bestand op, commit met bericht, en push naar GitHub. Controleer online om er zeker van te zijn dat het goed gepushed is.<br>
+</li>
+<li>Alle andere groepsleden halen de wijzigingen lokaal op.<br>
+</li>
+<li>Een andere medewerker voegt een ander R code stuk toe. Maak met de <em>mpg</em> dataset een scatterplot met <em>hwy</em> op de y-as, <em>displ</em> op de x-as en kleur de punten met <em>drv</em>. Sla de wijzigingen op. Brei het bestand. commit dan met bericht en push naar GitHub. Zorg ervoor dat je alle bestanden in de commit staged. Controleer online om er zeker van te zijn dat je de wijzigingen ziet.<br>
+</li>
+<li>Alle andere groepsleden halen de wijzigingen lokaal op.<br>
+</li>
+<li>Een ander groepslid (medewerker of maker als je maar 3 groepsleden hebt) wijzigt de R code chunk die de grafiek maakt, door mooie x en y labels toe te voegen en te veranderen naar <code>theme_minimal()</code>. Sla de wijzigingen op. Brei het bestand. commit dan met bericht en push naar GitHub. Zorg ervoor dat je alle bestanden in de commit staged. Controleer online om er zeker van te zijn dat je de veranderingen ziet.<br>
+</li>
+<li>Alle grop leden trekken. Degene die net gepushed heeft zou moeten zien dat ze al up to date zijn. Alle anderen zouden de wijzigingen lokaal terug moeten zien.<br>
+</li>
+<li>Nu moeten alle groepsleden iets toevoegen aan het .rmd bestand. Vertel elkaar niet wat je toevoegt. Als je klaar bent, sla op, brei, commit, en push naar GitHub. Ten minste één van jullie zal een samenvoeg conflict krijgen, dus zal het je vragen om wijzigingen van GitHub binnen te halen en het conflict op te lossen. Doe dat. Deze keer zul je het .rmd bestand moeten aanpassen in plaats van de README zoals ik eerder liet zien.</li>
+</ol>
+<ol start="2" type="1">
+<li>Als je klaar bent, moeten 112 leerlingen een project opzetten met hun eigenlijke groepsprojectleden. Neem een .rmd-bestand op met de naam “ideas.rmd” waarin je ideeën kunt uitwisselen, inclusief onderwerpen en gegevens die je misschien zou willen analyseren. 155 leerlingen moeten de enquête over het groepsproject op de Moodle-pagina invullen.</li>
+</ol>
+</section>
+<section id="bron" class="level1">
+<h1>Bron</h1>
+<p><a href="https://happygitwithr.com/">Happy git with R door Jenny Bryan</a>. Leer meer over Distill via <a href="https://rstudio.github.io/distill" class="uri">https://rstudio.github.io/distill</a>.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

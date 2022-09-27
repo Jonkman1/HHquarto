@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="radix" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+  <title>BBC en data-journalisme</title>
+  
+  <meta property="description" itemprop="description" content="Een blog over hoe de BBC omgaat met visualisatie en data-journalisme"/>
+  
+  
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2019-02-20"/>
+  <meta property="article:created" itemprop="dateCreated" content="2019-02-20"/>
+  <meta name="article:author" content="R-bloggers, bewerking Harrie Jonkman."/>
+  
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="BBC en data-journalisme"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="Een blog over hoe de BBC omgaat met visualisatie en data-journalisme"/>
+  <meta property="og:locale" content="en_US"/>
+  
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="BBC en data-journalisme"/>
+  <meta property="twitter:description" content="Een blog over hoe de BBC omgaat met visualisatie en data-journalisme"/>
+  
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft"]}},"value":[{"type":"character","attributes":{},"value":["BBC en data-journalisme"]},{"type":"character","attributes":{},"value":["Een blog over hoe de BBC omgaat met visualisatie en data-journalisme\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["R-bloggers, bewerking Harrie Jonkman."]},{"type":"character","attributes":{},"value":["https://Harriejonkman.nl"]}]}]},{"type":"character","attributes":{},"value":["02-20-2019"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["radix::radix_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[true]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["bbc-en-data-journalisme_files/bowser-1.9.3/bowser.min.js","bbc-en-data-journalisme_files/distill-2.2.21/template.v2.js","bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-10-1.png","bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-12-1.png","bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-14-1.png","bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-16-1.png","bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-18-1.png","bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-19-1.png","bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-20-1.png","bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-22-1.png","bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-23-1.png","bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-32-1.png","bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-34-1.png","bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-35-1.png","bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-39-1.png","bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-4-1.png","bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-42-1.png","bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-43-1.png","bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-46-1.png","bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-47-1.png","bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-48-1.png","bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-49-1.png","bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-50-1.png","bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-51-1.png","bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-52-1.png","bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-55-1.png","bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-57-1.png","bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-58-1.png","bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-59-1.png","bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-61-1.png","bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-63-1.png","bbc-en-data-journalisme_files/jquery-1.11.3/jquery.min.js","bbc-en-data-journalisme_files/webcomponents-2.0.0/webcomponents.js","png/bbplot_example_plots.png"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+  
+  <style type="text/css">
+  
+  body {
+    background-color: white;
+  }
+  
+  .pandoc-table {
+    width: 100%;
+  }
+  
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+  
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+  
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+  
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+  
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+  
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+  
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .shaded-content {
+    background: white;
+  }
+  
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  d-article {
+    padding-bottom: 30px;
+  }
+  
+  d-appendix {
+    padding-top: 30px;
+  }
+  
+  d-article>p>img {
+    width: 100%;
+  }
+  
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for table of contents */
+  
+  .d-toc {
+    color: rgba(0,0,0,0.8);
+    font-size: 0.8em;
+    line-height: 1em;
+  }
+  
+  .d-toc-header {
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 1.3em;
+  }
+  
+  .d-toc a {
+    border-bottom: none;
+  }
+  
+  .d-toc ul {
+    padding-left: 0;
+  }
+  
+  .d-toc li>ul {
+    padding-top: 0.8em;
+    padding-left: 16px;
+    margin-bottom: 0.6em;
+  }
+  
+  .d-toc ul,
+  .d-toc li {
+    list-style-type: none;
+  }
+  
+  .d-toc li {
+    margin-bottom: 0.9em;
+  }
+  
+  .d-toc-separator {
+    margin-top: 20px;
+    margin-bottom: 2em;
+  }
+  
+  .d-article-with-toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  
+  
+  
+  /* Tweak code blocks (note that this CSS is repeated above in an injection
+     into the d-code shadow dom) */
+  
+  d-code {
+    overflow-x: auto !important;
+  }
+  
+  pre.d-code code.d-code {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+  
+  pre.text-output {
+  
+    font-size: 12px;
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  @media(min-width: 768px) {
+  
+  d-code {
+    overflow-x: visible !important;
+  }
+  
+  pre.d-code code.d-code  {
+      padding-left: 18px;
+      font-size: 14px;
+  }
+  pre.text-output {
+    font-size: 14px;
+  }
+  }
+  
+  /* Figure */
+  
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+  
+  .figure img {
+    width: 100%;
+  }
+  
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+  
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+  
+  
+  
+  /* Tweak 1000px media break to show more text */
+  
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+  
+    .grid {
+      grid-column-gap: 16px;
+    }
+  
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+  
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+  
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+  
+  
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+  
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  
+  /* Social footer */
+  
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+  
+  .disqus-comments {
+    margin-right: 30px;
+  }
+  
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+  
+  #disqus_thread {
+    margin-top: 30px;
+  }
+  
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+  
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+  
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+  
+  
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+  
+  
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+  
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+  
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+  
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+  
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+  
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+  
+  
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+  
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+  
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+  
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+  
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  </style>
+  
+  <script type="application/javascript">
+  
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+  
+  // show body when load is complete
+  function on_load_complete() {
+  
+    // set body to visible
+    document.body.style.visibility = 'visible';
+  
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+  
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+  
+  function init_distill() {
+  
+    init_common();
+  
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+  
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+  
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+  
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+  
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+  
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+  
+    // create d-bibliography
+    var bibliography = $('<d-bibliography></d-bibliography>');
+    $('#distill-bibliography').wrap(bibliography);
+  
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+  
+    // replace citations with <d-cite>
+    $('.citation').each(function(i, val) {
+      appendix = true;
+      var cites = $(this).attr('data-cites').split(" ");
+      var dt_cite = $('<d-cite></d-cite>');
+      dt_cite.attr('key', cites.join());
+      $(this).replaceWith(dt_cite);
+    });
+    // remove refs
+    $('#refs').remove();
+  
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+  
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+  
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+  
+    // replace code blocks with d-code
+    $('pre>code').each(function(i, val) {
+      var code = $(this);
+      var pre = code.parent();
+      var clz = "";
+      var language = pre.attr('class');
+      if (language) {
+        // map unknown languages to "clike" (without this they just dissapear)
+        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                                 "javascript", "js", "julia", "lua", "markdown",
+                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
+          language = "clike";
+        language = ' language="' + language + '"';
+        var dt_code = $('<d-code block' + language + clz + '></d-code>');
+        dt_code.text(code.text());
+        pre.replaceWith(dt_code);
+      } else {
+        code.addClass('text-output').unwrap().changeElementType('pre');
+      }
+    });
+  
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+  
+      // capture layout
+      var layout = $(this).attr('data-layout');
+  
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('d-code, pre.text-output, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+  
+  
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+  
+    // load distill framework
+    load_distill_framework();
+  
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+  
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+  
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+  
+      // table of contents
+      if (have_authors) // adjust border if we are in authors
+        $('.d-toc').parent().addClass('d-article-with-toc');
+  
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+  
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+  
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+  
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+  
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+  
+      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+      $('d-code').each(function(i, val) {
+        var style = document.createElement('style');
+        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+        if (this.shadowRoot)
+          this.shadowRoot.appendChild(style);
+      });
+  
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+  
+      // clear polling timer
+      clearInterval(tid);
+  
+      // show body now that everything is ready
+      on_load_complete();
+    }
+  
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+  
+  }
+  
+  function init_downlevel() {
+  
+    init_common();
+  
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+  
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+  
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+  
+    // remove toc
+    $('.d-toc-header').remove();
+    $('.d-toc').remove();
+    $('.d-toc-separator').remove();
+  
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+  
+  
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+  
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+  
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+  
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+  
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+  
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+  
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+  
+    $('body').addClass('downlevel');
+  
+    on_load_complete();
+  }
+  
+  
+  function init_common() {
+  
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+  
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+  
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+  
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+  
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+  
+      }
+    });
+  
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+  
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.radix-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+  
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+  
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+  
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+  
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+  
+  </script>
+  
+  <!--/radix_placeholder_distill-->
+  <script src="bbc-en-data-journalisme_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="bbc-en-data-journalisme_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="bbc-en-data-journalisme_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="bbc-en-data-journalisme_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"BBC en data-journalisme","description":"Een blog over hoe de BBC omgaat met visualisatie en data-journalisme","authors":[{"author":"R-bloggers, bewerking Harrie Jonkman.","authorURL":"https://Harriejonkman.nl","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2019-02-20T00:00:00.000+01:00","citationText":"Jonkman., 2019"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>BBC en data-journalisme</h1>
+<p>Een blog over hoe de BBC omgaat met visualisatie en data-journalisme</p>
+</div>
+
+<div class="d-byline">
+  R-bloggers, bewerking Harrie Jonkman. <a href="https://Harriejonkman.nl" class="uri">https://Harriejonkman.nl</a> 
+  
+<br/>02-20-2019
+</div>
+
+<div class="d-article">
+<h2 id="hoe-kunnen-we-grafieken-in-bbc-stijl-produceren">Hoe kunnen we grafieken in BBC-stijl produceren</h2>
+<p>Bij het BBC datateam hebben ze een R-pakket en een R-kookboek ontwikkeld. Met dat pakket en kookboek wordt het proces van het maken van publicatieklare grafieken in hun huisstijl geautomatiseerd. Met behulp van R’s <code>ggplot2</code>-pakket wordt er een meer reproduceerbaar proces van gemaakt. Voor nieuwe R-gebruikers wordt het zo ook gemakkelijker gemaakt om deze grafieken te maken.</p>
+<p><embed src="%22png/bbplot_example_plots.png%22" /></p>
+<p>Het kookboek, dat in februari 2019 <a href="https://www.r-bloggers.com/create-data-visualizations-like-bbc-news-with-the-bbcs-r-cookbook/">hier</a> verscheen, heb ik in het Nederlands vertaald om zelf goed door te krijgen hoe het allemaal werkt. Het kookboek en deze Nederlandse versie wil iedereen helpen om dit soort grafieken te maken:</p>
+<p>Laten we eens zien hoe we de verschillende elementen van deze grafieken in elkaar kunnen zetten. Maar <strong>eerst eens enkele administratieve zaken…</strong></p>
+<h3 id="laad-eerst-alle-pakketten-die-je-nodig-hebt-in-r">Laad eerst alle pakketten die je nodig hebt in R</h3>
+<p>Een paar van de stappen in dit kookboek - om grafieken in R in het algemeen te kunnen maken - vereisen dat bepaalde pakketten worden geïnstalleerd en geladen. Zo hoeft u ze niet één voor één te installeren en te laden. Door de <code>p_load</code>-functie in het <code>pacman</code>-pakket kunt u ze allemaal tegelijk laden met de volgende code.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<h3 id="installeer-in-ieder-geval-het-bbplot-pakket">Installeer in ieder geval het bbplot pakket</h3>
+<p><code>bbplot</code> staat niet op CRAN (het algemene platform voor R-pakketten). U moet het direct vanaf Github installeren met behulp van <code>devtools</code>.</p>
+<p>Als u het <code>devtools</code>-pakket niet heeft geïnstalleerd, moet u ook de eerste regel in de code hieronder uitvoeren.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Voor meer informatie over <code>bbplot</code>-pakket, bekijk het volgende <a href="https://github.com/bbc/bbplot">Github repo</a>. Dat wat u moet weten over het gebruik van het pakket en de functies, is hieronder gedetailleerd te vinden.</p>
+<p>Wanneer u het pakket hebt gedownload en met succes hebt geïnstalleerd, bent u in staat om grafieken te gaan maken.</p>
+<h3 id="hoe-werkt-dat-bbplot-pakket-eigenlijk">Hoe werkt dat <code>bbplot</code>-pakket eigenlijk?</h3>
+<p>Het pakket heeft twee functies, <code>bbc_style()</code> en <code>finalise_plot()</code>.</p>
+<p><code>bbc_style()</code>: heeft geen argumenten en wordt toegevoegd aan de ggplot ‘keten’ nadat je een plot hebt gemaakt. Wat het doet is over het algemeen tekstgrootte, lettertype en kleur, aslijnen, aslijnen, as-tekst, marges en vele andere standaardgrafiekonderdelen in BBC-stijl. Die zijn geformuleerd op basis van aanbevelingen en feedback van het ontwerpteam.</p>
+<p>Merk op dat kleuren voor lijnen in het geval van een lijndiagram bijvoorbeeld of balken voor een staafdiagram, niet uit het kader van de <code>bbc_style()</code> functie komen. Die moeten expliciet worden ingesteld in uw standaard <code>ggplot</code>-grafiekfuncties.</p>
+<p>De code hieronder laat zien hoe de <code>bbc_style()</code> gebruikt moet worden binnen de standaard workflow om grafieken te maken. Dit is een voorbeeld van een zeer eenvoudige lijndiagram. De data waar gebruik van wordt gemaakt komen uit het <code>gapminder</code>-pakket.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
+</div>
+<p>Dit is wat de <code>bbc_style()</code>-functie eigenlijk onder de motorkap doet. Het wijzigt in wezen bepaalde argumenten in de <code>thema</code> functie van <code>ggplot2</code>.</p>
+<p>Het eerste argument is bijvoorbeeld het instellen van het lettertype, de grootte, het lettertype en de kleur van het titelelement van de grafiek.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+function () 
+{
+    font &lt;- &quot;Helvetica&quot;
+    ggplot2::theme(plot.title = ggplot2::element_text(family = font, 
+        size = 28, face = &quot;bold&quot;, color = &quot;#222222&quot;), plot.subtitle = ggplot2::element_text(family = font, 
+        size = 22, margin = ggplot2::margin(9, 0, 9, 0)), plot.caption = ggplot2::element_blank(), 
+        legend.position = &quot;top&quot;, legend.text.align = 0, legend.background = ggplot2::element_blank(), 
+        legend.title = ggplot2::element_blank(), legend.key = ggplot2::element_blank(), 
+        legend.text = ggplot2::element_text(family = font, size = 18, 
+            color = &quot;#222222&quot;), axis.title = ggplot2::element_blank(), 
+        axis.text = ggplot2::element_text(family = font, size = 18, 
+            color = &quot;#222222&quot;), axis.text.x = ggplot2::element_text(margin = ggplot2::margin(5, 
+            b = 10)), axis.ticks = ggplot2::element_blank(), 
+        axis.line = ggplot2::element_blank(), panel.grid.minor = ggplot2::element_blank(), 
+        panel.grid.major.y = ggplot2::element_line(color = &quot;#cbcbcb&quot;), 
+        panel.grid.major.x = ggplot2::element_blank(), panel.background = ggplot2::element_blank(), 
+        strip.background = ggplot2::element_rect(fill = &quot;white&quot;), 
+        strip.text = ggplot2::element_text(size = 22, hjust = 0))
+}
+&lt;bytecode: 0x000000001f1cb460&gt;
+&lt;environment: namespace:bbplot&gt;</code></pre>
+</div>
+<p>U kunt deze instellingen voor uw grafiek wijzigen of extra thema-argumenten toevoegen. Dit kan door <code>thema</code>-functie aan te roepen met de argumenten die u wilt. Maar, let op: om het te laten werken, moet u de <code>bbc_style</code> functie hebben aangeroepen. Anders zal <code>bbc_style()</code> deze overrulen.</p>
+<p>Dit voegt enkele rasterlijnen toe, door extra thema-argumenten toe te voegen aan wat er in de <code>bbc_style()</code> functie zit. Er zitten verschillende gelijkaardige voorbeelden in het kookboek.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<h3 id="sla-jouw-afgeronde-grafiek-op">Sla jouw afgeronde grafiek op</h3>
+<p>Na het toevoegen van de <code>bbc_style()</code> aan uw grafiek is er nog een stap om uw grafiek klaar te maken voor publicatie. <code>finalise_plot()</code>, de tweede functie van het <code>bbplot</code>-pakket, zal de titel links uitlijnen, ondertitelen en de footer toevoegen met een bron en een afbeelding in de rechter benedenhoek van uw grafiek. Het zal het ook opslaan op de door u opgegeven locatie. De functie heeft vijf argumenten:</p>
+<p>Hier zijn de argumenten van de functie: <code>finalise_plot(plot_name, source, save_filepath, width_pixels = 640, height_pixels = 450)</code>.</p>
+<ul>
+<li><code>plot_name</code>: de variabelenaam die u uw plot heeft genoemd, bijvoorbeeld voor het voorbeeld hierboven zou “lijn” de <code>plot_name</code> zijn<br />
+</li>
+<li>source: de brontekst die u linksonder in uw plot wilt weergeven. U moet het woord <code>&quot;Source: &quot;Bron:&quot;</code>voor het woord typen, dus bijvoorbeeld <code>source = &quot;Bron&quot;: Gapminder&quot;</code> zou de juiste manier zijn om dat te doen.</li>
+<li><code>Save_filepath</code>: type hier het precieze bestandspad waarin u uw afbeelding wilt opslaan, inclusief de <code>.png</code> extensie aan het einde. Dit is afhankelijk van uw werkmap en of u zich in een specifiek R-project bevindt. Een voorbeeld van een bestandspad zou zijn: <code>Desktop/R_projecten/figuren/lijngrafiek.png</code>.</li>
+<li><code>width_pixels</code>: dit is standaard ingesteld op 640px, dus noem dit argument alleen als u wilt dat de grafiek een andere breedte heeft, en geef aan wat u wilt dat het is.</li>
+<li><code>hoogte_pixels</code>: dit is standaard ingesteld op 450px, dus noem dit argument alleen als u wilt dat de grafiek een andere hoogte heeft en geef aan wat u wilt dat het is.</li>
+<li><code>logo_image_path</code>: dit argument specificeert het pad voor het beeld/logo in de rechter benedenhoek van het diagram. De standaardinstelling is voor een PNG-bestand met een achtergrond die overeenkomt met de achtergrondkleur van het diagram. Dus specificeer het argument niet als u wilt dat het zonder logo verschijnt. Als u uw eigen logo wilt toevoegen, hoeft u alleen het pad naar uw PNG-bestand te specificeren. Het pakket is opgezet met een brede en dunne afbeelding in gedachten.</li>
+</ul>
+<p>Voorbeeld van hoe de <code>finalise_plot()</code> wordt gebruikt in een standaard workflow. Deze functie wordt aangeroepen zodra u uw grafiekgegevens, titels en de <code>bbc_style()</code> eraan hebt toegevoegd:</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Als u eenmaal uw plot hebt gemaakt en er relatief tevreden mee bent, kunt u de <code>finalise_plot()</code> functie gebruiken om de laatste aanpassingen te maken en uw grafiek op te slaan zodat u er buiten RStudio naar kunt kijken.</p>
+<p>Het is belangrijk om te vermelden dat het een goed idee is om dit in een vroeg stadium te doen omdat de positie van de tekst en andere elementen niet nauwkeurig worden weergegeven in het RStudio Plots paneel. Hier is het afhankelijk van de grootte en de aspect ratio die u wilt dat uw plot verschijnt. Het opslaan en openen van de bestanden geeft u een nauwkeurige weergave van hoe de grafiek eruit ziet.</p>
+<p>De <code>finalise_plot()</code>-functie doet meer dan alleen het opslaan van je grafiek. Het lijnt ook de titel en ondertiteling links uit zoals standaard is voor BBC-grafieken, voegt een footer toe met het logo aan de rechterkant en laat je de brontekst aan de linkerkant invoeren.</p>
+<p>Dus hoe kunt u de bovenstaande voorbeeldplot opslaan?</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<hr />
+<h2 id="maak-een-lijn-figuur">Maak een lijn figuur</h2>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-10-1.png" width="624" /></p>
+</div>
+<h2 id="make-een-grafiek-met-verschillende-lijnen">Make een grafiek met verschillende lijnen</h2>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-12-1.png" width="624" /></p>
+</div>
+<h2 id="maak-een-staafdiagram">Maak een staafdiagram</h2>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-14-1.png" width="624" /></p>
+</div>
+<h2 id="maak-een-gestapelde-staaf-diagram">Maak een gestapelde staaf diagram</h2>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-16-1.png" width="624" /></p>
+</div>
+<p>Dit voorbeeld toont proporties, maar u wilt misschien een gestapelde staafdiagram maken met nummerwaarden - dit is eenvoudig te veranderen!</p>
+<p>De waarde die wordt doorgegeven aan het <code>position</code>-argument zal bepalen of uw gestapelde grafiek verhoudingen of werkelijke waarden toont.</p>
+<p><code>positie = &quot;fill&quot;</code> zal uw stapels vertonen als proporties, en <code>position = &quot;identity&quot;</code> zal getalwaarden laten zien.</p>
+<h2 id="maak-een-gegroepeerde-staafdiagram">Maak een gegroepeerde staafdiagram</h2>
+<p>Het maken van een gegroepeerde staafdiagram lijkt erg op het maken van een staafdiagram.</p>
+<p>Je hoeft alleen maar <code>position = &quot;identity&quot;</code> te veranderen in <code>position=&quot;dodge&quot;</code> en de <code>vulling</code> wordt esthetisch.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-18-1.png" width="624" /></p>
+</div>
+<h2 id="maak-een-halter-grafiek">Maak een halter grafiek</h2>
+<p>Een andere manier om het verschil te laten zien is een ‘dumbbell’-grafiek:</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-19-1.png" width="624" /></p>
+</div>
+<h2 id="maak-een-histogram">Maak een histogram</h2>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-20-1.png" width="624" /></p>
+</div>
+<h2 id="breng-veranderingen-aan-in-de-legenda">Breng veranderingen aan in de legenda</h2>
+<h3 id="verwijder-de-legenda">Verwijder de legenda</h3>
+<p>Verwijder de legende - het is beter om de gegevens direct te labelen met tekstannotaties.</p>
+<p>Gebruik <code>guides(colour=FALSE)</code> om de legende te verwijderen voor een specifieke esthetiek (vervang <code>kleur</code> door de relevante esthetiek).</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>U kunt ook alle legenden in één keer verwijderen met behulp van <code>theme(legend.position = &quot;none&quot;)</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-22-1.png" width="624" /></p>
+</div>
+<h3 id="verander-de-positie-van-de-legenda">Verander de positie van de legenda</h3>
+<p>De standaardpositie van de legenda staat bovenaan uw grafiek. Verplaats de legenda naar links, rechts of onderaan buiten de plot met:</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-23-1.png" width="624" /></p>
+</div>
+<p>Om echt precies te zijn over waar we onze legenda naartoe willen, in plaats van “rechts” of “boven” te specificeren om de algemene positie van waar de legende in onze grafiek verschijnt te veranderen, kunnen we het specifieke coördinaten geven.</p>
+<p>Bijvoorbeeld <code>legend.position=c(0.98,0.1)</code> zal de legenda naar rechtsonder verplaatsen. Ter referentie, c(0,0) is linksonder, c(1,0) is rechtsonder, c(0,1) is linksboven en zo verder). Het vinden van de exacte positie kan wat vallen en opstaan met zich meebrengen.</p>
+<p>Om de exacte positie te controleren waar de legenda in uw definitieve plot verschijnt, moet u het bestand controleren dat is opgeslagen nadat u uw <code>finalise_plot()</code> functie hebt uitgevoerd, aangezien de positie relevant is voor de afmetingen van de grafiek.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Om de legenda tegen de linkerkant van uw grafiek te laten aankomenen, kan het makkelijker zijn om een negatieve linkermarge voor de legenda in te stellen met behulp van <code>legend.margin</code>. De syntaxis is <code>margin(top, right, bottom, left)</code>.</p>
+<p>U zult moeten experimenteren om het juiste getal te vinden om de marge voor uw grafiek in te stellen. Sla het op met <code>finalise_plot()</code> en bekijk hoe het eruit ziet.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<h3 id="verwijder-de-titel-van-de-legenda">Verwijder de titel van de legenda</h3>
+<p>Verwijder de titel van de legenda door uw <code>thema()</code>aan te passen. Vergeet niet dat eventuele wijzigingen aan het thema moeten worden toegevoegd nadat u <code>bbc_style()</code> hebt opgeroepen!</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<h3 id="gooi-de-volgorde-van-de-legenda-om">Gooi de volgorde van de legenda om</h3>
+<p>Soms moet u de volgorde van uw legenda wijzigen, zodat deze overeenkomt met de volgorde van uw balken. Hiervoor heb je <code>guides</code> nodig:</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<h3 id="verander-de-layout-van-jouw-legenda">Verander de layout van jouw legenda</h3>
+<p>Als u veel waarden in uw legenda hebt, moet u de lay-out misschien om esthetische redenen aanpassen.</p>
+<p>U kunt het aantal rijen opgeven dat u wilt dat u in uw legenda door als argument <code>guides</code> te gebruiken gebruiken. Het onderstaande codefragment, bijvoorbeeld, zal een legende met 4 rijen maken:</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Het kan nodig zijn om <code>fill</code> in de bovenstaande code te veranderen in een esthetiek die uw legenda beschrijft, zoals <code>size</code>, <code>colour</code>, enz.</p>
+<h3 id="laat-de-legendasymbolen-er-anders-uit-zien">Laat de legendasymbolen er anders uit zien</h3>
+<p>U kunt het standaardinstelling van de legendesymbolen overschrijven, zonder de manier waarop ze in de plot verschijnen, door het argument <code>override.aes</code> toe te voegen aan <code>guides</code>.</p>
+<p>Het onderstaande maakt bijvoorbeeld de grootte van de legendesymbolen groter:</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<h3 id="breng-wat-ruimte-aan-tussen-de-legenda-labels">Breng wat ruimte aan tussen de legenda labels</h3>
+<p>De standaard <code>ggplot</code>-legenda heeft bijna geen ruimte tussen individuele legenda-items. Niet ideaal.</p>
+<p>U kunt ruimte toevoegen door de schaallabels handmatig te wijzigen.</p>
+<p>Als u bijvoorbeeld de kleur van uw geoms zo hebt ingesteld dat deze afhankelijk is van uw gegevens, krijgt u een legenda voor de kleur en kunt u de exacte labels aanpassen om wat extra ruimte te krijgen met behulp van het onderstaande fragment:</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Als uw legende iets anders laat zien, moet u de code dienovereenkomstig wijzigen. Bijvoorbeeld, voor het vullen heeft u <code>scale_fill_manual()</code> in plaats daarvan nodig.</p>
+<h2 id="pas-de-assen-aan">Pas de assen aan</h2>
+<h3 id="gooi-de-coordinaten-van-een-plot-om">Gooi de coordinaten van een plot om</h3>
+<p>Voeg <code>coord_flip()</code> toe om verticale staven horizontaal te maken:</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-32-1.png" width="624" /></p>
+</div>
+<h3 id="toevoegenweghalen-van-gridlijnen">Toevoegen/weghalen van gridlijnen</h3>
+<p>Het standaard thema heeft alleen rasterlijnen voor de y-as. Voeg x rasterlijnen toe met <code>panel.grid.major.x = element_line</code>.</p>
+<p>(Verwijder op dezelfde manier de rasterlijnen op de y-as met <code>panel.grid.major.y=element_blank()</code>)</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-34-1.png" width="624" /></p>
+</div>
+<h3 id="verander-de-astekst-met-de-hand">Verander de astekst met de hand</h3>
+<p>U kunt de tekstlabels van de assen vrij wijzigen met <code>scale_y_continuous</code> of <code>scale_x_continuous</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-35-1.png" width="624" /></p>
+</div>
+<p>Dit specificeert ook de grenzen van uw grafiek en waar u as-tekens wilt hebben.</p>
+<h3 id="voeg-duizend-scheidingstekens-toe-aan-u-as-labels">Voeg duizend scheidingstekens toe aan u as-labels</h3>
+<p>U kunt aangeven dat u wilt dat uw as-tekst duizend scheidingstekens heeft met een argument <code>schale_y_continuous</code>.</p>
+<p>Er zijn twee manieren om dit te doen, een in basis R die een beetje lastig is:</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>De tweede manier is gebaseerd op het <code>scales</code>- pakket, maar is veel beknopter:</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<h3 id="voeg-een-percentagesymbool-toe-aan-jouw-aslabels">Voeg een percentagesymbool toe aan jouw aslabels</h3>
+<p>Dit is ook gemakkelijk met een argument toe te voegen aan <code>scale_y_continuous</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<h3 id="verander-de-limieten-van-de-plot">Verander de limieten van de plot</h3>
+<p>De lange manier om de grenzen van uw grafiek expliciet in te stellen is met <code>scale_y_continuous</code> zoals hierboven. Maar als u de pauzes of labels niet hoeft op te geven, dan is dat met <code>xlim</code> of <code>ylim</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-39-1.png" width="624" /></p>
+</div>
+<h3 id="voeg-astitels-toe">Voeg astitels toe</h3>
+<p>Ons standaardthema heeft geen as-titels, maar u kunt ze misschien handmatig toevoegen. Dit doet u door <code>theme()</code> - merk op dat je dit moet doen na de aanroep naar <code>bbc_style()</code> anders worden je wijzigingen overruled:</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<h3 id="pas-astitels-aan">Pas astitels aan</h3>
+<p>Als u in de assen titels toevoegt, zijn dit standaard de kolomnamen van uw dataset. U kunt dit veranderen door <code>labs()</code>op te roepen in wat u doet.</p>
+<p>Als u bijvoorbeeld wilt dat de x-as de titel “Ik ben een as” krijgt en de y-as label leeg is, dan is dit het formaat:</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<h3 id="add-axis-ticks">Add axis ticks</h3>
+<p>U kunt as-streepjes toevoegen door <code>axis.ticks.x</code> of <code>axis.ticks.y</code> toe te voegen aan uw <code>theme</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-42-1.png" width="624" /></p>
+</div>
+<h2 id="toevoegen-van-annotaties">Toevoegen van annotaties</h2>
+<h3 id="voeg-een-annotatie-toe">Voeg een annotatie toe</h3>
+<p>De eenvoudigste manier om een tekstannotatie toe te voegen aan uw grafiek is met behulp van <code>geom_label</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-43-1.png" width="624" /></p>
+</div>
+<p>De exacte positionering van de annotatie zal afhangen van de <code>x</code> en <code>y</code> argumenten (wat een beetje lastig is!) en de tekstuitlijning, met behulp van <code>hjust</code> en <code>vjust</code> - maar meer van dat hieronder.</p>
+<p>Voeg regelafbrekingen waar nodig in uw label toe met <code>n\</code> en stel de regelhoogte in met <code>lineheight</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Laten we onze directe labels erin krijgen!</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-46-1.png" width="624" /></p>
+</div>
+<h3 id="tekst-links-en-rechts-uitlijnen">Tekst links en rechts uitlijnen</h3>
+<p>De argumenten <code>hjust</code> en <code>vjust</code> dicteren horizontale en verticale tekstuitlijning. Ze kunnen een waarde tussen 0 en 1 hebben, waarbij 0 links-uitlijnend en 1 rechts-uitlijnend is (of onder- en boven-uitlijnend voor verticale tekstuitlijning).</p>
+<h3 id="voeg-labels-toe-op-basis-van-jouw-data">Voeg labels toe op basis van jouw data</h3>
+<p>Met de bovenstaande methode voor het toevoegen van annotaties aan uw grafiek kunt u de x- en y-coördinaten precies aangeven. Dit is erg handig als we een tekstannotatie op een bepaalde plaats willen toevoegen, maar het zou erg vervelend zijn om te herhalen.</p>
+<p>Gelukkig, als u labels wilt toevoegen aan al uw datapunten, kunt u in plaats daarvan eenvoudigweg de positie instellen op basis van uw gegevens.</p>
+<p>Laten we zeggen dat we gegevenslabels willen toevoegen aan onze staafdiagram:</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-47-1.png" width="624" /></p>
+</div>
+<p>Bovenstaande code voegt automatisch één tekstlabel toe voor elk continent zonder dat we vijf keer <code>geom_label</code> moeten toevoegen.</p>
+<p>(Als je in de war raakt over waarom we de <code>x</code> instellen als de continenten en <code>y</code> als levensverwachting, als de grafiek ze andersom lijkt te tekenen, dan is dat omdat we de coördinaten van de plot hebben omgedraaid met <code>coord_flip()</code>, wat je kunt doen <a href="https://github.com/bbc/vjdata.rcookbook#flip-the-coordinates-of-a-plot">lees meer over hier</a>.)</p>
+<h3 id="voeg-links-uitgelijnde-labels-toe-aan-jouw-staafdiagrammen">Voeg links uitgelijnde labels toe aan jouw staafdiagrammen</h3>
+<p>Als u liever links uitgelijnde labels voor uw balken toevoegt, stelt u gewoon het <code>x</code> argument in op basis van uw gegevens, maar specificeer dan het <code>y</code> argument direct, met een numerieke waarde.</p>
+<p>De exacte waarde van <code>y</code> hangt af van het bereik van uw gegevens.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-48-1.png" width="624" /></p>
+</div>
+<h3 id="voeg-een-lijn-toe">Voeg een lijn toe</h3>
+<p>Voeg een lijn toe met <code>geom_segment</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-49-1.png" width="624" /></p>
+</div>
+<p>Het <code>size</code>-argument specificeert de dikte van de lijn.</p>
+<h3 id="voeg-een-gecurfte-lijn-toe">Voeg een gecurfte lijn toe</h3>
+<p>Voor een gekromde lijn gebruikt u <code>geom_curve</code> in plaats van <code>geom_segment</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-50-1.png" width="624" /></p>
+</div>
+<p>Het <code>curvature</code> argument bepaalt de kromming van de curve: 0 is een rechte lijn, negatieve waarden geven een linkse curve en positieve waarden geven een rechtse curve.</p>
+<h3 id="voeg-een-pijl-toe">Voeg een pijl toe</h3>
+<p>Een lijn in een pijl omzetten is vrij eenvoudig: voeg gewoon het <code>arrow</code> argument toe aan je <code>geom_segment</code> of <code>geom_curve</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-51-1.png" width="624" /></p>
+</div>
+<p>Het eerste argument, <code>unit</code>, stelt de grootte van de pijlpunt in.</p>
+<h3 id="voeg-een-lijn-over-de-hele-figuur-toe">Voeg een lijn over de hele figuur toe</h3>
+<p>De eenvoudigste manier om een lijn over het hele perceel toe te voegen is met <code>geom_vline()</code>, voor een verticale lijn, of <code>geom_hline()</code>, voor een horizontale lijn.</p>
+<p>Optionele extra argumenten stellen u in staat om de grootte, kleur en het type lijn te specificeren (de standaard optie is een effen lijn).</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-52-1.png" width="624" /></p>
+</div>
+<p>De lijn voegt natuurlijk niet veel toe in dit voorbeeld, maar dit is handig als je iets wilt benadrukken, bijvoorbeeld een drempelwaarde of een gemiddelde waarde.</p>
+<p>Het is ook vooral handig omdat onze ontwerpstijl - zoals u misschien al hebt gemerkt in de grafieken op deze pagina - bestaat uit het toevoegen van een verticale of horizontale basislijn aan onze grafieken. Dit is de code om te gebruiken:</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<h2 id="werken-met-kleinere-figuren">Werken met kleinere figuren</h2>
+<p>Kleine, meervoudige kaarten zijn eenvoudig te maken met ggplot: het heet facetteren.</p>
+<h3 id="facetteren">Facetteren</h3>
+<p>Als u gegevens hebt die u wilt visualiseren opgesplitst naar een variabele, moet u <code>facet_wrap</code> of <code>facet_grid</code> gebruiken.</p>
+<p>Voeg de variabele die je wilt delen aan deze regel code toe: facet_wrap( ~ variabele) `.</p>
+<p>Een extra argument bij facet_wrap, <code>ncol</code>, stelt u in staat om het aantal kolommen te specificeren:</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-55-1.png" width="624" /></p>
+</div>
+<h3 id="vrije-schalen">Vrije schalen</h3>
+<p>Het is u wellicht opgevallen dat Oceanië, met zijn relatief kleine bevolking, volledig is verdwenen in de bovenstaande grafiek.</p>
+<p>Standaard wordt bij facetteren gebruik gemaakt van vaste asschalen over de kleine veelvouden. Het is altijd het beste om dezelfde y-as schaal over kleine veelvouden te gebruiken, om misleiding te voorkomen, maar soms moet je deze onafhankelijk van elkaar instellen voor elk veelvoud, wat we kunnen doen door het argument <code>schales= &quot;free&quot;</code>.</p>
+<p>Als je alleen de schalen voor één as wilt vrijgeven, zet je het argument op <code>free_x</code> of <code>free_y</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-57-1.png" width="624" /></p>
+</div>
+<h2 id="doe-iets-anders-uiteindelijk">Doe iets anders uiteindelijk</h2>
+<h3 id="toename-en-afname-van-marges">Toename en afname van marges</h3>
+<p>U kunt de marge rond bijna elk element van uw plot - de titel, ondertitels, legenda - of de grafiek zelf wijzigen.</p>
+<p>Normaal gesproken hoeft u de standaardmarges van het thema niet te wijzigen, maar als u dat wel doet, is de syntaxis <code>theme(ELEMENT=element_text(margin=margin(0, 5, 10, 0)))</code>.</p>
+<p>De getallen specificeren respectievelijk de boven-, rechter-, onder-, en linkermarge - maar u kunt ook direct aangeven welke marge u wilt wijzigen. Laten we bijvoorbeeld proberen de ondertitel een extra grote ondermarge te geven: You can change the margin around almost any element of your plot - the title, subtitles, legend - or the plot itself.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-58-1.png" width="624" /></p>
+</div>
+<p>Hm… misschien niet.</p>
+<h3 id="exporteer-jouw-figuur-en-x-as-marges">Exporteer jouw figuur en x-as marges</h3>
+<p>U moet wel nadenken over uw x-as margematen wanneer u een figuur produceert dat buiten de standaardhoogte in <code>bbplot</code> ligt, dat is 450px. Dit kan bijvoorbeeld het geval zijn als u een staafdiagram maakt met veel balken en ervoor wilt zorgen dat er wat ademruimte is tussen elke staaf en labels. Als u de marges laat zoals ze zijn voor figuren met een grotere hoogte, dan kunt u een grotere afstand tussen de as en uw labels krijgen.</p>
+<p>Hier is een handleiding waar we aan werken als het gaat om de marges en de hoogte van uw staafdiagram (met coord_flip erop toegepast):</p>
+<div class="layout-chunk" data-layout="l-body">
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">size</th>
+<th style="text-align: center;">t</th>
+<th style="text-align: center;">b</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">550px</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">650px</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">750px</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">850px</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">10</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Dus wat u zou moeten doen is deze code toevoegen aan uw grafiek als u bijvoorbeeld de hoogte van je plot 650px wilde hebben in plaats van 450px.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-59-1.png" width="624" /></p>
+</div>
+<p>Hoewel het veel minder waarschijnlijk is, maar als u het equivalent wilt doen voor een lijndiagram en het wilt exporteren op een grotere hoogte dan de standaard hoogte, moet u hetzelfde doen. Maar ook uw waarden voor t veranderen in negatieve waarden op basis van de bovenstaande tabel.</p>
+<h3 id="heroderdenen-van-de-staven-op-basis-van-de-grootte">Heroderdenen van de staven op basis van de grootte</h3>
+<p>Standaard zal R uw gegevens in alfabetische volgorde weergeven, maar in plaats daarvan herordenen op basis van grootte is eenvoudig: gewoon <code>reorder()</code> om de <code>x</code> of <code>y</code> variabele leggen die u wilt herschikken, en geef aan voor welke variabele u de gegevens wilt herschikken.</p>
+<p>Bijvoorbeeld <code>x = reorder (country, pop)</code>. Oplopende volgorde is de standaard, maar u kunt deze veranderen in aflopende volgorde door <code>desc()</code> rond de variabele te plaatsen waar u de volgorde van wilt wijzigen:</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-61-1.png" width="624" /></p>
+</div>
+<h3 id="staven-met-de-hand-herordenen">Staven met de hand herordenen</h3>
+<p>Soms moet u uw gegevens ordenen op een manier die niet alfabetisch of gerangschikt op grootte is.</p>
+<p>Om deze correct te ordenen moet u de factorniveaus van uw gegevens instellen voordat u het figuur maakt.</p>
+<p>Specificeer de volgorde waarin u de categorieën in het <code>levels</code> argument wilt afdrukken:</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>U kunt dit ook gebruiken om de delen van een gestapelde staafdiagram opnieuw te ordenen.</p>
+<h3 id="kleur-staven-conditioneel">Kleur staven conditioneel</h3>
+<p>U kunt esthetische waarden zoals vulling, alpha en grootte voorwaardelijk instellen met <code>ifelse()</code>.</p>
+<p>De syntaxis is <code>fill=ifelse(logical_condition, fill_if_true, fill_if_false)</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="bbc-en-data-journalisme_files/figure-html5/unnamed-chunk-63-1.png" width="624" /></p>
+</div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>

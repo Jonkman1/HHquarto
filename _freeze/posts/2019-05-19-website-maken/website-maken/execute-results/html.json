@@ -1,0 +1,14 @@
+{
+  "hash": "5d2ce728e5afc4ccd01f51d240ad8c65",
+  "result": {
+    "markdown": "---\ntitle: \"Website maken\"\ndescription: |\n  A short description of the post.\nauthor:\n  - name: Julia Wrobel, bewerking Harrie Jonkman\n    url: www.harriejonkman.nl\ndate: 05-19-2019\noutput:\n  distill::distill_article:\n    self_contained: false\n---\n\n\n\n\nDistill is a publication format for scientific and technical writing, native to the web.\n\nLearn more about using Distill at <https://rstudio.github.io/distill>.\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": null
+  }
+}

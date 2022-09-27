@@ -1,0 +1,253 @@
+---
+title: "Opschonen en ontrafelen"
+description: |
+  Een post over opschonen en ontrafelen van data
+author:
+  - name: Bewerking Harrie Jonkman
+    url: {}
+date: 10-03-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+![](Screenshot1.png)
+
+Als je data krijgt is het belangrijk om over enkele technieken te beschikken de data goed te ontrafelen en schoon te maken. Het pakket `tidyverse` is een standaardpakket waarmee je goed uit de voeten kunt. Ook het pakket `janitor` hoort thuis in de gereedschapskist van de analyticus. Een aantal codes van dat `janitor`pakket wilde ik goed leren kennen. Vandaar deze blog. Daarbij bouw ik voort op deze blog  [hier](https://towardsdatascience.com/cleaning-and-exploring-data-with-the-janitor-package-ee4a3edf085e).   
+
+# Janitor   
+Eerst maar eens `janitor` en `tidyverse` laden en de data binnenhalen (wel eerst installeren als je deze pakketten niet hebt).  
+
+```{r, echo=TRUE}
+library(janitor)
+library(tidyverse)
+place_names = read.csv("data/GNIS Query Result.csv")
+```
+
+Eerst eens kijken hoe deze data eruit zien?
+
+```{r, echo=TRUE}
+View(place_names)
+```
+
+## Mee werken
+
+Laten we een beetje met deze data werken. Eerst geven we de kolommen de naam `columns` om te voorkomen dat het rommelig wordt. Vervolgens gebruiken we de `separate()` functie om de kolommen te scheiden. Vervolgens filteren we de gegevens tot Berkshire County, omdat bij nadere inspectie van de gegevens duidelijk wordt dat er een paar items van buiten dit gebied zijn opgenomen. Dan gebruiken we `mutate()` om verder op te ruimen. `str_replace()` wordt gebruikt om de ID "598673" te vervangen door "598712," een ID nummer dat al bestaat in de dataset, om zo een duplicaat ID te maken. Tenslotte wordt een extra kolom genaamd "extra_column" aangemaakt met NAs in elke rij:
+
+
+```{r place_names, echo=TRUE}
+
+colnames(place_names) = "columns"
+
+place_names = 
+  place_names %>% 
+  separate(columns, c("Feature Name", "ID", "Class", "County", "State", "Latitude", "Longitude", "Ele(ft)", "Map", "BGN Date", "Entry Date"), sep = "[|]") %>%
+  filter(County == "Berkshire") %>% 
+  mutate(
+    ID = str_replace(ID, "598673", "598712"),
+    extra_column = NA
+  )
+
+```
+
+## Creëer `non_ma_names`
+
+Voor we verder gaan, maken we snel ook een tweede dataset aan. Deze noemen we "non_ma_names", met data die niet van Berkshire County afkomstig zijn. Nogmaals lezen we het "GNIS Query Result.csv" bestand in en scheiden de kolomnamen. Vervolgens gebruiken we de `clean_names()` functie uit het janitor pakket, die we in de volgende sectie uitvoerig zullen behandelen. Tenslotte gebruiken we `as.numeric()` en `as.factor()` in een mutate stap om onze ele_ft variabele te transformeren naar een numerieke variabele en onze map variabele naar een factor:
+
+```{r non_ma, echo=TRUE}
+
+non_ma_names = read.csv("data/GNIS Query Result.csv")
+
+colnames(non_ma_names) = "columns"
+
+non_ma_names = 
+  non_ma_names %>% 
+  separate(columns, c("Feature Name", "ID", "Class", "County", "State", "Latitude", "Longitude", "Ele(ft)", "Map", "BGN Date", "Entry Date"), sep = "[|]") %>% 
+  filter(County != "Berkshire") %>% 
+  clean_names() %>% 
+  mutate(
+    ele_ft = as.numeric(ele_ft),
+    map = as.factor(map)
+  )
+
+```
+
+Laten we nu eens zien wat `janitor` kan.
+
+## Gebruik `janitor`
+
+### `row_to_names()`
+Je hebt waarschijnlijk al heel wat databestanden ontvangen, waarschijnlijk in .xlsx-formaat. Bovenaan de spreadsheet staan er dan niet zelden een aantal rijen voordat de eigenlijke gegevens beginnen. Deze rijen kunnen leeg zijn of zijn gevuld met informatie en bedrijfslogo's. Wanneer je dergelijke gegevens in R laadt, kan de inhoud van deze eerste rijen automatisch jouw kolomkoppen en eerste rijen worden. De functie `row_to_names()` in het `janitor`-pakket geeft joun de gelegenheid om aan te geven welke rij in jouw dataframe de eigenlijke kolomnamen bevat en om al het andere dat aan die rij voorafgaat te verwijderen. In onze dataset hadden de kolomnamen al de juiste plaats. Maar laten we deze functie toch eens proberen. We doen alsof de kolomnamen in de derde rij staan.
+We gebruiken de `row_to_names()`-functie om een nieuw data frame te maken genaamd "test_names". De `row_to_names()` functie neemt de volgende argumenten: de gegevensbron, het rijnummer waar de kolomnamen vandaan moeten komen, of die rij moet worden verwijderd uit de gegevens, en of de rijen erboven moeten worden verwijderd uit de gegevens:
+
+
+```{r janitor, echo=TRUE}
+
+test_names = row_to_names(place_names, 3, remove_row = TRUE, remove_rows_above = TRUE)
+
+
+```
+
+### `clean_names()`
+
+`clean_names()` functie wordt vaak gebruikt als je een nieuwe dataset in R laadt. Als je deze functie nog niet gebruikt, raad ik je sterk aan om deze in jouw workflow op te nemen. Het is niet voor niets de meest populaire functie uit het `janitor`- pakket - het is uiterst nuttig!
+Laten we even terugkijken naar onze kolomnamen. Er zijn allerlei hoofdletters en spaties (b.v. "Feature Name", "BGN Date") en ook symbolen ("Ele(ft)"). De `clean_names()` functie zet deze allemaal voor ons om naar kleine letters.
+
+Het gebruik van `clean_names()` is eenvoudig en kan als volgt worden uitgevoerd:
+
+```{r janitor2, echo=TRUE}
+place_names = clean_names(place_names)
+
+#OR
+
+place_names = 
+  place_names %>% 
+  clean_names()
+```
+
+Zoals je ziet, heeft deze ene functie alle soorten rommelige kolomnamen verwerkt. Alles ziet er nu netjes en opgeruimd uit. Kijk maar eens
+
+```{r, echo=TRUE}
+head(place_names)
+```
+
+### `remove_empty()`
+
+De `remove_empty()` functie verwijdert, zoals de naam al zegt, kolommen die leeg zijn. We hebben een lege kolom gemaakt in ons "place_names" dataframe tijdens het voorbereiden van onze gegevens, dus we weten dat ten minste één kolom door deze functie zou moeten worden beïnvloed. Laten we het eens uitproberen:
+
+```{r janitor4, echo=TRUE}
+place_names = 
+  place_names %>% 
+  remove_empty()
+```
+
+Zoals je kunt zien is de lege kolom ('extra_column') verdwenen en zijn er niet meer 12 maar 11 variabelen over.
+
+De `bgn_date`-kolom lijkt leeg, maar het feit dat deze niet is verwijderd door `remove_empty()` vertelt ons dat er in ieder geval in één rij gegevens moeten zitten. Scroll maar in de dataset naar beneden en dan zie je het.
+
+### `remove_constant()`
+
+De `remove_constant()` functie verwijdert kolommen met dezelfde waarde in alle rijen. Onze dataset heeft er momenteel twee - omdat we de data hebben gefilterd tot Berkshire County, en heel Berkshire County in Massachusetts ligt, is county = "Berkshire" en staat = "MA" voor alle rijen. Deze rijen zijn niet bijzonder nuttig om in de dataset te houden omdat ze geen rij-specifieke informatie geven. We zouden simpelweg `select()` kunnen gebruiken om deze kolommen te verwijderen, maar het voordeel van `remove_constant()` is dat deze functie de aanname `alle gegevens hetzelfde zijn`, dubbel controleert. In feite, door het gebruik van `remove_constant()` werd ook duidelijk dat 38 van de 1968 items in de ruwe data eigenlijk niet van Berkshire Country waren!
+Net als `remove_empty()`, is alle informatie die de `remove_constant()` functie nodig heeft, de dataset waarop het moet werken:
+
+```{r janitor3, echo=TRUE}
+place_names = 
+  place_names %>% 
+  remove_constant()
+
+```
+
+Zoals je kunt zien, zijn de variabelen Berkshire(county) en MA(staat) nu er uit en zijn er nog negen variabelen over.
+
+
+### `compare_df_cols()`
+
+Ooit geprobeerd om `rbind()` te gebruiken om twee data frames te stapelen en tegen een onverwachte fout aangelopen? De `compare_df_cols()` functie vergelijkt direct de kolommen in twee dataframes en is ongelooflijk handig voor het oplossen van dit probleem. Laten we het eens proberen door ons "place_names" data frame te vergelijken met het data frame dat we hebben gemaakt met gegevens buiten Berkshire County, "non_ma_names":
+
+```{r, echo=TRUE}
+
+compare_df_cols(place_names, non_ma_names)
+
+
+```
+
+De output is een handige tabel waarin de twee dataframes worden vergeleken. We zien "NA" voor county en state in place_names en "character" voor deze variabelen in non_ma_names. Dit komt omdat we deze kolommen met `remove_constant()` uit place_names hebben verwijderd, maar nooit iets hebben gedaan met de standaard karaktervariabelen in non_ma_names. We zien ook ele_ft als numeriek en map als een factor variabele in non_ma_names, die we specifiek hebben aangewezen tijdens datavoorbereiding. Als we deze dataframes zouden proberen samen te voegen, zou het nuttig zijn te weten welke kolommen ontbreken en welke kolommen inconsistente types hebben in de dataframes. In dataframes met veel kolommen kan `compare_df_cols()` de tijd die nodig is om deze vergelijkingen te maken, aanzienlijk verminderen.
+
+### `get_dupes()`
+
+Ik heb vaak gewerkt aan projecten met unieke patiënt-ID's waarvan je niet verwacht dat ze dubbel voorkomen in je dataset. Er zijn tal van andere gevallen waarin je ervoor zou willen zorgen dat een ID-variabele volledig unieke waarden heeft, waaronder onze GNIS-gegevens. Zoals je je zult herinneren, hebben we een dubbele ID aangemaakt toen we onze data voorbereidden. Laten we eens kijken hoe `get_dupes()` dit detecteert. De functie heeft enkel de naam van ons dataframe nodig en de naam van de kolom die als identifier fungeert:
+
+```{r, echo=TRUE}
+get_dupes(place_names, id)
+```
+
+Zoals hieronder getoond, wordt het dataframe gefilterd tot de rijen met dubbele waarden in de kolom ID, zodat eventuele problemen gemakkelijk kunnen worden onderzocht:
+
+### tabyl()
+
+De `tabyl()` functie is vergelijkbaar met de `table()` functie van tidyverse. Het is ook compatibel met het knitr pakket, en is erg handig voor data exploratie.Laten we het eerst uitproberen met een enkele variabele. Stel dat we geïnteresseerd zijn in hoeveel scholen er zijn in elk van de steden in Berkshire County. We filteren eerst onze klasse variabele op "School", en gebruiken dan de tabyl() functie met onze map(locatie) variabele. Tenslotte pijpen we dat in knitr::kable() om de uitvoer in een mooie tabel te formatteren:
+
+
+```{r, echo=TRUE}
+
+place_names %>% 
+  filter(class %in% "School") %>% 
+  tabyl(map) %>% 
+  knitr::kable()
+
+```
+
+
+Het uitvoeren van deze zeer eenvoudige code levert de volgende uitvoertabel op:
+
+Wanneer we ons Rmd bestand 'knitten', zal de `kable()` functie de tabel mooi opmaken, zoals hierboven getoond. We krijgen een aantal scholen in elke stad, evenals het percentage van alle scholen in die stad. Het is gemakkelijk om opmerkingen te maken over deze gegevens, zoals dat 29,5% van alle scholen in Pittsfield East zijn, dat 41 scholen telt. Of dat 3 steden zo klein zijn dat ze maar 1 school hebben:
+
+Laten we nu de kruistabellen van twee variabelen proberen. Laten we eens kijken hoeveel herkenningspunten van elk type aanwezig zijn in elke stad:
+
+```{r, echo=TRUE}
+place_names %>% 
+  tabyl(map, class) %>% 
+ knitr::kable()
+
+```
+
+Een deel van onze tabel (eenmaal 'geknit') is hierboven afgebeeld. Voor elke stad kunnen we duidelijk zien hoeveel van elk oriëntatiepunttype er in de database zitten:
+
+
+Hoewel eenvoudige tellingen als deze heel nuttig kunnen zijn, geven we misschien meer om kolompercentages. Met andere woorden, hoeveel procent van de items voor elk oriëntatiepunttype zijn er in elke stad? Dit is gemakkelijk te onderzoeken met `tabyl()` via de `adorn_percentages()` functie:
+
+```{r, echo=TRUE}
+place_names %>% 
+  tabyl(map, class) %>% 
+  adorn_percentages("col") %>% 
+  knitr::kable()
+```
+
+
+Nu zien we deze kolompercentages in plaats van tellingen, maar de tabel is nogal moeilijk te lezen.
+
+We kunnen dit een beetje opschonen met de `adorn_pct_formatting()` functie, die de gebruiker toestaat het aantal decimalen op te geven dat in de uitvoer moet worden opgenomen. Precisie is niet bijzonder belangrijk voor deze verkennende tabel, dus laten we 0 decimalen gebruiken om deze tabel makkelijker leesbaar te maken:
+
+```{r, echo=TRUE}
+place_names %>% 
+  tabyl(map, class) %>% 
+  adorn_percentages("col") %>% 
+  adorn_pct_formatting(digits = 0) %>% 
+  knitr::kable()
+```
+
+
+Veel beter! Nu is het veel gemakkelijker om de tabel te lezen en onze kolompercentages te begrijpen:
+
+Het is net zo eenvoudig om `adorn_percentages()` te gebruiken om in plaats daarvan naar rij percentages te kijken (in ons geval, het percentage vermeldingen van elke stad dat behoort tot elk oriëntatiepunt type):
+
+```{r, echo=TRUE}
+
+place_names %>% 
+  tabyl(map, class) %>% 
+  adorn_percentages("col") %>% 
+  adorn_pct_formatting(digits = 0) %>% 
+  knitr::kable()
+```
+
+
+## Andere Functies
+In dit blog zijn de functies uit het `janitor`-pakket beschreven die nuttig zijn voor het dagelijkse werk. Dit is echter geen uitputtende lijst van `janitor` functies en ik raad aan om de documentatie te raadplegen voor meer informatie over dit pakket.
+
+Er zijn nog een paar andere functies die op zijn minst de moeite waard zijn om hier te vermelden:
+`excel_numeric_to_date()`: Deze functie is ontworpen om veel van Excel's datum formaten te verwerken en om deze numerieke variabelen om te zetten naar datum variabelen. Het lijkt een grote tijdsbesparing voor diegenen die vaak met gegevens in Excel werken. Als niet frequent gebruiker van Excel, vertrouw ik in plaats daarvan zwaar op het `lubridate` pakket voor het werken met datum variabelen.   
+
+`round_to_fraction()`: Met deze functie kun je decimale getallen afronden naar een precieze breuknoemer. Wil je al je waarden afgerond hebben naar het dichtstbijzijnde kwartier, of gebruik je decimalen om minuten in een uur weer te geven? Dan kan de `round_to_fraction()`-functie jou waarschijnlijk helpen.   
+
+`top_levels()`: Deze functie genereert een frequentietabel die een categorische variabele samenbrengt in hoge, middelste en lage niveaus. Veelgebruikte gevallen zijn onder andere het vereenvoudigen van Likert-achtige schalen.
+
+
+## Conclusie  
+Het is op dit punt algemeen bekend dat de meeste dataanalisten en -wetenschappers het grootste deel van hun tijd besteden aan het opschonen en verkennen van gegevens. Daarom is het goed om nieuwe pakketten en functies te ontdekken die deze processen een beetje efficiënter maken.
+
+Of je het `janitor`-pakket nu wel of niet eerder hebt gebruikt, ik hoop dat deze blog jouw kennis heeft laten maken met enkele functies die nuttige toevoegingen zullen blijken te zijn aan je datawetenschapsgereedschapskist.

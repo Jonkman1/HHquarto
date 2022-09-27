@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Bayes'basis</title>
+  
+  <meta property="description" itemprop="description" content="Over statistiek en waarschijnlijkheid op de eenvoudige manier."/>
+  
+  
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2019-12-04"/>
+  <meta property="article:created" itemprop="dateCreated" content="2019-12-04"/>
+  <meta name="article:author" content="Harrie Jonkman"/>
+  
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Bayes&#39;basis"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="Over statistiek en waarschijnlijkheid op de eenvoudige manier."/>
+  <meta property="og:locale" content="en_US"/>
+  
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Bayes&#39;basis"/>
+  <meta property="twitter:description" content="Over statistiek en waarschijnlijkheid op de eenvoudige manier."/>
+  
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Bayes'basis"]},{"type":"character","attributes":{},"value":["Over statistiek en waarschijnlijkheid op de eenvoudige manier.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Harrie Jonkman"]},{"type":"character","attributes":{},"value":["www.harriejonkman.nl"]}]}]},{"type":"character","attributes":{},"value":["12-04-2019"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["bayesbasis_files/figure-html5/unnamed-chunk-1-1.png","bayesbasis_files/figure-html5/unnamed-chunk-2-1.png","bayesbasis_files/figure-html5/unnamed-chunk-3-1.png"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+  
+  <style type="text/css">
+  
+  body {
+    background-color: white;
+  }
+  
+  .pandoc-table {
+    width: 100%;
+  }
+  
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+  
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+  
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+  
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+  
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+  
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+  
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .shaded-content {
+    background: white;
+  }
+  
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  d-article {
+    padding-bottom: 30px;
+  }
+  
+  d-appendix {
+    padding-top: 30px;
+  }
+  
+  d-article>p>img {
+    width: 100%;
+  }
+  
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for table of contents */
+  
+  .d-toc {
+    color: rgba(0,0,0,0.8);
+    font-size: 0.8em;
+    line-height: 1em;
+  }
+  
+  .d-toc-header {
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 1.3em;
+  }
+  
+  .d-toc a {
+    border-bottom: none;
+  }
+  
+  .d-toc ul {
+    padding-left: 0;
+  }
+  
+  .d-toc li>ul {
+    padding-top: 0.8em;
+    padding-left: 16px;
+    margin-bottom: 0.6em;
+  }
+  
+  .d-toc ul,
+  .d-toc li {
+    list-style-type: none;
+  }
+  
+  .d-toc li {
+    margin-bottom: 0.9em;
+  }
+  
+  .d-toc-separator {
+    margin-top: 20px;
+    margin-bottom: 2em;
+  }
+  
+  .d-article-with-toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  
+  
+  
+  /* Tweak code blocks (note that this CSS is repeated above in an injection
+     into the d-code shadow dom) */
+  
+  d-code {
+    overflow-x: auto !important;
+  }
+  
+  pre.d-code code.d-code {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+  
+  pre.text-output {
+  
+    font-size: 12px;
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  @media(min-width: 768px) {
+  
+  d-code {
+    overflow-x: visible !important;
+  }
+  
+  pre.d-code code.d-code  {
+      padding-left: 18px;
+      font-size: 14px;
+  }
+  pre.text-output {
+    font-size: 14px;
+  }
+  }
+  
+  /* Figure */
+  
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+  
+  .figure img {
+    width: 100%;
+  }
+  
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+  
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+  
+  
+  
+  /* Tweak 1000px media break to show more text */
+  
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+  
+    .grid {
+      grid-column-gap: 16px;
+    }
+  
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+  
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+  
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+  
+  
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+  
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  
+  /* Social footer */
+  
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+  
+  .disqus-comments {
+    margin-right: 30px;
+  }
+  
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+  
+  #disqus_thread {
+    margin-top: 30px;
+  }
+  
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+  
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+  
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+  
+  
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+  
+  
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+  
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+  
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+  
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+  
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+  
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+  
+  
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+  
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+  
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+  
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+  
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  </style>
+  
+  <script type="application/javascript">
+  
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+  
+  // show body when load is complete
+  function on_load_complete() {
+  
+    // set body to visible
+    document.body.style.visibility = 'visible';
+  
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+  
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+  
+  function init_distill() {
+  
+    init_common();
+  
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+  
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+  
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+  
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+  
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+  
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+  
+    // create d-bibliography
+    var bibliography = $('<d-bibliography></d-bibliography>');
+    $('#distill-bibliography').wrap(bibliography);
+  
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+  
+    // replace citations with <d-cite>
+    $('.citation').each(function(i, val) {
+      appendix = true;
+      var cites = $(this).attr('data-cites').split(" ");
+      var dt_cite = $('<d-cite></d-cite>');
+      dt_cite.attr('key', cites.join());
+      $(this).replaceWith(dt_cite);
+    });
+    // remove refs
+    $('#refs').remove();
+  
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+  
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+  
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+  
+    // replace code blocks with d-code
+    $('pre>code').each(function(i, val) {
+      var code = $(this);
+      var pre = code.parent();
+      var clz = "";
+      var language = pre.attr('class');
+      if (language) {
+        // map unknown languages to "clike" (without this they just dissapear)
+        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                                 "javascript", "js", "julia", "lua", "markdown",
+                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
+          language = "clike";
+        language = ' language="' + language + '"';
+        var dt_code = $('<d-code block' + language + clz + '></d-code>');
+        dt_code.text(code.text());
+        pre.replaceWith(dt_code);
+      } else {
+        code.addClass('text-output').unwrap().changeElementType('pre');
+      }
+    });
+  
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+  
+      // capture layout
+      var layout = $(this).attr('data-layout');
+  
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('d-code, pre.text-output, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+  
+  
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+  
+    // load distill framework
+    load_distill_framework();
+  
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+  
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+  
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+  
+      // table of contents
+      if (have_authors) // adjust border if we are in authors
+        $('.d-toc').parent().addClass('d-article-with-toc');
+  
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+  
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+  
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+  
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+  
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+  
+      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+      $('d-code').each(function(i, val) {
+        var style = document.createElement('style');
+        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+        if (this.shadowRoot)
+          this.shadowRoot.appendChild(style);
+      });
+  
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+  
+      // clear polling timer
+      clearInterval(tid);
+  
+      // show body now that everything is ready
+      on_load_complete();
+    }
+  
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+  
+  }
+  
+  function init_downlevel() {
+  
+    init_common();
+  
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+  
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+  
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+  
+    // remove toc
+    $('.d-toc-header').remove();
+    $('.d-toc').remove();
+    $('.d-toc-separator').remove();
+  
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+  
+  
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+  
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+  
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+  
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+  
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+  
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+  
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+  
+    $('body').addClass('downlevel');
+  
+    on_load_complete();
+  }
+  
+  
+  function init_common() {
+  
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+  
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+  
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+  
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+  
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+  
+      }
+    });
+  
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+  
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+  
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+  
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+  
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+  
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+  
+  </script>
+  
+  <!--/radix_placeholder_distill-->
+  <script src="bayesbasis_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="bayesbasis_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="bayesbasis_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="bayesbasis_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Bayes'basis","description":"Over statistiek en waarschijnlijkheid op de eenvoudige manier.","authors":[{"author":"Harrie Jonkman","authorURL":"www.harriejonkman.nl","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2019-12-04T00:00:00.000+01:00","citationText":"Jonkman, 2019"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Bayes’basis</h1>
+<p><p>Over statistiek en waarschijnlijkheid op de eenvoudige manier.</p></p>
+</div>
+
+<div class="d-byline">
+  Harrie Jonkman www.harriejonkman.nl 
+  
+<br/>12-04-2019
+</div>
+
+<div class="d-article">
+<h2 id="bayes-basis">Bayes’ basis</h2>
+<p>Ons leven zit vol onzekerheid, schrijft Will Kurt in zijn nieuwe boek <em>Bayesian statistics the fun away. Understanding statistics and probability with Star Wars, Lego, and Rubber Ducks</em>. Veel gebeurt zoals we ons van te voren hebben bedacht, andere zaken lopen toch weer net een beetje anders. Om met de werkelijkheid om te gaan moeten we wel een gevoel hebben bij het omgaan met onzekerheid in bepaalde situaties. Als we dat systematische willen doen, kan de Bayesiaanse statistiek ons een handje helpen. Het leert ons logisch denken en we kunnen het ook nog mathematisch uitdrukken. Will Kurt helpt mensen bij het omgaan met onzekerheid. De boeken die over Bayesiaanse statistiek zijn geschreven zijn vaak moeilijk, zeker als het een nieuw onderwerp is voor je. De standaardboeken over dit onderwerp, van Gelman, McElreath of Spiegelhalter bijvoorbeeld, zijn vooral weggelegd voor een kleine groep statistisch onderlegde lezers. Kurt heeft een boek voor iedereen voor ogen. Bayesiaanse statistiek zet hij tegenover frequentistische statistiek. Bij frequentische statistiek heeft waarschijnlijkheid met frequentie te maken, bij Bayesiaanse statistiek gaat het om de vraag hoe onzeker we zijn over de informatie waarover we beschikken. Bij Bayesiaanse statistiek beschrijven we zo nauwkeurig mogelijk hoe onzeker we over zaken zijn en gebruiken daarbij specifieke gereedschappen. Hier kijken naar een probleem, lossen we het logisch op, gebruiken bepaalde regels, drukken het mathematisch uit en kijken we vervolgens weer opnieuw naar het probleem. Het boek deelt hij in vier stukken op.</p>
+<p>In het <em>eerste deel</em> laat Kurt ons Bayesiaans denken en alledaags redeneren. Hier introduceert hij Bayesiaans denken en geeft er een overzicht van. Hij laat zien dat Bayesiaans denken heel dicht bij gewoon denken en de dagelijkse problemen ligt. Het is niet anders dan het observeren van data, het formuleren van een hypothese en dan weer het updaten van wat je denkt op basis van de data. Om de wereld te begrijpen, kun je vertrouwen op wat je ziet en de hypothesen die je erover hebt. Met nieuwe gegevens kun je de hypothese aanpassen, waarna je vervolgens beter met de data om kunt gaan. Onzekerheid is te meten en in getallen om te zetten. Iets is weinig of zeer waarschijnlijk en dat kunnen we in mathematische modellen omzetten. Iets wat dichter bij 0 ligt, is waarschijnlijk niet waar en iets dat dicht bij 1 ligt is dat wel. Iets kan niet waar en onwaar tegelijk zijn. <span class="math inline">\(P(X) + P_n(X)=1\)</span> Om te rekenen met waarschijnlijkheid waarin we geloven, moeten we kunnen zeggen hoeveel keer meer we in een bepaalde hypothese geloven dan in een andere hypothese. Daarvoor moeten we met logica kunnen werken en dan zijn drie operators belangrijk: EN, OF, NIET, zoals in de volgende stelling: <em>Ik heb een paraplu nodig als het regent EN ik naar buiten ga</em> of <em>Als het niet regent OF als ik NIET naar buiten ga, heb ik een paraplu NIET nodig</em>. Wat ook belangrijk is, hoe je verschillende waarschijnlijkheden combineert. Als de uitkomsten niet met elkaar te maken hebben (bv. de kans op een kop van een munt en een zes van de dobbelstaan) is <span class="math inline">\(P(A,B)=P(A)*P(B)\)</span>. In dat voorbeeld gaat het wel om zaken die elkaar uitsluiten en dat is niet altijd het geval. Je kunt geen kop en een munt gooien EN ook niet een zes en een twee met de dobbelsteen. Maar het wordt anders bij een kop van de munt gooien OF een zes met de dobbelsteen. Dan moeten we alle waarschijnlijkheden optellen en dan de waarschijnlijkheid dat beide tegelijk gebeuren, eraf trekken of te wel: <span class="math inline">\(P(A) OR P(B)=P(A)+P(B)-P(A,B)\)</span> of, zoals in dit voorbeeld: <span class="math display">\[P(kop) OR P(zes)=P(kop,zes)=1/2+1/6-1/12=7/12\]</span> Het eerste voorbeeld van een mathematisch model dat Kurt geeft, is een <em>binomiale verdeling</em>, waarmee je bepaalde successen in de uitkomst kunt onderzoeken. Bij deze uitkomstmaat heeft iets succes of niet (twee uitkomsten, vandaar: bi).<br />
+<em>k</em> Is het aantal uitkomsten waar het ons om gaat (bv. <em>k</em>=2, 2 keer kop van de munt)<br />
+<em>n</em> is het totale aantal (bv. <em>n</em>=3, het aantal keren dat een munt wordt opgegeooid)<br />
+<em>p</em> is de waarschijnlijkheid dat iets gebeurt.(<em>p</em>=1/2, de waarschijnlijkheid op het gooien van een munt)<br />
+Uitgedrukt als <span class="math inline">\(B(2; 3;1/2)\)</span>, waarbij de B de binomiale verdeling is.<br />
+De tweede verdeling die hij ons geeft is de <em>Beta verdeling</em>, een continue verdeling. Deze gebruik je als je een aantal keren iets hebt geobserveerd en het aantal succesvolle uitkomsten weet, bv. je hebt 41 keer gegooid en je hebt 14x kop gegooid en 27 keer munt. Hier gaat het om <span class="math inline">\(alpha,beta,p\)</span>. Hierbij is<br />
+<em>p</em> de waarschijnlijkheid dat iets gebeurt<br />
+<em>a</em> de keren dat het ook echt gebeurt<br />
+<em>b</em> de keren dat het niet gebeurt</p>
+<p>Bayes is vooral interessant bij conditionele waarschijnlijkheid, het ene heeft wel degelijk invloed op het andere, daar gaat het om in het <em>tweede deel</em>. Juist hier is Bayes interessant. Conditionele waarschijnlijkheid drukken we uit als <span class="math inline">\(P(A|B)\)</span>, de waarschijnlijkheid van A gegeven B. Dit is belangrijk omdat hier de aanvullende informatie ons geloof in iets beinvloedt. Hij geeft het voorbeeld van kleurenblindheid:<br />
+P(kleurenblindheid)=0.00425<br />
+P(kleurenblindheid|vrouw)=0.0005<br />
+P(kleurenblindheid|man)=0.08<br />
+Als je de kans wilt weten op kleurenblindheid van een man, dan is dat: P(man| kleurenblindheid)=P(man) x P(kleurenblindheid|man) 0.5X0.08=0.04.Dit kunnen we ook omdraaien. Ingewikkelder is de vraag: wat is de kans dat de persoon man is gegeven dat je weet dat er sprake is van kleurenblindheid (P(man|kleurenblindheid)=?)</p>
+<p><span class="math display">\[
+P(man|kleurenblind)={\frac{P(man)P(kleurenblind|man)}{P(kleurenblind)}}=0.5X0.08/0.0425=0.941
+\]</span></p>
+<p>Hiervoor is de Bayesiaanse wet geintroduceerd die zo goed en makkelijk te gebruiken is:</p>
+<p><span class="math display">\[
+P(A,B)={\frac{P(A)P(B|A)}{P(B)}}
+\]</span> Met deze Bayesiaanse wet nemen we onze kijk op de werkelijkheid en ons geloof daarin als uitgangspunt. Hier combineren data en transformeren dit in een schatting van onze nieuwe kijk gegeven hetgeen we hebben geobserveerd. Met Bayes nemen we deze overtuiging en kwantificeren exact hoe sterk dit bewijs ons denken verandert. Met lego stukje laat Kurt heel concreet zien hoe dit werkt, zoals hij steeds in het boek eenvoudige voorbeelden neemt om duidelijk te maken wat hij bedoelt. Met Bayes heb je drie delen: de <em>prior</em> P(H), de hypothes oftewel hoe de manier waarop we naar de werkelijkheid kijken; de <em>likelihood</em> P(D|H), de data gegeven onze hypothese en de <em>posterior</em>, wat we eigenlijk willen weten: P(H|D), de hypothese gegeven de data die we hebben, de theorie die we op basis van de gegevens opstellen. Deze delen maken tezamen vormen het theorema van Bayes. De prior is natuurlijk het meest controversiele deel van deze wet. Hier gebruiken we de informatie die we al hebben in het schatten van een onzekere situatie. Ook bij de prior gebruik je niet één bepaalde waarde maar vaak ook een verdeling van waarden. Juist om verschillende mogelijkheden mee te kunnen nemen in jouw berekening.</p>
+<p>In het <em>derde deel</em> van het boek gaat hij in op het schatten van parameters. Hij begint met het gemiddelde en dat we dat meten door alle observaties te wegen door de waarschijnlijkheid dat deze observaties voorkomen. Hier is niet veel nieuws onder de zon, behalve dat je wel goed moet weten waar je het over hebt. Datzelfde geldt voor het meten van de spreiding van de data waar hij ook over schrijft. Hij laat zien dat er drie manieren zijn om de spreiding in kaart te brengen: MAD (Mean Absolute Deviation), Variantie en de Standaard Deviatie waar het meest mee gewerkt wordt. Het is goed om niet alleen gemiddelden te kennen maar ook uitspraken te doen over de spreiding omdat deze meestal aangeven hoe zeker of onzeker we over iets zijn. Hoe groter de spreiding, hoe onzekerder we zijn en andersom. In de normale verdeling is de spreiding ook uitgedrukt in standaard deviatie. Hieronder zien we een normale verdeling met een standaard deviatie van 15, relatief veel zekerheid.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="bayesbasis_files/figure-html5/unnamed-chunk-1-1.png" width="624" /></p>
+</div>
+<p>En hier onder een normaal verdeling met standaard deviatie 40, relatief veel onzekerheid.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="bayesbasis_files/figure-html5/unnamed-chunk-2-1.png" width="624" /></p>
+</div>
+<p>65 procent van de mogelijke waarden vallen binnen ongeveer een standaardeviatie, 95 procent binnen twee standaarddeviaties en 99.7 procent binnen drie standaard deviatie. Interessanter hier zijn de gereedschappen om de parameters te schatten op een Bayesiaanse manier. Kurt presenteert drie functies en ik hou even de Engelse termen aan: de <em>Probability Density Function (PDF)</em>, die ons laat zien hoeveel iets voorkomt. Kurt geeft een voorbeeld. Hij start een email lijst waar je je voor kunt inschrijven. Hij stuurt 40.000 mails uit en 300 mensen geven zich op. Dit kan in een beta-functie worden uitgedrukt</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="bayesbasis_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
+</div>
+<p>De <em>Cumulative Distribution Function (CDF)</em> die ons helpt om de waarschijnlijkheid van bepaalde waardes vast te stellen. R geeft ons daar ook het instrumentarium voor. Als we in R de waarschijnlijkheid van Beta(300, 39700) vast willen stellen, uitgaande van kleiner dan 0.0065, kunnen we dat met de volgende formule uitdrukken.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+[1] 0.007978686</code></pre>
+</div>
+<p>En om vast te stellen dat de bevestigingsgraad meer is dan 0.0085 is, schrijven we het volgende:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+[1] 0.01248151</code></pre>
+</div>
+<p>Het maakt niet uit of het continu is zoals hierboven of discreet zoals hieronder:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+[1] 0.8125</code></pre>
+</div>
+<p>Om bepaalde waarden vast te stellen kunnen we de <em>Kwantielen Functie</em> gebruiken, bv. de mediaan en het interval dat er bij hoort. Of als we de waarde van 99,9 procent en minder willen hebben kunnen we de volgende functie gebruiken. We weten hier voor 99,9 procent zeker dat minder dan 0.0089 zich opgeven voor onze lijst.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+[1] 0.008903462</code></pre>
+</div>
+<p>En ook, weten we voor 95 procent zeker dat tussen de 0.67 procent en 0.84 procent van de mensen zich opgeeft voor de lijst. Dat onderzoeken we op de volgende wijze:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+[1] 0.006678074</code></pre>
+<pre><code>
+[1] 0.008368562</code></pre>
+</div>
+<p>Op deze manier kunnen we parameters en intervallen berekenen die met onze waarden samenhangen. Die schattingen kunnen we ook maken door informatie toe te voegen. We hebben dan niet alleen de data (300, 39700) maar gebruiken ook kennis die we hebben. Dan kunnen we verschillende prior gebruiken die onze kennis uitdrukken. Bijvoorbeeld als we pessimistisch zijn kunnen we de Beta(1,41) gebruiken en die veronderstelt vooral lage waarden of Beta(5,200) als we iets meer geloof in verandering hebben. Of als we niks weten de Beta(1,1). Maar ook als is jouw prior verkeerd, deze wordt door data overruled en zeker als je veel data hebt. Het is jammer dat Kurt niet eenvoudig laat zien hoe je dat doet. Kun je er bij optellen.</p>
+<p>Het laatste, <em>vierde deel</em> gaat over de kern van statistiek: het testen van hypothesen. Hij begint met een simpele A/B test, een test om vast te stellen of het ene beter werkt dan het andere. Ook hier laat hij zien hoe je dat kunt doen en hoe je daar simulaties bij kunt gebruiken. De ene groep van 150 ontvangt een email met een grote illustratie erop en de andere niet. Hij wil weten welke groep zich op basis van de email vaker opgeeft</p>
+<table>
+<thead>
+<tr class="header">
+<th>Variant</th>
+<th>Geklikt</th>
+<th>Niet geklikt</th>
+<th>Opgegeven</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>VariantA</td>
+<td>36</td>
+<td>114</td>
+<td>0.24</td>
+</tr>
+<tr class="even">
+<td>Variant B</td>
+<td>50</td>
+<td>100</td>
+<td>0.33</td>
+</tr>
+</tbody>
+</table>
+<p>We weten uit eerder onderzoek dat 3 van 10 mensen zich opgeven en die kennis verwerken we in de prior.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+[1] 0.95954</code></pre>
+</div>
+<p>Bij 100.000 pogingen was variant B 96 procent beter.</p>
+<p>In dit hoofdstuk presenteert hij ook twee maten: de Bayes Factor and Posterior Odds. Als we twee hypothesen met elkaar willen vergelijken dan vergelijken we in elk geval de prior maal de likelihood en dan krijgen we de ratio van de posteriors als volgt:</p>
+<p><span class="math display">\[
+{\frac{P(H_1)*(P(D|H_1)}{P(H_2)*(P(D|H_2)}}
+\]</span> Dit vergelijkt hoe elke hypothese de data verklaart die we observeren. Stel dat we uitgaan van dezelfde prior houden we het volgende over: <span class="math display">\[
+{\frac{(P(D|H_1)}{(P(D|H_2)}}
+\]</span> Dit is de Bayes factor die we dan overhouden, de ratio tussen de likelihoods van twee hypothesen. Is het meer dan 1, dan is hypothese_1 (H_1) beter, is het kleiner dan 1 dan is H_2 beter. De Prior Odds is de ratio van de waarschijnlijkheid voordat we naar de data hebben gekeken <span class="math inline">\({\frac{P(H_1)}{P(H_2)}}\)</span>. Als we de Bayes Factor en de Prior Odds samen nemen krijven we de posterior odds: <span class="math display">\[posterior odds=O(H_1){\frac{P(D|H_1)}{P(D|H_2)}}\]</span></p>
+<p>En dan is het handig om de volgende regels in het achterhoofd te houden:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Posterior odds</th>
+<th>Sterkte van het bewijs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1-3</td>
+<td>Interessant, geen conclusies</td>
+</tr>
+<tr class="even">
+<td>3-20</td>
+<td>Het echt ergens op lijken</td>
+</tr>
+<tr class="odd">
+<td>20-150</td>
+<td>Sterk bewijs ten faveure H1</td>
+</tr>
+<tr class="even">
+<td>&gt;150</td>
+<td>Overweldigend bewijs</td>
+</tr>
+</tbody>
+</table>
+<p>Hij geeft enkele voorbeelden waaronder deze: Stel je wordt op een ochtend wakker en je hebt problemen met horen en een ringtoon (tinnitus) in je oor. Er zijn twee mogelijkheden, twee hypothesen: - <strong>Vestibular swannoma</strong> en je hebt een tumor die tot oorproblemen leidt (H_1). Hoorproblemen zijn hier 94% en tinnitus is hier 89%: <span class="math inline">\(P(D|H1)=0.94*0.89=0.78\)</span> - <strong>Oorsmeer</strong> en je oor moet worden uitgespoten (H_2). Hier geldt voor de complicaties: <span class="math inline">\(P(D|H1)=0.63*0.55=0.35\)</span> en de Bayes Factor wordt dan: <span class="math display">\[
+{\frac{(P(D|H_1)}{(P(D|H_2)}}={\frac{0.78}{0.35}}=2.23
+\]</span> Het lijkt de kans op te gaan van vestibular swannoma maar dat kan niet echt geconcludeerd worden. Maar hier kunnen we er niet vanuit gaan dat de prior in beide geval even groot is. De kans op de tumor is <span class="math display">\[P(H_1)={\frac{11}{1,000,000}}\]</span></p>
+<p>En de kans op gewoon oorsmeer is <span class="math display">\[P(H_2)={\frac{37,000}{1,000,000}}\]</span></p>
+<p>De Odds Priors is dan <span class="math display">\[O(H_1)={\frac{P(H_1)}{P(H_2)}}={\frac{11}{37,000}}\]</span></p>
+<p>Als we nu rekening houden met deze voorkennis en dit met de Bayes Factor vermenigvuldigen krijgen we het volgende resultaat:</p>
+<p><span class="math display">\[
+O(H_1*{\frac{(P(D|H_1)}{(P(D|H_2)}}={\frac{11}{37,000}}*2.23={\frac{223}{370,000}}
+\]</span></p>
+<p>Het is 1,659 meer waarschijnlijk dat het met jouw oorsmeer te maken heeft en dat je het best naar de huisarts kunt gaan. En zo werkt hij dit concept in dit hoofdstuk verder uit en krijg je een goed idee wat die Bayes’ basis jou op kan leveren. Soms is het goed om weer terug te grijpen op de basis van een heel goed instrumentarium en Kurt kan jou als lezer heel goed vertellen hoe die basis eruit ziet.</p>
+<p>Kurt, W. (2019). <em>Bayesian statistics the fun way. Understanding statistics and probability with Star Wars, Lego, and Rubber Ducks</em>. San Francisco: No Starch Press.</p>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>

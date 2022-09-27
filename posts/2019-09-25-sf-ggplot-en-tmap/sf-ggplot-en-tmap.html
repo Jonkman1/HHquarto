@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Sf, ggplot en tmap</title>
+  
+  <meta property="description" itemprop="description" content="Over het maken van kaarten van Nederland met nieuwe pakketten en mogelijkheden."/>
+  
+  
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2019-09-25"/>
+  <meta property="article:created" itemprop="dateCreated" content="2019-09-25"/>
+  <meta name="article:author" content="Harrie Jonkman"/>
+  
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Sf, ggplot en tmap"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="Over het maken van kaarten van Nederland met nieuwe pakketten en mogelijkheden."/>
+  <meta property="og:locale" content="en_US"/>
+  
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Sf, ggplot en tmap"/>
+  <meta property="twitter:description" content="Over het maken van kaarten van Nederland met nieuwe pakketten en mogelijkheden."/>
+  
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Sf, ggplot en tmap"]},{"type":"character","attributes":{},"value":["Over het maken van kaarten van Nederland met nieuwe pakketten en mogelijkheden. \n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Harrie Jonkman"]},{"type":"character","attributes":{},"value":["www.harriejonkman.nl"]}]}]},{"type":"character","attributes":{},"value":["09-25-2019"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["sf-ggplot-en-tmap_files/figure-html5/unnamed-chunk-10-1.png","sf-ggplot-en-tmap_files/figure-html5/unnamed-chunk-11-1.png","sf-ggplot-en-tmap_files/figure-html5/unnamed-chunk-12-1.png","sf-ggplot-en-tmap_files/figure-html5/unnamed-chunk-18-1.png","sf-ggplot-en-tmap_files/figure-html5/unnamed-chunk-3-1.png","sf-ggplot-en-tmap_files/figure-html5/unnamed-chunk-4-1.png","sf-ggplot-en-tmap_files/figure-html5/unnamed-chunk-5-1.png","sf-ggplot-en-tmap_files/figure-html5/unnamed-chunk-6-1.png","sf-ggplot-en-tmap_files/figure-html5/unnamed-chunk-7-1.png","sf-ggplot-en-tmap_files/figure-html5/unnamed-chunk-9-1.png"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+  
+  <style type="text/css">
+  
+  body {
+    background-color: white;
+  }
+  
+  .pandoc-table {
+    width: 100%;
+  }
+  
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+  
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+  
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+  
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+  
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+  
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+  
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .shaded-content {
+    background: white;
+  }
+  
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  d-article {
+    padding-bottom: 30px;
+  }
+  
+  d-appendix {
+    padding-top: 30px;
+  }
+  
+  d-article>p>img {
+    width: 100%;
+  }
+  
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for table of contents */
+  
+  .d-toc {
+    color: rgba(0,0,0,0.8);
+    font-size: 0.8em;
+    line-height: 1em;
+  }
+  
+  .d-toc-header {
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 1.3em;
+  }
+  
+  .d-toc a {
+    border-bottom: none;
+  }
+  
+  .d-toc ul {
+    padding-left: 0;
+  }
+  
+  .d-toc li>ul {
+    padding-top: 0.8em;
+    padding-left: 16px;
+    margin-bottom: 0.6em;
+  }
+  
+  .d-toc ul,
+  .d-toc li {
+    list-style-type: none;
+  }
+  
+  .d-toc li {
+    margin-bottom: 0.9em;
+  }
+  
+  .d-toc-separator {
+    margin-top: 20px;
+    margin-bottom: 2em;
+  }
+  
+  .d-article-with-toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  
+  
+  
+  /* Tweak code blocks (note that this CSS is repeated above in an injection
+     into the d-code shadow dom) */
+  
+  d-code {
+    overflow-x: auto !important;
+  }
+  
+  pre.d-code code.d-code {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+  
+  pre.text-output {
+  
+    font-size: 12px;
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  @media(min-width: 768px) {
+  
+  d-code {
+    overflow-x: visible !important;
+  }
+  
+  pre.d-code code.d-code  {
+      padding-left: 18px;
+      font-size: 14px;
+  }
+  pre.text-output {
+    font-size: 14px;
+  }
+  }
+  
+  /* Figure */
+  
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+  
+  .figure img {
+    width: 100%;
+  }
+  
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+  
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+  
+  
+  
+  /* Tweak 1000px media break to show more text */
+  
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+  
+    .grid {
+      grid-column-gap: 16px;
+    }
+  
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+  
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+  
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+  
+  
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+  
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  
+  /* Social footer */
+  
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+  
+  .disqus-comments {
+    margin-right: 30px;
+  }
+  
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+  
+  #disqus_thread {
+    margin-top: 30px;
+  }
+  
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+  
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+  
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+  
+  
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+  
+  
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+  
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+  
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+  
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+  
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+  
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+  
+  
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+  
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+  
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+  
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+  
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  </style>
+  
+  <script type="application/javascript">
+  
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+  
+  // show body when load is complete
+  function on_load_complete() {
+  
+    // set body to visible
+    document.body.style.visibility = 'visible';
+  
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+  
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+  
+  function init_distill() {
+  
+    init_common();
+  
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+  
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+  
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+  
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+  
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+  
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+  
+    // create d-bibliography
+    var bibliography = $('<d-bibliography></d-bibliography>');
+    $('#distill-bibliography').wrap(bibliography);
+  
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+  
+    // replace citations with <d-cite>
+    $('.citation').each(function(i, val) {
+      appendix = true;
+      var cites = $(this).attr('data-cites').split(" ");
+      var dt_cite = $('<d-cite></d-cite>');
+      dt_cite.attr('key', cites.join());
+      $(this).replaceWith(dt_cite);
+    });
+    // remove refs
+    $('#refs').remove();
+  
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+  
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+  
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+  
+    // replace code blocks with d-code
+    $('pre>code').each(function(i, val) {
+      var code = $(this);
+      var pre = code.parent();
+      var clz = "";
+      var language = pre.attr('class');
+      if (language) {
+        // map unknown languages to "clike" (without this they just dissapear)
+        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                                 "javascript", "js", "julia", "lua", "markdown",
+                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
+          language = "clike";
+        language = ' language="' + language + '"';
+        var dt_code = $('<d-code block' + language + clz + '></d-code>');
+        dt_code.text(code.text());
+        pre.replaceWith(dt_code);
+      } else {
+        code.addClass('text-output').unwrap().changeElementType('pre');
+      }
+    });
+  
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+  
+      // capture layout
+      var layout = $(this).attr('data-layout');
+  
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('d-code, pre.text-output, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+  
+  
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+  
+    // load distill framework
+    load_distill_framework();
+  
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+  
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+  
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+  
+      // table of contents
+      if (have_authors) // adjust border if we are in authors
+        $('.d-toc').parent().addClass('d-article-with-toc');
+  
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+  
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+  
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+  
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+  
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+  
+      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+      $('d-code').each(function(i, val) {
+        var style = document.createElement('style');
+        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+        if (this.shadowRoot)
+          this.shadowRoot.appendChild(style);
+      });
+  
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+  
+      // clear polling timer
+      clearInterval(tid);
+  
+      // show body now that everything is ready
+      on_load_complete();
+    }
+  
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+  
+  }
+  
+  function init_downlevel() {
+  
+    init_common();
+  
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+  
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+  
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+  
+    // remove toc
+    $('.d-toc-header').remove();
+    $('.d-toc').remove();
+    $('.d-toc-separator').remove();
+  
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+  
+  
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+  
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+  
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+  
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+  
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+  
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+  
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+  
+    $('body').addClass('downlevel');
+  
+    on_load_complete();
+  }
+  
+  
+  function init_common() {
+  
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+  
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+  
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+  
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+  
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+  
+      }
+    });
+  
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+  
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+  
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+  
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+  
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+  
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+  
+  </script>
+  
+  <!--/radix_placeholder_distill-->
+  <script src="sf-ggplot-en-tmap_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="sf-ggplot-en-tmap_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="sf-ggplot-en-tmap_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="sf-ggplot-en-tmap_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Sf, ggplot en tmap","description":"Over het maken van kaarten van Nederland met nieuwe pakketten en mogelijkheden.","authors":[{"author":"Harrie Jonkman","authorURL":"www.harriejonkman.nl","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2019-09-25T00:00:00.000+02:00","citationText":"Jonkman, 2019"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Sf, ggplot en tmap</h1>
+<p>Over het maken van kaarten van Nederland met nieuwe pakketten en mogelijkheden.</p>
+</div>
+
+<div class="d-byline">
+  Harrie Jonkman www.harriejonkman.nl 
+  
+<br/>09-25-2019
+</div>
+
+<div class="d-article">
+<h1 id="doel">Doel</h1>
+<p>In deze blog wil ik laten zien hoe je tegenwoordig geografische kaarten in R kunt maken. Het pakket <code>sf</code> (Simple Features) is de moderne standaard daarvoor en is de natuurlijke opvolger van <code>sp</code>. Dit <code>sf</code> pakket kan goed met het databewerkingspakket <code>tidyverse</code> werken en met onderdelen daarvan zoals <code>dplyr</code> en het visualisatiepakket <code>ggplot</code>. Een pakket waar je, zeker in combinatie met <code>sf</code>, goed kaarten mee kunt maken is <code>tmap</code> (statische en interactieve kaarten). Ik had mij bij het maken van deze blog de taak gesteld om te laten zien hoe je Nederland geografisch af kunt beelden. Dat laat ik hieronder zien en daar gebruik ik die moderne R-pakketten voor. Ik kwam er bij het maken ook achter dat je van de open data van het CBS ook makkelijk kaarten van Nederland kunt maken. Dat laat ik je hieronder ook zien. In een latere fase kom ik hier nog eens op terug.</p>
+<h1 id="pakketten">Pakketten</h1>
+<p>Eerst maar eens enkele moderne R-pakketten binnenhalen.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<h1 id="geographic-data-science-gds-en-geographic-information-science-gisc">Geographic Data Science (GDS) en Geographic Information Science (GISc)</h1>
+<p>In een mooie blog laat Katie Jolly het verschil zien tussen Geografische Datawetenschap en Geografische Informatiewetenschap <a href="">Blog van Katie Jolly</a>. Bij R en Python praat je meer over geografische datawetenschap of <em>geocomputation</em>, zoals Lovelace e.a. dat noemen <a href="">Geocomputatie</a>. Daarnaast heb je Geografische Informatie Systemen zoals QGIS en ArcMap as GISc (vaak GIS-programma’s genoemd). Een van de grote verschillen, en daar heeft ze gelijk in, is de de reproduceerbaarheid van Geografische Datawetenschap ten opzichte van GIS-programma’s. Met het volgende overzicht, dat zijn ontleent aan Lovelace e.a., maakt zij dat duidelijk: <img src="https://raw.githubusercontent.com/katiejolly/rladies-spatial-slides/master/images/gis-vs-gds.PNG" /> Deze tabel komt uit Robin Lovelace’s blog-post <a href="https://www.robinlovelace.net/2017/05/02/can-geographic-data-save-the-world/">Can Geographic Data Save the World?</a>.</p>
+<p>Met <code>sf</code> in combinatie met <code>tidyverse</code> en enkele specifieke pakketten kom je een heel eind tegenwoordig en kun je dat doen wat dure GIS-programma’s ook kunnen en soms nog meer.</p>
+<h1 id="rs-ruimtelijke-ecosysteem">R’s ruimtelijke ecosysteem</h1>
+<p>Er is tegenwoordig een hele variëteit aan ruimtelijke data-analyse pakketten beschikbaar.</p>
+<ul>
+<li><a href="https://github.com/edzer/sp/">sp</a>: Classes and Methods for Spatial Data</li>
+<li><a href="https://github.com/r-spatial/sf">sf</a>: Simple Features for R (bouwt voort op sp)</li>
+<li><a href="https://github.com/r-spatial/spdep">spdep</a>: Spatial Dependence: Weighting Schemes, Statistics, and Models</li>
+<li><a href="https://github.com/r-spatial/lwgeom">lwgeom</a>: Binding to the liblwgeom library</li>
+<li>…</li>
+</ul>
+<p>De nieuwste en de beste op dit moment is <code>sf</code>. Over ruimtelijk analyseren is een hele serie tutorials beschikbaar op internet, ook al lopen ze in de tijd wat achter, is te vinden op de r-spatial <a href="http://rspatial.org/">site</a>. Daarnaast is er een hele serie specieke pakketten voor data-visualisatie waar je mee kunt werken en die de gebruiker veel flexibiliteit bieden. Terwijl <code>sf</code> zelf heel veel kan, werkt het heel goed in combinatie met deze twee pakketten.</p>
+<ul>
+<li><a href="https://github.com/tidyverse/ggplot2">ggplot2</a>: De Grammar of Graphics in R.</li>
+<li><a href="https://github.com/mtennekes/tmap">tmap</a>: R pakket voor <code>thematic maps</code>.</li>
+</ul>
+<p>De laatste maand heb ik wat gewerkt met <code>sf</code> in combinatie met <code>ggplot</code> en <code>tmap</code>. Ik wilde mij dit wat beter eigen maken en het gebruiken voor het maken van kaarten van Nederland en delen van Nederland. Hieronder vind je achtereenvolgens wat informatie over <code>sf</code> en <code>ggplot</code> en daarna iets over <code>tamp</code>.</p>
+<h1 id="structure-of-sf-data">Structure of <code>sf</code> data</h1>
+<p><img src="https://raw.githubusercontent.com/katiejolly/rladies-spatial-slides/master/images/sf-data-types.PNG" /></p>
+<p>Een figuur uit <a href="https://geocompr.robinlovelace.net/spatial-class.html">Geocomputation with R</a>, zie ook mijn vorig blog <a href="">Geocomputation with R</a>.</p>
+<p><code>Simple Features</code> is een hierarchisch data model dat een behoorlijk breed palet aan geometrische types representeert. Het komt erop neer dat <code>simple features</code> een dataframe is met in elke rij ruimtelijke gegevens (een bevolkingsgegeven, een punt, een stad, …) met een list-kolom met coördinaten waarmee de geografische vorm gemaakt kan worden. Hieronder leer je hoe het werkt.</p>
+<h2 id="projecties">Projecties</h2>
+<p>Het is goed om te weten dat projecties een 3D oppervlakte naar een 2D-oppervlakte omvormen. Verschillende projecties laten de geografische vorm er heel anders uit zien.</p>
+<p><img src="https://i.stack.imgur.com/7zI6N.jpg" /></p>
+<h1 id="open-data-file-binnen-tmap">Open data file binnen tmap</h1>
+<p>Laten we eerst eens een databestand van Nederland binnenhalen dat in het pakket <code>tmap</code> opgeslagen zit. Dit is een databestand met de steden van Nederland en enkele gegevens van deze steden. Onderstaande werkt dus alleen als je de <code>library(tmap)</code> hebt geopend.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Laten we met <code>sf</code> eens kijken wat we in huis hebben gehaald. We tonen enkele plot mogelijkheden van <code>sf</code>. Eerst maar eens de grove kaart van ons land.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="sf-ggplot-en-tmap_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
+</div>
+<p>Welke data zitten er in het bestand, in combinatie met de geografische kaders? In het databestand zitten de codes, de namen, de provincies, de populatie, populatie_man, populatie_vrouw, populaties over verschillende leeftijdsgroepen etc.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="sf-ggplot-en-tmap_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
+</div>
+<p>Stel dat we maximaal 15 variabelen willen afdrukken.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="sf-ggplot-en-tmap_files/figure-html5/unnamed-chunk-5-1.png" width="624" /></p>
+</div>
+<p>Of alleen maar een, de eerste.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="sf-ggplot-en-tmap_files/figure-html5/unnamed-chunk-6-1.png" width="624" /></p>
+</div>
+<p>We kunnen de gegevens nu ook goed vanuit <code>sf</code> met <code>ggplot</code> afdrukken. Stel bijvoorbeeld dat we de populatie van 0-14 jaar (een variabele die in het databestand zit) willen laten zien en hoe dat percentage in de verschillende steden in Nederland eruit ziet. We breken de percentages op in van 14 tot 40 procent (je kunt zien dat de percentages daar tussen liggen).</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="sf-ggplot-en-tmap_files/figure-html5/unnamed-chunk-7-1.png" width="624" /></p>
+</div>
+<p>Omdat het met <code>tidyverse</code>, en dus met <code>dplyr</code> werkt, kunnen we ook de standaard databewerkingscodes gebruiken. Dat maakt het werken met geografische data een stuk makkelijker. Als we alleen Zuid-Holland willen laten zien, maken we het databestand Zuid-Holland.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Dan kunnen we hier de eerste variabele laten zien en dan zien we de gemeenten van deze provincie afgebeeld.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="sf-ggplot-en-tmap_files/figure-html5/unnamed-chunk-9-1.png" width="624" /></p>
+</div>
+<p>En hetzelfde als hierboven. Hoe zit het met de jonge bevolking in de ZuidHollandse steden? We zien het hieronder met inzet van het pakket <code>ggplot</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="sf-ggplot-en-tmap_files/figure-html5/unnamed-chunk-10-1.png" width="624" /></p>
+</div>
+<h1 id="overstappen-naar-tmap">Overstappen naar <code>tmap</code></h1>
+<p>Daar waar <code>sf</code> goed is voor het binnenhalen en bewerken van de data op allerlei manieren, daar is <code>tmap</code> heel goed in het maken van de kaarten op een eenvoudige manier. <code>tmap</code>is gemaakt om met grote flexibiliteit kaarten te kunnen maken. Het heeft dezelfde gelaagde structuur als <code>ggplot</code>. Je vindt op de website een document om er makkelijk mee te kunnen beginnen<a href="https://cran.r-project.org/web/packages/tmap/vignettes/tmap-getstarted.html">tmap: get started</a>. En de ontwikkelaar (Martijn Tennekes van het CBS ) heeft er een inzichtelijk artikel over geschreven in Journal of Statistical Software <a href="https://www.jstatsoft.org/article/view/v084i06">artike</a>.</p>
+<p>Stel dat je er een percentage bevolking aan wilt toevoegen en dit percentage per provincie wilt afbeelden. Met de volgende code doe je dat.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="sf-ggplot-en-tmap_files/figure-html5/unnamed-chunk-11-1.png" width="624" /></p>
+</div>
+<p>Stel dat we twee grafieken naast elkaar willen zetten. Dat doe je zo.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="sf-ggplot-en-tmap_files/figure-html5/unnamed-chunk-12-1.png" width="624" /></p>
+</div>
+<p>Met <code>tmap</code> kun je ook en net zo makkelijk interactieve kaarten maken.</p>
+<h1 id="open-data-via-cbs">Open data via CBS</h1>
+<p>Ik kwam er ook achter dat je kaarten ook kunt maken via de open-data mogelijkheden van het CBS (Het kan, maar het vraagt nog wel wat oefening de komnende tijd). Open hiervoor het pakket <code>cbsodataR</code></p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Zoek vervolgens op welke data beschikbaar zijn:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+  [1] &quot;WijkenEnBuurten&quot;                         
+  [2] &quot;&quot;                                        
+  [3] &quot;Gemeentenaam_1&quot;                          
+  [4] &quot;SoortRegio_2&quot;                            
+  [5] &quot;Codering_3&quot;                              
+  [6] &quot;IndelingswijzigingWijkenEnBuurten_4&quot;     
+  [7] &quot;&quot;                                        
+  [8] &quot;AantalInwoners_5&quot;                        
+  [9] &quot;&quot;                                        
+ [10] &quot;Mannen_6&quot;                                
+ [11] &quot;Vrouwen_7&quot;                               
+ [12] &quot;&quot;                                        
+ [13] &quot;k_0Tot15Jaar_8&quot;                          
+ [14] &quot;k_15Tot25Jaar_9&quot;                         
+ [15] &quot;k_25Tot45Jaar_10&quot;                        
+ [16] &quot;k_45Tot65Jaar_11&quot;                        
+ [17] &quot;k_65JaarOfOuder_12&quot;                      
+ [18] &quot;&quot;                                        
+ [19] &quot;Ongehuwd_13&quot;                             
+ [20] &quot;Gehuwd_14&quot;                               
+ [21] &quot;Gescheiden_15&quot;                           
+ [22] &quot;Verweduwd_16&quot;                            
+ [23] &quot;&quot;                                        
+ [24] &quot;WestersTotaal_17&quot;                        
+ [25] &quot;&quot;                                        
+ [26] &quot;NietWestersTotaal_18&quot;                    
+ [27] &quot;Marokko_19&quot;                              
+ [28] &quot;NederlandseAntillenEnAruba_20&quot;           
+ [29] &quot;Suriname_21&quot;                             
+ [30] &quot;Turkije_22&quot;                              
+ [31] &quot;OverigNietWesters_23&quot;                    
+ [32] &quot;&quot;                                        
+ [33] &quot;GeboorteTotaal_24&quot;                       
+ [34] &quot;GeboorteRelatief_25&quot;                     
+ [35] &quot;SterfteTotaal_26&quot;                        
+ [36] &quot;SterfteRelatief_27&quot;                      
+ [37] &quot;&quot;                                        
+ [38] &quot;HuishoudensTotaal_28&quot;                    
+ [39] &quot;Eenpersoonshuishoudens_29&quot;               
+ [40] &quot;HuishoudensZonderKinderen_30&quot;            
+ [41] &quot;HuishoudensMetKinderen_31&quot;               
+ [42] &quot;GemiddeldeHuishoudensgrootte_32&quot;         
+ [43] &quot;Bevolkingsdichtheid_33&quot;                  
+ [44] &quot;&quot;                                        
+ [45] &quot;Woningvoorraad_34&quot;                       
+ [46] &quot;GemiddeldeWoningwaarde_35&quot;               
+ [47] &quot;&quot;                                        
+ [48] &quot;PercentageEengezinswoning_36&quot;            
+ [49] &quot;PercentageMeergezinswoning_37&quot;           
+ [50] &quot;&quot;                                        
+ [51] &quot;PercentageBewoond_38&quot;                    
+ [52] &quot;PercentageOnbewoond_39&quot;                  
+ [53] &quot;&quot;                                        
+ [54] &quot;Koopwoningen_40&quot;                         
+ [55] &quot;&quot;                                        
+ [56] &quot;HuurwoningenTotaal_41&quot;                   
+ [57] &quot;InBezitWoningcorporatie_42&quot;              
+ [58] &quot;InBezitOverigeVerhuurders_43&quot;            
+ [59] &quot;EigendomOnbekend_44&quot;                     
+ [60] &quot;&quot;                                        
+ [61] &quot;BouwjaarVoor2000_45&quot;                     
+ [62] &quot;BouwjaarVanaf2000_46&quot;                    
+ [63] &quot;&quot;                                        
+ [64] &quot;&quot;                                        
+ [65] &quot;GemiddeldElektriciteitsverbruikTotaal_47&quot;
+ [66] &quot;&quot;                                        
+ [67] &quot;Appartement_48&quot;                          
+ [68] &quot;Tussenwoning_49&quot;                         
+ [69] &quot;Hoekwoning_50&quot;                           
+ [70] &quot;TweeOnderEenKapWoning_51&quot;                
+ [71] &quot;VrijstaandeWoning_52&quot;                    
+ [72] &quot;&quot;                                        
+ [73] &quot;Huurwoning_53&quot;                           
+ [74] &quot;EigenWoning_54&quot;                          
+ [75] &quot;&quot;                                        
+ [76] &quot;GemiddeldAardgasverbruikTotaal_55&quot;       
+ [77] &quot;&quot;                                        
+ [78] &quot;Appartement_56&quot;                          
+ [79] &quot;Tussenwoning_57&quot;                         
+ [80] &quot;Hoekwoning_58&quot;                           
+ [81] &quot;TweeOnderEenKapWoning_59&quot;                
+ [82] &quot;VrijstaandeWoning_60&quot;                    
+ [83] &quot;&quot;                                        
+ [84] &quot;Huurwoning_61&quot;                           
+ [85] &quot;EigenWoning_62&quot;                          
+ [86] &quot;PercentageWoningenMetStadsverwarming_63&quot; 
+ [87] &quot;&quot;                                        
+ [88] &quot;&quot;                                        
+ [89] &quot;AantalInkomensontvangers_64&quot;             
+ [90] &quot;GemiddeldInkomenPerInkomensontvanger_65&quot; 
+ [91] &quot;GemiddeldInkomenPerInwoner_66&quot;           
+ [92] &quot;k_40PersonenMetLaagsteInkomen_67&quot;        
+ [93] &quot;k_20PersonenMetHoogsteInkomen_68&quot;        
+ [94] &quot;Actieven1575Jaar_69&quot;                     
+ [95] &quot;&quot;                                        
+ [96] &quot;k_40HuishoudensMetLaagsteInkomen_70&quot;     
+ [97] &quot;k_20HuishoudensMetHoogsteInkomen_71&quot;     
+ [98] &quot;HuishoudensMetEenLaagInkomen_72&quot;         
+ [99] &quot;HuishOnderOfRondSociaalMinimum_73&quot;       
+[100] &quot;&quot;                                        
+[101] &quot;PersonenPerSoortUitkeringBijstand_74&quot;    
+[102] &quot;PersonenPerSoortUitkeringAO_75&quot;          
+[103] &quot;PersonenPerSoortUitkeringWW_76&quot;          
+[104] &quot;PersonenPerSoortUitkeringAOW_77&quot;         
+[105] &quot;&quot;                                        
+[106] &quot;BedrijfsvestigingenTotaal_78&quot;            
+[107] &quot;&quot;                                        
+[108] &quot;ALandbouwBosbouwEnVisserij_79&quot;           
+[109] &quot;BFNijverheidEnEnergie_80&quot;                
+[110] &quot;GIHandelEnHoreca_81&quot;                     
+[111] &quot;HJVervoerInformatieEnCommunicatie_82&quot;    
+[112] &quot;KLFinancieleDienstenOnroerendGoed_83&quot;    
+[113] &quot;MNZakelijkeDienstverlening_84&quot;           
+[114] &quot;RUCultuurRecreatieOverigeDiensten_85&quot;    
+[115] &quot;&quot;                                        
+[116] &quot;&quot;                                        
+[117] &quot;PersonenautoSTotaal_86&quot;                  
+[118] &quot;&quot;                                        
+[119] &quot;PersonenautoSJongerDan6Jaar_87&quot;          
+[120] &quot;PersonenautoS6JaarEnOuder_88&quot;            
+[121] &quot;&quot;                                        
+[122] &quot;PersonenautoSBrandstofBenzine_89&quot;        
+[123] &quot;PersonenautoSOverigeBrandstof_90&quot;        
+[124] &quot;PersonenautoSPerHuishouden_91&quot;           
+[125] &quot;PersonenautoSNaarOppervlakte_92&quot;         
+[126] &quot;Motorfietsen_93&quot;                         
+[127] &quot;&quot;                                        
+[128] &quot;AfstandTotHuisartsenpraktijk_94&quot;         
+[129] &quot;AfstandTotGroteSupermarkt_95&quot;            
+[130] &quot;AfstandTotKinderdagverblijf_96&quot;          
+[131] &quot;&quot;                                        
+[132] &quot;AfstandTotSchool_97&quot;                     
+[133] &quot;ScholenBinnen3Km_98&quot;                     
+[134] &quot;&quot;                                        
+[135] &quot;OppervlakteTotaal_99&quot;                    
+[136] &quot;OppervlakteLand_100&quot;                     
+[137] &quot;OppervlakteWater_101&quot;                    
+[138] &quot;&quot;                                        
+[139] &quot;MeestVoorkomendePostcode_102&quot;            
+[140] &quot;Dekkingspercentage_103&quot;                  
+[141] &quot;&quot;                                        
+[142] &quot;MateVanStedelijkheid_104&quot;                
+[143] &quot;Omgevingsadressendichtheid_105&quot;          
+[144] &quot;&quot;                                        
+[145] &quot;TotaalDiefstalUitWoningSchuurED_106&quot;     
+[146] &quot;VernielingMisdrijfTegenOpenbareOrde_107&quot; 
+[147] &quot;GeweldsEnSeksueleMisdrijven_108&quot;         </code></pre>
+</div>
+<p>Gebruik de WijkenenBuurten-data en de GeboorteRelatief_25 en verwijder spaties uit regiocodes.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Haal de kaart met gemeentegrenzen op van PDOK</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+Reading layer `OGRGeoJSON&#39; from data source `https://geodata.nationaalgeoregister.nl/cbsgebiedsindelingen/wfs?request=GetFeature&amp;service=WFS&amp;version=2.0.0&amp;typeName=cbs_gemeente_2017_gegeneraliseerd&amp;outputFormat=json&#39; using driver `GeoJSON&#39;
+Simple feature collection with 388 features and 5 fields
+geometry type:  MULTIPOLYGON
+dimension:      XY
+bbox:           xmin: 13565.4 ymin: 306846.9 xmax: 277992.8 ymax: 619291
+epsg (SRID):    28992
+proj4string:    +proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +towgs84=565.2369,50.0087,465.658,-0.406857,0.350733,-1.87035,4.0812 +units=m +no_defs</code></pre>
+</div>
+<h1 id="koppel-cbs-data-aan-geodata-met-regiocodes">Koppel CBS-data aan geodata met regiocodes</h1>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Maak een thematische kaart</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="sf-ggplot-en-tmap_files/figure-html5/unnamed-chunk-18-1.png" width="624" /></p>
+</div>
+<p>Ik zal kijken of ik de komende maanden een eenvoudige tutorial over dit onderwerp kan maken. Als ik deze klaar heb, kom ik terug op dit onderwerp.</p>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>

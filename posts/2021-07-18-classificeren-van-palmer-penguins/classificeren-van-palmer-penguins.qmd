@@ -1,0 +1,199 @@
+---
+title: "Classificeren van Palmer penguins"
+description: |
+     De laatste tijd heeft Julia Silge een aantal videoopnamen gemaakt die laten zien hoe het `tidymodels` raamwerk is te gebruiken.Het zijn opnamen over de eerste stappen in het modelleren tot hoe complexe modellen zijn te evalueren. Deze videoopname is goed voor mensen die net beginnen met `tidymodels`. Ze maakt daarbij gebruik van een #TidyTuesday dataset over pinguïns. Hier gaat het om classificeren. 
+author: "Julia Silge, bewerking Harrie Jonkman" 
+date: "07-18-2021"
+image: "Screenshot.PNG"
+categories: [analyse]
+
+---
+
+## Palmer penguins classificatie
+
+Hier kun je overigen haar opnmame vinden. [Julia Silge on youtube](https://www.youtube.com/watch?v=z57i2GVcdww&t=1235s)
+
+De laatste tijd heeft Julia Silge een aantal videoopnamen gemaakt die laten zien hoe het `tidymodels` raamwerk is te gebruiken.Het zijn opnamen over de eerste stappen in het modelleren tot hoe complexe modellen zijn te evalueren. Deze videoopname is goed voor mensen die net beginnen met `tidymodels`. Ze maakt daarbij gebruik van een #TidyTuesday dataset over pinguïns. Hier gaat het om classificeren.
+
+Hier kun je haar opnmame vinden.
+[Julia Silge on youtube](https://www.youtube.com/watch?v=z57i2GVcdww&t=1235s)
+
+Eerst maar eens enkele pakketten laden en het databestand openen.
+
+```{r}
+library(tidyverse)
+library(palmerpenguins)
+
+penguins
+```
+
+Als je een classificatiemodel voor soorten pinquins probeert op te stellen, zul je waarschijnlijk een bijna perfecte pasvorm vinden, omdat dit soort waarnemingen in feite de verschillende soorten onderscheiden. `sex` (geslacht) daarentegen geeft een wat rommeliger beeld, vandaar dat hier deze uitkomstvariabelen op basis van predictoren wordt voorspeld.
+
+```{r}
+penguins %>%
+  filter(!is.na(sex)) %>%
+  ggplot(aes(flipper_length_mm, bill_length_mm, color = sex, size = body_mass_g)) +
+  geom_point(alpha = 0.5) +
+  facet_wrap(~species)
+```
+Het ziet er naar uit dat de vrouwelijke pinguïnflippers kleiner zijn met kleinere snavels, maar laten we ons klaarmaken voor het modelleren om meer te weten te komen! De informatie over het eiland of het jaar zullen we niet gebruiken in ons model. Die halen we eruit.
+
+```{r}
+penguins_df <- penguins %>%
+  filter(!is.na(sex)) %>%
+  select(-year, -island)
+```
+
+### Een modelopbouwen
+We zullen ook het `tidymodels` metapakket laden en vervolgens onze gegevens splitsen in een trainings- en testingssets.
+
+```{r}
+library(tidymodels)
+
+set.seed(123)
+penguin_split <- initial_split(penguins_df, strata = sex)
+penguin_train <- training(penguin_split)
+penguin_test <- testing(penguin_split)
+
+```
+
+Omdat het een relatieve kleine dataset betreft (zeker de testset), maken we vervolgens hier gebruik van bootstrap-resamples van de trainingsgegevens, om onze modellen te evalueren.
+
+```{r}
+set.seed(123)
+penguin_boot <- bootstraps(penguin_train)
+penguin_boot
+```
+
+Laten we eens twee verschillende modellen vergelijken, een logistisch regressiemodel en een random forest model. We beginnen met het maken van de modelspecificaties voor beide modellen.
+
+```{r}
+glm_spec <- logistic_reg() %>%
+  set_engine("glm")
+
+glm_spec
+```
+
+```{r}
+rf_spec <- rand_forest() %>%
+  set_mode("classification") %>%
+  set_engine("ranger")
+
+rf_spec
+```
+
+Laten we nu beginnen met het samenstellen van een `tidymodels workflow()`, een object dat helpt om modelleer-pijplijnen te beheren met stukjes die in elkaar passen als Lego-blokjes. Merk op dat er nog geen model is:
+
+```{r}
+penguin_wf <- workflow() %>%
+  add_formula(sex ~ .)
+
+penguin_wf
+```
+
+Nu kunnen we een model toevoegen, en de fit voor elk van de resamples. Eerst kunnen we het logistische regressiemodel passen.
+
+```{r}
+glm_rs <- penguin_wf %>%
+  add_model(glm_spec) %>%
+  fit_resamples(
+    resamples = penguin_boot,
+    control = control_resamples(save_pred = TRUE)
+  )
+
+glm_rs
+```
+
+
+Ten tweede kunnen we het random forest model toepassen.
+
+```{r}
+rf_rs <- penguin_wf %>%
+  add_model(rf_spec) %>%
+  fit_resamples(
+    resamples = penguin_boot,
+    control = control_resamples(save_pred = TRUE)
+  )
+
+rf_rs
+
+```
+
+Wij hebben elk van onze kandidaat-modellen aangepast aan onze opnieuw bemonsterde trainingsreeks!
+
+### Het model evalueren.
+Laten we nu eens kijken hoe we het gedaan hebben. Eerst het logistisch regressiemodel. 
+
+
+```{r}
+collect_metrics(glm_rs)
+```
+
+Goed zo! De functie `collect_metrics()` extraheert en formatteert de .metrics kolom van resampling resultaten zoals hierboven voor het glm-model. Nu het random-forest model.
+
+```{r}
+collect_metrics(rf_rs)
+```
+
+Dus... ook geweldig! Als ik in een situatie zit waarin een complexer model (zoals een random forest) hetzelfde presteert als een eenvoudiger model (zoals logistische regressie), dan kies ik het eenvoudiger model. Laten we eens dieper ingaan op hoe het het doet. Bijvoorbeeld, hoe voorspelt het glm-model de twee klassen?
+
+```{r}
+glm_rs %>%
+  conf_mat_resampled()
+```
+
+Ongeveer hetzelfde, wat goed is. We kunnen ook een ROC curve maken.
+
+```{r}
+glm_rs %>%
+  collect_predictions() %>%
+  group_by(id) %>%
+  roc_curve(sex, .pred_female) %>%
+  ggplot(aes(1 - specificity, sensitivity, color = id)) +
+  geom_abline(lty = 2, color = "gray80", size = 1.5) +
+  geom_path(show.legend = FALSE, alpha = 0.6, size = 1.2) +
+  coord_equal()
+```
+
+Deze ROC-curve is grilliger dan andere die u wellicht hebt gezien omdat de dataset klein is.
+
+Het is eindelijk tijd om terug te keren naar de testset. Merk op dat we de testset tijdens deze hele analyse nog niet hebben gebruikt; de testset is kostbaar en kan alleen worden gebruikt om de prestaties op nieuwe gegevens in te schatten. Laten we nog een keer passen op de trainingsgegevens en evalueren op de testgegevens met behulp van de functie `last_fit()`.
+
+```{r}
+penguin_final <- penguin_wf %>%
+  add_model(glm_spec) %>%
+  last_fit(penguin_split)
+
+penguin_final
+```
+
+De metriek en voorspellingen hier zijn op de *testgegevens*.
+
+```{r}
+collect_metrics(penguin_final)
+```
+
+```{r}
+collect_predictions(penguin_final) %>%
+  conf_mat(sex, .pred_class)
+```
+
+De coëfficiënten (die we eruit kunnen halen met `tidy()`) zijn geschat met behulp van de trainingsdata. Als we `exponentiate = TRUE` gebruiken, hebben we odds ratio's.
+
+```{r}
+penguin_final$.workflow[[1]] %>%
+  tidy(exponentiate = TRUE)
+```
+- De grootste kansverhouding geldt voor de snaveldiepte, en de op één na grootste voor de snavellengte. Een toename van 1 mm snaveldiepte komt overeen met bijna 4x meer kans om een mannetje te zijn. De kenmerken van de bek van een pinguïn moeten geassocieerd zijn met het geslacht.   
+- We hebben geen sterke aanwijzingen dat de lengte van de vleugels verschillend is tussen mannelijke en vrouwelijke pinguïns, als we de andere maten controleren; misschien moeten we dat onderzoeken door de eerste grafiek te veranderen!
+
+```{r}
+penguins %>%
+  filter(!is.na(sex)) %>%
+  ggplot(aes(bill_depth_mm, bill_length_mm, color = sex, size = body_mass_g)) +
+  geom_point(alpha = 0.5) +
+  facet_wrap(~species)
+```
+Ja, de mannetjes- en vrouwtjespinguïns zijn nu veel meer gescheiden.
+
+

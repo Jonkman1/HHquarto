@@ -1,0 +1,252 @@
+---
+title: "Sf, ggplot en tmap"
+description: |
+  Over het maken van kaarten van Nederland met nieuwe pakketten en mogelijkheden. 
+author:
+  - name: Harrie Jonkman
+    url: www.harriejonkman.nl
+date: 09-25-2019
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+
+# Doel
+In deze blog wil ik laten zien hoe je tegenwoordig geografische kaarten in R kunt maken. Het pakket `sf` (Simple Features) is de moderne standaard daarvoor en is de natuurlijke opvolger van `sp`. Dit `sf` pakket kan goed met het databewerkingspakket `tidyverse` werken en met onderdelen daarvan zoals `dplyr` en het visualisatiepakket `ggplot`. Een pakket waar je, zeker in combinatie met `sf`, goed kaarten mee kunt maken is `tmap` (statische en interactieve kaarten). Ik had mij bij het maken van deze blog de taak gesteld om te laten zien hoe je Nederland geografisch af kunt beelden. Dat laat ik hieronder zien en daar gebruik ik die moderne R-pakketten voor. Ik kwam er bij het maken ook achter dat je van de open data van het CBS ook makkelijk kaarten van Nederland kunt maken. Dat laat ik je hieronder ook zien. In een latere fase kom ik hier nog eens op terug.
+
+# Pakketten
+Eerst maar eens enkele moderne R-pakketten binnenhalen.
+
+
+```{r}
+library(sf)
+library(tmap)
+library(tidyverse)
+library(dplyr)
+```
+
+
+# Geographic Data Science (GDS) en Geographic Information Science (GISc)
+
+In een mooie blog laat Katie Jolly het verschil zien tussen Geografische Datawetenschap en Geografische Informatiewetenschap [Blog van Katie Jolly](). Bij R en Python praat je meer over geografische datawetenschap of *geocomputation*, zoals Lovelace e.a. dat noemen [Geocomputatie](). Daarnaast heb je Geografische Informatie Systemen zoals QGIS en ArcMap as GISc (vaak GIS-programma's genoemd). Een van de grote verschillen, en daar heeft ze gelijk in, is de de reproduceerbaarheid van Geografische Datawetenschap ten opzichte van GIS-programma's. Met het volgende overzicht, dat zijn ontleent aan Lovelace e.a., maakt zij dat duidelijk:
+![](https://raw.githubusercontent.com/katiejolly/rladies-spatial-slides/master/images/gis-vs-gds.PNG)
+Deze tabel komt uit Robin Lovelace's blog-post [Can Geographic Data Save the World?](https://www.robinlovelace.net/2017/05/02/can-geographic-data-save-the-world/).
+
+Met `sf` in combinatie met `tidyverse` en enkele specifieke pakketten kom je een heel eind tegenwoordig en kun je dat doen wat dure GIS-programma's ook kunnen en soms nog meer.
+
+# R's ruimtelijke ecosysteem 
+
+Er is tegenwoordig een hele variëteit aan ruimtelijke data-analyse pakketten beschikbaar. 
+
+- [sp](https://github.com/edzer/sp/): Classes and Methods for Spatial Data
+- [sf](https://github.com/r-spatial/sf): Simple Features for R (bouwt voort op sp)
+- [spdep](https://github.com/r-spatial/spdep): Spatial Dependence: Weighting Schemes, Statistics, and Models
+- [lwgeom](https://github.com/r-spatial/lwgeom): Binding to the liblwgeom library
+- ...
+
+De nieuwste en de beste op dit moment is `sf`. Over ruimtelijk analyseren is een hele serie tutorials beschikbaar op internet, ook al lopen ze in de tijd wat achter, is te vinden op de r-spatial [site](http://rspatial.org/). Daarnaast is er een hele serie specieke pakketten voor data-visualisatie waar je mee kunt werken en die de gebruiker veel flexibiliteit bieden. Terwijl `sf` zelf heel veel kan, werkt het heel goed in combinatie met deze twee pakketten.
+
+- [ggplot2](https://github.com/tidyverse/ggplot2): De Grammar of Graphics in R.
+- [tmap](https://github.com/mtennekes/tmap): R pakket voor `thematic maps`.
+
+De laatste maand heb ik wat gewerkt met `sf` in combinatie met `ggplot` en `tmap`. Ik wilde mij dit wat beter eigen maken en het gebruiken voor het maken van kaarten van Nederland en delen van Nederland. Hieronder vind je achtereenvolgens wat informatie over `sf` en `ggplot` en daarna iets over `tamp`.
+
+# Structure of `sf` data
+
+![](https://raw.githubusercontent.com/katiejolly/rladies-spatial-slides/master/images/sf-data-types.PNG)
+
+Een figuur uit [Geocomputation with R](https://geocompr.robinlovelace.net/spatial-class.html), zie ook mijn vorig blog [Geocomputation with R]().
+
+`Simple Features` is een hierarchisch data model dat een behoorlijk breed palet aan geometrische types representeert. Het komt erop neer dat `simple features` een dataframe is met in elke rij ruimtelijke gegevens (een bevolkingsgegeven, een punt, een stad, ...) met een list-kolom met coördinaten waarmee de geografische vorm gemaakt kan worden. Hieronder leer je hoe het werkt.
+
+## Projecties
+Het is goed om te weten dat projecties een 3D oppervlakte naar een 2D-oppervlakte omvormen. Verschillende projecties laten de geografische vorm er heel anders uit zien.
+
+![](https://i.stack.imgur.com/7zI6N.jpg)
+
+
+
+
+# Open data file binnen tmap
+
+Laten we eerst eens een databestand van Nederland binnenhalen dat in het pakket `tmap` opgeslagen zit. Dit is een databestand met de steden van Nederland en enkele gegevens van deze steden. Onderstaande werkt dus alleen als je de `library(tmap)` hebt geopend. 
+
+```{r}
+data(NLD_muni)
+```
+
+Laten we met `sf` eens kijken wat we in huis hebben gehaald. We tonen enkele plot mogelijkheden van `sf`. Eerst maar eens de grove kaart van ons land. 
+
+
+```{r}
+plot(st_geometry(NLD_muni))
+```
+
+
+Welke data zitten er in het bestand, in combinatie met de geografische kaders? In het databestand zitten de codes, de namen, de provincies, de populatie, populatie_man, populatie_vrouw, populaties over verschillende leeftijdsgroepen etc.
+
+```{r}
+plot(NLD_muni)
+```
+
+
+Stel dat we maximaal 15 variabelen willen afdrukken.
+
+```{r}
+plot(NLD_muni, max.plot=15)
+
+```
+
+
+Of alleen maar een, de eerste.
+
+```{r}
+plot(NLD_muni)
+options(sf_max.plot=1)
+```
+
+
+We kunnen de gegevens nu ook goed vanuit `sf` met `ggplot` afdrukken. Stel bijvoorbeeld dat we de populatie van 0-14 jaar (een variabele die in het databestand zit) willen laten zien en hoe dat percentage in de verschillende steden in Nederland eruit ziet. We breken de percentages op in van 14 tot 40 procent (je kunt zien dat de percentages daar tussen liggen).
+
+
+```{r}
+ggplot() + geom_sf(data=NLD_muni, aes(fill=pop_0_14)) + scale_y_continuous(breaks=14:40)
+```
+
+
+Omdat het met `tidyverse`, en dus met `dplyr` werkt, kunnen we ook de standaard databewerkingscodes gebruiken. Dat maakt het werken met geografische data een stuk makkelijker. Als we alleen Zuid-Holland willen laten zien, maken we het databestand Zuid-Holland.
+
+
+```{r}
+ZuidHolland<-filter(NLD_muni, province =="Zuid-Holland")
+```
+
+
+Dan kunnen we hier de eerste variabele laten zien en dan zien we de gemeenten van deze provincie afgebeeld.
+
+
+```{r}
+plot(ZuidHolland)
+options(sf_max.plot=1)
+```
+
+
+En hetzelfde als hierboven. Hoe zit het met de jonge bevolking in de ZuidHollandse steden? We zien het hieronder met inzet van het pakket `ggplot`.
+
+
+```{r}
+ggplot() + geom_sf(data=ZuidHolland, aes(fill=pop_0_14)) + scale_y_continuous(breaks=14:40)
+```
+
+
+# Overstappen naar `tmap`
+
+Daar waar `sf` goed is voor het binnenhalen en bewerken van de data op allerlei manieren, daar is `tmap` heel goed in het maken van de kaarten op een eenvoudige manier. `tmap`is gemaakt om met grote flexibiliteit kaarten te kunnen maken. Het heeft dezelfde gelaagde structuur als `ggplot`. Je vindt op de website een document om er makkelijk mee te kunnen beginnen[tmap: get started](https://cran.r-project.org/web/packages/tmap/vignettes/tmap-getstarted.html). En de ontwikkelaar (Martijn Tennekes van het CBS ) heeft er een inzichtelijk artikel over geschreven in Journal of Statistical Software [artike](https://www.jstatsoft.org/article/view/v084i06).
+
+Stel dat je er een percentage bevolking aan wilt toevoegen en dit percentage per provincie wilt afbeelden. Met de volgende code doe je dat.
+
+
+```{r}
+tmap_mode("plot")
+
+data(NLD_muni)
+
+NLD_muni$perc_men <- NLD_muni$pop_men / NLD_muni$population * 100
+
+tm_shape(NLD_muni) +
+  tm_polygons("perc_men", palette = "RdYlBu") +
+  tm_facets(by = "province")
+```
+
+
+
+Stel dat we twee grafieken naast elkaar willen zetten. Dat doe je zo.
+
+
+```{r}
+tmap_mode("plot")
+
+data(NLD_muni)
+tm1 <- tm_shape(NLD_muni) + tm_polygons("population", convert2density = TRUE)
+tm2 <- tm_shape(NLD_muni) + tm_bubbles(size = "population")
+
+tmap_arrange(tm1, tm2)
+```
+
+
+Met `tmap` kun je ook en net zo makkelijk interactieve kaarten maken.
+
+
+# Open data via CBS
+Ik kwam er ook achter dat je kaarten ook kunt maken via de open-data mogelijkheden van het CBS (Het kan, maar het vraagt nog wel wat oefening de komnende tijd). Open hiervoor het pakket `cbsodataR`
+
+
+```{r}
+library(cbsodataR)
+library(tidyverse)
+library(sf)
+```
+
+
+Zoek vervolgens op welke data beschikbaar zijn:
+
+
+```{r}
+metadata <- cbs_get_meta("83765NED")
+print(metadata$DataProperties$Key)
+```
+
+
+Gebruik de WijkenenBuurten-data en de GeboorteRelatief_25 en verwijder spaties uit regiocodes.
+
+
+```{r}
+data <- cbs_get_data("83765NED", 
+                     select=c("WijkenEnBuurten","GeboorteRelatief_25")) %>%
+  mutate( WijkenEnBuurten = str_trim(WijkenEnBuurten),
+          geboorte = GeboorteRelatief_25)
+
+```
+
+
+
+Haal de kaart met gemeentegrenzen op van PDOK
+
+
+```{r}
+gemeentegrenzen <- st_read("https://geodata.nationaalgeoregister.nl/cbsgebiedsindelingen/wfs?request=GetFeature&service=WFS&version=2.0.0&typeName=cbs_gemeente_2017_gegeneraliseerd&outputFormat=json")
+```
+
+
+# Koppel CBS-data aan geodata met regiocodes
+
+
+```{r}
+data <- 
+  gemeentegrenzen %>%
+  left_join(data, by=c(statcode="WijkenEnBuurten"))
+```
+
+
+
+Maak een thematische kaart
+
+```{r}
+data %>%
+  ggplot() +
+  geom_sf(aes(fill = geboorte)) +
+  scale_fill_viridis_c() +
+  labs(title = "Levend geborenen per 1000 inwoners, 2017", fill = "") +
+  theme_void()
+
+
+```
+
+
+Ik zal kijken of ik de komende maanden een eenvoudige tutorial over dit onderwerp kan maken. Als ik deze klaar heb, kom ik terug op dit onderwerp. 

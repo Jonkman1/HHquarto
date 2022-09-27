@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Bookdown</title>
+  
+  <meta property="description" itemprop="description" content="Hoe maak je een boek. Bookdown is het pakket van R waar dat mee kan. Hier enkele tips om dat te doen"/>
+  
+  
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2019-06-24"/>
+  <meta property="article:created" itemprop="dateCreated" content="2019-06-24"/>
+  <meta name="article:author" content="Jack Dougherty en Ilya Ilyankou, bewerking Harrie Jonkman"/>
+  
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Bookdown"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="Hoe maak je een boek. Bookdown is het pakket van R waar dat mee kan. Hier enkele tips om dat te doen"/>
+  <meta property="og:locale" content="en_US"/>
+  
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Bookdown"/>
+  <meta property="twitter:description" content="Hoe maak je een boek. Bookdown is het pakket van R waar dat mee kan. Hier enkele tips om dat te doen"/>
+  
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Bookdown"]},{"type":"character","attributes":{},"value":["Hoe maak je een boek. Bookdown is het pakket van R waar dat mee kan. Hier enkele tips om dat te doen\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Jack Dougherty en Ilya Ilyankou, bewerking Harrie Jonkman"]},{"type":"character","attributes":{},"value":["www.harriejonkman.nl"]}]}]},{"type":"character","attributes":{},"value":["06-24-2019"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["bookdown_files/bowser-1.9.3/bowser.min.js","bookdown_files/distill-2.2.21/template.v2.js","bookdown_files/jquery-1.11.3/jquery.min.js","bookdown_files/webcomponents-2.0.0/webcomponents.js"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+  
+  <style type="text/css">
+  
+  body {
+    background-color: white;
+  }
+  
+  .pandoc-table {
+    width: 100%;
+  }
+  
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+  
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+  
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+  
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+  
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+  
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+  
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .shaded-content {
+    background: white;
+  }
+  
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  d-article {
+    padding-bottom: 30px;
+  }
+  
+  d-appendix {
+    padding-top: 30px;
+  }
+  
+  d-article>p>img {
+    width: 100%;
+  }
+  
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for table of contents */
+  
+  .d-toc {
+    color: rgba(0,0,0,0.8);
+    font-size: 0.8em;
+    line-height: 1em;
+  }
+  
+  .d-toc-header {
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 1.3em;
+  }
+  
+  .d-toc a {
+    border-bottom: none;
+  }
+  
+  .d-toc ul {
+    padding-left: 0;
+  }
+  
+  .d-toc li>ul {
+    padding-top: 0.8em;
+    padding-left: 16px;
+    margin-bottom: 0.6em;
+  }
+  
+  .d-toc ul,
+  .d-toc li {
+    list-style-type: none;
+  }
+  
+  .d-toc li {
+    margin-bottom: 0.9em;
+  }
+  
+  .d-toc-separator {
+    margin-top: 20px;
+    margin-bottom: 2em;
+  }
+  
+  .d-article-with-toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  
+  
+  
+  /* Tweak code blocks (note that this CSS is repeated above in an injection
+     into the d-code shadow dom) */
+  
+  d-code {
+    overflow-x: auto !important;
+  }
+  
+  pre.d-code code.d-code {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+  
+  pre.text-output {
+  
+    font-size: 12px;
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  @media(min-width: 768px) {
+  
+  d-code {
+    overflow-x: visible !important;
+  }
+  
+  pre.d-code code.d-code  {
+      padding-left: 18px;
+      font-size: 14px;
+  }
+  pre.text-output {
+    font-size: 14px;
+  }
+  }
+  
+  /* Figure */
+  
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+  
+  .figure img {
+    width: 100%;
+  }
+  
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+  
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+  
+  
+  
+  /* Tweak 1000px media break to show more text */
+  
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+  
+    .grid {
+      grid-column-gap: 16px;
+    }
+  
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+  
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+  
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+  
+  
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+  
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  
+  /* Social footer */
+  
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+  
+  .disqus-comments {
+    margin-right: 30px;
+  }
+  
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+  
+  #disqus_thread {
+    margin-top: 30px;
+  }
+  
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+  
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+  
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+  
+  
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+  
+  
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+  
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+  
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+  
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+  
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+  
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+  
+  
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+  
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+  
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+  
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+  
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  </style>
+  
+  <script type="application/javascript">
+  
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+  
+  // show body when load is complete
+  function on_load_complete() {
+  
+    // set body to visible
+    document.body.style.visibility = 'visible';
+  
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+  
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+  
+  function init_distill() {
+  
+    init_common();
+  
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+  
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+  
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+  
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+  
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+  
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+  
+    // create d-bibliography
+    var bibliography = $('<d-bibliography></d-bibliography>');
+    $('#distill-bibliography').wrap(bibliography);
+  
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+  
+    // replace citations with <d-cite>
+    $('.citation').each(function(i, val) {
+      appendix = true;
+      var cites = $(this).attr('data-cites').split(" ");
+      var dt_cite = $('<d-cite></d-cite>');
+      dt_cite.attr('key', cites.join());
+      $(this).replaceWith(dt_cite);
+    });
+    // remove refs
+    $('#refs').remove();
+  
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+  
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+  
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+  
+    // replace code blocks with d-code
+    $('pre>code').each(function(i, val) {
+      var code = $(this);
+      var pre = code.parent();
+      var clz = "";
+      var language = pre.attr('class');
+      if (language) {
+        // map unknown languages to "clike" (without this they just dissapear)
+        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                                 "javascript", "js", "julia", "lua", "markdown",
+                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
+          language = "clike";
+        language = ' language="' + language + '"';
+        var dt_code = $('<d-code block' + language + clz + '></d-code>');
+        dt_code.text(code.text());
+        pre.replaceWith(dt_code);
+      } else {
+        code.addClass('text-output').unwrap().changeElementType('pre');
+      }
+    });
+  
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+  
+      // capture layout
+      var layout = $(this).attr('data-layout');
+  
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('d-code, pre.text-output, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+  
+  
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+  
+    // load distill framework
+    load_distill_framework();
+  
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+  
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+  
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+  
+      // table of contents
+      if (have_authors) // adjust border if we are in authors
+        $('.d-toc').parent().addClass('d-article-with-toc');
+  
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+  
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+  
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+  
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+  
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+  
+      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+      $('d-code').each(function(i, val) {
+        var style = document.createElement('style');
+        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+        if (this.shadowRoot)
+          this.shadowRoot.appendChild(style);
+      });
+  
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+  
+      // clear polling timer
+      clearInterval(tid);
+  
+      // show body now that everything is ready
+      on_load_complete();
+    }
+  
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+  
+  }
+  
+  function init_downlevel() {
+  
+    init_common();
+  
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+  
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+  
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+  
+    // remove toc
+    $('.d-toc-header').remove();
+    $('.d-toc').remove();
+    $('.d-toc-separator').remove();
+  
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+  
+  
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+  
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+  
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+  
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+  
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+  
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+  
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+  
+    $('body').addClass('downlevel');
+  
+    on_load_complete();
+  }
+  
+  
+  function init_common() {
+  
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+  
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+  
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+  
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+  
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+  
+      }
+    });
+  
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+  
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+  
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+  
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+  
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+  
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+  
+  </script>
+  
+  <!--/radix_placeholder_distill-->
+  <script src="bookdown_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="bookdown_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="bookdown_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="bookdown_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Bookdown","description":"Hoe maak je een boek. Bookdown is het pakket van R waar dat mee kan. Hier enkele tips om dat te doen","authors":[{"author":"Jack Dougherty en Ilya Ilyankou, bewerking Harrie Jonkman","authorURL":"www.harriejonkman.nl","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2019-06-24T00:00:00.000+02:00","citationText":"Jonkman, 2019"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Bookdown</h1>
+<p>Hoe maak je een boek. Bookdown is het pakket van R waar dat mee kan. Hier enkele tips om dat te doen</p>
+</div>
+
+<div class="d-byline">
+  Jack Dougherty en Ilya Ilyankou, bewerking Harrie Jonkman www.harriejonkman.nl 
+  
+<br/>06-24-2019
+</div>
+
+<div class="d-article">
+<h2 id="introductie">Introductie</h2>
+<p>Hier zie je een klein open-source boekje dat met R/RStudio, het pakket Bookdown en het programma GitHub is gemaakt. Voor deze leidraad heb ik gebruik gemaakt van een stukje stukje tekst dat Jack Dougherty and Ilya Ilyankou hebben gemaakt voor hun open-source boek <a href="https://datavizforall.org/find.html">link</a>.<br />
+Ook hun boek is gemaakt met open-source-gereedschappen, het pakket Bookdown en de programma’s RStudio en GitHub. Als je in Bookdown werkt ben je als auteur in staat om met Markdown te werken (een makkelijke computer syntaxtaal om op verschillende platforms mee te lezen en te schrijven). Met die taal kun je ook publiceren in verschillende formats (HTML web-taal, PDF, ePUB en Microsoft Word documenten). Als je het boek host in een openbaar toegankelijke GitHub repository en het met GitHub Pages publiceert, wordt de tekst van het boek en het product toegankelijk op het web. Over Markdown en RMarkdown heb ik in eerdere blogs van Harrie’s hoekje geschreven. Voor de technische basisgids om met Bookdown te publiceren kunnen we verwijzen naar Yihui Xie, Bookdown: Authoring Books and Technical Documents with R Markdown, 2018, <a href="https://bookdown.org/yihui/bookdown/">link</a>.</p>
+<p>Een alternatief platform voor het uitgeven van boeken is Pressbooks. Deze open-source bron van WordPress ondersteunt ook meerdere publicatie formaten (HMTL, PDF, ePUB). Auteurs kunnen gebruik maken van de betaalde hosting service <a href="http://Pressbooks.com" class="uri">http://Pressbooks.com</a>. Gebruikers met geavanceerde WordPress-expertise en wat systeembeheervaardigheden kunnen de code ook downloaden van [link] (<a href="http://github.com/pressbooks" class="uri">http://github.com/pressbooks</a>) en hun eigen zelf gehoste boekenuitgeverij runnen.</p>
+<h2 id="setup-rstudio-bookdown-en-tinytex-instellen">Setup RStudio, Bookdown en TinyTeX instellen</h2>
+<p>Hieronder volgen enkele stappen die je moet zetten om een boek op te zetten zoals hierboven geformuleerd. Het zijn algemene principes die van toepassing zijn op verschillende computersytemen. Je hebt geen speciale kennis nog, maar het is allemaal makkelijker als je avontuurlijk bent of al bekend bent met R Studio, GitHub en/of computercodes.</p>
+<ul>
+<li><p>Installeer het programma R <a href="https://www.r-project.org">link</a> om jouw boek te bouwen met Bookdown. (Ja, boeken kun je ook met een statistisch pakket maken en publiceren, en het werkt!). Zie <a href="https://datavizforall.org/images/15-bookdown/1-r-download.png">link</a></p></li>
+<li><p>Is R de motor, RStudio is het dashboard voor jou. Installeer daarom de gratis RStudio Desktop versie om R gemakkelijker te gebruiken met een visuele editor <a href="https://www.rstudio.com/products/rstudio/download/">link</a>. Zie <a href="https://datavizforall.org/images/15-bookdown/2-download-rstudio.png">link</a></p></li>
+<li><p>Selecteer in RStudio het tabblad Pakketten en selecteer Installeren. Zie <a href="https://datavizforall.org/images/15-bookdown/3-packages-install.png">link</a></p></li>
+<li><p>In RStudio installeer je het ‘bookdown’-pakket om jouw boek te bouwen en gebruik je het pakket (<code>library(bookdown)</code>. Zie <a href="https://datavizforall.org/images/15-bookdown/4-install-bookdown.png">link</a></p></li>
+<li><p>Bookdown zou nu met succes geïnstalleerd moeten zijn in RStudio. Zie <a href="https://datavizforall.org/images/15-bookdown/5-installed.png">link</a></p></li>
+<li><p>In RStudio installeer je ook het ‘tinytex’-pakket voor Bookdown. Daarmee kun je ook een PDF-editie van het boek te maken. Zie <a href="https://datavizforall.org/images/15-bookdown/6-install-tinytex.png">link</a></p></li>
+<li><p>Vergeet niet: in RStudio console <code>tinytex::install_tinytex()</code> te typen en druk op return om de installatie te voltooien. Zie <a href="https://datavizforall.org/images/15-bookdown/7-finish-install-tinytex.png">link</a></p></li>
+<li><p>Ik hoop dat dit met tinytext lukt. Ikzelf werk niet met tinytex maar heb een latex-programma op mijn computer staan die de pdf-versie maakt.</p></li>
+</ul>
+<h2 id="download-en-bouw-een-voorbeeldboekje">Download en bouw een voorbeeldboekje</h2>
+<ul>
+<li><p>Maak een gratis GitHub-account <a href="https://github.com">link</a> aan om de codes te delen en online boekuitgaven te publiceren.</p></li>
+<li><p>In jouw webbrowser, log je in op jouw GitHub account, vervolgens ga je naar de minimale repo <a href="https://github.com/yihui/bookdown-minimal">link</a> van de software ontwikkelaar en maak je een kopie voor jouw GitHub account. Hoe je dat doet daarover je in dit hoofdstuk <a href="http://datavizforall.org/github.html">link</a> van het dataviz-boek.</p></li>
+<li>Installeer GitHub Desktop <a href="https://desktop.github.com">link</a> om bestanden over te brengen tussen jouw online GitHub repo en uw lokale computer.<br />
+</li>
+<li><p>Ga in je webbrowser naar het exemplaar van <code>bookdown-minimal</code> en klik op de groene knop <code>Clone</code> of <code>Download</code> het en selecteer <code>Open in Desktop</code>. Dit opent automatisch de GitHub Desktop applicatie. Zoek de code en kopieer deze naar een map op uw lokale computer.</p></li>
+<li><p>In RStudio in de rechterbovenhoek selecteert u <code>Project &gt; Open Project</code> om de <code>bookdown-minimal</code> map op uw lokale computer te openen. Zie <a href="https://datavizforall.org/images/15-bookdown/8-project-open.png">link</a></p></li>
+<li><p>Open in RStudio het bestand <code>index.rmd</code> en maak enkele eenvoudige bewerkingen op de tekst van dit minimale boek. Verwijder bijvoorbeeld het hashtag # commentaarsymbool in regel 8 om commentaar te verwijderen en activeer de optie PDF-boek. Bewaar uw bewerkingen. Zie <a href="https://datavizforall.org/images/15-bookdown/9-edit-book.png">link</a></p></li>
+<li><p>Optioneel: Gebruik jouw favoriete teksteditor, bv. Atom editor <a href="https://atom.io">link</a>, om de tekst te wijzigen maar het kan ook goed met RStudio.</p></li>
+<li><p>In RStudio, rechtsboven in de hoek, selecteer je de Build Book tab, selecteer je Build Book, en kies je All Formats om zowel de gitbook-stijl statische webeditie als de PDF-editie te bouwen.</p></li>
+<li><p>Als RStudio met succes beide edities van je minimale boek bouwt, zal de output worden opgeslagen in je <code>bookdown-minimal</code> map. Dit wordt in een submap met de naam: <code>_book</code> geplaatst, omdat dit voorbeeld zo is geconfigureerd. Open ook de submap en bekijk de PDF-editie. Als RStudio fouten heeft gevonden, zullen deze in de Build viewer verschijnen. Zie <a href="https://datavizforall.org/images/15-bookdown/11-successful-build.png">link</a></p></li>
+</ul>
+<p><em>Tip</em>: In toekomstige sessies met RStudio moet u mogelijk het tabblad Pakketten selecteren en op Update klikken om uw softwarepakketten up-to-date te houden. Zie <a href="https://datavizforall.org/images/15-bookdown/12-packages-update.png">link</a></p>
+<ul>
+<li>Sluit RStudio.</li>
+</ul>
+<h2 id="publiceer-je-boek-met-github-pages">Publiceer je boek met GitHub Pages…</h2>
+<ul>
+<li><p>Open het GitHub-bureaublad en navigeer naar de map <code>bookdown-minimal</code> op uw lokale computer. Schrijf een samenvatting om de wijzigingen die u hierboven gemaakt hebt vast te leggen (op te slaan) aan uw master branch, en duw (pull) deze versie naar uw online GitHub repo. Over GitHub zal ik binnenkort nog eens een blog schrijven.</p></li>
+<li><p>Ga in jouw webbrowser naar jouw online GitHub repo, met een webadres gelijkaardig aan <code>https://github.com/USERNAME/bookdown-minimal</code> (vul je GitHub gebruikersnaam in).</p></li>
+<li>In je GitHub repo, selecteer Settings, scroll naar beneden naar de GitHub Pages sectie (dat is een gratis web hosting service om je code en boekuitgaven op het publieke web te publiceren). Selecteer Master Branch als jouw bron, en sla het op.<br />
+</li>
+<li><p>Scroll weer naar beneden naar deze sectie, en het webadres van uw gepubliceerde site zou moeten verschijnen. Kopieer dit adres.</p></li>
+<li><p>Plak het webadres van bovenaf in een nieuw browsertabblad en voeg uiteindelijk <code>_book/index.html</code> toe, omdat dit voorbeeld is geconfigureerd om de webeditie van uw boek in deze submap op te slaan. Uw webadres moet vergelijkbaar zijn met: <code>https://USERNAME.github.io/bookdown-minimal/_book/index.html</code>.</p></li>
+</ul>
+<h2 id="uw-bookdown-en-github-instellingen-aanpassen">Uw Bookdown en GitHub instellingen aanpassen</h2>
+<ul>
+<li><p>Om de aangepaste instellingen voor dit boek te bekijken, ga naar de online repository <a href="https://github.com/datavizforall/dataviz-bookdown" class="uri">https://github.com/datavizforall/dataviz-bookdown</a></p></li>
+<li><p>In het <code>_bookdown.yml</code> bestand is de uitvoermap ingesteld om alle boekformaten in de docs map te bouwen.</p></li>
+<li>De GitHub Pages Settings voor deze repo (die je niet kunt bekijken) is ingesteld om te publiceren vanuit de master/docs map, zodat ze overeenkomen met de uitvoer map hierboven. Dit vereenvoudigt het gepubliceerde webadres naar dit formaat: <code>https://USERNAME.github.com/REPONAME</code><br />
+</li>
+<li><p>De meeste van de Bookdown configuratie-instellingen verschijnen in het bestand <code>index.Rmd</code>. Lees meer over deze opties in de technische handleiding van de software ontwikkelaar, (<a href="https://bookdown.org/yihui/bookdown/" class="uri">https://bookdown.org/yihui/bookdown/</a>).</p></li>
+<li><p>Daarnaast is deze GitHub Pages repo gepubliceerd met een aangepaste domeinnaam <a href="https://DataVizForAll.org" class="uri">https://DataVizForAll.org</a>. Meer informatie over de aangepaste domeinnamen vind je op <a href="https://help.github.com/articles/using-a-custom-domain-with-github-pages/" class="uri">https://help.github.com/articles/using-a-custom-domain-with-github-pages/</a>, waarvoor je een domeinnaam moet kopen bij een webhostingdienst (zoals <a href="http://ReclaimHosting.com" class="uri">http://ReclaimHosting.com</a>). Door het toevoegen van een GitHub Pages aangepaste domeinnaam creëer je een extra CNAME-bestand in de submap docs. Wees voorzichtig om het niet te verwijderen (of plaats een kopie in een submap voor de bewaring).</p></li>
+<li><p>Dit boek bevat ook een aangepast 404.html-bestand dat handmatig werd overgezet naar de submap van de documenten, aangezien het niet automatisch wordt gebouwd door Bookdown.</p></li>
+<li><p>Dit boek bevat ook een aangepaste google-analytics-datavizforall.html bestand in het root-niveau van repo (waar bookdown naar zoekt) en wordt ook handmatig overgebracht naar de docs submap (aangezien bookdown het niet lijkt te kopiëren naar daar bij elke build). Deze volgt het webverkeer met Google Analytics.</p></li>
+</ul>
+<h2 id="nog-enkele-tips">Nog enkele tips</h2>
+<ul>
+<li>Linken met gehoekte en ronde haakjes.<br />
+</li>
+<li><p>Gebruik gehoekte én ronde haakjes voor link in de tekst.</p></li>
+<li>Gebruik alleen ronde haakjes voor een niet-ingesloten link (<a href="http://example.com" class="uri">http://example.com</a>).<br />
+</li>
+<li><p>Ook, geef URL met ronde haakjes weer: (<a href="http://example.com" class="uri">http://example.com</a>)</p></li>
+<li><p>Gebruik indien nodig HTML om een link te maken die in een nieuwe pagina wordt geopend.</p></li>
+<li>Dit Den Haag-boekje, bestaat uit acht hoofdstukken. Elk hoofdstuk is een apart Rmd-bestand. De numerieke volgorde van de bestandsnamen (index.Rmd, 0.1-AntilliaanseNederlandersinDenHaag.Rmd, 0.2-opleidingsniveauouders.Rmd, 03-werkeninkomen.Rmd, 04-zorggebruikalgemeen.Rmd, 05-zorggebruijeugd.Rmd, 06-gezondheid.Rmd, 07-criminaliteit.Rmd, 08-conclusies.Rmd) bepaalt de volgorde waarin ze in het gebouwde boek verschijnen.<br />
+</li>
+<li><p>In het index.Rmd bestand staat in de instellingen voor het webboek dat elk hoofdstuk en sectie wordt opgesplitst in een eigen HTML pagina, zonder automatische nummering. <code>split_by: section number_sections: false</code></p></li>
+</ul>
+<p>Hoofdstukken beginnen met een eerste niveau koptekst (één hashtag: #) en secties beginnen met een tweede niveau koptekst (twee hashtags: ##). Zowel de hoofdstuk- als sectietitels worden onmiddellijk gevolgd door een korte ID tussen gehoekte haakjes om kruisverwijzingen in het boek mogelijk te maken. De korte ID’s <em>MOETEN</em> uniek zijn, en moeten idealiter overeenkomen met de .Rmd-bestandsnaam. Hoewel elke hashtag hoofdstuk/sectie titel de standaard ID is (zoals #Inleiding in index.Rmd), is het veiliger om voor elk hoofdstuk/sectie een unieke korte ID te maken om verwarring te voorkomen.</p>
+<p>De cursief gedrukte lijnen staan bovenaan elk hoofdstuk of sectie, met een kruisverwijzing naar de auteurspagina, gevolgd door de laatste bijgewerkte datum. Voorbeelden van hoofdstukkop, met korte ID’s, bylines en data: <code># Hoofdstuk Titel {#Hoofdstuk} *by[Esther Horrevorts, Hans Bellaarts](authors), last updated: June 18, 2019*</code></p>
+<p>Subrubrieken binnen de hoofdstukken en secties beginnen met drie hashtags en eindigen met een symbool zonder nummering {-}.</p>
+<p>Om een interne kruisverwijzing naar een hoofdstuk of sectie in het boek in te voegen, kun je een link invoegen met haakjes [voor de tekst] en haakjes (met de korte ID). Als verwijzing in de tekst verschijnt, voeg dan de Furfase “in dit boek” toe aan het einde van de zin, zodat we in de toekomst alle kruisverwijzingen kunnen zoeken/vinden als dat nodig is:</p>
+<p><code>Zie de [GitHub tutorial](github) in het Dataviz-boek</code></p>
+<p><em>OPMERKING:</em> de bovenstaande verwijzingen zijn ontworpen voor het HOSTEN van WEB BOOEKEN, en werken mogelijk niet hetzelfde in lokale repo versies, of in ebook/PDF versies.</p>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>

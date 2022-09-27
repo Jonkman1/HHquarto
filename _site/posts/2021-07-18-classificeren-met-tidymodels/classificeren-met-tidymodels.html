@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.345">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Rahul Raoniar, bewerking Harrie Jonkman">
+<meta name="dcterms.date" content="2021-07-05">
+<meta name="description" content="Dit is bewerking van een blog over classificeren met het pakket Tidymodels die Rahul Raoniar in Towards data science schreef.">
+
+<title>- Classificeren met Tidymodels</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">Harrie’s Hoekje</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Jonkman1"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Classificeren met Tidymodels</h1>
+                          <div class="quarto-categories">
+                <div class="quarto-category">analyse</div>
+              </div>
+                  </div>
+  </div>
+    
+  <div>
+    <div class="description">
+      <p>Dit is bewerking van een blog over classificeren met het pakket Tidymodels die Rahul Raoniar in Towards data science schreef.</p>
+    </div>
+  </div>
+
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Rahul Raoniar, bewerking Harrie Jonkman </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">July 5, 2021</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="inleiding" class="level3">
+<h3 class="anchored" data-anchor-id="inleiding">Inleiding</h3>
+<p>Een gids om stap voor stap een logissche regressie uit te voeren met gebruik van het <code>tidymodels</code> pakket</p>
+<p>Dit is bewerking van een blog die <a href="https://towardsdatascience.com/modelling-binary-logistic-regression-using-tidymodels-library-in-r-part-1-c1bdce0ac055">Rahul Raoniar, Towards data science</a> begin 2021 schreef.</p>
+<p>In de wereld van ‘supervised machine learning’ worden vaak twee soorten analyses uitgevoerd. De ene heet regressie (voorspellen van continue waarden), de andere heet classificatie (voorspellen van discrete waarden). In deze blog geef ik een voorbeeld van een binair classificatiealgoritme, “<strong>Binaire Logistische Regressie</strong>” genaamd. Dat valt onder de Binomiale familie met een logit koppelingsfunctie. Binaire logistische regressie wordt gebruikt voor het voorspellen van binaire klassen. Bijvoorbeeld in gevallen waarin je ja/nee, winst/verlies, negatief/positief, waar/onwaar enzovoort wilt voorspellen.</p>
+<p><em>Deze blog leidt jou door een proces van hoe het ‘tidymodels’-pakket te gebruiken om een model toe te passen en te evalueren met heel weinig en eenvoudige stappen.</em></p>
+</section>
+<section id="achtergrond-van-de-data" class="level3">
+<h3 class="anchored" data-anchor-id="achtergrond-van-de-data">Achtergrond van de data</h3>
+<p>In dit voorbeeld maak je gebruik maken van de <strong>Pima Indian Diabetes 2</strong> data, verkregen uit de UCI Repository van de machine learning data (<em>Newman et al.&nbsp;1998</em>).</p>
+<p>Deze data zijn oorspronkelijk afkomstig van het ‘National Institute of Diabetes and Digestive and Kidney Diseases’. Het doel van de dataset is diagnostisch te voorspellen of een patiënt al dan niet diabetes heeft, op basis bepaalde diagnostische metingen die in de dataset zijn opgenomen. Bij de selectie van deze data uit een grotere databank werden verschillende beperkingen opgelegd. In het bijzonder zijn alle patiënten hier vrouwen van ten minste 21 jaar oud van Pima Indiaanse afkomst. De Pima Indian Diabetes 2-data is de verfijnde versie (alle ontbrekende waarden zijn toegewezen als NA) van de Pima Indian diabetes-gegevens. De dataset bevat de volgende onafhankelijke en afhankelijke variabelen.</p>
+<p><em>Onafhankelijke variabelen (met symbool: O)</em> - O1: pregnant: Aantal keren zwanger<br>
+- O2: glucose: Plasma glucose concentratie (glucose tolerantie test)<br>
+- O3: pressure: Diastolische bloed druk (mm Hg)<br>
+- O4: triceps: Triceps huidplooidikte (mm)<br>
+- O5: insulin: 2-uur serum insuline (mu U/ml)<br>
+- O6: mass: Body mass index (gewicht in kg/(lengte in m)\²)<br>
+- O7: pedigree: Diabetes pedigree functie<br>
+- O8: age: Leeftijd (jaren)</p>
+<p><em>Dependent Variable (met symbool: A)</em><br>
+- A1: diabetes: diabetes geval (pos/neg)</p>
+</section>
+<section id="doel-van-de-modellering" class="level3">
+<h3 class="anchored" data-anchor-id="doel-van-de-modellering">Doel van de modellering</h3>
+<ul>
+<li>aanpassen van een binair logistisch regressie-machineleermodel met behulp van de bibliotheek <code>tidymodels</code><br>
+</li>
+<li>het testen van de voorspellingskracht van het getrainde model (evaluatie van het model) op de ongeziene/geteste dataset met behulp van verschillende evaluatiemetrieken.</li>
+</ul>
+</section>
+<section id="bibliotheken-en-datasets-laden" class="level3">
+<h3 class="anchored" data-anchor-id="bibliotheken-en-datasets-laden">Bibliotheken en Datasets laden</h3>
+<p><strong>Stap1:</strong> Eerst moeten we de volgende pakketten worden geïnstalleerd met de <code>install.packages( )</code> functie (als ze al niet zijn geïnstalleerd en ze laden met de <code>library( )</code> functie.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mlbench)     <span class="co"># voor de PimaIndiansDiabetes2 dataset</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)  <span class="co"># voor modelpreparatie en fitten van modellen</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidymodels' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>-- Attaching packages -------------------------------------- tidymodels 0.2.0 --</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>v broom        0.8.0     v recipes      0.2.0
+v dials        1.0.0     v rsample      0.1.1
+v dplyr        1.0.9     v tibble       3.1.7
+v ggplot2      3.3.6     v tidyr        1.2.0
+v infer        1.0.2     v tune         0.2.0
+v modeldata    0.1.1     v workflows    0.2.6
+v parsnip      1.0.0     v workflowsets 0.2.1
+v purrr        0.3.4     v yardstick    1.0.0</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'broom' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'dials' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'scales' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'dplyr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'ggplot2' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'infer' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'parsnip' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'recipes' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tibble' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tune' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'workflows' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'workflowsets' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'yardstick' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>-- Conflicts ----------------------------------------- tidymodels_conflicts() --
+x purrr::discard() masks scales::discard()
+x dplyr::filter()  masks stats::filter()
+x dplyr::lag()     masks stats::lag()
+x recipes::step()  masks stats::step()
+* Use tidymodels_prefer() to resolve common conflicts.</code></pre>
+</div>
+</div>
+<p><strong>Stap2:</strong> Vervolgens moet je de dataset binnen halen uit het <code>mlbench</code> pakket met behulp van de <code>data( )</code> functie.</p>
+<p>Na het laden van de data, is de volgende essentiële stap het uitvoeren van een verkennende data-analyse, die zal helpen bij het vertrouwd raken met de data. Gebruik de <code>head( )</code> functie om de bovenste zes rijen van de data te bekijken.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(PimaIndiansDiabetes2)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(PimaIndiansDiabetes2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  pregnant glucose pressure triceps insulin mass pedigree age diabetes
+1        6     148       72      35      NA 33.6    0.627  50      pos
+2        1      85       66      29      NA 26.6    0.351  31      neg
+3        8     183       64      NA      NA 23.3    0.672  32      pos
+4        1      89       66      23      94 28.1    0.167  21      neg
+5        0     137       40      35     168 43.1    2.288  33      pos
+6        5     116       74      NA      NA 25.6    0.201  30      neg</code></pre>
+</div>
+</div>
+<p>De Diabetes-gegevensreeks telt 768 waarnemingen en negen variabelen. De eerste acht variabelen zijn van het numerieke type en de afhankelijke/output variabele (diabetes) is een factor/categorische variabele. Het is ook merkbaar dat veel variabelen <code>NA</code> waarden bevatten (missende waarde). Onze volgende taak is het de gegevens te verfijnen/wijzigen, zodat ze compatibel worden met het modelleeralgoritme. Eerst nog eens beter naar de data kijken.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Een blik op de datastructuur</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(PimaIndiansDiabetes2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 768
+Columns: 9
+$ pregnant &lt;dbl&gt; 6, 1, 8, 1, 0, 5, 3, 10, 2, 8, 4, 10, 10, 1, 5, 7, 0, 7, 1, 1~
+$ glucose  &lt;dbl&gt; 148, 85, 183, 89, 137, 116, 78, 115, 197, 125, 110, 168, 139,~
+$ pressure &lt;dbl&gt; 72, 66, 64, 66, 40, 74, 50, NA, 70, 96, 92, 74, 80, 60, 72, N~
+$ triceps  &lt;dbl&gt; 35, 29, NA, 23, 35, NA, 32, NA, 45, NA, NA, NA, NA, 23, 19, N~
+$ insulin  &lt;dbl&gt; NA, NA, NA, 94, 168, NA, 88, NA, 543, NA, NA, NA, NA, 846, 17~
+$ mass     &lt;dbl&gt; 33.6, 26.6, 23.3, 28.1, 43.1, 25.6, 31.0, 35.3, 30.5, NA, 37.~
+$ pedigree &lt;dbl&gt; 0.627, 0.351, 0.672, 0.167, 2.288, 0.201, 0.248, 0.134, 0.158~
+$ age      &lt;dbl&gt; 50, 31, 32, 21, 33, 30, 26, 29, 53, 54, 30, 34, 57, 59, 51, 3~
+$ diabetes &lt;fct&gt; pos, neg, pos, neg, pos, neg, pos, neg, pos, pos, neg, pos, n~</code></pre>
+</div>
+</div>
+</section>
+<section id="voorbereiding-van-de-gegevens" class="level3">
+<h3 class="anchored" data-anchor-id="voorbereiding-van-de-gegevens">Voorbereiding van de gegevens</h3>
+<p>De eerste stap is het verwijderen van data rijen met <code>NA</code> waarden met behulp van <code>na.omit( )</code> functie. De volgende stap is nogmaals het controleren van de gegevens met behulp van de <code>glimpse( )</code> functie.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>Diabetes <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(PimaIndiansDiabetes2) <span class="co">#weghalen van NA waarden</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(Diabetes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 392
+Columns: 9
+$ pregnant &lt;dbl&gt; 1, 0, 3, 2, 1, 5, 0, 1, 1, 3, 11, 10, 1, 13, 3, 3, 4, 4, 3, 9~
+$ glucose  &lt;dbl&gt; 89, 137, 78, 197, 189, 166, 118, 103, 115, 126, 143, 125, 97,~
+$ pressure &lt;dbl&gt; 66, 40, 50, 70, 60, 72, 84, 30, 70, 88, 94, 70, 66, 82, 76, 5~
+$ triceps  &lt;dbl&gt; 23, 35, 32, 45, 23, 19, 47, 38, 30, 41, 33, 26, 15, 19, 36, 1~
+$ insulin  &lt;dbl&gt; 94, 168, 88, 543, 846, 175, 230, 83, 96, 235, 146, 115, 140, ~
+$ mass     &lt;dbl&gt; 28.1, 43.1, 31.0, 30.5, 30.1, 25.8, 45.8, 43.3, 34.6, 39.3, 3~
+$ pedigree &lt;dbl&gt; 0.167, 2.288, 0.248, 0.158, 0.398, 0.587, 0.551, 0.183, 0.529~
+$ age      &lt;dbl&gt; 21, 33, 26, 53, 59, 51, 31, 33, 32, 27, 51, 41, 22, 57, 28, 2~
+$ diabetes &lt;fct&gt; neg, pos, pos, pos, pos, pos, pos, neg, pos, neg, pos, pos, n~</code></pre>
+</div>
+</div>
+<p>De uiteindelijke (voorbereide) gegevens bevatten 392 waarnemingen en 9 kolommen. De onafhankelijke variabelen zijn van het type numeriek/dubbel, terwijl de afhankelijke/uitgaande binaire variabele van het type factor/categorie is (neg/ pos).</p>
+</section>
+<section id="gegevensniveaus" class="level3">
+<h3 class="anchored" data-anchor-id="gegevensniveaus">Gegevensniveaus</h3>
+<p>We kunnen het referentieniveau van de afhankelijke variabele controleren met de functie <code>levels( )</code>. We kunnen zien dat het referentieniveau <em>neg</em> is (het allereerste niveau).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(Diabetes<span class="sc">$</span>diabetes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "neg" "pos"</code></pre>
+</div>
+</div>
+</section>
+<section id="instellen-referentieniveau" class="level3">
+<h3 class="anchored" data-anchor-id="instellen-referentieniveau">Instellen referentieniveau</h3>
+<p>Voor een betere interpretatie (later voor het uitzetten van de ROC curve) moeten we het referentieniveau van onze afhankelijke variabele “diabetes” op <em>positief (pos)</em> zetten met de <code>relevel( )</code> functie.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>Diabetes<span class="sc">$</span>diabetes <span class="ot">&lt;-</span> <span class="fu">relevel</span>(Diabetes<span class="sc">$</span>diabetes, <span class="at">ref =</span> <span class="st">"pos"</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(Diabetes<span class="sc">$</span>diabetes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "pos" "neg"</code></pre>
+</div>
+</div>
+</section>
+<section id="splitsing-training-en-testset" class="level3">
+<h3 class="anchored" data-anchor-id="splitsing-training-en-testset">Splitsing training en testset</h3>
+<p>De volledige dataset wordt in het algemeen opgesplitst in 75% train en 25% test data set (algemene vuistregel). 75% van de trainingsdata wordt gebruikt om het model te trainen, terwijl de overige 25% wordt gebruikt om te controleren hoe het model generaliseerde op ongeziene/test data set.</p>
+<p>Om een split object te maken kun je de <code>initial_split( )</code> functie gebruiken waar je de dataset, proportie en een strata argument voor moet opgeven. Door de afhankelijke variabele in het strata-attribuut op te geven, wordt gestratificeerde steekproeftrekking uitgevoerd. Gestratificeerde steekproeftrekking is nuttig als je afhankelijke variabele een ongelijke klasse heeft.</p>
+<p>De volgende stap is het aanroepen van de <code>training( )</code> en <code>testing( )</code> functies op het split object (d.w.z. <code>diabetes_split</code>) om de trainings- (<code>diabetes_train</code>) en test- (<code>diabetes_test</code>) datasets op te slaan.</p>
+<p>De training set bevat 295 waarnemingen, terwijl de test set 97 waarnemingen bevat.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Creëer datasplit voor training en test</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>diabetes_split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(Diabetes,</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>                                <span class="at">prop =</span> <span class="fl">0.75</span>,</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>                                <span class="at">strata =</span> diabetes)</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Creëer trainingsdata</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>diabetes_train <span class="ot">&lt;-</span> diabetes_split <span class="sc">%&gt;%</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">training</span>()</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Creëer testdata</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>diabetes_test <span class="ot">&lt;-</span> diabetes_split <span class="sc">%&gt;%</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">testing</span>()</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Aantal rijen in trainings- en testset</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(diabetes_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 293</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(diabetes_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 99</code></pre>
+</div>
+</div>
+</section>
+<section id="fitten-van-logistische-regressie" class="level3">
+<h3 class="anchored" data-anchor-id="fitten-van-logistische-regressie">Fitten van logistische regressie</h3>
+<p>Je kunt met <code>tidymodels</code> elk type model pasklaar maken met behulp van de volgende stappen. l <em>Stap 1</em>: roep de modelfunctie op: hier gebruiken we <code>logistic_reg( )</code> omdat we een logistisch regressiemodel willen draaien.</p>
+<p><em>Stap 2</em>: gebruik de <code>set_engine( )</code> functie om de familie van het model op te geven. We geven het <code>glm</code> argument op, omdat logistische regressie onder de ‘Generalized Linear Regression’-familie valt.</p>
+<p><em>Stap 3</em>: gebruik de <code>set_mode( )</code> functie en geef het type model op dat je wilt toepassen. Hier willen we pos vs neg classificeren, dus het is een <em>classificatie</em>.</p>
+<p><em>Stap 4</em>: Vervolgens moet je de <code>fit( )</code> functie gebruiken om het model te fitten en daarbinnen moet je de formule notatie en de dataset (<code>diabetes_train</code>) opgeven.</p>
+<p><em>plus notatie →</em> <code>diabetes ~ ind_variable 1 + ind_variable 2 + …….so on</code></p>
+<p><em>tilde punt notatioe →</em><br>
+diabetes~. betekent dat diabetes wordt voorspeld door de rest van de variabelen in het gegevensbestand (d.w.z. alle onafhankelijke variabelen), behalve de afhankelijke variabele, d.w.z. diabetes.</p>
+<p>Na het draaien van het model is de volgende stap het genereren van de modeloverzichtstabel. Je kunt een mooie tabel maken met behulp van de <code>tidy( )</code> functie van de <code>broom</code> bibliotheek (die is ingebouwd in de <code>tidymodels</code> bibliotheek). De gerapporteerde coëfficiënten zijn in log-odds termen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>fitted_logistic_model<span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Set the engine</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">set_engine</span>(<span class="st">"glm"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Set the mode</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">set_mode</span>(<span class="st">"classification"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Fit the model</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">fit</span>(diabetes<span class="sc">~</span>., <span class="at">data =</span> diabetes_train)</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fitted_logistic_model)    <span class="co"># Generate Summary Table</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 9 x 5
+  term         estimate std.error statistic  p.value
+  &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 (Intercept) 10.3        1.47       6.96   3.38e-12
+2 pregnant    -0.0788     0.0647    -1.22   2.24e- 1
+3 glucose     -0.0390     0.00681   -5.72   1.04e- 8
+4 pressure     0.000634   0.0144     0.0440 9.65e- 1
+5 triceps     -0.0295     0.0208    -1.42   1.56e- 1
+6 insulin     -0.00166    0.00163   -1.02   3.09e- 1
+7 mass        -0.0587     0.0328    -1.79   7.37e- 2
+8 pedigree    -1.42       0.524     -2.71   6.65e- 3
+9 age         -0.0152     0.0209    -0.724  4.69e- 1</code></pre>
+</div>
+</div>
+<p><strong>Opgelet:</strong> <em>Het teken en de waarde van de coëfficiënten veranderen afhankelijk van de referentie die u voor de afhankelijke variabele hebt ingesteld (in ons geval is pos het referentieniveau) en de waarneming die u op basis van de aselecte steekproefselectie in de opleidingssteekproef hebt opgenomen [bovenstaande resultaten zijn slechts een voorbeeld].</em></p>
+<p>De interpretatie van coëfficiënten in de log-odds term heeft niet veel zin als je die moet rapporteren in je artikel of publicatie. Daarom werd het begrip odds ratio geïntroduceerd.</p>
+<p>De ODDS is de verhouding van de kans dat een gebeurtenis zich voordoet tot de kans dat de gebeurtenis zich niet voordoet. Wanneer we een verhouding van twee zulke kansen nemen, noemen we dat Odds Ratio.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Screenshot1.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Odds ratio</figcaption><p></p>
+</figure>
+</div>
+<p>Wiskundig kan men de odds ratio berekenen door de exponent van de geschatte coëfficiënten te nemen. Je kunt bijvoorbeeld direct de odds ratio’s van de coëfficiënten krijgen door de <em>exponentiate = True</em> mee te geven in de <code>tidy( )</code> functie.</p>
+<p>Het resultaat is alleen afhankelijk van de steekproeven die we hebben verkregen tijdens het splitsen. Je kunt een ander resultaat krijgen (odds ratio waarden).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fitted_logistic_model, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 9 x 5
+  term         estimate std.error statistic  p.value
+  &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 (Intercept) 28591.      1.47       6.96   3.38e-12
+2 pregnant        0.924   0.0647    -1.22   2.24e- 1
+3 glucose         0.962   0.00681   -5.72   1.04e- 8
+4 pressure        1.00    0.0144     0.0440 9.65e- 1
+5 triceps         0.971   0.0208    -1.42   1.56e- 1
+6 insulin         0.998   0.00163   -1.02   3.09e- 1
+7 mass            0.943   0.0328    -1.79   7.37e- 2
+8 pedigree        0.242   0.524     -2.71   6.65e- 3
+9 age             0.985   0.0209    -0.724  4.69e- 1</code></pre>
+</div>
+</div>
+</section>
+<section id="significante-kansen" class="level3">
+<h3 class="anchored" data-anchor-id="significante-kansen">Significante kansen</h3>
+<p>De tabel geproduceerd door <code>tidy( )</code> functie kan worden gefilterd. Hier hebben we de variabelen uitgefilterd waarvan de p-waarden lager zijn dan 0.05 (5%) significant niveau. Voor onze steekproef hebben glucose en massa een significante invloed op diabetes.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fitted_logistic_model, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(p.value <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 x 5
+  term         estimate std.error statistic  p.value
+  &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 (Intercept) 28591.      1.47         6.96 3.38e-12
+2 glucose         0.962   0.00681     -5.72 1.04e- 8
+3 pedigree        0.242   0.524       -2.71 6.65e- 3</code></pre>
+</div>
+</div>
+</section>
+<section id="model-voorspelling" class="level3">
+<h3 class="anchored" data-anchor-id="model-voorspelling">Model voorspelling</h3>
+</section>
+<section id="voorspelling-van-de-testgegevensklasse" class="level3">
+<h3 class="anchored" data-anchor-id="voorspelling-van-de-testgegevensklasse">Voorspelling van de testgegevensklasse</h3>
+<p>De volgende stap is het genereren van de testvoorspellingen die we kunnen gebruiken voor de evaluatie van het model. Om de klassevoorspelling (pos/neg) te genereren kunnen wij de predict-functie gebruiken en het <em>getrainde modelobject, de testdataset</em> en het type opgeven, dat hier “klasse” is, aangezien wij de klassevoorspelling willen, geen waarschijnlijkheden.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Class prediction</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>pred_class <span class="ot">&lt;-</span> <span class="fu">predict</span>(fitted_logistic_model,</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">new_data =</span> diabetes_test,</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">type =</span> <span class="st">"class"</span>)</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>pred_class[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 x 1
+  .pred_class
+  &lt;fct&gt;      
+1 neg        
+2 pos        
+3 neg        
+4 pos        
+5 pos        </code></pre>
+</div>
+</div>
+</section>
+<section id="testdata-klasse-waarschijnlijkheden" class="level3">
+<h3 class="anchored" data-anchor-id="testdata-klasse-waarschijnlijkheden">Testdata klasse waarschijnlijkheden</h3>
+<p>We kunnen ook voorspellingen genereren voor de klassenwaarschijnlijkheden door het argument “prob” in het type-attribuut mee te geven.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Voorspelling waarschijnlijkheden</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>pred_proba <span class="ot">&lt;-</span> <span class="fu">predict</span>(fitted_logistic_model,</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">new_data =</span> diabetes_test,</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">type =</span> <span class="st">"prob"</span>)</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>pred_proba[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 x 2
+  .pred_pos .pred_neg
+      &lt;dbl&gt;     &lt;dbl&gt;
+1     0.164     0.836
+2     0.536     0.464
+3     0.279     0.721
+4     0.739     0.261
+5     0.831     0.169</code></pre>
+</div>
+</div>
+</section>
+<section id="voorbereiding-van-de-uiteindelijke-gegevens-voor-de-evaluatie-van-het-model" class="level3">
+<h3 class="anchored" data-anchor-id="voorbereiding-van-de-uiteindelijke-gegevens-voor-de-evaluatie-van-het-model">Voorbereiding van de uiteindelijke gegevens voor de evaluatie van het model</h3>
+<p>De volgende stap is het voorbereiden van een gegevensframe dat de kolom diabetes uit de oorspronkelijke testdataset, de voorspelde klasse en de klassevoorspellingswaarschijnlijkheid bevat. We gaan dit dataframe gebruiken voor de evaluatie van het model.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>diabetes_results <span class="ot">&lt;-</span> diabetes_test <span class="sc">%&gt;%</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(diabetes) <span class="sc">%&gt;%</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(pred_class, pred_proba)</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>diabetes_results[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   diabetes .pred_class .pred_pos .pred_neg
+19      neg         neg 0.1640730 0.8359270
+21      neg         pos 0.5360718 0.4639282
+26      pos         neg 0.2786670 0.7213330
+32      pos         pos 0.7389338 0.2610662
+55      neg         pos 0.8311350 0.1688650</code></pre>
+</div>
+</div>
+</section>
+<section id="modelevaluatie" class="level3">
+<h3 class="anchored" data-anchor-id="modelevaluatie">Modelevaluatie</h3>
+</section>
+<section id="confusiematrix" class="level3">
+<h3 class="anchored" data-anchor-id="confusiematrix">Confusiematrix</h3>
+<p>We kunnen een confusiematrix genereren met de <code>conf_mat( )</code>-functie door het uiteindelijke dataframe, <code>diabetes_results</code>, de waarheidskolom, <code>diabetes</code> en <code>voorspelde klasse (.pred_class)</code> in het schattingsattribuut op te geven.</p>
+<p>Uit de confusiematrix blijkt dat de testdataset 65 gevallen van negatieve (neg) en 32 gevallen van positieve (pos) waarnemingen bevat. Het getrainde model classificeert 61 negatieven (neg) en 18 positieven (pos) accuraat.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">conf_mat</span>(diabetes_results, <span class="at">truth =</span> diabetes,</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          Truth
+Prediction pos neg
+       pos  21  12
+       neg  12  54</code></pre>
+</div>
+</div>
+<p>We kunnen ook het <code>yardstick</code> pakket gebruiken dat bij het <code>tidymodels</code> pakket hoort om verschillende evaluatie metrieken te genereren voor de testdata set.</p>
+</section>
+<section id="nauwkeurigheid" class="level3">
+<h3 class="anchored" data-anchor-id="nauwkeurigheid">Nauwkeurigheid</h3>
+<p>We kunnen de classificatienauwkeurigheid berekenen met de <code>accuracy( )</code>-functie door het uiteindelijke dataframe, <code>diabetes_results</code>, de waarheidskolom, <code>diabetes</code> en <code>voorspelde klasse (.pred_class)</code> in het schattingsattribuut op te geven. De classificatienauwkeurigheid van het model op de testdataset is ongeveer 81,4%.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(diabetes_results, <span class="at">truth =</span> diabetes,</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 x 3
+  .metric  .estimator .estimate
+  &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
+1 accuracy binary         0.758</code></pre>
+</div>
+</div>
+</section>
+<section id="sensitiviteit" class="level3">
+<h3 class="anchored" data-anchor-id="sensitiviteit">Sensitiviteit</h3>
+<p>De <em>sensitiviteit</em> van een classificator is de verhouding tussen het aantal dat correct als positief wordt geïdentificeerd (TP) en het aantal dat daadwerkelijk positief is (FN+TP).</p>
+<p><em>Sensitivity = TP / FN+TP</em></p>
+<p>De geschatte sensitiviteitswaarde is 0,562, wat wijst op een slechte detectie van positieve klassen in de testdataset.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sens</span>(diabetes_results, <span class="at">truth =</span> diabetes,</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 x 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 sens    binary         0.636</code></pre>
+</div>
+</div>
+</section>
+<section id="specificiteit" class="level3">
+<h3 class="anchored" data-anchor-id="specificiteit">Specificiteit</h3>
+<p><em>Specificiteit</em> van een classificator is de verhouding tussen het aantal dat correct als negatief werd geclassificeerd (TN) en het aantal dat werkelijk negatief was (FP+TN).</p>
+<p><em>Specificity = TN/FP+TN</em></p>
+<p>De geschatte specificiteitswaarde is 0,938, wat wijst op een algemeen goede detectie van negatieve klassen in de testdataset.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">spec</span>(diabetes_results, <span class="at">truth =</span> diabetes,</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 x 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 spec    binary         0.818</code></pre>
+</div>
+</div>
+</section>
+<section id="precisie" class="level3">
+<h3 class="anchored" data-anchor-id="precisie">Precisie</h3>
+<p>Hoeveel van alle positieven werden correct als positief geclassificeerd?</p>
+<p><em>Precisie = TP/TP+FP</em></p>
+<p>De geschatte <em>precisie</em> waarde is 0.818.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">precision</span>(diabetes_results, <span class="at">truth =</span> diabetes,</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 x 3
+  .metric   .estimator .estimate
+  &lt;chr&gt;     &lt;chr&gt;          &lt;dbl&gt;
+1 precision binary         0.636</code></pre>
+</div>
+</div>
+</section>
+<section id="recall" class="level3">
+<h3 class="anchored" data-anchor-id="recall">Recall</h3>
+<p><em>Recall</em> en sensitiviteit zijn hetzelfde.</p>
+<p><em>Recall = TP / FN+TP</em></p>
+<p>De geschatte recall-waarde is 0.562.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">recall</span>(diabetes_results, <span class="at">truth =</span> diabetes,</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 x 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 recall  binary         0.636</code></pre>
+</div>
+</div>
+</section>
+<section id="f-maat" class="level3">
+<h3 class="anchored" data-anchor-id="f-maat">F-maat</h3>
+<p><em>F-maat</em> is een gewogen harmonisch gemiddelde van precisie en recall met de beste score 1 en de slechtste score 0. De F-maatscore geeft het evenwicht tussen precisie en recall weer. De F1-score is ongeveer 0,667, wat betekent dat het getrainde model een classificatiekracht van 66,7% heeft.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">f_meas</span>(diabetes_results, <span class="at">truth =</span> diabetes,</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 x 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 f_meas  binary         0.636</code></pre>
+</div>
+</div>
+</section>
+<section id="kappa" class="level3">
+<h3 class="anchored" data-anchor-id="kappa">Kappa</h3>
+<p>Cohen Kappa geeft informatie over hoeveel beter een model is dan de willekeurige classificator. Kappa kan gaan van -1 tot +1. De waarde &lt;0 betekent geen overeenstemming, terwijl 1,0 een perfecte overeenstemming aangeeft. Uit de geschatte kappastatistieken bleek een matige overeenkomst.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kap</span>(diabetes_results, <span class="at">truth =</span> diabetes,</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 x 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 kap     binary         0.455</code></pre>
+</div>
+</div>
+</section>
+<section id="matthews-correlatie-coefficient-mcc" class="level3">
+<h3 class="anchored" data-anchor-id="matthews-correlatie-coefficient-mcc">Matthews Correlatie Coefficient (MCC)</h3>
+<p>De <em>Matthews correlatiecoëfficiënt (MCC)</em> wordt gebruikt als maatstaf voor de kwaliteit van een binaire classificator. De waarde varieert van -1 tot +1.</p>
+<p>MCC: -1 wijst op totale onenigheid MCC: 0 wijst op geen overeenstemming MCC: +1 wijst op totale overeenstemming</p>
+<p>Uit de geschatte MCC-statistieken bleek een matige overeenstemming.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcc</span>(diabetes_results, <span class="at">truth =</span> diabetes,</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 x 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 mcc     binary         0.455</code></pre>
+</div>
+</div>
+</section>
+<section id="evaluatiematen-genereren" class="level3">
+<h3 class="anchored" data-anchor-id="evaluatiematen-genereren">Evaluatiematen genereren</h3>
+<p>We kunnen de <code>custom_metrics( )</code>-functie gebruiken om verschillende metrieken tegelijk te genereren.</p>
+<p><em>Stap 1:</em> laat eerst zien wat je wilt laten zien door <code>metric_set( )</code> te gebruiken <em>Step 2:</em> gebruik de<code>custom_metrics( )</code> functie en betrek dit op de <code>diabetes_results</code> dataframe, <code>diabaets</code> kolom en op de voorspelde klasse (<code>.pred_class</code>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>custom_metrics <span class="ot">&lt;-</span> <span class="fu">metric_set</span>(accuracy, sens, spec, precision, recall, f_meas, kap, mcc)</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="fu">custom_metrics</span>(diabetes_results,</span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">truth =</span> diabetes,</span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 x 3
+  .metric   .estimator .estimate
+  &lt;chr&gt;     &lt;chr&gt;          &lt;dbl&gt;
+1 accuracy  binary         0.758
+2 sens      binary         0.636
+3 spec      binary         0.818
+4 precision binary         0.636
+5 recall    binary         0.636
+6 f_meas    binary         0.636
+7 kap       binary         0.455
+8 mcc       binary         0.455</code></pre>
+</div>
+</div>
+</section>
+<section id="roc-auc" class="level3">
+<h3 class="anchored" data-anchor-id="roc-auc">ROC-AUC</h3>
+<p>ROC-AUC is a performance measurement for the classification problem at various thresholds settings. ROC_AUC tells how much the model is capable of distinguishing between classes. The trained logistic regression model has a ROC-AUC of 0.921 indicating overall good predictive performance.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roc_auc</span>(diabetes_results,</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">truth =</span> diabetes,</span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>        .pred_pos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 x 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 roc_auc binary         0.828</code></pre>
+</div>
+</div>
+</section>
+<section id="roc-curve" class="level3">
+<h3 class="anchored" data-anchor-id="roc-curve">ROC-curve</h3>
+<p>ROC-AUC is een evaluatiemaat voor het classificatieprobleem bij verschillende drempelinstellingen. ROC-AUC geeft aan in welke mate het model in staat is een onderscheid te maken tussen de klassen. Het getrainde logistische regressiemodel heeft een ROC-AUC van 0,921, wat wijst op een algemeen goede voorspellende prestatie.</p>
+<p>De ROC-curve wordt uitgezet met TPR (Sensitiviteit) tegen de FPR/ (1- Specificiteit), waarbij Sensitiviteit op de y-as staat en 1-Specificiteit op de x-as. Een lijn wordt diagonaal getrokken om de 50-50 verdeling van de grafiek aan te geven. Als de kromme dichter bij de lijn ligt, is de prestatie van de classificeerder lager en dan niet beter dan een toevallige gok.</p>
+<p>Je kunt een ROC Curve genereren met de <code>roc_curve( )</code> functie waarbij je de waarheidskolom (<code>diabetes</code>) en de voorspelde kansen voor de positieve klasse (<code>.pred_pos</code>) moet opgeven.</p>
+<p>Ons model heeft een ROC-AUC score van 0.921 wat aangeeft dat het een goed model is dat onderscheid kan maken tussen patiënten met diabetes en zonder diabetes.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>diabetes_results <span class="sc">%&gt;%</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_curve</span>(<span class="at">truth =</span> diabetes, .pred_pos) <span class="sc">%&gt;%</span></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="classificeren-met-tidymodels_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Schatting van verschillende evaluatiematenmet behulp van het caret-pakket</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'caret' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: lattice</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'caret'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:yardstick':
+
+    precision, recall, sensitivity, specificity</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:purrr':
+
+    lift</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(diabetes_results<span class="sc">$</span>.pred_class,</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>                diabetes_results<span class="sc">$</span>diabetes,</span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">positive=</span><span class="st">"pos"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Confusion Matrix and Statistics
+
+          Reference
+Prediction pos neg
+       pos  21  12
+       neg  12  54
+                                          
+               Accuracy : 0.7576          
+                 95% CI : (0.6611, 0.8381)
+    No Information Rate : 0.6667          
+    P-Value [Acc &gt; NIR] : 0.0325          
+                                          
+                  Kappa : 0.4545          
+                                          
+ Mcnemar's Test P-Value : 1.0000          
+                                          
+            Sensitivity : 0.6364          
+            Specificity : 0.8182          
+         Pos Pred Value : 0.6364          
+         Neg Pred Value : 0.8182          
+             Prevalence : 0.3333          
+         Detection Rate : 0.2121          
+   Detection Prevalence : 0.3333          
+      Balanced Accuracy : 0.7273          
+                                          
+       'Positive' Class : pos             
+                                          </code></pre>
+</div>
+</div>
+<p>Binaire logistische regressie is nog steeds een enorm populair ML-algoritme (voor binaire classificatie) in het bèta/technische onderzoeksdomein. Het is nog steeds zeer eenvoudig te trainen en te interpreteren, in vergelijking met veel complexere modellen.</p>
+</section>
+<section id="referenties" class="level3">
+<h3 class="anchored" data-anchor-id="referenties">Referenties</h3>
+<p>Newman, C. B. D. &amp; Merz, C. (1998). <em>UCI Repository of machine learning databases, Technical report</em>, University of California, Irvine, Dept. of Information and Computer Sciences.</p>
+<p>Shrikant I. Bangdiwala (2018). Regression: binary logistic, <em>International Journal of Injury Control and Safety Promotion</em>, DOI: 10.1080/17457300.2018.1486503</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

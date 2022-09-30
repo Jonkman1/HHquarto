@@ -9,6 +9,7 @@ execute:
   code-fold: true 
 toc: true
 toc_float: true
+image: "Plaatje7.PNG"
 ---
 
 
@@ -119,7 +120,7 @@ We kunnen de data importeren in onze R sessie, bijvoorbeeld met `read_csv()` uit
 chic <- readr::read_csv("https://raw.githubusercontent.com/z3tt/ggplot-courses/main/data/chicago-nmmaps-custom.csv")
 ```
 
->De :: wordt naamruimte genoemd en kan worden gebruikt om toegang te krijgen tot een functie zonder het pakket te laden. Hier zou je ook library(readr) eerst kunnen uitvoeren en daarna chic <- read_csv(...).
+> De :: wordt naamruimte genoemd en kan worden gebruikt om toegang te krijgen tot een functie zonder het pakket te laden. Hier zou je ook library(readr) eerst kunnen uitvoeren en daarna "chic <- read_csv()".
 
 Laten we zien hoe de dataset eruit ziet.
 

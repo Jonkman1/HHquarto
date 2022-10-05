@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.345">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="HarrieJonkman">
+<meta name="dcterms.date" content="2022-10-07">
+<meta name="description" content="Over het werken met Quarto, de opvolger of het equivalent van RMardown">
+
+<title>- Werken met Quarto</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">Harrie’s Hoekje</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Jonkman1"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Werken met Quarto</h1>
+                          <div class="quarto-categories">
+                <div class="quarto-category">communicatie</div>
+              </div>
+                  </div>
+  </div>
+    
+  <div>
+    <div class="description">
+      <p>Over het werken met Quarto, de opvolger of het equivalent van RMardown</p>
+    </div>
+  </div>
+
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>HarrieJonkman </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">October 7, 2022</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#harries-hoekje" id="toc-harries-hoekje" class="nav-link active" data-scroll-target="#harries-hoekje">Harrie’s Hoekje</a></li>
+  <li><a href="#nsc-r-workshops" id="toc-nsc-r-workshops" class="nav-link" data-scroll-target="#nsc-r-workshops">NSC-R workshops</a></li>
+  <li><a href="#referenties" id="toc-referenties" class="nav-link" data-scroll-target="#referenties">Referenties</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p><img src="Screenshot.PNG" class="img-fluid"></p>
+<section id="inleiding" class="level3">
+<h3 class="anchored" data-anchor-id="inleiding">Inleiding</h3>
+<p>10 Jaar geleden werd het pakket RMarkdown geïntroduceerd als onderdeel van het knitr pakket door Yihui Xie van RStudio. Met dat prachtige pakket kun jezelf tekst, analyse en designopdrachten doorvoeren in documenten, rapporten, boerken, blogs en websites, presentaties en interactieve documenten, en dat in allerlei outputformaten. Het is een van die pakketten waar ik afgelopen jaren het meest gebruik van heb gemaakt en waar ik als onderzoeker het meest enthousiast over was (Xie, et al., 2022; Xie et al., 2021). Ikzelf was helemaal niet toe aan iets nieuws op dit gebied want deed voldeed heel goed. Toch verscheen onlangs Quarto dat een vergelijkbaar doel dient als RMarkdown.</p>
+<p>Quarto is een open-source publicatiesysteem waarmee je wetenschappelijke en technische producten kunt maken. Het is gebouwd op Pandoc, het Zwitsers mes dat tekst en code naar documenten, webpagina’s, blog post, boeken en nog veel meer kan omzetten. Quarto is opgenomen in de nieuwste versie van RStudio en je hoeft geen andere pakketten meer te laden. Alles werkt op eenzelfde manier. Het werkt nu niet meer alleen met R, zoals RMarkdown dat wel doet, maar ook met Jupyter van Python en Observable dat ikzelf verder niet ken.Met Quarto wil RStudio een RMarkdown voor iedereen maken.</p>
+<p>Het Quarto systeem kan vaak hetzelfde als je met RMarkdown kunt doen. Om die reden is er niet echt een reden om over te stappen. Er zijn wel enkele makkelijke functies voor het gebruik toegevoegd. Bovendien is het pakket net geïntroduceerd en zullen de mogelijkheden alleen maar sterk toenemen als meer mensen ermee gaan werken (Quarto, 2022).</p>
+<p>Ikzelf moest er eerst wat aan wennen en zag amper voordelen van het systeem. Echter, na enige tijd werden de voordelen voor mij wel steeds duidelijker.</p>
+<p>Ik wilde mij de afgelopen weken het werken met Quarto wat eigen maken. Ik begon met het maken van enkele eenvoudige documenten. Vervolgens heb ik de mooie presentatie van Maghan Hall over <code>tidyverse</code>genomen en heb deze vertaald en bewerkt (Hall, 2022). Daarna heb ik een eenvoudig boekje gemaakt van een wat ouder rapport dat op mijn voormalig instituut was gemaakt. Toen ik mij deze vaardigheden had eigen gemaakt, heb ik twee blogs genomen die zelf eerder gemaakt had met RMarkdown. De resultaten (output en code) kun je hier onder vinden.</p>
+</section>
+<section id="harries-hoekje" class="level2">
+<h2 class="anchored" data-anchor-id="harries-hoekje">Harrie’s Hoekje</h2>
+<p>Ik blog al wat langer over ontwikkelingen op het terrein van moderne data analyse die mij interesseren. Sinds 2018 schrijf ik het blog Harrie’s Hoekje, waar deze post onderdeel van vormt<a href="https://harrieshoekje.netlify.app/">Hier vind je Harrie’s Hoekje</a>. Dat blog is ondertussen qua omvang zo groot geworden dat het werken ermee steeds langdurige wordt. Het lijkt mij goed om een nieuwe versie te starten zodat het makkelijk blijft om ermee te werken. De blogs van de afgelopen twee jaar van Harrie’s Hoekje heb ik naar Quarto overgezet. Binnenkort zal ik de oude RMarkdown versie afsluiten en nieuwe blogs via Quarto publiceren. Het raamwerk staat nu.</p>
+<p>Ik heb een eenvoudige opzet binnengehaald en vandaar heb ik mijn eigen blog opgebouwd. Ik heb de post die ik RMardown had geschreven naar Quatro overgehaald. Het draait dan meteen ook, maar ik heb alle syntaxen (mn. de chuncks) waar nodig aangepast en steeds opgeslagen niet als .rmd documenten maar als .qmd documenten. Er waren enkele blogs die mij hierbij hebben geholpen: Bea Milz (2022) en Alber Rapp (2022).</p>
+<p>Via deze link kun je het resultaat zien van <a href="https://harrieshoekjequarto.netlify.app">Harrie’s Hoekje blog in Quarto</a></p>
+<p>Hoe ik het heb gemaakt vind je op github <a href="https://github.com/Jonkman1/HHquarto">Eigen blog Github</a></p>
+</section>
+<section id="nsc-r-workshops" class="level2">
+<h2 class="anchored" data-anchor-id="nsc-r-workshops">NSC-R workshops</h2>
+<p>Precies een jaar geleden heb ik het ontwerp voor de NSC-Rworkshops gemaakt. Dat blog vind je hier <a href="https://nscrweb.netlify.app/blog.html">NSC-R Workshops</a>.</p>
+<p>Vervolgens heb ik ook dit blog als basis genomen en omgezet naar Quarto. Ook dit was een tijdsintensieve klus en ik heb dingen handmatige gedaan die allicht eenvoudiger te doen waren. Echter, door er zo de tijd voor te nemen, kreeg ik het systeem beter onder de knie. Het voorlopige resultaat vind je hier en zal allicht op basis van commentaren nog worden aangepast: <a href="https://nscr.netlify.app">NSCR blog</a></p>
+<p>Hoe het is gemaakt vind je github <a href="https://github.com/Jonkman1/NSCR_Blog_Quarto">NSCR blog Github</a></p>
+</section>
+<section id="referenties" class="level2">
+<h2 class="anchored" data-anchor-id="referenties">Referenties</h2>
+<p>Centinkaya-Rundel, M. (2022) A Quarto tip a day <a href="https://mine-cetinkaya-rundel.github.io/quarto-tip-a-day/about.html">here</a></p>
+<p>Hall, M. (2022). <em>Making Slides in Quarto with reveal.js</em>. <a href="https://meghan.rbind.io/blog/quarto-slides/">here</a></p>
+<p>Milz, B. (2022). Creating a blog with Quarto in 10 steps. <a href="https://beamilz.com/posts/2022-06-05-creating-a-blog-with-quarto/en/">here</a>.</p>
+<p>Rapp, A. (2022). The ultimate guide to starting a Quarto blog. <a href="https://albert-rapp.de/posts/13_quarto_blog_writing_guide/13_quarto_blog_writing_guide.html">here</a></p>
+<p>Quarto (2022). <em>Website</em>. <a href="https://quarto.org/">here</a></p>
+<p>Xie, Y., Allaire, J.J., Grolemund, G. (2022). <em>RMarkdown. The Definitive Guide. CTC Press</em>. Boca Raton: CRC Press <a href="https://bookdown.org/yihui/rmarkdown/">here</a>.</p>
+<p>Xie, Y., Dervieux, C. , Riederer, E. (2021). RMarkdown Cookboek. Boca Raton: CRC Press.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

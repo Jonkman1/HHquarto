@@ -9,6 +9,8 @@ image: "Screenshot.png"
 ---
 
 
+![](Screenshot.png)
+
 ## Inleiding
 Onlangs verscheen een prachtig boek van Alicia A. Johnson, Miles Q. Ot en Mine Dogucu onder de titel *Bayes Rules! An Introduction to Applied Bayesian Modeling* en het verscheen bij CRC Press (2022). Eerdere versies stonden kon je al via bookdown bekijken (https://www.bayesrulesbook.com/) en vanaf de eerste keer dat ik het zag, was ik hier heel enthousiast over. Ik heb er al enkele keren over geschrevenm in dit blog. 
 

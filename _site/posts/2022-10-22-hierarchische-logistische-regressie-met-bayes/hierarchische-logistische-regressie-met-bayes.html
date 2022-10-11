@@ -10,7 +10,7 @@
 <meta name="dcterms.date" content="2022-03-22">
 <meta name="description" content="Dit is een blog over hoe hiërarchische logistische regressie werkt met gebruik van Bayesiaanse technieken.">
 
-<title>Hierarchische logistische regressie met Bayes</title>
+<title>- Hierarchische logistische regressie met Bayes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -83,65 +83,136 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
-<script src="hierarchische-logistische-regressie-met-bayes_files/libs/clipboard/clipboard.min.js"></script>
-<script src="hierarchische-logistische-regressie-met-bayes_files/libs/quarto-html/quarto.js"></script>
-<script src="hierarchische-logistische-regressie-met-bayes_files/libs/quarto-html/popper.min.js"></script>
-<script src="hierarchische-logistische-regressie-met-bayes_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="hierarchische-logistische-regressie-met-bayes_files/libs/quarto-html/anchor.min.js"></script>
-<link href="hierarchische-logistische-regressie-met-bayes_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link id="quarto-text-highlighting-styles" href="hierarchische-logistische-regressie-met-bayes_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
-<script src="hierarchische-logistische-regressie-met-bayes_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="hierarchische-logistische-regressie-met-bayes_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="hierarchische-logistische-regressie-met-bayes_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
 
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
-<body class="fullcontent">
+<body class="nav-fixed">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Hierarchische logistische regressie met Bayes</h1>
-  <div class="quarto-categories">
-    <div class="quarto-category">analyse</div>
-  </div>
-  </div>
-
-<div>
-  <div class="description">
-    <p>Dit is een blog over hoe hiërarchische logistische regressie werkt met gebruik van Bayesiaanse technieken.</p>
-  </div>
-</div>
-
-
-
-
-<div class="quarto-title-meta">
-
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Johnson e.a. en Harrie Jonkman </p>
-          </div>
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">Harrie’s Hoekje</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Jonkman1"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Hierarchische logistische regressie met Bayes</h1>
+                          <div class="quarto-categories">
+                <div class="quarto-category">analyse</div>
+              </div>
+                  </div>
   </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">March 22, 2022</p>
+  <div>
+    <div class="description">
+      <p>Dit is een blog over hoe hiërarchische logistische regressie werkt met gebruik van Bayesiaanse technieken.</p>
     </div>
   </div>
+
+
+
+
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Johnson e.a. en Harrie Jonkman </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 22, 2022</p>
+      </div>
+    </div>
+      
+    </div>
     
-  </div>
   
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#inleiding" id="toc-inleiding" class="nav-link active" data-scroll-target="#inleiding">Inleiding</a></li>
+  <li><a href="#hierarchische-logistische-regressie" id="toc-hierarchische-logistische-regressie" class="nav-link" data-scroll-target="#hierarchische-logistische-regressie">Hierarchische logistische regressie</a></li>
+  <li><a href="#literatuur" id="toc-literatuur" class="nav-link" data-scroll-target="#literatuur">Literatuur</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
-</header>
 
+
+
+<p><img src="Screenshot.png" class="img-fluid"></p>
 <section id="inleiding" class="level2">
 <h2 class="anchored" data-anchor-id="inleiding">Inleiding</h2>
 <p>Onlangs verscheen een prachtig boek van Alicia A. Johnson, Miles Q. Ot en Mine Dogucu onder de titel <em>Bayes Rules! An Introduction to Applied Bayesian Modeling</em> en het verscheen bij CRC Press (2022). Eerdere versies stonden kon je al via bookdown bekijken (https://www.bayesrulesbook.com/) en vanaf de eerste keer dat ik het zag, was ik hier heel enthousiast over. Ik heb er al enkele keren over geschrevenm in dit blog.</p>
@@ -386,8 +457,8 @@ argument.</code></pre>
 <pre><code>
 SAMPLING FOR MODEL 'bernoulli' NOW (CHAIN 1).
 Chain 1: 
-Chain 1: Gradient evaluation took 0.001 seconds
-Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 10 seconds.
+Chain 1: Gradient evaluation took 0.002 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 20 seconds.
 Chain 1: Adjust your expectations accordingly!
 Chain 1: 
 Chain 1: 
@@ -404,15 +475,15 @@ Chain 1: Iteration: 8000 / 10000 [ 80%]  (Sampling)
 Chain 1: Iteration: 9000 / 10000 [ 90%]  (Sampling)
 Chain 1: Iteration: 10000 / 10000 [100%]  (Sampling)
 Chain 1: 
-Chain 1:  Elapsed Time: 81.939 seconds (Warm-up)
-Chain 1:                73.932 seconds (Sampling)
-Chain 1:                155.871 seconds (Total)
+Chain 1:  Elapsed Time: 79.892 seconds (Warm-up)
+Chain 1:                73.038 seconds (Sampling)
+Chain 1:                152.93 seconds (Total)
 Chain 1: 
 
 SAMPLING FOR MODEL 'bernoulli' NOW (CHAIN 2).
 Chain 2: 
-Chain 2: Gradient evaluation took 0.003 seconds
-Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 30 seconds.
+Chain 2: Gradient evaluation took 0.001 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 10 seconds.
 Chain 2: Adjust your expectations accordingly!
 Chain 2: 
 Chain 2: 
@@ -429,9 +500,9 @@ Chain 2: Iteration: 8000 / 10000 [ 80%]  (Sampling)
 Chain 2: Iteration: 9000 / 10000 [ 90%]  (Sampling)
 Chain 2: Iteration: 10000 / 10000 [100%]  (Sampling)
 Chain 2: 
-Chain 2:  Elapsed Time: 80.453 seconds (Warm-up)
-Chain 2:                74.769 seconds (Sampling)
-Chain 2:                155.222 seconds (Total)
+Chain 2:  Elapsed Time: 81.885 seconds (Warm-up)
+Chain 2:                76.244 seconds (Sampling)
+Chain 2:                158.129 seconds (Total)
 Chain 2: 
 
 SAMPLING FOR MODEL 'bernoulli' NOW (CHAIN 3).
@@ -454,15 +525,15 @@ Chain 3: Iteration: 8000 / 10000 [ 80%]  (Sampling)
 Chain 3: Iteration: 9000 / 10000 [ 90%]  (Sampling)
 Chain 3: Iteration: 10000 / 10000 [100%]  (Sampling)
 Chain 3: 
-Chain 3:  Elapsed Time: 82.075 seconds (Warm-up)
-Chain 3:                75.616 seconds (Sampling)
-Chain 3:                157.691 seconds (Total)
+Chain 3:  Elapsed Time: 80.003 seconds (Warm-up)
+Chain 3:                74.33 seconds (Sampling)
+Chain 3:                154.333 seconds (Total)
 Chain 3: 
 
 SAMPLING FOR MODEL 'bernoulli' NOW (CHAIN 4).
 Chain 4: 
-Chain 4: Gradient evaluation took 0.008 seconds
-Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 80 seconds.
+Chain 4: Gradient evaluation took 0 seconds
+Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
 Chain 4: Adjust your expectations accordingly!
 Chain 4: 
 Chain 4: 
@@ -479,9 +550,9 @@ Chain 4: Iteration: 8000 / 10000 [ 80%]  (Sampling)
 Chain 4: Iteration: 9000 / 10000 [ 90%]  (Sampling)
 Chain 4: Iteration: 10000 / 10000 [100%]  (Sampling)
 Chain 4: 
-Chain 4:  Elapsed Time: 81.345 seconds (Warm-up)
-Chain 4:                74.716 seconds (Sampling)
-Chain 4:                156.061 seconds (Total)
+Chain 4:  Elapsed Time: 83.328 seconds (Warm-up)
+Chain 4:                551.978 seconds (Sampling)
+Chain 4:                635.306 seconds (Total)
 Chain 4: </code></pre>
 </div>
 </div>
@@ -662,10 +733,11 @@ overall_accuracy 0.9012524</code></pre>
 <p>Fast, Shannon, and Thomas Hegland. 2011. “Book Challenges: A Statistical Examination.” <em>Project for Statistics 316-Advanced Statistical Modeling, St.&nbsp;Olaf College</em>.</p>
 <p>Legler, Julie, and Paul Roback. 2021. <em>Beyond Multiple Linear Regression: Applied Generalized Linear Models and Multilevel Models in R.</em> Chapman; Hall/CRC. https://bookdown.org/roback/bookdown-BeyondMLR/. ———. 2020b. “Himalayan Climbing Expeditions.” <em>TidyTuesday Github Repostitory</em>. https://github.com/rfordatascience/tidytuesday/tree/master/data/2020/2020-09-22.</p>
 <p>The Himalayan Database. 2020. https://www.himalayandatabase.com/. Trinh, Ly, and Pony Ameri. 2016. “AirBnB Price Determinants: A Multilevel Modeling Approach.” <em>Project for Statistics 316-Advanced Statistical Modeling, St.&nbsp;Olaf College</em>.</p>
+
+
 </section>
 
-</main>
-<!-- /main column -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const icon = "";

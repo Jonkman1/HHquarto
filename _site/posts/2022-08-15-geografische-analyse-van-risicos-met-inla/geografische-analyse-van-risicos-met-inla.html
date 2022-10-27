@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-0.9.345">
+<meta name="generator" content="quarto-0.9.476">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -83,22 +83,6 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<meta name="quarto:offset" content="../../">
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -130,6 +114,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body class="nav-fixed">
@@ -167,21 +167,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title">Geografische analyse van risico’s met INLA</h1>
+                  <div>
+        <div class="description">
+          <p>Paula Moraga laat zien hoe je geografische gegevens kunt analyseren met het programma INLA</p>
+        </div>
+      </div>
                           <div class="quarto-categories">
                 <div class="quarto-category">analyse</div>
               </div>
                   </div>
   </div>
     
-  <div>
-    <div class="description">
-      <p>Paula Moraga laat zien hoe je geografische gegevens kunt analyseren met het programma INLA</p>
-    </div>
-  </div>
-
-
-
-
+  
   <div class="quarto-title-meta">
 
       <div>
@@ -358,7 +355,8 @@ Attaching package: 'foreach'</code></pre>
 <section id="lineaire-voorspeller" class="level3">
 <h3 class="anchored" data-anchor-id="lineaire-voorspeller">Lineaire voorspeller</h3>
 <p>De syntaxis van de lineaire voorspeller in <strong>R-INLA</strong> is vergelijkbaar met de syntaxis die wordt gebruikt om lineaire modellen te fitten met de (bekende) functie <code>lm()</code>. We moeten de uitkomstvariabele schrijven, dan het ~ symbool, en tenslotte de vaste en willekeurige effecten gescheiden door + operatoren. Willekeurige effecten worden gespecificeerd door gebruik te maken van de f() functie. Het eerste argument van f() is een indexvector die het element van het willekeurige effect specificeert dat van toepassing is op elke observatie, en het tweede argument is de naam van het model (b.v. “iid”, “ar1”). Bijkomende parameters van f() kunnen bekeken worden door ?f in te typen. Bijvoorbeeld, als we het model</p>
-<p><span class="math display">\[Y \sim N(\eta_i, \sigma^2),i=1,...,\eta\]</span> <span class="math display">\[\eta_i=\beta_0 + \beta_1x_1 + \beta_2x_2 + u_1,\]</span></p>
+<p><span class="math display">\[Y \sim N(\eta_i, \sigma^2),i=1,...,\eta\]</span></p>
+<p><span class="math display">\[\eta_i=\beta_0 + \beta_1x_1 + \beta_2x_2 + u_1,\]</span></p>
 <p>waar <span class="math inline">\(Y_i\)</span> de uitkomstvariable is, <span class="math inline">\(\eta_1\)</span> is de lineaire voorspeller, met <span class="math inline">\(x_1, x_2\)</span> als twee verklarende variabelen en met <span class="math inline">\(u_1 \sim N(0,\sigma^2)\)</span> wordt de formule geschreven als</p>
 <p><span class="math display">\[y \sim x_1 + x_2 + f(i, model="iid")\]</span></p>
 <p>Merk op dat de formule standaard een intercept bevat. Als we <span class="math inline">\(beta_0\)</span> expliciet in de formule willen opnemen, zouden we het intercept moeten verwijderen (0 toevoegen) en het als een covariate term moeten opnemen (b0 toevoegen).</p>
@@ -1022,7 +1020,8 @@ berks         berks  308  300.70598   0.249 1.0242563</code></pre>
 <section id="model-1" class="level3">
 <h3 class="anchored" data-anchor-id="model-1">Model</h3>
 <p>Stel <span class="math inline">\(Y_i\)</span> en <span class="math inline">\(E_i\)</span> respectievelijk het waargenomen en het verwachte aantal ziektegevallen zijn en stel <span class="math inline">\(\theta_i\)</span> is het relatieve risico voor district <span class="math inline">\(i=1,...,n\)</span>. Het model wordt als volgt gespecificeerd:</p>
-<p><span class="math display">\[Y_i|Poisson(E_i \times \theta_i), i=1,...,n,\]</span> <span class="math display">\[log(\theta_i)=\beta_0+\beta_1 \times smoking_i+u_i+v_i\]</span>.</p>
+<p><span class="math display">\[Y_i|Poisson(E_i \times \theta_i), i=1,...,n,\]</span></p>
+<p><span class="math display">\[log(\theta_i)=\beta_0+\beta_1 \times smoking_i+u_i+v_i\]</span>.</p>
 <ul>
 <li><span class="math inline">\(\beta_0\)</span> is het intercept,<br>
 </li>

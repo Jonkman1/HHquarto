@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-0.9.345">
+<meta name="generator" content="quarto-0.9.476">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -83,22 +83,6 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<meta name="quarto:offset" content="../../">
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -121,6 +105,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body class="nav-fixed">
@@ -158,21 +158,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title">Wat kun je met Bayes?</h1>
+                  <div>
+        <div class="description">
+          <p>In deze blog wordt getoond wat je met Bayes wetenschappelijk kunt: schatten, testen en voorspellen.</p>
+        </div>
+      </div>
                           <div class="quarto-categories">
                 <div class="quarto-category">analyse</div>
               </div>
                   </div>
   </div>
     
-  <div>
-    <div class="description">
-      <p>In deze blog wordt getoond wat je met Bayes wetenschappelijk kunt: schatten, testen en voorspellen.</p>
-    </div>
-  </div>
-
-
-
-
+  
   <div class="quarto-title-meta">
 
       <div>
@@ -352,8 +349,10 @@ Attaching package: 'janitor'</code></pre>
 </div>
 <p><span class="math inline">\(Y|\pi\)</span> kun je het beste opvatten en dat betekent dat onze analyse het bèta-binomiale kader volgt. On aangepast posterior model van <span class="math inline">\(\p\)</span> in het licht van de waargenomen kunstgegevens ziet er als volgt uit:</p>
 <p><span class="math display">\[Y|\pi \sim Bin(100,\pi) \\
-  \pi\sim Beta(4,6)\]</span> wordt <span class="math display">\[\pi|Y=14) \sim Beta(18,92)\]</span></p>
-<p>met de corresponderende posterior pdf <span class="math display">\[f(\pi|y=14)=\frac{\Gamma(18+92)}{\Gamma(18)\Gamma(92)}\pi^{18-1}(1-\pi)^{92-1} for \pi \epsilon[0,1].\]</span></p>
+  \pi\sim Beta(4,6)\]</span> wordt</p>
+<p><span class="math display">\[\pi|Y=14) \sim Beta(18,92)\]</span></p>
+<p>met de corresponderende posterior pdf</p>
+<p><span class="math display">\[f(\pi|y=14)=\frac{\Gamma(18+92)}{\Gamma(18)\Gamma(92)}\pi^{18-1}(1-\pi)^{92-1} for \pi \epsilon[0,1].\]</span></p>
 <p>De evolutie in ons begrip van <span class="math inline">\(\pi\)</span> is hieronder te zien. Terwijl we begonnen met een vaag begrip dat minder dan de helft van de tentoongestelde kunstenaars Gen X zijn, hebben de gegevens ons met enige zekerheid doen stellen dat dit cijfer waarschijnlijk onder 25% ligt.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_beta_binomial</span>(<span class="at">alpha =</span> <span class="dv">4</span>, <span class="at">beta =</span> <span class="dv">6</span>, <span class="at">y =</span> <span class="dv">14</span>, <span class="at">n =</span> <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -367,8 +366,8 @@ b. Het is zeer waarschijnlijk dat ongeveer 16% van de museumkunstenaars Gen X of
 <p>Als je antwoordde met antwoord b, is je denkwijze Bayesiaans van geest.</p>
 <p>[Figuur: Ons Beta(18, 92) posterior model voor <span class="math inline">\(π\)</span> (links) naast een alternatief Beta(4, 16) posterior model (rechts). De gekleurde gebieden geven de overeenkomstige 95% posterior geloofwaardigheids intervallen weer voor ]</p>
 <p>De clou hier is dat posterieure schattingen zowel de <strong>centrale tendens als de variabiliteit</strong> in <span class="math inline">\(\pi\)</span>. Het <strong>posterior gemiddelde en de modus</strong> van <span class="math inline">\(\pi\)</span> geven een snel overzicht van enkel de centrale tendens. Deze kenmerken voor onze Beta(18, 92) posterior volgen uit de algemene Beta-eigenschappen komen overeen met onze bovenstaande observatie dat de Gen X vertegenwoordiging hoogstwaarschijnlijk rond 16% ligt:</p>
-<p><span class="math display">\[E(\pi|Y=14)=\frac{18}{18+92} \approx 0.164 \\
-Mode(\pi|Y=14)=\frac{18-1}{18+92-2} \approx 0.157\]</span></p>
+<p>$$E(|Y=14)= \</p>
+<p>Mode(|Y=14)= $$</p>
 </section>
 <section id="posterior-schatting" class="level2">
 <h2 class="anchored" data-anchor-id="posterior-schatting">Posterior schatting</h2>
@@ -413,7 +412,8 @@ Mode(\pi|Y=14)=\frac{18-1}{18+92-2} \approx 0.157\]</span></p>
 <li>Het 95% CI voor <span class="math inline">\(\pi\)</span> (0.1, 0.24) zit <em>vooral</em> onder 0.2.</li>
 </ol>
 <p>Deze waarnemingen zijn een goed begin. Maar we kunnen nog preciezer zijn. Om precies te evalueren hoe aannemelijk het is dat <span class="math inline">\(\pi&lt;0.2\)</span>, kunnen we de <strong>posterior waarschijnlijkheid</strong> van dit scenario berekenen, $P(&lt;0.2|Y=14). Deze posterior waarschijnlijkheid wordt weergegeven door het gearceerde gebied onder de posterior pdf in xxxxx. Het wordt wiskundig berekend door de posterior pdf te integreren in het gebied van 0 tot 0,2:</p>
-<p><span class="math display">\[P(\pi&lt;0.2|Y=14)=\int_{0}^{0.2}f(\pi|y=14)d\pi\]</span> We zullen de integratie omzeilen en deze Beta(18,92) posterior waarschijnlijkheid verkrijgen met <code>pbeta()</code> hieronder. Het resultaat toont een sterk bewijs ten gunste van onze bewering: er is ongeveer 84,9% posterior kans dat Gen X-ers minder dan 20% van de moderne kunst museumkunstenaars uitmaken.</p>
+<p><span class="math display">\[P(\pi&lt;0.2|Y=14)=\int_{0}^{0.2}f(\pi|y=14)d\pi\]</span></p>
+<p>We zullen de integratie omzeilen en deze Beta(18,92) posterior waarschijnlijkheid verkrijgen met <code>pbeta()</code> hieronder. Het resultaat toont een sterk bewijs ten gunste van onze bewering: er is ongeveer 84,9% posterior kans dat Gen X-ers minder dan 20% van de moderne kunst museumkunstenaars uitmaken.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Posterior waarschijnlijkheid dat pi &lt; 0.20</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>post_prob <span class="ot">&lt;-</span> <span class="fu">pbeta</span>(<span class="fl">0.20</span>, <span class="dv">18</span>, <span class="dv">92</span>)</span>
@@ -782,7 +782,8 @@ replace the existing scale.</code></pre>
 <span class="math inline">\(π\)</span> lager is dan 0,20:</p>
 <p><span class="math display">\[P(\pi&lt;0.20|Y=14)=0.849\]</span></p>
 <p>Deze berekening heeft geen zin in een frequentistische analyse. Omgekeerd beoordeelt een frequentistische analyse de onzekerheid van de waargenomen gegevens <span class="math inline">\(Y\)</span> in het licht van veronderstelde waarden van <span class="math inline">\(π\)</span>. De frequentistische tegenhanger van de Bayesiaanse posterior waarschijnlijkheid hierboven is bijvoorbeeld de p-waarde, waarvan we de formule hier niet zullen behandelen:</p>
-<p><span class="math display">\[PY(\leq14|\pi=0.20)=0.08\]</span> De omgekeerde volgorde van de conditionering in deze waarschijnlijkheid, <span class="math inline">\(Y\)</span> gegeven <span class="math inline">\(π\)</span> (<span class="math inline">\(Y|\pi\)</span>) in plaats van <span class="math inline">\(π\)</span> gegeven <span class="math inline">\(Y\)</span> (<span class="math inline">\(\pi|Y)\)</span>) leidt tot een andere berekening en interpretatie dan de Bayesiaanse waarschijnlijkheid: als <span class="math inline">\(π\)</span> slechts 0,20 zou zijn, dan is er slechts een kans van 8% dat we een steekproef zouden hebben waargenomen waarin ten hoogste <span class="math inline">\(Y=14\)</span> van de 100 kunstenaars Gen X waren. Het is niet onze manier van schrijven die onhandig is, het is de p-waarde. Hoewel het ons interessante informatie verschaft, is de vraag die het beantwoordt een beetje minder natuurlijk voor het menselijk brein: aangezien we de gegevens eigenlijk hebben <em>geobserveerd</em>, maar <span class="math inline">\(\pi\)</span> <em>niet weten</em>, kan het een breinbreker zijn om een berekening te interpreteren die het tegendeel veronderstelt. Voornamelijk bij het testen van hypothesen is het natuurlijker om te vragen “hoe waarschijnlijk is mijn hypothese?” (wat de Bayesiaanse waarschijnlijkheid antwoordt) dan “hoe waarschijnlijk zijn mijn data als mijn hypothese niet waar zou zijn?” (wat de frequentistische waarschijnlijkheid antwoordt). Aangezien p-waarden zo vaak verkeerd worden geïnterpreteerd, en dus verkeerd worden gebruikt, worden zij in het hele frequentistische en Bayesiaanse spectrum steeds minder benadrukt.</p>
+<p><span class="math display">\[PY(\leq14|\pi=0.20)=0.08\]</span></p>
+<p>De omgekeerde volgorde van de conditionering in deze waarschijnlijkheid, <span class="math inline">\(Y\)</span> gegeven <span class="math inline">\(π\)</span> (<span class="math inline">\(Y|\pi\)</span>) in plaats van <span class="math inline">\(π\)</span> gegeven <span class="math inline">\(Y\)</span> (<span class="math inline">\(\pi|Y)\)</span>) leidt tot een andere berekening en interpretatie dan de Bayesiaanse waarschijnlijkheid: als <span class="math inline">\(π\)</span> slechts 0,20 zou zijn, dan is er slechts een kans van 8% dat we een steekproef zouden hebben waargenomen waarin ten hoogste <span class="math inline">\(Y=14\)</span> van de 100 kunstenaars Gen X waren. Het is niet onze manier van schrijven die onhandig is, het is de p-waarde. Hoewel het ons interessante informatie verschaft, is de vraag die het beantwoordt een beetje minder natuurlijk voor het menselijk brein: aangezien we de gegevens eigenlijk hebben <em>geobserveerd</em>, maar <span class="math inline">\(\pi\)</span> <em>niet weten</em>, kan het een breinbreker zijn om een berekening te interpreteren die het tegendeel veronderstelt. Voornamelijk bij het testen van hypothesen is het natuurlijker om te vragen “hoe waarschijnlijk is mijn hypothese?” (wat de Bayesiaanse waarschijnlijkheid antwoordt) dan “hoe waarschijnlijk zijn mijn data als mijn hypothese niet waar zou zijn?” (wat de frequentistische waarschijnlijkheid antwoordt). Aangezien p-waarden zo vaak verkeerd worden geïnterpreteerd, en dus verkeerd worden gebruikt, worden zij in het hele frequentistische en Bayesiaanse spectrum steeds minder benadrukt.</p>
 <p>Deze blog leert je hoe je een posterior model in antwoorden kunt omzetten. Dat wil zeggen dat je gebruik maakte van posterior modellen, exact of bij benadering, om drie posterior analyse taken uit te voeren voor een onbekende parameter <span class="math inline">\(\pi\)</span>:</p>
 <ol type="1">
 <li><strong>Posterior schatting</strong><br>

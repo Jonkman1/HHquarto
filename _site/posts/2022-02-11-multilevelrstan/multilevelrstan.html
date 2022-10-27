@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-0.9.345">
+<meta name="generator" content="quarto-0.9.476">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -83,22 +83,6 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<meta name="quarto:offset" content="../../">
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -121,6 +105,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body class="nav-fixed">
@@ -158,21 +158,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title">Multilevel modeling met STAN</h1>
+                  <div>
+        <div class="description">
+          <p>Introductie op multilevel modelleren met gebruik van <strong>rstanarm</strong>: Een tutorial voor onderwijsonderzoekers</p>
+        </div>
+      </div>
                           <div class="quarto-categories">
                 <div class="quarto-category">analyse</div>
               </div>
                   </div>
   </div>
     
-  <div>
-    <div class="description">
-      <p>Introductie op multilevel modelleren met gebruik van <strong>rstanarm</strong>: Een tutorial voor onderwijsonderzoekers</p>
-    </div>
-  </div>
-
-
-
-
+  
   <div class="quarto-title-meta">
 
       <div>
@@ -318,9 +315,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="model-1-variërend-intercept-model-zonder-voorspellers-variantiecomponentenmodel" class="level2">
 <h2 class="anchored" data-anchor-id="model-1-variërend-intercept-model-zonder-voorspellers-variantiecomponentenmodel">Model 1: Variërend intercept model zonder voorspellers (Variantiecomponentenmodel)</h2>
 <p>Beschouw het eenvoudigste multilevel model voor leerlingen <span class="math inline">\(i=1,...,n\)</span> genest binnen scholen <span class="math inline">\(j=1,...,J\)</span> en voor wie we examenresultaten als respons hebben. We kunnen een variabel interceptmodel met twee niveaus zonder voorspellers schrijven met de gebruikelijke tweedelige formulering als</p>
-<p><span class="math display">\[Y_{ij}=\alpha_{j} + \epsilon_{ij}, \text{ where } \epsilon{ij} \sim N(0,\sigma^2_{y}) \]</span> <span class="math display">\[\alpha{_j}=u_{\alpha} + u_{j}, \text { where } \epsilon{ij} \sim N(0,\sigma^2_{y})\]</span></p>
+<p><span class="math display">\[Y_{ij}=\alpha_{j} + \epsilon_{ij}, \text{ where } \epsilon{ij} \sim N(0,\sigma^2_{y}) \]</span></p>
+<p><span class="math display">\[\alpha{_j}=u_{\alpha} + u_{j}, \text { where } \epsilon{ij} \sim N(0,\sigma^2_{y})\]</span></p>
 <p>waarin <span class="math inline">\(yij\)</span> de examenscore is voor de <span class="math inline">\(ith\)</span> leerling op de <span class="math inline">\(jth\)</span> school, <span class="math inline">\(\alpha_{j}\)</span> de variërende intercept voor de jde school, en <span class="math inline">\(u_{a}\)</span> het algemene gemiddelde voor alle scholen. Als alternatief kan het model in verkorte vorm worden uitgedrukt als</p>
-<p><span class="math display">\[y_{ij}=u_{a} + u_{j} = \epsilon_{ij}\]</span> Als we verder aannemen dat de fouten op leerlingniveau <span class="math inline">\(\epsilon_{ij}\)</span> normaal verdeeld zijn met gemiddelde 0 en variantie <span class="math inline">\(\sigma^2_{y}\)</span>, en dat de variërende intercepten op schoolniveau <span class="math inline">\(\alpha_j\)</span> normaal verdeeld zijn met gemiddelde <span class="math inline">\(u_{a}\)</span> en variantie <span class="math inline">\(\sigma^2_{a}\)</span>, dan kan het model worden uitgedrukt als</p>
+<p><span class="math display">\[y_{ij}=u_{a} + u_{j} = \epsilon_{ij}\]</span></p>
+<p>Als we verder aannemen dat de fouten op leerlingniveau <span class="math inline">\(\epsilon_{ij}\)</span> normaal verdeeld zijn met gemiddelde 0 en variantie <span class="math inline">\(\sigma^2_{y}\)</span>, en dat de variërende intercepten op schoolniveau <span class="math inline">\(\alpha_j\)</span> normaal verdeeld zijn met gemiddelde <span class="math inline">\(u_{a}\)</span> en variantie <span class="math inline">\(\sigma^2_{a}\)</span>, dan kan het model worden uitgedrukt als</p>
 <p><span class="math display">\[y_{ij}∼ N(\alpha_{j},\sigma^2_{y})\]</span></p>
 <p><span class="math display">\[a_{j}∼ N(u_{a},\sigma^2_{a})\]</span></p>
 <p>Dit model kan dan worden aangepast met <code>lmer()</code>. We specificeren een intercept (de voorspeller “1”) en laten deze variëren met de niveau-2-identifier (<em>school</em>). We specificeren ook de <code>REML = FALSE</code> optie om maximum likelihood (ML) schattingen te krijgen in plaats van de standaard restricted maximum likelihood (REML) schattingen.</p>
@@ -1036,7 +1035,8 @@ Num. levels: school 73
 \end{aligned}\]</span>
 <p>$$</p>
 <p>De correlatiematrix <span class="math inline">\(R\)</span> is een 2 bij 2 matrix met 1-en op de diagonaal en <span class="math inline">\(rho\)</span>’s op de off-diagonaal. <code>stan_lmer</code> kent er een LKJ^[Voor meer details over de LKJ verdeling, zie <a href="http://www.psychstatistics.com/2014/12/27/d-lkj-priors/">hier</a> en <a href="http://mc-stan.org/users/documentation/case-studies/lotka-volterra-predator-prey.html">hier</a> prior aan toe, met regularisatieparameter 1 (Lewandowski et all., 2009). Dit komt overeen met het toekennen van een uniforme prior voor <span class="math inline">\(rho\)</span>. Hoe groter de regularisatieparameter is dan 1, hoe meer de verdeling voor <span class="math inline">\(\rho\)</span> de waarde 0 aanneemt.</p>
-<p>De matrix van (geschaalde) varianties <span class="math inline">\(V\)</span> kan eerst worden samengevat in een vector van (geschaalde) varianties, en vervolgens ontleed in drie delen, <span class="math inline">\(J\)</span>, <span class="math inline">\(\tau^2\)</span> en <span class="math inline">\(\pi\)</span> zoals hieronder getoond. $$</p>
+<p>De matrix van (geschaalde) varianties <span class="math inline">\(V\)</span> kan eerst worden samengevat in een vector van (geschaalde) varianties, en vervolgens ontleed in drie delen, <span class="math inline">\(J\)</span>, <span class="math inline">\(\tau^2\)</span> en <span class="math inline">\(\pi\)</span> zoals hieronder getoond.</p>
+<p>$$</p>
 (
 <span class="math display">\[\begin{matrix}
 \sigma_\alpha^2/\sigma_y^2 \\
@@ -1048,8 +1048,8 @@ Num. levels: school 73
 \frac{\sigma_\beta^2/\sigma_y^2}{\sigma_\alpha^2/\sigma_y^2 + \sigma_\beta^2/\sigma_y^2}
 \end{matrix}\]</span>
 <p>)= J^2 .</p>
-<p>$$<br>
-In deze formulering is <span class="math inline">\(J\)</span> het aantal variërende effecten in het model (hier <span class="math inline">\(J=2\)</span>), kan <span class="math inline">\(Jtau^2\)</span> worden beschouwd als een gemiddelde (geschaalde) variantie over de variërende effecten <span class="math inline">\(Jalpha_j\)</span> en <span class="math inline">\(Jbeta_j\)</span>, en is <span class="math inline">\(Jpi\)</span> een niet-negatieve vector die sommeert tot 1 (een zogenaamde simplex/probabiliteitsvector). Een symmetrische Dirichlet<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> verdeling met concentratieparameter ingesteld op 1 wordt dan gebruikt als de prior voor <span class="math inline">\(\pi\)</span>. Standaard impliceert dit een gezamenlijk uniforme prior over alle simplexvectoren van dezelfde grootte. Een schaalinvariante Gamma-voorrang met vorm- en schaalparameters beide op 1 wordt dan toegekend voor <span class="math inline">\(\tau\)</span>. Dit komt overeen met het toekennen van de exponentiële verdeling met de snelheidsparameter op 1 die consistent is met de prioriteit toegekend aan <span class="math inline">\(\sigma_y\)</span> als prioriteit.</p>
+<p>$$</p>
+<p>In deze formulering is <span class="math inline">\(J\)</span> het aantal variërende effecten in het model (hier <span class="math inline">\(J=2\)</span>), kan <span class="math inline">\(Jtau^2\)</span> worden beschouwd als een gemiddelde (geschaalde) variantie over de variërende effecten <span class="math inline">\(Jalpha_j\)</span> en <span class="math inline">\(Jbeta_j\)</span>, en is <span class="math inline">\(Jpi\)</span> een niet-negatieve vector die sommeert tot 1 (een zogenaamde simplex/probabiliteitsvector). Een symmetrische Dirichlet<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> verdeling met concentratieparameter ingesteld op 1 wordt dan gebruikt als de prior voor <span class="math inline">\(\pi\)</span>. Standaard impliceert dit een gezamenlijk uniforme prior over alle simplexvectoren van dezelfde grootte. Een schaalinvariante Gamma-voorrang met vorm- en schaalparameters beide op 1 wordt dan toegekend voor <span class="math inline">\(\tau\)</span>. Dit komt overeen met het toekennen van de exponentiële verdeling met de snelheidsparameter op 1 die consistent is met de prioriteit toegekend aan <span class="math inline">\(\sigma_y\)</span> als prioriteit.</p>
 <div class="cell" data-hash="multilevelrstan_cache/html/unnamed-chunk-35_9696782dd0c718ea12dcb3b191a5e0ac">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>M3_stanlmer <span class="ot">&lt;-</span> <span class="fu">stan_lmer</span>(<span class="at">formula =</span> course <span class="sc">~</span> female <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> female <span class="sc">|</span> school), </span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">data =</span> GCSE,</span>

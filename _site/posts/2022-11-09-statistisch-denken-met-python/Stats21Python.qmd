@@ -1,0 +1,135 @@
+---
+title: "Statistisch denken in de 21ste eeuw"
+description: |
+    Statistisch denken in de 21ste eeuw met R én Python
+author: "Russel Poldrack,  bewerking HarrieJonkman"
+date: "2022-11-07"
+categories: [voorbereiding, modelleren, communicatie]
+jupyter: python3
+image: "Screenshot.PNG"
+---
+
+## Waarschijnlijkheid¶
+
+Hier bespreken we hoe je kansberekeningen uitvoert in Python.
+
+## Basis kansberekeningen¶
+
+Laten we een vector maken van uitkomsten van 1 tot 6, met behulp van de functie np.arange() om zo'n reeks te maken. Deze functie neemt de minimum en maximum waarden als invoer, maar merk op dat het maximum niet wordt opgenomen in de reeks; dat wil zeggen, de reeks gaat tot maar niet tot met het maximum. We zouden dus 1 en 7 als minimum en maximum moeten opgeven om een rij getallen van 1 tot 6 te krijgen:
+
+```{python}
+import numpy as np
+outcomes = np.arange(1, 7)
+outcomes
+```
+
+Laten we nu een vector van logische waarden maken op basis van de vraag of de uitkomst op elke positie gelijk is aan 1. Onthoud dat == test op gelijkheid van elk element in een vector:
+
+```{python}
+outcome1isTrue = outcomes == 1 
+outcome1isTrue
+```
+
+Onthoud dat de eenvoudige waarschijnlijkheid van een uitkomst gelijk is aan het aantal keren dat de uitkomst zich voordoet, gedeeld door het totale aantal gebeurtenissen. Om een waarschijnlijkheid te berekenen, kunnen we gebruik maken van het feit dat TRUE/FALSE gelijk zijn aan 1/0 in Python. De formule voor het gemiddelde (som van waarden gedeeld door het aantal waarden) is dus precies dezelfde als de formule voor de eenvoudige kans! We kunnen dus de waarschijnlijkheid van de gebeurtenis berekenen door eenvoudigweg het gemiddelde van de logische vector te nemen.
+
+```{python}
+p1isTrue = np.mean(outcome1isTrue)
+p1isTrue
+```
+
+## Empirische frequentie¶
+
+Laten we eens doorlopen hoe we de empirische frequentie van regen in San Francisco hebben berekend.
+
+Eerst laden we de gegevens:
+
+```{python}
+#+
+import pandas as pd
+SFrain = pd.read_csv('https://raw.githubusercontent.com/statsthinking21/statsthinking21-python/master/notebooks/data/SanFranciscoRain.csv')
+
+# we zullen de variabelen STATION en NAME weghalen
+# omdat ze identitiek zijn voor alle rijen
+
+SFrain = SFrain.drop(columns=['STATION', 'NAME'])
+SFrain
+#-
+```
+
+We zien dat het dataframe een variabele PRCP bevat die de hoeveelheid regen per dag aangeeft. Laten we een nieuwe variabele aanmaken genaamd `rainToday` die aangeeft of de hoeveelheid neerslag boven nul was:
+
+```{python}
+SFrain['rainToday'] = SFrain['PRCP'] > 0
+SFrain
+```
+
+Nu zullen we de gegevens samenvatten om de kans op regen te berekenen:
+
+```{python}
+pRainInSF = SFrain['rainToday'].mean()
+pRainInSF
+```
+
+## Voorwaardelijke kans¶
+
+Laten we de voorwaardelijke kans bepalen dat iemand gehoorproblemen heeft, gegeven dat hij ouder is dan 70 jaar, met behulp van de NHANES dataset. Laten we eerst een nieuwe variabele aanmaken genaamd `Over70` die aangeeft of iemand al dan niet ouder is dan 70 jaar.
+
+```{python}
+from nhanes.load import load_NHANES_data
+nhanes_data = load_NHANES_data()
+```
+
+We kunnen de .head() methode gebruiken om in de dataset te kijken:
+
+```{python}
+nhanes_data.head()
+```
+
+```{python}
+from nhanes.load import load_NHANES_data
+nhanes_data = load_NHANES_data()
+
+nhanes_data['Over70'] = nhanes_data['AgeInYearsAtScreening'] > 70
+```
+
+Laten we nu een opgeschoonde dataset maken die alleen de variabele 70+ bevat samen met de variabele `HaveSeriousDifficultyHearing` die aangeeft of een persoon aangeeft ernstige gehoorproblemen te hebben (gecodeerd als 1 voor "ja" en 0 voor "nee").
+
+```{python}
+hearing_data = nhanes_data[['Over70', 'HaveSeriousDifficultyHearing']].dropna()
+hearing_data
+```
+
+Ten eerste, wat is de kans dat je boven de 70 bent?
+
+```{python}
+p_over_70 = hearing_data['Over70'].mean()
+p_over_70
+```
+
+Ten tweede, wat is de kans op gehoorproblemen?
+
+```{python}
+p_hearing_problem = hearing_data['HaveSeriousDifficultyHearing'].mean()
+p_hearing_problem
+```
+
+Wat is de kans voor elke combinatie van gehoorproblemen/geen problemen en boven de 70/ niet? Met de functie `pd.crosstab()` kunnen we een tabel maken met de gezamenlijke kans voor elke combinatie:
+
+```{python}
+joint_table = pd.crosstab(hearing_data.Over70, hearing_data['HaveSeriousDifficultyHearing'], normalize=True)
+joint_table
+```
+
+Tot slot, wat is de kans dat iemand gehoorproblemen heeft als hij ouder is dan 70 jaar? Daartoe beperken we de berekening van de kans op gehoorproblemen tot personen die ouder zijn dan 70 jaar:
+
+```{python}
+p_hearingproblem_given_over_70 = hearing_data.query('Over70 == True')['HaveSeriousDifficultyHearing'].mean()
+p_hearingproblem_given_over_70
+```
+
+Bereken nu het tegenovergestelde: Wat is de kans dat men ouder is dan 70, gegeven dat men een gehoorprobleem heeft?
+
+```{python}
+p_over_70_given_hearingproblem = hearing_data.query('HaveSeriousDifficultyHearing == True')['Over70'].mean()
+p_over_70_given_hearingproblem
+```

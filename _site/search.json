@@ -1222,7 +1222,7 @@
     "href": "posts/2022-11-07-statistisch-denken/Stats21.html",
     "title": "Statistisch denken in de 21ste eeuw",
     "section": "",
-    "text": "Een paar jaar geleden schreef Russell A. Poldrack Statistical Thinking for the 21st Century./ Dat vind ik een inspirerend boek. Poldrack wil ons de basisideeën van statistisch denken laten begrijpen. Zijn boek presenteert een systematische manier van denken over het beschrijven van de wereld met behulp van data, hoe we deze kunnen gebruiken bij het nemen van beslissingen en het doen van voorspellingen en dit alles in de context van onzekerheid die er in de wereld bestaat. Met de traditionele statistiekboeken kon hij niet uit de voeten en daarom besloot hij zijn eigen boek te maken. Hij gebruikt aansprekende datasets in zijn boek en moderne manieren om hiermee om te gaan.\nOm je deze nieuwe manier van statistisch denken eigen te maken, moet je ermee werken, je moet het doen."
+    "text": "Een paar jaar geleden schreef Russell A. Poldrack Statistical Thinking for the 21st Century. Dat vind ik een inspirerend boek. Poldrack wil ons de basisideeën van statistisch denken laten begrijpen. Zijn boek presenteert een systematische manier van denken over het beschrijven van de wereld met behulp van data, hoe we deze kunnen gebruiken bij het nemen van beslissingen en het doen van voorspellingen en dit alles in de context van onzekerheid die er in de wereld bestaat. Met de traditionele statistiekboeken kon hij niet uit de voeten en daarom besloot hij zijn eigen boek te maken. Hij gebruikt aansprekende datasets in zijn boek en moderne manieren om hiermee om te gaan.\nOm je deze nieuwe manier van statistisch denken eigen te maken, moet je ermee werken, je moet het doen."
   },
   {
     "objectID": "posts/2022-11-07-statistisch-denken/Stats21.html#r-en-python",
@@ -1236,7 +1236,7 @@
     "href": "posts/2022-11-07-statistisch-denken/Stats21.html#quarto",
     "title": "Statistisch denken in de 21ste eeuw",
     "section": "Quarto",
-    "text": "Quarto\nAfgelopen weken heb ik zijn interessante boek nog eens gelezen. Ook nu weer vind ik zijn boek weer zeer aansprekend en uitdagend. Met beide programmaboeken in R en Python ernaast leer je met de goede talen van deze tijd te werken. Voor deze blog heb ik daarom twee hoofdstukken genomen die over waarschijnlijkheid en Bayesiaanse statistiek gaan. Dit leert mij niet alleen om met R te werken maar ook om deze handelingen in Python te doen. Via Quarto kun je met beide programma’s werken. Ik wil eens kijken of mij dat in mijn blog lukt."
+    "text": "Quarto\nAfgelopen weken heb ik zijn interessante boek nog eens gelezen. Ook nu weer vind ik zijn boek weer zeer aansprekend en uitdagend. Met beide programmaboeken in R en Python ernaast leer je met de goede talen van deze tijd te werken. Voor deze blog heb ik daarom twee hoofdstukken genomen die over waarschijnlijkheid en Bayesiaanse statistiek gaan. Dit leert mij niet alleen om met R te werken maar ook om deze handelingen in Python te doen. Via Quarto kun je met beide programma’s werken. Ik heb hoofdstuk 6 (Waarschijnlijkheid) en hoofdstuk 11 (Bayesiaanse statstiek) genomen en voor dit blog gewerkt. Deze blog schrijf ik in R en Quarto en de bewerking hiervan vind je hieronder1."
   },
   {
     "objectID": "posts/2022-11-07-statistisch-denken/Stats21.html#waarschijnlijkheid",

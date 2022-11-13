@@ -12,7 +12,7 @@ image: "Screenshot.PNG"
 
 ![](Screenshot.PNG)
 
-Een paar jaar geleden schreef Russell A. Poldrack [Statistical Thinking for the 21st Century](https://statsthinking21.github.io/statsthinking21-core-site/)./ Dat vind ik een inspirerend boek. Poldrack wil ons de basisideeën van statistisch denken laten begrijpen. Zijn boek presenteert een systematische manier van denken over het beschrijven van de wereld met behulp van data, hoe we deze kunnen gebruiken bij het nemen van beslissingen en het doen van voorspellingen en dit alles in de context van onzekerheid die er in de wereld bestaat. Met de traditionele statistiekboeken kon hij niet uit de voeten en daarom besloot hij zijn eigen boek te maken. Hij gebruikt aansprekende datasets in zijn boek en moderne manieren om hiermee om te gaan.
+Een paar jaar geleden schreef Russell A. Poldrack [Statistical Thinking for the 21st Century](https://statsthinking21.github.io/statsthinking21-core-site/). Dat vind ik een inspirerend boek. Poldrack wil ons de basisideeën van statistisch denken laten begrijpen. Zijn boek presenteert een systematische manier van denken over het beschrijven van de wereld met behulp van data, hoe we deze kunnen gebruiken bij het nemen van beslissingen en het doen van voorspellingen en dit alles in de context van onzekerheid die er in de wereld bestaat. Met de traditionele statistiekboeken kon hij niet uit de voeten en daarom besloot hij zijn eigen boek te maken. Hij gebruikt aansprekende datasets in zijn boek en moderne manieren om hiermee om te gaan.
 
 Om je deze nieuwe manier van statistisch denken eigen te maken, moet je ermee werken, je moet het doen.
 
@@ -22,7 +22,9 @@ Poldrack presenteert niet alleen zijn ideeën open-source, hij werkt ook met ope
 
 ## Quarto
 
-Afgelopen weken heb ik zijn interessante boek nog eens gelezen. Ook nu weer vind ik zijn boek weer zeer aansprekend en uitdagend. Met beide programmaboeken in R en Python ernaast leer je met de goede talen van deze tijd te werken. Voor deze blog heb ik daarom twee hoofdstukken genomen die over waarschijnlijkheid en Bayesiaanse statistiek gaan. Dit leert mij niet alleen om met R te werken maar ook om deze handelingen in Python te doen. Via Quarto kun je met beide programma's werken. Ik wil eens kijken of mij dat in mijn blog lukt.
+Afgelopen weken heb ik zijn interessante boek nog eens gelezen. Ook nu weer vind ik zijn boek weer zeer aansprekend en uitdagend. Met beide programmaboeken in R en Python ernaast leer je met de goede talen van deze tijd te werken. Voor deze blog heb ik daarom twee hoofdstukken genomen die over waarschijnlijkheid en Bayesiaanse statistiek gaan. Dit leert mij niet alleen om met R te werken maar ook om deze handelingen in Python te doen. Via Quarto kun je met beide programma's werken. Ik heb hoofdstuk 6 (Waarschijnlijkheid) en hoofdstuk 11 (Bayesiaanse statstiek) genomen en voor dit blog gewerkt. Deze blog schrijf ik in R en Quarto en de bewerking hiervan vind je hieronder[^1]. 
+
+[^1]: Het werkt ook met Python en Quarto maar dat kon ik niet in deze blog laten zien. 
 
 ## Waarschijnlijkheid
 

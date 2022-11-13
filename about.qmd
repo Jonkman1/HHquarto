@@ -4,6 +4,9 @@ image: Harriefoto.png
 about:
   template: jolla
   links:
+    - icon: website
+      text: Website
+      href: https://www.harriejonkman.nl
     - icon: twitter
       text: Twitter
       href: https://twitter.com

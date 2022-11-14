@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.476">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jacob Kap, bewerking HarrieJonkman">
+<meta name="dcterms.date" content="2022-11-13">
+<meta name="description" content="Visualisaties met hotspot, choropleth en interactieve kaarten">
+
+<title>- Visualisaties</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">Harrie’s Hoekje</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Jonkman1"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Visualisaties</h1>
+                  <div>
+        <div class="description">
+          <p>Visualisaties met hotspot, choropleth en interactieve kaarten</p>
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">visualisatie</div>
+                <div class="quarto-category">communicatie</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Jacob Kap, bewerking HarrieJonkman </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">November 13, 2022</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#inleiding" id="toc-inleiding" class="nav-link active" data-scroll-target="#inleiding">Inleiding</a></li>
+  <li><a href="#hotspot-kaarten" id="toc-hotspot-kaarten" class="nav-link" data-scroll-target="#hotspot-kaarten">Hotspot kaarten</a>
+  <ul class="collapse">
+  <li><a href="#een-eenvoudige-kaart" id="toc-een-eenvoudige-kaart" class="nav-link" data-scroll-target="#een-eenvoudige-kaart">Een eenvoudige kaart</a></li>
+  <li><a href="#wat-zijn-kaarten-eigenlijk" id="toc-wat-zijn-kaarten-eigenlijk" class="nav-link" data-scroll-target="#wat-zijn-kaarten-eigenlijk">Wat zijn kaarten eigenlijk?</a></li>
+  <li><a href="#een-hotspotkaart-maken" id="toc-een-hotspotkaart-maken" class="nav-link" data-scroll-target="#een-hotspotkaart-maken">Een hotspotkaart maken</a></li>
+  </ul></li>
+  <li><a href="#choropleth-kaarten" id="toc-choropleth-kaarten" class="nav-link" data-scroll-target="#choropleth-kaarten">Choropleth kaarten</a>
+  <ul class="collapse">
+  <li><a href="#ruimtelijke-verbindingen" id="toc-ruimtelijke-verbindingen" class="nav-link" data-scroll-target="#ruimtelijke-verbindingen">Ruimtelijke verbindingen</a></li>
+  <li><a href="#choropleth-kaarten-maken" id="toc-choropleth-kaarten-maken" class="nav-link" data-scroll-target="#choropleth-kaarten-maken">Choropleth kaarten maken</a></li>
+  </ul></li>
+  <li><a href="#interactieve-kaarten" id="toc-interactieve-kaarten" class="nav-link" data-scroll-target="#interactieve-kaarten">Interactieve kaarten</a>
+  <ul class="collapse">
+  <li><a href="#waarom-zijn-interactieve-grafieken-belangrijk" id="toc-waarom-zijn-interactieve-grafieken-belangrijk" class="nav-link" data-scroll-target="#waarom-zijn-interactieve-grafieken-belangrijk">Waarom zijn interactieve grafieken belangrijk?</a></li>
+  <li><a href="#de-interactieve-kaart-maken" id="toc-de-interactieve-kaart-maken" class="nav-link" data-scroll-target="#de-interactieve-kaart-maken">De interactieve kaart maken</a></li>
+  <li><a href="#popup-informatie-toevoegen" id="toc-popup-informatie-toevoegen" class="nav-link" data-scroll-target="#popup-informatie-toevoegen">Popup informatie toevoegen</a></li>
+  <li><a href="#omgaan-met-te-veel-markers" id="toc-omgaan-met-te-veel-markers" class="nav-link" data-scroll-target="#omgaan-met-te-veel-markers">Omgaan met te veel markers</a></li>
+  <li><a href="#interactieve-choropleth-kaarten" id="toc-interactieve-choropleth-kaarten" class="nav-link" data-scroll-target="#interactieve-choropleth-kaarten">Interactieve choropleth kaarten</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p><img src="Screenshot.PNG" class="img-fluid"></p>
+<section id="inleiding" class="level1">
+<h1>Inleiding</h1>
+<p>Jacob Kap schreef het boek <a href="https://crimebythenumbers.com">Crime by the numbers: A Criminologist’s Guide to R</a>. Het is uitgegeven door CRC Press in de R Series. Hij introduceert hiermee een inleidend boek werken met R voor criminologiestudenten. De hoofdstukken over hotspotkaarten, choropleth kaarten en interactieve kaarten vond ik zeer verhelderend. Met zijn uitleg, syntaxen en data kon ik dit zelf uitvoeren. Ik heb in deze Nederlands talige blog verwerkt. Zijn materialen vind je <a href="https://github.com/jacobkap/crimebythenumbers">hier</a>.</p>
+</section>
+<section id="hotspot-kaarten" class="level1">
+<h1>Hotspot kaarten</h1>
+<p>Hier gebruiken de file met zelfmoorddata van San Fransisco in de periode 2003-2018, die je ook op github kunt vinden <a href="https://github.com/jacobkap/r4crimz/tree/master/data">hier</a>: san_francisco_suicide_2003_2017.csv.</p>
+<p>Hotspotkaarten worden gebruikt om na te gaan waar gebeurtenissen of plekken (bv. misdrijven, marihuana dispensaria, drankwinkels) bijzonder vaak voorkomen. Deze kaarten worden vaak gebruikt door politiediensten, in het bijzonder om te bepalen waar de hotspotpolitie moet optreden (waarbij patrouilles worden toegespitst op gebieden met hoge criminaliteit).</p>
+<p>Er zijn echter belangrijke gebreken aan dit soort kaarten. Zoals we in deze les zullen zien, kunnen kleine veranderingen in de manier waarop we de kaarten maken aanzienlijke verschillen in interpretatie veroorzaken. Bijvoorbeeld, het bepalen van de grootte van de clusters die de hotspots vormen, kan het doen lijken alsof er veel grotere of kleinere gebieden met hotspots zijn dan in werkelijkheid het geval is.</p>
+<p>Deze clusters zijn ook vrij willekeurig getekend, zonder rekening te houden met context zoals buurten (straks zullen we kaarten maken die proberen rekening te houden met dit soort gebieden). Dit maakt de interpretatie ervan moeilijker, want ook al geven kaarten ons de context van de locatie, ze kunnen verschillende gebieden op een willekeurige manier combineren. Hotspotkaarten worden ook vaak bevolkingskaarten genoemd, waarbij de stippen aangeven waar mensen wonen in plaats van waar het risico van iets is. Zo zal een straat met verschillende appartementsgebouwen waarschijnlijk meer misdrijven hebben (en dus meer stippen op een hotspotkaart) dan een straat met alleen eengezinswoningen. Misschien is dat omdat de flatstraat echt meer criminaliteit kent dan de eengezinswoningstraat, maar het kan ook gewoon zijn dat plaatsen met meer mensen meer gebeurtenissen kennen (bv. misdrijven, zelfmoorden, enz.), ook al is het aantal van die gebeurtenissen lager dan in minder bevolkte plaatsen. Dus als men de context van een gebied niet kent, kunnen hotspotkaarten zeer misleidend zijn. We zullen hier verder ingaan op deze kwesties, maar houd rekening met deze risico’s wanneer je jouw eigen hotspotkaarten maakt.</p>
+<p>Hier zullen we hotspotkaarten maken aan de hand van gegevens over zelfmoorden in San Francisco tussen 2003 en 2017. Eerst moeten we de gegevens inlezen, die “san_francisco_suicide_2003_2017.csv” heten. We kunnen het object dat we maken de naam <em>suicide</em> geven.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>suicide <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/san_francisco_suicide_2003_2017.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 1292 Columns: 14
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (8): Category, Descript, DayOfWeek, Date, PdDistrict, Resolution, Addre...
+dbl  (5): IncidntNum, X, Y, PdId, year
+time (1): Time
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>suicide <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(suicide)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Deze gegevens bevatten informatie over elk in San Francisco gemeld misdrijf, inclusief het soort misdrijf (in ons geval altijd zelfmoord), een meer gedetailleerde misdaadcategorie, en een aantal datum- en locatievariabelen. Merk op dat zelfmoord eigenlijk geen misdaad is, ook al is het opgenomen in de misdaadgegevens van de politie van San Francisco. Zo zijn er een aantal andere niet-misdrijven opgenomen, zoals “Brandmelding”, “Verkeersongeluk” en “Niet-crimineel”. Dit komt vrij vaak voor bij “misdaad”-gegevens, waarin ook niet-misdrijven zijn opgenomen waarop de politie in het algemeen reageert, dus het is belangrijk jouw gegevens zorgvuldig te onderzoeken om te zien wat er is opgenomen. Het simpelweg optellen van de rijen als maatstaf voor criminaliteit zal over het algemeen het aantal misdrijven overschrijden.</p>
+<p>De kolommen X en Y zijn onze lengte- en breedtegraden, die we zullen gebruiken om de gegevens in kaart te brengen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(suicide)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  IncidntNum Category                           Descript DayOfWeek       Date
+1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION    Monday 04/30/2018
+2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING  Saturday 04/28/2018
+3  180295674  SUICIDE              SUICIDE BY LACERATION  Saturday 04/21/2018
+4  180263659  SUICIDE                            SUICIDE   Tuesday 04/10/2018
+5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION    Friday 03/30/2018
+6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION  Thursday 03/29/2018
+      Time PdDistrict Resolution                 Address         X        Y
+1 06:30:00    TARAVAL       NONE     0 Block of BRUCE AV -122.4517 37.72218
+2 17:54:00   NORTHERN       NONE   700 Block of HAYES ST -122.4288 37.77620
+3 12:20:00   RICHMOND       NONE   3700 Block of CLAY ST -122.4546 37.78818
+4 05:13:00    CENTRAL       NONE     0 Block of DRUMM ST -122.3964 37.79414
+5 09:15:00    TARAVAL       NONE 0 Block of FAIRFIELD WY -122.4632 37.72679
+6 17:30:00   RICHMOND       NONE    300 Block of 29TH AV -122.4893 37.78274
+                                        Location         PdId year
+1  POINT (-122.45168059935614 37.72218061554315) 1.803189e+13 2018
+2  POINT (-122.42876060987851 37.77620120112792) 1.803155e+13 2018
+3   POINT (-122.45462091999406 37.7881754224736) 1.802957e+13 2018
+4  POINT (-122.39642194376758 37.79414474237039) 1.802637e+13 2018
+5  POINT (-122.46324153155875 37.72679184368551) 1.802355e+13 2018
+6 POINT (-122.48929119750689 37.782735835121265) 1.802365e+13 2018</code></pre>
+</div>
+</div>
+<section id="een-eenvoudige-kaart" class="level2">
+<h2 class="anchored" data-anchor-id="een-eenvoudige-kaart">Een eenvoudige kaart</h2>
+<p>Om deze kaarten te maken gebruiken we het pakket <code>ggmap</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Harrie: alleen installeren als je het pakket nog niet hebt</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("ggmap")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggmap)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: ggplot2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Google's Terms of Service: https://cloud.google.com/maps-platform/terms/.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Please cite ggmap if you use it! See citation("ggmap") for details.</code></pre>
+</div>
+</div>
+<p>We beginnen met het maken van de achtergrond van onze kaart, die San Francisco laat zien. Dat doen we met de <code>get_map()</code> functie van <code>ggmap</code>, die een kaartachtergrond krijgt van een aantal bronnen. We stellen de bron in op “stamen”, omdat Google ons niet langer toestaat een kaart te krijgen zonder een account aan te maken. De eerste parameter in <code>get_map()</code> zijn simpelweg coördinaten voor de bounding box van San Francisco om er zeker van te zijn dat we een kaart van de juiste plek krijgen. Een bounding box bestaat uit vier coördinaten die samen een rechthoek vormen en wordt gebruikt om te bepalen waar in de wereld de kaart wordt getoond.</p>
+<p>Een gemakkelijke manier om de vier coördinaten voor een bounding box te vinden is naar de site <a href="https://boundingbox.klokantech.com/">Bounding Box.</a> Deze site heeft een kaart van de wereld en een box op het scherm. Verplaats de doos naar het gebied waarvan u de kaart wilt hebben. Misschien moet u de grootte van de doos aanpassen om het gebied dat u wilt te bedekken. Verander dan in het gedeelte “Kopiëren en plakken” de dropdown box in “CSV”. In de sectie rechts hiervan staan de vier getallen die de bounding box vormen. Je kunt die nummers kopiëren in <code>get_map()</code>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="images/bounding_box.PNG" class="img-fluid" width="950"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>sf_map <span class="ot">&lt;-</span> <span class="fu">ggmap</span>(<span class="fu">get_map</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="fl">122.530392</span>,<span class="fl">37.698887</span>,<span class="sc">-</span><span class="fl">122.351177</span>,<span class="fl">37.812996</span>), </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">source =</span> <span class="st">"stamen"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Source : http://tile.stamen.com/terrain/12/653/1582.png</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Source : http://tile.stamen.com/terrain/12/654/1582.png</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Source : http://tile.stamen.com/terrain/12/655/1582.png</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Source : http://tile.stamen.com/terrain/12/653/1583.png</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Source : http://tile.stamen.com/terrain/12/654/1583.png</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Source : http://tile.stamen.com/terrain/12/655/1583.png</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Source : http://tile.stamen.com/terrain/12/653/1584.png</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Source : http://tile.stamen.com/terrain/12/654/1584.png</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Source : http://tile.stamen.com/terrain/12/655/1584.png</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>sf_map</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Omdat we de kaartuitvoer hebben opgeslagen in <em>sf_map</em> kunnen we deze kaartachtergrond hergebruiken voor alle kaarten die we maken. Dit bespaart ons tijd, omdat we niet elke keer hoeven te wachten om de kaart te downloaden. Laten we de zelfmoorden uit onze dataset plotten. Net als bij een scatterplot gebruiken we de <code>geom_point()</code> functie uit het <code>ggplot2</code> pakket en zetten we onze lengte- en breedtegraad variabelen op respectievelijk de x- en y-as. Wanneer we <code>ggmap</code> laden, wordt ook automatisch <code>ggplot2</code> geladen, omdat dat pakket nodig is om <code>ggmap</code> te laten werken, zodat we zelf geen <code>library(ggplot2)</code> hoeven te doen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>sf_map <span class="sc">+</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y),</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">data  =</span> suicide)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Als we de stippen willen kleuren, kunnen we <code>color =</code> gebruiken en dan een kleur kiezen. Laten we het proberen met “forestgreen.”</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>sf_map <span class="sc">+</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y),</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">data  =</span> suicide,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">"forestgreen"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Net als bij andere grafieken kunnen we de grootte van de punt veranderen met <code>size =</code>.</p>
+<p>Kleiner:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>sf_map <span class="sc">+</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y),</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">data  =</span> suicide,</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">"forestgreen"</span>,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">size  =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Groter:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>sf_map <span class="sc">+</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y),</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">data  =</span> suicide,</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">"forestgreen"</span>,</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">size  =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Voor kaarten als deze - met één punt per gebeurtenis - is het moeilijk te zien of er gebeurtenissen plaatsvinden op dezelfde, of bijna dezelfde, plaats, aangezien elk punt ononderbroken groen is. We willen de punten semi-transparant maken, zodat als er meerdere zelfmoorden plaatsvinden op dezelfde plaats, dat punt donkerder wordt gearceerd dan wanneer er slechts één zelfmoord plaatsvond. Daarvoor gebruiken we de parameter <code>alpha =</code> die een waarde tussen 0 en 1 aanneemt. Hoe lager de waarde, hoe transparanter de stip.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>sf_map <span class="sc">+</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y),</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">data  =</span> suicide,</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">"forestgreen"</span>,</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">size  =</span> <span class="dv">2</span>,</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Deze kaart is nuttig omdat ze ons toelaat gemakkelijk te zien waar elke zelfmoord in San Francisco plaatsvond tussen 2003 en 2017. Er zijn echter enkele beperkingen. Zo toont deze kaart alle zelfmoorden in één kaart, wat betekent dat trends in de tijd verloren gaan.</p>
+</section>
+<section id="wat-zijn-kaarten-eigenlijk" class="level2">
+<h2 class="anchored" data-anchor-id="wat-zijn-kaarten-eigenlijk">Wat zijn kaarten eigenlijk?</h2>
+<p>Laten we even stilstaan bij wat een kaart eigenlijk is. Ik heb de volgende eenvoudige scatterplot gemaakt van onze gegevens met één stip per zelfmoord (minus die zonder coördinaten). Vergelijk dit met de vorige kaart en je zult zien dat ze hetzelfde zijn, behalve dat de kaart een nuttige achtergrond heeft, terwijl de plot een lege achtergrond heeft. Dat is alles wat statische kaarten zijn (in het hoofdstuk interactieve kaarten zullen we leren over interactieve kaarten), spreidingskaarten van coördinaten op een achtergrond van een kaart. Eigenlijk zijn het spreidingskaarten met context. En die context is nuttig; we kunnen de kaart interpreteren om te zien dat er bijvoorbeeld veel zelfmoorden zijn in het noordoosten van San Francisco, maar niet zoveel elders. Precies hetzelfde patroon is aanwezig in de scatterplot, maar zonder de mogelijkheid om te vertellen “waar” een stip is.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(suicide<span class="sc">$</span>X, suicide<span class="sc">$</span>Y, <span class="at">col =</span> <span class="st">"forestgreen"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="een-hotspotkaart-maken" class="level2">
+<h2 class="anchored" data-anchor-id="een-hotspotkaart-maken">Een hotspotkaart maken</h2>
+<p>Nu kunnen we beginnen met het maken van hotspotkaarten, die helpen om gebieden met clusters van gebeurtenissen weer te geven. We doen dit met hexagonale bins, een efficiënte manier om clusters van gebeurtenissen op een kaart weer te geven. Onze syntax is vergelijkbaar met de kaart hierboven, maar nu willen we de functie <code>stat_binhex()</code> gebruiken in plaats van <code>geom_point()</code>. Het begint hetzelfde als voorheen met <code>aes(x = X, y = Y)</code> (of hoe de kolommen lengtegraad en breedtegraad ook heten in jouw gegevens), evenals <code>data = suicide</code> buiten de <code>aes()</code> parameter.</p>
+<p>Er zijn twee nieuwe dingen die we nodig hebben om de hotspotkaart te maken. Ten eerste voegen we de parameter <code>bins = number_of_bins</code> toe, waarbij “number_of_bins” een getal is dat we kiezen. <code>bins</code> zegt in wezen hoe groot of klein we elk cluster van gebeurtenissen willen hebben. Een kleinere waarde voor <code>bins</code> zegt dat we meer gebeurtenissen geclusterd willen hebben, waardoor grotere bins ontstaan. Een grotere waarde voor <code>bins</code> laat elke bin kleiner zijn op de kaart en minder gebeurtenissen bevatten. Dit zal duidelijker worden met voorbeelden.</p>
+<p>Het tweede is het toevoegen van de functie <code>coord_cartesian()</code>, die <code>ggplot()</code> vertelt dat we een ruimtelijke analyse gaan uitvoeren bij het maken van de bins. We hoeven hier geen parameters aan toe te voegen.</p>
+<p>Om <code>stat_binhex()</code> te gebruiken, moeten we er ook voor zorgen dat het pakket <code>hexbin</code> geïnstalleerd is. <code>stat_binhex()</code> zal de benodigde functie van <code>hexbin</code> intern aanroepen zodat we <code>library(hexbin)</code> niet hoeven te draaien.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Wel installeren als je dat nog niet gedaan hebt</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("hexbin")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Laten we beginnen met 60 bins en dan een ander aantal bins proberen om te zien hoe dat de kaart verandert.</p>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Coordinate system already present. Adding new coordinate system, which will replace the existing one.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 1 rows containing non-finite values (stat_binhex).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell" data-erorr="false">
+
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 1 rows containing non-finite values (stat_binhex).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Uit deze kaart blijkt dat de meeste gebieden in de stad geen zelfmoorden hadden en dat de gebieden met de meeste zelfmoorden in het centrum van San Francisco liggen.</p>
+<p>Wat gebeurt er als we het aantal bins verlagen tot 30?</p>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Coordinate system already present. Adding new coordinate system, which will replace the existing one.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 1 rows containing non-finite values (stat_binhex).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell" data-erorr="false">
+
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 1 rows containing non-finite values (stat_binhex).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Elke bin is veel groter en bestrijkt bijna heel San Francisco. Wees voorzichtig met kaarten als deze! Deze kaart is zo breed dat het lijkt alsof zelfmoorden overal in de stad voorkomen. We weten uit de kaart waarop elke zelfmoord als een stip wordt weergegeven dat er minder dan 1300 zelfmoorden zijn; dit is dus niet waar. Kaarten als deze maken het gemakkelijk om de lezer te misleiden, inclusief jezelf!</p>
+<p>Hoe zit het met het kijken naar 100 bins?</p>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Coordinate system already present. Adding new coordinate system, which will replace the existing one.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 1 rows containing non-finite values (stat_binhex).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell" data-erorr="false">
+
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 1 rows containing non-finite values (stat_binhex).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Nu is elke bin erg klein en een veel kleiner gebied in San Francisco heeft een zelfmoord gehad. Dus wat is het juiste aantal bins om te gebruiken? Hier is geen universeel antwoord op te geven- je moet beslissen wat het doel is van de gegevens die je gebruikt. Dit levert ernstige problemen op voor - al dan niet opzettelijke - manipulatie van de gegevens, aangezien de kaart zo gemakkelijk kan worden gewijzigd zonder dat de gegevens zelf veranderen.</p>
+<section id="kleuren" class="level3">
+<h3 class="anchored" data-anchor-id="kleuren">Kleuren</h3>
+<p>Om de kleuren van de bin te veranderen kunnen we de parameter <code>scale_fill_gradient()</code> gebruiken. Deze accepteert een kleur voor “laag”, wanneer de gebeurtenissen zeldzaam zijn, en “hoog” voor de bakken met frequente gebeurtenissen. We gebruiken kleuren uit <a href="http://colorbrewer2.org">ColorBrewer,</a> en selecteren het geel-roodachtige thema (“3-class YlOrRd”) uit de Multi-hue sectie van het “sequentiële” gegevensgedeelte van de pagina.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>sf_map <span class="sc">+</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_binhex</span>(<span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y),</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">bins  =</span> <span class="dv">60</span>,</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> suicide) <span class="sc">+</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>() <span class="sc">+</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">"#ffeda0"</span>,</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">high =</span> <span class="st">"#f03b20"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-erorr="false">
+
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 1 rows containing non-finite values (stat_binhex).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Standaard labelt het de legende als “count”. Aangezien we weten dat het hier gaat om tellingen van zelfmoorden, laten we dat als zodanig labelen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>sf_map <span class="sc">+</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_binhex</span>(<span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y),</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">bins  =</span> <span class="dv">60</span>,</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> suicide) <span class="sc">+</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>() <span class="sc">+</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="st">'Zelfmoorden'</span>,</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">low =</span> <span class="st">"#ffeda0"</span>,</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>                      <span class="at">high =</span> <span class="st">"#f03b20"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-erorr="false">
+
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 1 rows containing non-finite values (stat_binhex).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="choropleth-kaarten" class="level1">
+<h1>Choropleth kaarten</h1>
+<p>Hieronder maken we gebruik van enkele bestanden die je <a href="https://github.com/jacobkap/r4crimz/tree/master/data">hier</a> kunt vinden:<br>
+san_francisco_suicide_2003_2017.csv, san_francisco_neighborhoods.dbf, san_francisco_neighborhoods.prj, san_francisco_neighborhoods.shp, san_francisco_neighborhoods.shx.</p>
+<p>We hebben hotspot-kaarten gemaakt om te laten zien in welke gebieden in San Francisco de meeste zelfmoorden plaatsvonden. We maakten de kaarten op verschillende manieren en stelden steeds vast dat zelfmoorden het meest voorkwamen in het noordoosten van San Francisco. In dit hoofdstuk gaan we choropleth-kaarten maken, dat zijn gearceerde kaarten waarbij elke “eenheid” een bekend geografisch gebied is, zoals een staat of een buurt. Denk aan verkiezingskaarten waar staten blauw gekleurd zijn als een Democratische kandidaat die staat wint en rood als een Republikeinse kandidaat wint. Dit zijn choropletkaarten - elke staat is gekleurd om iets aan te geven. Hier zullen we verder werken aan de zelfmoordgegevens en choropleth-kaarten maken, gearceerd door het aantal zelfmoorden in elke buurt (we definiëren dit later in het hoofdstuk) in de stad.</p>
+<p>Omdat we meer gaan werken aan de zelfmoordgegevens van San Francisco, laten we die nu inlezen, als we dat nog niet hebben gedaan.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>suicide <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/san_francisco_suicide_2003_2017.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 1292 Columns: 14
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (8): Category, Descript, DayOfWeek, Date, PdDistrict, Resolution, Addre...
+dbl  (5): IncidntNum, X, Y, PdId, year
+time (1): Time
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>suicide <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(suicide)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Het pakket dat we zullen gebruiken om geografische gegevens te verwerken en het meeste werk in dit hoofdstuk te doen is <code>sf</code>. <code>sf</code> is een geavanceerd pakket en doet veel meer dan wat we in dit hoofdstuk behandelen. Voor meer informatie over de mogelijkheden van het pakket zie de website ervoor <a href="http://r-spatial.github.io/sf/">hier.</a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># wel installeren als je het nog niet hebt</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("sf")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Linking to GEOS 3.10.2, GDAL 3.4.2, PROJ 8.2.1; sf_use_s2() is TRUE</code></pre>
+</div>
+</div>
+<p>Voor dit deel moeten we een shapefile inlezen dat de grenzen van elke buurt in San Francisco weergeeft. Een shapefile is vergelijkbaar met een data.frame, maar bevat informatie over hoe een geografische grens zoals een staat moet worden getekend. De manier waarop <code>sf</code> de shapefiles inleest is via de <code>st_read()</code> functie. Onze invoer binnen de () is een string met de naam van het “.shp” bestand dat we willen inlezen (omdat we R vertellen een bestand op de computer te lezen in plaats van een bestaand object, moet het tussen aanhalingstekens staan). Dit shapefile bevat wijken in San Francisco, dus noemen we het object <em>sf_neighborhoods</em>.</p>
+<p>Ik heb deze gegevens gedownload van San Francisco’s Open Data site <a href="https://data.sfgov.org/Geographic-Locations-and-Boundaries/Analysis-Neighborhoods/p5b7-5n3h">hier,</a> door het Shapefile formaat te selecteren in de Export tab. Als je dat zelf doet, krijg je een zip-bestand met meerdere bestanden erin. Dit is normaal bij shapefiles, je hebt meerdere bestanden en leest alleen het bestand met de extensie “.shp” in in R. We hebben nog steeds <strong>wel</strong> alle bestanden nodig, en <code>st_read()</code> gebruikt ze, zelfs als ze niet expliciet worden aangeroepen. Zorg er dus voor dat elk gedownload bestand in dezelfde werkdirectory staat als het .shp-bestand. De bestanden van deze site hadden moeilijk te lezen bestandsnamen, dus heb ik ze allemaal hernoemd als “san_francisco_neighborhoods”, hoewel dat er niet toe doet als ze eenmaal in R zijn ingelezen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>sf_neighborhoods <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/san_francisco_neighborhoods.shp"</span>,</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Zoals gebruikelijk bij nieuwe gegevens, bekijken we de eerste 6 rijen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sf_neighborhoods)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Simple feature collection with 6 features and 1 field
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: -122.4543 ymin: 37.70822 xmax: -122.357 ymax: 37.80602
+Geodetic CRS:  WGS84(DD)
+                           nhood                       geometry
+1          Bayview Hunters Point MULTIPOLYGON (((-122.3816 3...
+2                 Bernal Heights MULTIPOLYGON (((-122.4036 3...
+3            Castro/Upper Market MULTIPOLYGON (((-122.4266 3...
+4                      Chinatown MULTIPOLYGON (((-122.4062 3...
+5                      Excelsior MULTIPOLYGON (((-122.424 37...
+6 Financial District/South Beach MULTIPOLYGON (((-122.3875 3...</code></pre>
+</div>
+</div>
+<p>De laatste kolom is belangrijk. In shapefiles is de kolom “geometrie” de kolom met de instructies om de kaart te maken. Deze gegevens hebben een enkele rij voor elke buurt in de stad. Dus de kolom “geometrie” heeft in elke rij een lijst met coördinaten, die, als ze in volgorde worden verbonden, die buurt vormen. Aangezien de kolom “geometrie” de instructies bevat om een kaart te maken, kan <code>plot()</code> deze kolom gebruiken om een kaart van de gegevens te tonen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sf_neighborhoods<span class="sc">$</span>geometry)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Hier hebben we een kaart van San Francisco opgedeeld in buurten. Is dit een perfecte weergave van de wijken in San Francisco? Nee. Het is gewoon een poging van de stad om definities van buurten te maken. Waarschijnlijk zult u merken dat gebieden op de grens van buurten meer op elkaar lijken dan op gebieden aan de andere kant van hun aangewezen buurt. Je kunt hier een beetje lezen over hoe San Francisco de buurtgrenzen heeft bepaald <a href="https://data.sfgov.org/Geographic-Locations-and-Boundaries/Analysis-Neighborhoods/p5b7-5n3h">hier,</a> maar weet dat dit, zoals alle geografische gebieden die iemand heeft aangewezen, een zekere mate van onnauwkeurigheid en willekeur in zich heeft. Zoals wel vaker is dit gewoon weer een beperking waar we rekening mee moeten houden.</p>
+<p>In de <code>head()</code> resultaten was er een sectie over iets dat “epsg” en “proj4string” heet. Laten we het daar specifiek over hebben, aangezien ze belangrijk zijn voor het werken met ruimtelijke gegevens.</p>
+<p>Een probleem bij het werken met geografische gegevens is dat <a href="https://en.wikipedia.org/wiki/Spherical_Earth">de aarde niet plat is.</a> Aangezien de aarde bolvormig is, zal er altijd enige vervorming optreden wanneer we proberen de gegevens uit te zetten op een plat vlak zoals een kaart. Om hiermee rekening te houden, moeten we de lengte- en breedtegraden die we hebben omzetten zodat ze goed werken op een kaart. Dat doen we door onze gegevens te “projecteren” op de gebieden van de aarde die we willen. Dit is een complex gebied waaraan veel werk is besteed (zowel abstract als specifiek voor R), dus hier zal een uiterst beknopt overzicht geven van het onderwerp en sommige aspecten ervan te veel vereenvoudigen.</p>
+<p>Als we kijken naar de uitvoer van <code>st_crs(sf_neighborhoods)</code> zien we dat het EPSG is ingesteld op 4326 en de proj4string (die ons de huidige kaartprojectie vertelt) is “+proj=longlat +datum=WGS84 +no_defs”. Deze CRS, WGS84, is een standaard CRS en wordt gebruikt wanneer u een GPS gebruikt om een locatie te vinden. Om de CRS voor bepaalde delen van de wereld te vinden, zie <a href="https://spatialreference.org/">hier.</a> Als je op die site zoekt naar “Californië”, zult u zien dat Californië in 6 zones is onderverdeeld. De site is niet erg behulpzaam bij het bepalen van de zones, maar met wat Googelen kun je vaak kaarten van staten of regio’s vinden waarop de zones staan afgebeeld. Wij willen Californië zone 3, die de EPSG-code 2227 heeft. We gebruiken deze code om deze gegevens goed te projecteren.</p>
+<p>Als we de proj4string voor 2227 willen, kunnen we <code>st_crs(2227)</code> uitvoeren. Ik voer het hier niet uit omdat het een grote hoeveelheid tekst zal afdrukken, maar je zou het op je eigen computer moeten uitvoeren. Merk op dat de tekst in deze uitvoer “US survey foot” bevat. Dit betekent dat de eenheden in ‘feet’ zijn. Sommige projecties hebben eenheden in meters, dus houd hier rekening mee als je een analyse uitvoert, zoals kijken of een punt binnen X voet van een bepaald gebied ligt.</p>
+<p>Laten we onze sf_neighborhoods gegevens omzetten naar coördinaatreferentiesysteem 2227 met <code>st_transform()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>sf_neighborhoods <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(sf_neighborhoods, <span class="at">crs =</span> <span class="dv">2227</span>)</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(sf_neighborhoods)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="images/choropleth.PNG" style="width:100.0%;height:100.0%"></p>
+</div>
+</div>
+<section id="ruimtelijke-verbindingen" class="level2">
+<h2 class="anchored" data-anchor-id="ruimtelijke-verbindingen">Ruimtelijke verbindingen</h2>
+<p>Wat we met deze buurten willen doen is uitzoeken in welke buurt elke zelfmoord plaatsvond en het aantal zelfmoorden per buurt optellen. Zodra we dat gedaan hebben, kunnen we een kaart maken op buurtniveau en het aantal zelfmoorden per buurt meten. Een ruimtelijke verbinding (spatial join) lijkt sterk op gewone verbindingen waarbij we twee datasets samenvoegen op basis van gemeenschappelijke variabelen (zoals de naam van de staat of de unieke ID-code van een persoon). In dit geval voegt het samen op basis van een gedeeld geografisch kenmerk, als twee lijnen elkaar snijden of (zoals we hier zullen doen) als een punt binnen een bepaald geografisch gebied ligt.</p>
+<p>Op dit moment staan onze <em>suïcide</em> gegevens in een data.frame met wat informatie over elke zelfmoord en de lengte- en breedtegraad van de zelfmoord in aparte kolommen. We willen dit data.frame omzetten in een ruimtelijk object zodat we kunnen vinden in welke buurt elke zelfmoord plaatsvond. We kunnen het omzetten in een ruimtelijk object met behulp van de <code>st_as_sf()</code> functie van <code>sf</code>. Onze invoer is eerst onze data, <em>suïcide.</em> Dan zetten we in de <code>coords</code> parameter een vector van de kolomnamen zodat de functie weet welke kolommen de lengte- en breedtegraad zijn zodat hij die kolommen kan converteren naar een “geometrie” kolom zoals we eerder zagen in <em>sf_neighborhoods</em>. We stellen de CRS in op de WGS84-standaard die we eerder zagen, maar we passen hem aan aan de CRS van de buurtgegevens.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>suicide <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(suicide, </span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"X"</span>, <span class="st">"Y"</span>),</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">crs =</span> <span class="st">"+proj=longlat +ellps=WGS84 +no_defs"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We willen onze zelfmoordgegevens in dezelfde projectie als de buurtgegevens, dus moeten we <code>st_transform()</code> gebruiken om de projectie te veranderen. Aangezien we willen dat de CRS dezelfde is als in <em>sf_neighborhoods</em>, kunnen we deze instellen met <code>st_crs(sf_neighborhoods)</code> om de juiste CRS te gebruiken.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>suicide <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(suicide, </span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">crs =</span> <span class="fu">st_crs</span>(sf_neighborhoods))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Nu kunnen we er naar kijken met <code>head()</code> om te zien of het is geprojecteerd.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(suicide)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Simple feature collection with 6 features and 12 fields
+Geometry type: POINT
+Dimension:     XY
+Bounding box:  xmin: -122.4893 ymin: 37.72218 xmax: -122.3964 ymax: 37.79414
+Geodetic CRS:  WGS84(DD)
+  IncidntNum Category                           Descript DayOfWeek       Date
+1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION    Monday 04/30/2018
+2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING  Saturday 04/28/2018
+3  180295674  SUICIDE              SUICIDE BY LACERATION  Saturday 04/21/2018
+4  180263659  SUICIDE                            SUICIDE   Tuesday 04/10/2018
+5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION    Friday 03/30/2018
+6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION  Thursday 03/29/2018
+      Time PdDistrict Resolution                 Address
+1 06:30:00    TARAVAL       NONE     0 Block of BRUCE AV
+2 17:54:00   NORTHERN       NONE   700 Block of HAYES ST
+3 12:20:00   RICHMOND       NONE   3700 Block of CLAY ST
+4 05:13:00    CENTRAL       NONE     0 Block of DRUMM ST
+5 09:15:00    TARAVAL       NONE 0 Block of FAIRFIELD WY
+6 17:30:00   RICHMOND       NONE    300 Block of 29TH AV
+                                        Location         PdId year
+1  POINT (-122.45168059935614 37.72218061554315) 1.803189e+13 2018
+2  POINT (-122.42876060987851 37.77620120112792) 1.803155e+13 2018
+3   POINT (-122.45462091999406 37.7881754224736) 1.802957e+13 2018
+4  POINT (-122.39642194376758 37.79414474237039) 1.802637e+13 2018
+5  POINT (-122.46324153155875 37.72679184368551) 1.802355e+13 2018
+6 POINT (-122.48929119750689 37.782735835121265) 1.802365e+13 2018
+                    geometry
+1 POINT (-122.4517 37.72218)
+2  POINT (-122.4288 37.7762)
+3 POINT (-122.4546 37.78818)
+4 POINT (-122.3964 37.79414)
+5 POINT (-122.4632 37.72679)
+6 POINT (-122.4893 37.78274)</code></pre>
+</div>
+</div>
+<p>We zien dat het nu een “simple feature collection” is met de juiste projectie. En we zien dat er een nieuwe kolom “geometrie” is, net als in <em>sf_neighborhoods</em>. Het gegevenstype in “geometrie” is PUNT, aangezien onze gegevens slechts een enkele locatie zijn in plaats van een veelhoek zoals in de buurtgegevens.</p>
+<p>Aangezien we zowel de buurt- als de zelfmoordengegevens hebben, maken we snel een kaart om de gegevens te zien.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sf_neighborhoods<span class="sc">$</span>geometry)</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(suicide<span class="sc">$</span>geometry, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Onze volgende stap is het combineren van deze twee datasets om uit te zoeken hoeveel zelfmoorden er in elke buurt plaatsvonden. Dit wordt een proces in meerdere stappen, dus laten we het eerst plannen. Onze zelfmoordgegevens zijn één rij voor elke zelfmoord; onze buurtgegevens zijn één rij voor elke buurt. Aangezien ons doel is om de gegevens op buurtniveau in kaart te brengen, moeten we de buurt berekenen waar elke zelfmoord plaatsvond en vervolgens aggregeren tot buurtniveau om een telling van de zelfmoorden per buurt te krijgen. Dan moeten we dat combineren met de oorspronkelijke buurtgegevens en kunnen we die in kaart brengen.</p>
+<ol type="1">
+<li>Zoek uit in welke buurt elke zelfmoord plaatsvond.</li>
+<li>Voeg de zelfmoordgegevens samen tot we een rij per buurt krijgen en een kolom met het aantal zelfmoorden in die buurt.</li>
+<li>Combineer met de buurtgegevens</li>
+<li>Maak een kaart.</li>
+</ol>
+<p>We beginnen met het vinden van de buurt waar elke zelfmoord plaatsvond met behulp van de functie <code>st_join()</code>, een functie in <code>sf</code>. Dit zorgt voor een ruimtelijke verbinding en vindt de polygoon (buurt in ons geval) waarin elk punt zich bevindt. Omdat we de gegevens gaan aggregeren, noemen we de uitvoer van deze functie <em>suicide_agg</em>. De volgorde in de () is belangrijk! Voor onze aggregatie willen we de uitvoer op zelfmoordniveau, dus beginnen we met de <em>suïcide</em> gegevens. In de volgende stap zullen we zien waarom dit van belang is.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>suicide_agg <span class="ot">&lt;-</span> <span class="fu">st_join</span>(suicide, sf_neighborhoods)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Laten we naar de eerste zes rijen kijken.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(suicide_agg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Simple feature collection with 6 features and 13 fields
+Geometry type: POINT
+Dimension:     XY
+Bounding box:  xmin: -122.4893 ymin: 37.72218 xmax: -122.3964 ymax: 37.79414
+Geodetic CRS:  WGS84(DD)
+  IncidntNum Category                           Descript DayOfWeek       Date
+1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION    Monday 04/30/2018
+2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING  Saturday 04/28/2018
+3  180295674  SUICIDE              SUICIDE BY LACERATION  Saturday 04/21/2018
+4  180263659  SUICIDE                            SUICIDE   Tuesday 04/10/2018
+5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION    Friday 03/30/2018
+6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION  Thursday 03/29/2018
+      Time PdDistrict Resolution                 Address
+1 06:30:00    TARAVAL       NONE     0 Block of BRUCE AV
+2 17:54:00   NORTHERN       NONE   700 Block of HAYES ST
+3 12:20:00   RICHMOND       NONE   3700 Block of CLAY ST
+4 05:13:00    CENTRAL       NONE     0 Block of DRUMM ST
+5 09:15:00    TARAVAL       NONE 0 Block of FAIRFIELD WY
+6 17:30:00   RICHMOND       NONE    300 Block of 29TH AV
+                                        Location         PdId year
+1  POINT (-122.45168059935614 37.72218061554315) 1.803189e+13 2018
+2  POINT (-122.42876060987851 37.77620120112792) 1.803155e+13 2018
+3   POINT (-122.45462091999406 37.7881754224736) 1.802957e+13 2018
+4  POINT (-122.39642194376758 37.79414474237039) 1.802637e+13 2018
+5  POINT (-122.46324153155875 37.72679184368551) 1.802355e+13 2018
+6 POINT (-122.48929119750689 37.782735835121265) 1.802365e+13 2018
+                           nhood                   geometry
+1     Oceanview/Merced/Ingleside POINT (-122.4517 37.72218)
+2                   Hayes Valley  POINT (-122.4288 37.7762)
+3               Presidio Heights POINT (-122.4546 37.78818)
+4 Financial District/South Beach POINT (-122.3964 37.79414)
+5             West of Twin Peaks POINT (-122.4632 37.72679)
+6                 Outer Richmond POINT (-122.4893 37.78274)</code></pre>
+</div>
+</div>
+<p>Er is nu de kolom <em>nhood</em> van de buurtgegevens, die zegt in welke buurt de zelfmoord plaatsvond. Nu kunnen we aggregeren tot op buurtniveau met de <code>group_by()</code> en <code>summarize()</code> functies uit het <code>dplyr</code> pakket.</p>
+<p>We hebben eigenlijk geen variabele met het aantal zelfmoorden, dus die moeten we maken. We kunnen het gewoon <em>number_suicides</em> noemen en het de waarde 1 geven omdat elke rij slechts één zelfmoord is.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>suicide_agg<span class="sc">$</span>number_suicides <span class="ot">&lt;-</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Nu kunnen we de gegevens samenvoegen en de resultaten weer toewijzen aan <em>suicide_agg</em>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>suicide_agg <span class="ot">&lt;-</span> suicide_agg <span class="sc">%&gt;%</span> </span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(nhood) <span class="sc">%&gt;%</span> </span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">number_suicides =</span> <span class="fu">sum</span>(number_suicides))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Laten we een samenvatting bekijken van de <em>number_suicides</em> variabele die we hebben gemaakt.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(suicide_agg<span class="sc">$</span>number_suicides)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   1.00   13.50   23.50   32.30   37.25  141.00 </code></pre>
+</div>
+</div>
+<p>Het minimum is één zelfmoord per buurt, 32 gemiddeld, en 141 in de buurt met de meeste zelfmoorden. Dus wat maken we van deze gegevens? Nou, er zijn enkele gegeven die problemen veroorzaken. Laten we eens nadenken over de minimumwaarde. Had elke buurt in de stad minstens één zelfmoord? Nee. Kijk eens naar het aantal rijen in deze gegevens, in gedachten houdend dat er één rij per buurt zou moeten zijn.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(suicide_agg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 40</code></pre>
+</div>
+</div>
+<p>En laten we het eens vergelijken met de <em>sf_neighborhoods</em> data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(sf_neighborhoods)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 41</code></pre>
+</div>
+</div>
+<p>In de gegevens over zelfmoorden ontbreken 2 buurten (een van de 40 waarden ontbreekt en is NA, geen echte buurt). Dat komt omdat als daar geen zelfmoorden plaatsvonden, er nooit een overeenkomstige rij in de gegevens zou zijn, zodat die buurt niet zou voorkomen in de zelfmoordgegevens. Dat zal hier geen groot probleem zijn, maar is iets om in gedachten te houden als dit een echt onderzoeksproject zou zijn.</p>
+<p>De gegevens zijn klaar om samen te voegen met de <em>sf_neighborhoods</em> gegevens. We introduceren een nieuwe functie die het samenvoegen van gegevens eenvoudig maakt. Deze functie komt ook uit het pakket <code>dplyr</code>.</p>
+<p><code>left_join(data1, data2)</code></p>
+<p>Deze functie voegt deze gegevens samen en behoudt alle rijen van de linker gegevens en elke kolom van beide gegevenssets. Hij combineert de gegevens op basis van overeenkomende kolommen (overeenkomend betekent dezelfde kolomnaam) in beide gegevenssets. Aangezien in onze gegevenssets de kolom <em>nhood</em> in beide bestaat, worden de gegevens op basis van die kolom samengevoegd.</p>
+<p>Er zijn twee andere functies die vergelijkbaar zijn, maar verschillen op basis van welke rijen ze bewaren.</p>
+<ul>
+<li><code>left_join()</code> - Alle rijen uit linkse gegevens en alle kolommen uit linkse en rechtse gegevens</li>
+<li><code>right_join()</code> - Alle rijen van de gegevens rechts en alle kolommen van de gegevens links en rechts</li>
+<li><code>full_join()</code> - Alle rijen en alle kolommen van linkse en rechtse gegevens</li>
+</ul>
+<p>We zouden ook de <code>merge()</code> functie kunnen gebruiken, die in R is ingebouwd, maar die functie is langzamer dan de <code>dplyr</code> functies en vereist dat we handmatig de overeenkomende kolommen instellen.</p>
+<p>We willen alle rijen in <em>sf_neighborhoods</em> (alle buurten behouden), dus we kunnen <code>left_join(sf_neighborhoods, suicide_agg)</code> gebruiken. Laten we de resultaten toewijzen aan een nieuwe gegevensverzameling genaamd <em>sf_neighborhoods_suicide</em>.</p>
+<p>We hebben de ruimtelijke gegevens voor “suicide_agg” niet meer nodig, en het zal problemen veroorzaken met onze join als we die houden, dus laten we de kolom “geometrie” uit die gegevens verwijderen. We kunnen dit doen door de kolom de waarde NULL te geven.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>suicide_agg<span class="sc">$</span>geometry <span class="ot">&lt;-</span> <span class="cn">NULL</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Nu kunnen we het koppelen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>sf_neighborhoods_suicide <span class="ot">&lt;-</span> <span class="fu">left_join</span>(sf_neighborhoods, suicide_agg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining, by = "nhood"</code></pre>
+</div>
+</div>
+<p>Als we opnieuw naar <code>summary()</code> kijken voor <em>number_suicides</em> zien we dat er nu twee rijen met NA’s zijn. Dit zijn de buurten waar geen zelfmoorden plaatsvonden en die dus niet voorkomen in de <em>suicide_agg</em> gegevens.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sf_neighborhoods_suicide<span class="sc">$</span>number_suicides)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+   1.00   15.00   24.00   33.08   38.50  141.00       2 </code></pre>
+</div>
+</div>
+<p>We moeten deze waarden omzetten in 0. We gebruiken de functie <code>is.na()</code> om voorwaardelijk alle rijen te vinden met een NA-waarde in de kolom <em>number_suicides</em> en gebruiken de notatie met vierkante haken om de waarde in 0 te veranderen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>sf_neighborhoods_suicide<span class="sc">$</span>number_suicides[</span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">is.na</span>(sf_neighborhoods_suicide<span class="sc">$</span>number_suicides)] <span class="ot">&lt;-</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Als we het opnieuw controleren, zien we dat het minimum nu 0 is en dat het gemiddelde aantal zelfmoorden iets afneemt tot ongeveer 31,5 per buurt.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sf_neighborhoods_suicide<span class="sc">$</span>number_suicides)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   0.00   12.00   23.00   31.46   36.00  141.00 </code></pre>
+</div>
+</div>
+</section>
+<section id="choropleth-kaarten-maken" class="level2">
+<h2 class="anchored" data-anchor-id="choropleth-kaarten-maken">Choropleth kaarten maken</h2>
+<p><strong>Tot slot</strong> zijn we klaar om enkele chloropleth-kaarten te maken.</p>
+<p>Voor deze kaarten maken we weer gebruik van <code>ggplot2</code> en zorg ervoor dat het pakket is geladen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Het voordeel van <code>ggplot2</code> is dat je langzaam grafieken of kaarten kunt bouwen en de grafiek bij elke stap kunt verbeteren. Zo heb je de functies als <code>geom_line()</code> voor lijngrafieken en <code>geom_point()</code> voor scatter plots. Voor het in kaart brengen van onze polygonen zullen we <code>geom_sf()</code> gebruiken, die weet hoe hij ruimtelijke gegevens moet verwerken.</p>
+<p>Zoals gewoonlijk beginnen we met <code>ggplot()</code>, waarbij we eerst onze gegevens invoeren. Dan gebruiken we binnen <code>aes</code> (de esthetiek van de grafiek/kaart) een nieuwe parameter <code>fill</code>. In <code>fill</code> zetten we de kolom <em>number-suicides</em> en het zal de polygonen (buurten) kleuren op basis van de waarden in die kolom. Dan kunnen we de <code>geom_sf()</code> toevoegen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sf_neighborhoods_suicide, <span class="fu">aes</span>(<span class="at">fill =</span> number_suicides)) <span class="sc">+</span></span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-54-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We hebben nu een choropleth kaart gemaakt met het aantal zelfmoorden per buurt in San Francisco! Volgens de legenda hebben lichtblauwe buurten de meeste zelfmoorden en donkerblauwe buurten de minste (of helemaal geen). Normaal zouden we het omgekeerde willen, met donkere gebieden die een grotere hoeveelheid van wat de kaart laat zien betekenen.</p>
+<p>We kunnen <code>scale_fill_gradient()</code> gebruiken om de kleuren in te stellen zoals we willen. We voeren een kleur in voor een lage waarde en een kleur voor een hoge waarde en de kaart wordt met die kleuren verduisterd.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sf_neighborhoods_suicide, </span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">fill =</span> number_suicides)) <span class="sc">+</span></span>
+<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>() <span class="sc">+</span></span>
+<span id="cb88-4"><a href="#cb88-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">"white"</span>,</span>
+<span id="cb88-5"><a href="#cb88-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">high =</span> <span class="st">"red"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-55-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Dit geeft een veel betere kaart en toont duidelijk de gebieden waar zelfmoorden het meest voorkomen en waar geen zelfmoorden plaatsvonden.</p>
+<p>Om deze kaart leesbaarder te maken en er beter uit te laten zien, voegen we een titel toe aan de kaart en de legenda.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sf_neighborhoods_suicide, </span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">fill =</span> number_suicides)) <span class="sc">+</span></span>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>() <span class="sc">+</span></span>
+<span id="cb89-4"><a href="#cb89-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">"white"</span>,</span>
+<span id="cb89-5"><a href="#cb89-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">high =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb89-6"><a href="#cb89-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill =</span> <span class="st">"# van zelfmoorden"</span>,</span>
+<span id="cb89-7"><a href="#cb89-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Zelfmoorden in San Francisco, per buurt"</span>,</span>
+<span id="cb89-8"><a href="#cb89-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"2003 - 2017"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-56-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Aangezien de coördinaten niets toevoegen aan de kaart, halen we ze weg.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sf_neighborhoods_suicide,</span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">fill =</span> number_suicides)) <span class="sc">+</span></span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>() <span class="sc">+</span></span>
+<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">"white"</span>,</span>
+<span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">high =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb90-6"><a href="#cb90-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill =</span> <span class="st">"# van zelfmoorden"</span>,</span>
+<span id="cb90-7"><a href="#cb90-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Zelfmoorden in San Francisco, per buurt"</span>,</span>
+<span id="cb90-8"><a href="#cb90-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"2003 - 2017"</span>) <span class="sc">+</span></span>
+<span id="cb90-9"><a href="#cb90-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb90-10"><a href="#cb90-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb90-11"><a href="#cb90-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-57-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Dus wat moeten we meenemen van deze kaart? Er zijn meer zelfmoorden in de binnenstad dan elders in de stad. Betekent dit dat mensen daar eerder zelfmoord plegen dan elders? Niet noodzakelijkerwijs. Een grote fout die mensen maken bij het maken van een choropleth kaart (of eigenlijk elk type kaart) is het per ongeluk maken van een bevolkingskaart. De donkerder gearceerde delen van onze kaart zijn ook de plaatsen waar veel mensen wonen. Dus als er meer mensen zijn, is het redelijk dat er meer zelfmoorden zijn (of misdaden, enz.). Wat we eigenlijk zouden willen doen, is een percentage maken per bevolkingsaantal (meestal per 100.000, hoewel dit veronderstelt dat het risico voor elke persoon in de stad gelijk is, wat niet echt correct is) om te controleren voor bevolkingsverschillen.</p>
+<p>We gebruiken deze gegevens straks om interactieve choropleth-kaarten te maken, dus laten we ze opslaan.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(sf_neighborhoods_suicide, <span class="at">file =</span> <span class="st">"data/sf_neighborhoods_suicide.rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+
+</div>
+</section>
+</section>
+<section id="interactieve-kaarten" class="level1">
+<h1>Interactieve kaarten</h1>
+<p>Voor dit deel gebruiken we de volgende bestanden, die je <a href="https://github.com/jacobkap/r4crimz/tree/master/data">hier</a> kunt downloaden:<br>
+san_francisco_marijuana_geocoded.csv and sf_neighborhoods_suicide.rda.</p>
+<p>Hoewel choropleth-kaarten nuttig zijn, is hun vermogen om informatie op incidentniveau weer te geven vrij beperkt. Zij tonen eerder brede trends - waar in een stad misdaad plaatsvond - dan dat zij informatie verschaffen over specifieke misdaadincidenten. Hoewel brede trends belangrijk zijn, kleven er grote nadelen aan het feit dat je geen belangrijke informatie over een incident kunt krijgen zonder de gegevens te moeten controleren. Een interactieve kaart overbrugt deze kloof door trends te tonen en tegelijkertijd in te zoomen op individuele incidenten en informatie over elk incident te bekijken.</p>
+<p>Voor deze les gebruiken we gegevens over elke marihuana apotheek in San Francisco met een actieve apothekers licentie per eind september 2019. Het bestand heet “san_francisco_marijuana_geocoded.csv”.</p>
+<p>Wanneer het is binnengehaald via California’s Bureau of Cannabis Control (<a href="https://aca5.accela.com/bcc/customization/bcc/cap/licenseSearch.aspx">here</a> als je geïnteresseerd bent) bevatten de data de adressen van elke apotheek maar zonder coördinaten. Zonder coördinaten kunnen we punten niet in kaart brengen, wat betekent dat we ze moeten geocoderen. Geocoderen is het proces van het nemen van een adres en het verkrijgen van de lengte- en breedtegraad van dat adres voor het in kaart brengen. Voor deze les heb ik de gegevens al gegeocodeerd.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a>marijuana <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/san_francisco_marijuana_geocoded.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 33 Columns: 12
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (10): License_Number, License_Type, Business_Owner, Business_Structure, ...
+dbl  (2): lat, long
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>marijuana <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(marijuana)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="waarom-zijn-interactieve-grafieken-belangrijk" class="level2">
+<h2 class="anchored" data-anchor-id="waarom-zijn-interactieve-grafieken-belangrijk">Waarom zijn interactieve grafieken belangrijk?</h2>
+<section id="uw-gegevens-begrijpen" class="level3">
+<h3 class="anchored" data-anchor-id="uw-gegevens-begrijpen">Uw gegevens begrijpen</h3>
+<p>Belangrijk is het om jouw data goed te begrijpen, dat is cruciaal voor goed onderzoek. Het maken van interactieve kaarten is een zeer nuttige manier om je gegevens beter te begrijpen, omdat je meteen geografische patronen kunt zien en snel naar kenmerken van die incidenten kunt kijken om ze te begrijpen.</p>
+<p>Straks maken we een kaart van elke marihuana apotheek in San Francisco waarop je op de apotheek kunt klikken om er informatie over te zien. Als we een cluster van apotheken zien, kunnen we op elke apotheek klikken om te zien of ze op elkaar lijken - bijvoorbeeld of ze eigendom zijn van dezelfde persoon. Hoewel het mogelijk is om deze patronen te vinden door alleen naar de gegevens te kijken, is het gemakkelijker om een geografisch patroon te zien en meteen informatie over elk incident te bekijken.</p>
+</section>
+<section id="politieafdelingen-gebruiken-ze" class="level3">
+<h3 class="anchored" data-anchor-id="politieafdelingen-gebruiken-ze">Politieafdelingen gebruiken ze</h3>
+<p>Interactieve kaarten zijn populair bij grote politieafdelingen, zoals Philadelphia en New York City. Ze maken het mogelijk geografische patronen in de gegevens gemakkelijk te begrijpen en, wat belangrijk is, ze maken die toegang mogelijk voor mensen die niet over de technische vaardigheden beschikken om met de gegevens zelf te werken. Het leren van interactieve kaarten kan je helpen bij een toekomstige baan.</p>
+</section>
+</section>
+<section id="de-interactieve-kaart-maken" class="level2">
+<h2 class="anchored" data-anchor-id="de-interactieve-kaart-maken">De interactieve kaart maken</h2>
+<p>Zoals gewoonlijk bekijken we de bovenste 6 rijen van de gegevens.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(marijuana)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   License_Number                License_Type   Business_Owner
+1 C10-0000614-LIC Cannabis - Retailer License     Terry Muller
+2 C10-0000586-LIC Cannabis - Retailer License    Jeremy Goodin
+3 C10-0000587-LIC Cannabis - Retailer License     Justin Jarin
+4 C10-0000539-LIC Cannabis - Retailer License Ondyn Herschelle
+5 C10-0000522-LIC Cannabis - Retailer License      Ryan Hudson
+6 C10-0000523-LIC Cannabis - Retailer License      Ryan Hudson
+         Business_Structure                         Premise_Address Status
+1 Limited Liability Company  2165 IRVING ST san francisco, CA 94122 Active
+2               Corporation 122 10TH ST SAN FRANCISCO, CA 941032605 Active
+3               Corporation   843 Howard ST SAN FRANCISCO, CA 94103 Active
+4               Corporation    70 SECOND ST SAN FRANCISCO, CA 94105 Active
+5 Limited Liability Company   527 Howard ST San Francisco, CA 94105 Active
+6 Limited Liability Company 2414 Lombard ST San Francisco, CA 94123 Active
+  Issue_Date Expiration_Date                Activities Adult-Use/Medicinal
+1  9/13/2019       9/12/2020 N/A for this license type                BOTH
+2  8/26/2019       8/25/2020 N/A for this license type                BOTH
+3  8/26/2019       8/25/2020 N/A for this license type                BOTH
+4   8/5/2019        8/4/2020 N/A for this license type                BOTH
+5  7/29/2019       7/28/2020 N/A for this license type                BOTH
+6  7/29/2019       7/28/2020 N/A for this license type                BOTH
+       lat      long
+1 37.76318 -122.4811
+2 37.77480 -122.4157
+3 37.78228 -122.4035
+4 37.78823 -122.4004
+5 37.78783 -122.3965
+6 37.79944 -122.4414</code></pre>
+</div>
+</div>
+<p>Deze gegevens bevatten informatie over het type vergunning, wie de eigenaar is en waar de apotheek zich bevindt (als adres en als coördinaten). We gaan een kaart maken met alle apotheken in de stad en zorgen ervoor dat als je op een stip klikt, er een popup verschijnt met informatie over die apotheek.</p>
+<p>We gebruiken het pakket <code>leaflet</code> voor onze interactieve kaart. <code>leaflet</code> produceert kaarten die lijken op Google Maps met cirkels (of elk icoontje dat we kiezen) voor elke waarde die we aan de kaart toevoegen. Je kunt inzoomen, rondscrollen, en bij elk incident een context geven die niet beschikbaar is op een statische kaart.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="co"># wel installeren als je het nog niet hebt</span></span>
+<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("leaflet")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Om een <code>leaflet</code> map te maken moeten we de functie <code>leaflet()</code> uitvoeren en een tile aan de map toevoegen. We kunnen gewoon de standaard tile gebruiken die geen invoer nodig heeft. Als je geïnteresseerd bent in andere tiles, zie dan deze <a href="https://leaflet-extras.github.io/leaflet-providers/preview/">website</a>.</p>
+<p>Wij zullen een ‘standaardtile’ van Open Street Maps gebruiken. Deze geeft straatnamen en markeert belangrijke kenmerken zoals parken en grote winkels, wat een nuttige context biedt voor het bekijken van de gegevens.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="images/leaflet_map1.png" class="img-fluid" width="496"></p>
+</div>
+</div>
+<p>Wanneer je de bovenstaande code uitvoert, toont het een wereldkaart (verschillende keren gekopieerd). Zoom daarop in, en het toont relevante kenmerken van waar je ook kijkt.</p>
+<p>Let op de <code>%&gt;%</code> tussen de <code>leaflet()</code> functie en de <code>addTiles()</code> functie. <code>leaflet</code> is een van de pakketten in R waarin we pipes kunnen gebruiken.</p>
+<p>Om de punten aan de grafiek toe te voegen gebruiken we de functie <code>addMarkers()</code>, die twee parameters heeft, <code>lng</code> en <code>lat</code>. Voor beide parameters zetten we de kolom waarin respectievelijk de lengtegraad en de breedtegraad staan.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb100-3"><a href="#cb100-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addMarkers</span>(<span class="at">lng =</span> marijuana<span class="sc">$</span>long, </span>
+<span id="cb100-4"><a href="#cb100-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">lat =</span> marijuana<span class="sc">$</span>lat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="images/leaflet_map2.png" class="img-fluid" width="496"></p>
+</div>
+</div>
+<p>Het voegt nu een pictogram toe dat aangeeft waar elke apotheek in onze dataset zich bevindt. U kunt inzoomen en rondscrollen om meer te zien over waar de apotheken zich bevinden. Er zijn slechts enkele tientallen locaties in de gegevens, dus de popups die elkaar een beetje overlappen hebben geen invloed op onze kaart. Als we er meer hadden - zoals misdaadgegevens met miljoenen overtredingen - zou het erg moeilijk leesbaar worden. Om de pictogrammen in cirkels te veranderen kunnen we de functie <code>addMarkers()</code> veranderen in <code>addCircleMarkers()</code>, waarbij de rest van de code hetzelfde blijft.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb101-3"><a href="#cb101-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(<span class="at">lng =</span> marijuana<span class="sc">$</span>long, </span>
+<span id="cb101-4"><a href="#cb101-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">lat =</span> marijuana<span class="sc">$</span>lat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="images/leaflet_map3.png" class="img-fluid" width="496"></p>
+</div>
+</div>
+<p>Dit maakt van het icoontje cirkels, die minder ruimte innemen. Om de grootte van onze icoontjes aan te passen gebruiken we de <code>radius</code> parameter in <code>addMarkers()</code> of <code>addCircleMarkers()</code>. Hoe groter de straal, hoe groter de icoontjes.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(<span class="at">lng =</span> marijuana<span class="sc">$</span>long, </span>
+<span id="cb102-4"><a href="#cb102-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">lat =</span> marijuana<span class="sc">$</span>lat,</span>
+<span id="cb102-5"><a href="#cb102-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">radius =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="images/leaflet_map4.png" class="img-fluid" width="496"></p>
+</div>
+</div>
+<p>Door de <code>radius</code> optie op 5 te zetten wordt de grootte van het icoontje een stuk kleiner. In je eigen kaarten zul je met deze optie moeten rommelen om het eruit te laten zien zoals je wilt. Laten we verder gaan met het toevoegen van informatie over elk icoontje wanneer erop geklikt wordt.</p>
+</section>
+<section id="popup-informatie-toevoegen" class="level2">
+<h2 class="anchored" data-anchor-id="popup-informatie-toevoegen">Popup informatie toevoegen</h2>
+<p>Met de parameter <code>popup</code> in de <code>addMarkers()</code> of <code>addCircleMarkers()</code> functies kun je een karakterwaarde invoeren (als het nog geen karakterwaarde is, wordt het geconverteerd naar een karakterwaarde) die als popup wordt getoond als je op het icoontje klikt. Laten we hier eenvoudig beginnen met het invoeren van de kolom bedrijfseigenaar in onze gegevens en het vervolgens opbouwen tot een meer gecompliceerde popup.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb103-3"><a href="#cb103-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(<span class="at">lng =</span> marijuana<span class="sc">$</span>long, </span>
+<span id="cb103-4"><a href="#cb103-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">lat =</span> marijuana<span class="sc">$</span>lat,</span>
+<span id="cb103-5"><a href="#cb103-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">radius =</span> <span class="dv">5</span>,</span>
+<span id="cb103-6"><a href="#cb103-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">popup =</span> marijuana<span class="sc">$</span>Business_Owner)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="images/interactive_popup1.PNG" class="img-fluid" width="345"></p>
+</div>
+</div>
+<p>Probeer rond te klikken en je zult zien dat de eigenaar van de apotheek waarop je hebt geklikt boven de stip verschijnt. Meestal willen we een titel hebben die aangeeft wat de waarde in de popup betekent. We kunnen dit doen door de functie <code>paste()</code> te gebruiken om tekst die de waarde uitlegt te combineren met de waarde zelf. Laten we de woorden “Bedrijfseigenaar:” toevoegen voor de kolom Bedrijfseigenaar.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(<span class="at">lng =</span> marijuana<span class="sc">$</span>long, </span>
+<span id="cb104-4"><a href="#cb104-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">lat =</span> marijuana<span class="sc">$</span>lat,</span>
+<span id="cb104-5"><a href="#cb104-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">radius =</span> <span class="dv">5</span>,</span>
+<span id="cb104-6"><a href="#cb104-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">popup =</span> <span class="fu">paste</span>(<span class="st">"Eigenaar:"</span>,</span>
+<span id="cb104-7"><a href="#cb104-7" aria-hidden="true" tabindex="-1"></a>                                 marijuana<span class="sc">$</span>Business_Owner))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="images/interactive_popup2.PNG" class="img-fluid" width="346"></p>
+</div>
+</div>
+<p>We hebben niet al te veel informatie in de gegevens, maar laten we het adres en het licentienummer toevoegen aan de popup door ze toe te voegen aan de <code>paste()</code> functie die we gebruiken.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb105-3"><a href="#cb105-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(<span class="at">lng =</span> marijuana<span class="sc">$</span>long, </span>
+<span id="cb105-4"><a href="#cb105-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">lat =</span> marijuana<span class="sc">$</span>lat,</span>
+<span id="cb105-5"><a href="#cb105-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">radius =</span> <span class="dv">5</span>,</span>
+<span id="cb105-6"><a href="#cb105-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">popup =</span> <span class="fu">paste</span>(<span class="st">"Eigenaar:"</span>,</span>
+<span id="cb105-7"><a href="#cb105-7" aria-hidden="true" tabindex="-1"></a>                                 marijuana<span class="sc">$</span>Business_Owner,</span>
+<span id="cb105-8"><a href="#cb105-8" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"Adres:"</span>,</span>
+<span id="cb105-9"><a href="#cb105-9" aria-hidden="true" tabindex="-1"></a>                                 marijuana<span class="sc">$</span>Premise_Address,</span>
+<span id="cb105-10"><a href="#cb105-10" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"Licentie:"</span>, </span>
+<span id="cb105-11"><a href="#cb105-11" aria-hidden="true" tabindex="-1"></a>                                 marijuana<span class="sc">$</span>License_Number))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="images/interactive_popup3.PNG" class="img-fluid" width="346"></p>
+</div>
+</div>
+<p>Als alles op een lijn gezet wordt, is het moeilijk om te lezen. <code>&lt;br&gt;</code> is HTML taal voor regelonderbreking.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb106-3"><a href="#cb106-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(<span class="at">lng =</span> marijuana<span class="sc">$</span>long, </span>
+<span id="cb106-4"><a href="#cb106-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">lat =</span> marijuana<span class="sc">$</span>lat,</span>
+<span id="cb106-5"><a href="#cb106-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">radius =</span> <span class="dv">5</span>,</span>
+<span id="cb106-6"><a href="#cb106-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">popup =</span> <span class="fu">paste</span>(<span class="st">"Eigenaar:"</span>,</span>
+<span id="cb106-7"><a href="#cb106-7" aria-hidden="true" tabindex="-1"></a>                                 marijuana<span class="sc">$</span>Business_Owner,</span>
+<span id="cb106-8"><a href="#cb106-8" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"&lt;br&gt;"</span>,</span>
+<span id="cb106-9"><a href="#cb106-9" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"Adres:"</span>, </span>
+<span id="cb106-10"><a href="#cb106-10" aria-hidden="true" tabindex="-1"></a>                                 marijuana<span class="sc">$</span>Premise_Address,</span>
+<span id="cb106-11"><a href="#cb106-11" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"&lt;br&gt;"</span>,</span>
+<span id="cb106-12"><a href="#cb106-12" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"Licentie:"</span>,</span>
+<span id="cb106-13"><a href="#cb106-13" aria-hidden="true" tabindex="-1"></a>                                 marijuana<span class="sc">$</span>License_Number))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="images/interactive_popup4.PNG" class="img-fluid" width="346"></p>
+</div>
+</div>
+</section>
+<section id="omgaan-met-te-veel-markers" class="level2">
+<h2 class="anchored" data-anchor-id="omgaan-met-te-veel-markers">Omgaan met te veel markers</h2>
+<p>In ons geval met slechts 33 rijen gegevens lost het veranderen van de markers in cirkels ons zichtbaarheidsprobleem op. In gevallen met veel meer rijen gegevens werkt dit niet altijd. Een oplossing hiervoor is om de gegevens te clusteren in groepen waarbij de punten alleen zichtbaar zijn als u inzoomt.</p>
+<p>Als we de code <code>clusterOptions = markerClusterOptions()</code> toevoegen aan onze <code>addCircleMarkers()</code> zal het voor ons clusteren.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb107-2"><a href="#cb107-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb107-3"><a href="#cb107-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(<span class="at">lng =</span> marijuana<span class="sc">$</span>long, </span>
+<span id="cb107-4"><a href="#cb107-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">lat =</span> marijuana<span class="sc">$</span>lat,</span>
+<span id="cb107-5"><a href="#cb107-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">radius =</span> <span class="dv">5</span>,</span>
+<span id="cb107-6"><a href="#cb107-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">popup =</span> <span class="fu">paste</span>(<span class="st">"Eigenaar:"</span>, </span>
+<span id="cb107-7"><a href="#cb107-7" aria-hidden="true" tabindex="-1"></a>                                 marijuana<span class="sc">$</span>Business_Owner,</span>
+<span id="cb107-8"><a href="#cb107-8" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"&lt;br&gt;"</span>,</span>
+<span id="cb107-9"><a href="#cb107-9" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"Adres:"</span>,</span>
+<span id="cb107-10"><a href="#cb107-10" aria-hidden="true" tabindex="-1"></a>                                 marijuana<span class="sc">$</span>Premise_Address,</span>
+<span id="cb107-11"><a href="#cb107-11" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"&lt;br&gt;"</span>,</span>
+<span id="cb107-12"><a href="#cb107-12" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"Licentie:"</span>,</span>
+<span id="cb107-13"><a href="#cb107-13" aria-hidden="true" tabindex="-1"></a>                                 marijuana<span class="sc">$</span>License_Number),</span>
+<span id="cb107-14"><a href="#cb107-14" aria-hidden="true" tabindex="-1"></a>                   <span class="at">clusterOptions =</span> <span class="fu">markerClusterOptions</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="images/leaflet_map_temp.png" class="img-fluid" width="496"></p>
+</div>
+</div>
+<p>Dicht bij elkaar gelegen locaties zijn gegroepeerd in tamelijk willekeurige groepen. We kunnen zien hoe groot elke groepering is door onze cursor over de cirkel te bewegen. Klik op een cirkel of zoom in, en het toont kleinere groepen op lagere aggregatieniveaus. Blijf klikken of inzoomen, en uiteindelijk wordt elke locatie als een eigen cirkel weergegeven.</p>
+<p>Deze methode is zeer nuttig voor het verwerken van grote hoeveelheden gegevens, omdat zo wordt vermeden dat de kaart met te veel pictogrammen tegelijk wordt overladen. Een nadeel is echter dat de clusters willekeurig worden gecreëerd, waardoor belangrijke context, zoals de buurt, verloren kan gaan.</p>
+</section>
+<section id="interactieve-choropleth-kaarten" class="level2">
+<h2 class="anchored" data-anchor-id="interactieve-choropleth-kaarten">Interactieve choropleth kaarten</h2>
+<p>Hierboven hebben we gewerkt met choropleth-kaarten, dat zijn kaarten met gearceerde regio’s, zoals staten die gekleurd zijn door welke politieke partij ze gewonnen hebben bij een verkiezing. Nu gaan we interactieve choropletkaarten maken waarbij je op een gearceerde regio kunt klikken en informatie over die regio te zien krijgt. We maken dezelfde kaart als voorheen - buurten gearceerd door het aantal zelfmoorden.</p>
+<p>We laden de gegevens over zelfmoorden in San Francisco per buurt die we eerder hebben gemaakt. We moeten ze ook projecteren op de standaard lengte- en breedteprojectie, anders werkt onze kaart niet goed.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"data/sf_neighborhoods_suicide.rda"</span>) </span>
+<span id="cb108-3"><a href="#cb108-3" aria-hidden="true" tabindex="-1"></a>sf_neighborhoods_suicide <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(sf_neighborhoods_suicide, </span>
+<span id="cb108-4"><a href="#cb108-4" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">"+proj=longlat +datum=WGS84"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We beginnen de <code>leaflet</code> map op dezelfde manier als voorheen, maar gebruiken de functie <code>addPolygons()</code>, en onze invoer is hier de geometriekolom van <em>sf_neighborhoods_suicide</em>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb109-3"><a href="#cb109-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addPolygons</span>(<span class="at">data =</span> sf_neighborhoods_suicide<span class="sc">$</span>geometry)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="images/leaflet_choropleth1.png" class="img-fluid" width="345"></p>
+</div>
+</div>
+<p>Het maakte een kaart met dikke blauwe lijnen die elke buurt aangeven. Laten we het uiterlijk van de grafiek een beetje veranderen voordat we een popup maken of de wijken arceren De parameter <code>color</code> in <code>addPolygons()</code> verandert de kleur van de lijnen - laten we hem veranderen in zwart. De lijnen zijn ook erg dik, waardoor ze in elkaar overlopen en de buurten moeilijk te zien zijn. We kunnen de <code>weight</code> parameter veranderen om de grootte van deze lijnen te veranderen - kleinere waarden zijn dunnere lijnen. Laten we proberen dit op 1 te zetten.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb110-3"><a href="#cb110-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addPolygons</span>(<span class="at">data =</span> sf_neighborhoods_suicide<span class="sc">$</span>geometry,</span>
+<span id="cb110-4"><a href="#cb110-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">color =</span> <span class="st">"black"</span>,</span>
+<span id="cb110-5"><a href="#cb110-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">weight =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="images/leaflet_choropleth2.png" class="img-fluid" width="344"></p>
+</div>
+</div>
+<p>Dat ziet er beter uit en we kunnen elke buurt nu duidelijk onderscheiden.</p>
+<p>Zoals we eerder deden, kunnen we de popup-tekst direct toevoegen aan de functie die de geografische vormen maakt, in dit geval <code>addPolygons()</code>. Laten we de kolomwaarde <em>nhood</em> toevoegen - de naam van die buurt - en het aantal zelfmoorden in die buurt. Zoals eerder, wanneer we op een buurt klikken verschijnt een popup met de uitvoer die we hebben opgegeven.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb111-3"><a href="#cb111-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addPolygons</span>(<span class="at">data =</span> sf_neighborhoods_suicide<span class="sc">$</span>geometry,</span>
+<span id="cb111-4"><a href="#cb111-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">col =</span> <span class="st">"black"</span>,</span>
+<span id="cb111-5"><a href="#cb111-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">weight =</span> <span class="dv">1</span>,</span>
+<span id="cb111-6"><a href="#cb111-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">popup =</span> <span class="fu">paste0</span>(<span class="st">"Buurt: "</span>, </span>
+<span id="cb111-7"><a href="#cb111-7" aria-hidden="true" tabindex="-1"></a>                             sf_neighborhoods_suicide<span class="sc">$</span>nhood,</span>
+<span id="cb111-8"><a href="#cb111-8" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"&lt;br&gt;"</span>,</span>
+<span id="cb111-9"><a href="#cb111-9" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"Aantal zelfmoorden: "</span>,</span>
+<span id="cb111-10"><a href="#cb111-10" aria-hidden="true" tabindex="-1"></a>                             sf_neighborhoods_suicide<span class="sc">$</span>number_suicides))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="images/leaflet_choropleth3.png" class="img-fluid" width="344"></p>
+</div>
+</div>
+<p>Voor dit soort kaarten willen we meestal elke polygoon een kleur geven om aan te geven hoe vaak de gebeurtenis in de polygoon heeft plaatsgevonden. We gebruiken de functie <code>colorNumeric()</code>, die veel werk wegneemt van het inkleuren van de kaart. Deze functie neemt twee ingangen, eerst een kleurenpalet, dat we kunnen halen van de site <a href="http://colorbrewer2.org/#type=sequential&amp;scheme=OrRd&amp;n=3">Color Brewer.</a> Laten we de vierde balk in de Sequential pagina gebruiken, die licht oranje tot rood is. Als je kijkt in de sectie met elke HEX-waarde staat er dat het palet “3-class OrRd” is. De “3-klasse” betekent gewoon dat we 3 kleuren hebben geselecteerd, de “OrRd” is het deel dat we willen. Dat vertelt <code>colorNumeric()</code> om het palet te maken met deze kleuren. De tweede parameter is de kolom voor onze numerieke variabele, <em>number_suicides</em>. We slaan de uitvoer van <code>colorNumeric("OrRd", sf_neighborhoods_suicide$number_suicides)</code> op als een nieuw object, dat we voor het gemak <em>pal</em> noemen omdat het een kleurenpalet is. Vervolgens stellen we in <code>addPolygons()</code> de parameter <code>fillColor</code> in op <code>pal(sf_neighborhoods_suicide$number_suicides)</code>, waardoor deze functie op de kolom wordt uitgevoerd. Wat dit echt doet is bepalen welke kleur elke buurt moet krijgen op basis van de waarde in de <em>number_suicides</em> kolom.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a>pal <span class="ot">&lt;-</span> <span class="fu">colorNumeric</span>(<span class="st">"OrRd"</span>, sf_neighborhoods_suicide<span class="sc">$</span>number_suicides)</span>
+<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb112-4"><a href="#cb112-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addPolygons</span>(<span class="at">data =</span> sf_neighborhoods_suicide<span class="sc">$</span>geometry,</span>
+<span id="cb112-5"><a href="#cb112-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">col =</span> <span class="st">"black"</span>,</span>
+<span id="cb112-6"><a href="#cb112-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">weight =</span> <span class="dv">1</span>,</span>
+<span id="cb112-7"><a href="#cb112-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">popup =</span> <span class="fu">paste0</span>(<span class="st">"Buurt: "</span>,</span>
+<span id="cb112-8"><a href="#cb112-8" aria-hidden="true" tabindex="-1"></a>                             sf_neighborhoods_suicide<span class="sc">$</span>nhood,</span>
+<span id="cb112-9"><a href="#cb112-9" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"&lt;br&gt;"</span>,</span>
+<span id="cb112-10"><a href="#cb112-10" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"Aantal zelfmoorden: "</span>,</span>
+<span id="cb112-11"><a href="#cb112-11" aria-hidden="true" tabindex="-1"></a>                             sf_neighborhoods_suicide<span class="sc">$</span>number_suicides),</span>
+<span id="cb112-12"><a href="#cb112-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">fillColor =</span> <span class="fu">pal</span>(sf_neighborhoods_suicide<span class="sc">$</span>number_suicides))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="images/leaflet_choropleth4.png" class="img-fluid" width="344"></p>
+</div>
+</div>
+<p>Aangezien de buurten transparant zijn, is het moeilijk te onderscheiden welke kleur wordt getoond. We kunnen elke buurt een effen kleur geven door de parameter <code>fillOpacity</code> in <code>addPolygons()</code> op 1 te zetten.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb113-3"><a href="#cb113-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addPolygons</span>(<span class="at">data =</span> sf_neighborhoods_suicide<span class="sc">$</span>geometry,</span>
+<span id="cb113-4"><a href="#cb113-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">col =</span> <span class="st">"black"</span>,</span>
+<span id="cb113-5"><a href="#cb113-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">weight =</span> <span class="dv">1</span>,</span>
+<span id="cb113-6"><a href="#cb113-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">popup =</span> <span class="fu">paste0</span>(<span class="st">"Buurt: "</span>,</span>
+<span id="cb113-7"><a href="#cb113-7" aria-hidden="true" tabindex="-1"></a>                             sf_neighborhoods_suicide<span class="sc">$</span>nhood,</span>
+<span id="cb113-8"><a href="#cb113-8" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"&lt;br&gt;"</span>,</span>
+<span id="cb113-9"><a href="#cb113-9" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"Aantal zelfmoorden: "</span>,</span>
+<span id="cb113-10"><a href="#cb113-10" aria-hidden="true" tabindex="-1"></a>                             sf_neighborhoods_suicide<span class="sc">$</span>number_suicides),</span>
+<span id="cb113-11"><a href="#cb113-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">fillColor =</span> <span class="fu">pal</span>(sf_neighborhoods_suicide<span class="sc">$</span>number_suicides),</span>
+<span id="cb113-12"><a href="#cb113-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">fillOpacity =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="images/leaflet_choropleth5.png" class="img-fluid" width="344"></p>
+</div>
+</div>
+<p>Om een legenda toe te voegen gebruiken we de functie <code>addLegend()</code>, die drie parameters nodig heeft. <code>pal</code> vraagt welk kleurenpalet we gebruiken - we willen dat het precies hetzelfde is als waarmee we de buurten kleuren, dus gebruiken we het <em>pal</em> object dat we gemaakt hebben. De <code>values</code> parameter wordt gebruikt voor welke kolom onze numerieke waarden komen, in ons geval de <em>number_suicides</em> kolom dus die voeren we in. Tenslotte bepaalt <code>opacity</code> hoe transparant de legenda zal zijn. Aangezien elke buurt is ingesteld om helemaal niet transparant te zijn, zetten we dit ook op 1 om consistent te zijn.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb114-3"><a href="#cb114-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addPolygons</span>(<span class="at">data =</span> sf_neighborhoods_suicide<span class="sc">$</span>geometry,</span>
+<span id="cb114-4"><a href="#cb114-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">col =</span> <span class="st">"black"</span>,</span>
+<span id="cb114-5"><a href="#cb114-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">weight =</span> <span class="dv">1</span>,</span>
+<span id="cb114-6"><a href="#cb114-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">popup =</span> <span class="fu">paste0</span>(<span class="st">"Buurt: "</span>, </span>
+<span id="cb114-7"><a href="#cb114-7" aria-hidden="true" tabindex="-1"></a>                             sf_neighborhoods_suicide<span class="sc">$</span>nhood,</span>
+<span id="cb114-8"><a href="#cb114-8" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"&lt;br&gt;"</span>,</span>
+<span id="cb114-9"><a href="#cb114-9" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"Aantal zelfmoorden: "</span>,</span>
+<span id="cb114-10"><a href="#cb114-10" aria-hidden="true" tabindex="-1"></a>                             sf_neighborhoods_suicide<span class="sc">$</span>number_suicides),</span>
+<span id="cb114-11"><a href="#cb114-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">fillColor =</span> <span class="fu">pal</span>(sf_neighborhoods_suicide<span class="sc">$</span>number_suicides),</span>
+<span id="cb114-12"><a href="#cb114-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">fillOpacity =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb114-13"><a href="#cb114-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addLegend</span>(<span class="at">pal =</span> pal, </span>
+<span id="cb114-14"><a href="#cb114-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">values =</span> sf_neighborhoods_suicide<span class="sc">$</span>number_suicides,</span>
+<span id="cb114-15"><a href="#cb114-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">opacity =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="images/leaflet_choropleth6.png" class="img-fluid" width="342"></p>
+</div>
+</div>
+<p>Tenslotte kunnen we een titel aan de legende toevoegen met de <code>title</code> parameter binnen <code>addLegend()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb115-2"><a href="#cb115-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb115-3"><a href="#cb115-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addPolygons</span>(<span class="at">data =</span> sf_neighborhoods_suicide<span class="sc">$</span>geometry,</span>
+<span id="cb115-4"><a href="#cb115-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">col =</span> <span class="st">"black"</span>,</span>
+<span id="cb115-5"><a href="#cb115-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">weight =</span> <span class="dv">1</span>,</span>
+<span id="cb115-6"><a href="#cb115-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">popup =</span> <span class="fu">paste0</span>(<span class="st">"Buurt: "</span>,</span>
+<span id="cb115-7"><a href="#cb115-7" aria-hidden="true" tabindex="-1"></a>                             sf_neighborhoods_suicide<span class="sc">$</span>nhood,</span>
+<span id="cb115-8"><a href="#cb115-8" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"&lt;br&gt;"</span>,</span>
+<span id="cb115-9"><a href="#cb115-9" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"Aantal zelfmoorden: "</span>,</span>
+<span id="cb115-10"><a href="#cb115-10" aria-hidden="true" tabindex="-1"></a>                             sf_neighborhoods_suicide<span class="sc">$</span>number_suicides),</span>
+<span id="cb115-11"><a href="#cb115-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">fillColor =</span> <span class="fu">pal</span>(sf_neighborhoods_suicide<span class="sc">$</span>number_suicides),</span>
+<span id="cb115-12"><a href="#cb115-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">fillOpacity =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb115-13"><a href="#cb115-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addLegend</span>(<span class="at">pal =</span> pal, </span>
+<span id="cb115-14"><a href="#cb115-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">values =</span> sf_neighborhoods_suicide<span class="sc">$</span>number_suicides,</span>
+<span id="cb115-15"><a href="#cb115-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">opacity =</span> <span class="dv">1</span>,</span>
+<span id="cb115-16"><a href="#cb115-16" aria-hidden="true" tabindex="-1"></a>            <span class="at">title =</span> <span class="st">"Suicides"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb115-17"><a href="#cb115-17" aria-hidden="true" tabindex="-1"></a> <span class="fu">addProviderTiles</span>(providers<span class="sc">$</span>CartoDB.Positron)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="images/leaflet_choropleth7.png" class="img-fluid" width="342"></p>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -1,0 +1,1066 @@
+---
+title: "Visualisaties"
+description: |
+    Visualisaties met hotspot, choropleth en interactieve kaarten
+author: "Jacob Kap,  bewerking HarrieJonkman"
+date: "2022-11-13"
+categories: [visualisatie, communicatie]
+image: "Screenshot.PNG"
+---
+
+
+
+![](Screenshot.PNG)
+
+# Inleiding
+Jacob Kap schreef het boek [Crime by the numbers: A Criminologist's Guide to R](https://crimebythenumbers.com). Het is uitgegeven door CRC Press in de R Series. Hij introduceert hiermee een inleidend boek werken met R voor criminologiestudenten. De hoofdstukken over hotspotkaarten, choropleth kaarten en interactieve kaarten vond ik zeer verhelderend. Met zijn uitleg, syntaxen en data kon ik dit zelf uitvoeren. Ik heb in deze Nederlands talige blog verwerkt. Zijn materialen vind je [hier](https://github.com/jacobkap/crimebythenumbers).
+
+# Hotspot kaarten
+
+Hier gebruiken de file met zelfmoorddata van San Fransisco in de periode 2003-2018, die je ook op github kunt vinden [hier](https://github.com/jacobkap/r4crimz/tree/master/data): san_francisco_suicide_2003_2017.csv.
+
+Hotspotkaarten worden gebruikt om na te gaan waar gebeurtenissen of plekken (bv. misdrijven, marihuana dispensaria, drankwinkels) bijzonder vaak voorkomen. Deze kaarten worden vaak gebruikt door politiediensten, in het bijzonder om te bepalen waar de hotspotpolitie moet optreden (waarbij patrouilles worden toegespitst op gebieden met hoge criminaliteit).
+
+Er zijn echter belangrijke gebreken aan dit soort kaarten. Zoals we in deze les zullen zien, kunnen kleine veranderingen in de manier waarop we de kaarten maken aanzienlijke verschillen in interpretatie veroorzaken. Bijvoorbeeld, het bepalen van de grootte van de clusters die de hotspots vormen, kan het doen lijken alsof er veel grotere of kleinere gebieden met hotspots zijn dan in werkelijkheid het geval is.
+
+Deze clusters zijn ook vrij willekeurig getekend, zonder rekening te houden met context zoals buurten (straks zullen we kaarten maken die proberen rekening te houden met dit soort gebieden). Dit maakt de interpretatie ervan moeilijker, want ook al geven kaarten ons de context van de locatie, ze kunnen verschillende gebieden op een willekeurige manier combineren. Hotspotkaarten worden ook vaak bevolkingskaarten genoemd, waarbij de stippen aangeven waar mensen wonen in plaats van waar het risico van iets is. Zo zal een straat met verschillende appartementsgebouwen waarschijnlijk meer misdrijven hebben (en dus meer stippen op een hotspotkaart) dan een straat met alleen eengezinswoningen. Misschien is dat omdat de flatstraat echt meer criminaliteit kent dan de eengezinswoningstraat, maar het kan ook gewoon zijn dat plaatsen met meer mensen meer gebeurtenissen kennen (bv. misdrijven, zelfmoorden, enz.), ook al is het aantal van die gebeurtenissen lager dan in minder bevolkte plaatsen. Dus als men de context van een gebied niet kent, kunnen hotspotkaarten zeer misleidend zijn. We zullen hier verder ingaan op deze kwesties, maar houd rekening met deze risico's wanneer je jouw eigen hotspotkaarten maakt.
+
+Hier zullen we hotspotkaarten maken aan de hand van gegevens over zelfmoorden in San Francisco tussen 2003 en 2017. Eerst moeten we de gegevens inlezen, die "san_francisco_suicide_2003_2017.csv" heten. We kunnen het object dat we maken de naam *suicide* geven.
+
+```{r}
+library(readr)
+suicide <- read_csv("data/san_francisco_suicide_2003_2017.csv")
+suicide <- as.data.frame(suicide)
+```
+
+Deze gegevens bevatten informatie over elk in San Francisco gemeld misdrijf, inclusief het soort misdrijf (in ons geval altijd zelfmoord), een meer gedetailleerde misdaadcategorie, en een aantal datum- en locatievariabelen. Merk op dat zelfmoord eigenlijk geen misdaad is, ook al is het opgenomen in de misdaadgegevens van de politie van San Francisco. Zo zijn er een aantal andere niet-misdrijven opgenomen, zoals "Brandmelding", "Verkeersongeluk" en "Niet-crimineel". Dit komt vrij vaak voor bij "misdaad"-gegevens, waarin ook niet-misdrijven zijn opgenomen waarop de politie in het algemeen reageert, dus het is belangrijk jouw gegevens zorgvuldig te onderzoeken om te zien wat er is opgenomen. Het simpelweg optellen van de rijen als maatstaf voor criminaliteit zal over het algemeen het aantal misdrijven overschrijden.
+
+De kolommen X en Y zijn onze lengte- en breedtegraden, die we zullen gebruiken om de gegevens in kaart te brengen.
+
+```{r}
+head(suicide)
+```
+
+## Een eenvoudige kaart
+
+Om deze kaarten te maken gebruiken we het pakket `ggmap`.
+
+```{r}
+# Harrie: alleen installeren als je het pakket nog niet hebt
+#| eval: false
+#install.packages("ggmap")
+```
+
+```{r}
+library(ggmap)
+```
+
+We beginnen met het maken van de achtergrond van onze kaart, die San Francisco laat zien. Dat doen we met de `get_map()` functie van `ggmap`, die een kaartachtergrond krijgt van een aantal bronnen. We stellen de bron in op "stamen", omdat Google ons niet langer toestaat een kaart te krijgen zonder een account aan te maken. De eerste parameter in `get_map()` zijn simpelweg coördinaten voor de bounding box van San Francisco om er zeker van te zijn dat we een kaart van de juiste plek krijgen. Een bounding box bestaat uit vier coördinaten die samen een rechthoek vormen en wordt gebruikt om te bepalen waar in de wereld de kaart wordt getoond.
+
+Een gemakkelijke manier om de vier coördinaten voor een bounding box te vinden is naar de site [Bounding Box.](https://boundingbox.klokantech.com/) Deze site heeft een kaart van de wereld en een box op het scherm. Verplaats de doos naar het gebied waarvan u de kaart wilt hebben. Misschien moet u de grootte van de doos aanpassen om het gebied dat u wilt te bedekken. Verander dan in het gedeelte "Kopiëren en plakken" de dropdown box in "CSV". In de sectie rechts hiervan staan de vier getallen die de bounding box vormen. Je kunt die nummers kopiëren in `get_map()`.
+
+```{r}
+#| echo: false
+knitr::include_graphics('images/bounding_box.PNG')
+```
+
+```{r}
+sf_map <- ggmap(get_map(c(-122.530392,37.698887,-122.351177,37.812996), 
+                            source = "stamen"))
+sf_map
+```
+
+Omdat we de kaartuitvoer hebben opgeslagen in *sf_map* kunnen we deze kaartachtergrond hergebruiken voor alle kaarten die we maken. Dit bespaart ons tijd, omdat we niet elke keer hoeven te wachten om de kaart te downloaden. Laten we de zelfmoorden uit onze dataset plotten. Net als bij een scatterplot gebruiken we de `geom_point()` functie uit het `ggplot2` pakket en zetten we onze lengte- en breedtegraad variabelen op respectievelijk de x- en y-as. Wanneer we `ggmap` laden, wordt ook automatisch `ggplot2` geladen, omdat dat pakket nodig is om `ggmap` te laten werken, zodat we zelf geen `library(ggplot2)` hoeven te doen.
+
+```{r}
+sf_map +
+  geom_point(aes(x = X, y = Y),
+             data  = suicide)
+```
+
+Als we de stippen willen kleuren, kunnen we `color =` gebruiken en dan een kleur kiezen. Laten we het proberen met "forestgreen."
+
+```{r}
+sf_map +
+  geom_point(aes(x = X, y = Y),
+             data  = suicide,
+             color = "forestgreen")
+```
+
+Net als bij andere grafieken kunnen we de grootte van de punt veranderen met `size =`.
+
+Kleiner:
+
+```{r}
+sf_map +
+  geom_point(aes(x = X, y = Y),
+             data  = suicide,
+             color = "forestgreen",
+             size  = 0.5)
+```
+
+Groter:
+
+```{r}
+sf_map +
+  geom_point(aes(x = X, y = Y),
+             data  = suicide,
+             color = "forestgreen",
+             size  = 2)
+```
+
+Voor kaarten als deze - met één punt per gebeurtenis - is het moeilijk te zien of er gebeurtenissen plaatsvinden op dezelfde, of bijna dezelfde, plaats, aangezien elk punt ononderbroken groen is. We willen de punten semi-transparant maken, zodat als er meerdere zelfmoorden plaatsvinden op dezelfde plaats, dat punt donkerder wordt gearceerd dan wanneer er slechts één zelfmoord plaatsvond. Daarvoor gebruiken we de parameter `alpha =` die een waarde tussen 0 en 1 aanneemt. Hoe lager de waarde, hoe transparanter de stip.
+
+```{r}
+sf_map +
+  geom_point(aes(x = X, y = Y),
+             data  = suicide,
+             color = "forestgreen",
+             size  = 2,
+             alpha = 0.5)
+```
+
+Deze kaart is nuttig omdat ze ons toelaat gemakkelijk te zien waar elke zelfmoord in San Francisco plaatsvond tussen 2003 en 2017. Er zijn echter enkele beperkingen. Zo toont deze kaart alle zelfmoorden in één kaart, wat betekent dat trends in de tijd verloren gaan.
+
+## Wat zijn kaarten eigenlijk?
+
+Laten we even stilstaan bij wat een kaart eigenlijk is. Ik heb de volgende eenvoudige scatterplot gemaakt van onze gegevens met één stip per zelfmoord (minus die zonder coördinaten). Vergelijk dit met de vorige kaart en je zult zien dat ze hetzelfde zijn, behalve dat de kaart een nuttige achtergrond heeft, terwijl de plot een lege achtergrond heeft. Dat is alles wat statische kaarten zijn (in het hoofdstuk interactieve kaarten zullen we leren over interactieve kaarten), spreidingskaarten van coördinaten op een achtergrond van een kaart. Eigenlijk zijn het spreidingskaarten met context. En die context is nuttig; we kunnen de kaart interpreteren om te zien dat er bijvoorbeeld veel zelfmoorden zijn in het noordoosten van San Francisco, maar niet zoveel elders. Precies hetzelfde patroon is aanwezig in de scatterplot, maar zonder de mogelijkheid om te vertellen "waar" een stip is.
+
+```{r}
+plot(suicide$X, suicide$Y, col = "forestgreen")
+```
+
+## Een hotspotkaart maken
+
+Nu kunnen we beginnen met het maken van hotspotkaarten, die helpen om gebieden met clusters van gebeurtenissen weer te geven. We doen dit met hexagonale bins, een efficiënte manier om clusters van gebeurtenissen op een kaart weer te geven. Onze syntax is vergelijkbaar met de kaart hierboven, maar nu willen we de functie `stat_binhex()` gebruiken in plaats van `geom_point()`. Het begint hetzelfde als voorheen met `aes(x = X, y = Y)` (of hoe de kolommen lengtegraad en breedtegraad ook heten in jouw gegevens), evenals `data = suicide` buiten de `aes()` parameter.
+
+Er zijn twee nieuwe dingen die we nodig hebben om de hotspotkaart te maken. Ten eerste voegen we de parameter `bins = number_of_bins` toe, waarbij "number_of_bins" een getal is dat we kiezen. `bins` zegt in wezen hoe groot of klein we elk cluster van gebeurtenissen willen hebben. Een kleinere waarde voor `bins` zegt dat we meer gebeurtenissen geclusterd willen hebben, waardoor grotere bins ontstaan. Een grotere waarde voor `bins` laat elke bin kleiner zijn op de kaart en minder gebeurtenissen bevatten. Dit zal duidelijker worden met voorbeelden.
+
+Het tweede is het toevoegen van de functie `coord_cartesian()`, die `ggplot()` vertelt dat we een ruimtelijke analyse gaan uitvoeren bij het maken van de bins. We hoeven hier geen parameters aan toe te voegen.
+
+Om `stat_binhex()` te gebruiken, moeten we er ook voor zorgen dat het pakket `hexbin` geïnstalleerd is. `stat_binhex()` zal de benodigde functie van `hexbin` intern aanroepen zodat we `library(hexbin)` niet hoeven te draaien.
+
+```{r}
+# Wel installeren als je dat nog niet gedaan hebt
+#| echo: false
+# install.packages("hexbin")
+```
+
+Laten we beginnen met 60 bins en dan een ander aantal bins proberen om te zien hoe dat de kaart verandert.
+
+```{r}
+#| echo: false
+sf_map +
+  stat_binhex(aes(x = X, y = Y),
+              bins = 60,
+              data = suicide) +
+  coord_cartesian() 
+```
+
+```{r}
+#| echo: false
+#| message: false
+#| erorr: false
+#| warning: false
+temp <- sf_map +
+  stat_binhex(aes(x = X, y = Y),
+              bins = 60,
+              data = suicide) +
+  coord_cartesian()
+```
+
+```{r}
+#| echo: false
+temp
+```
+
+Uit deze kaart blijkt dat de meeste gebieden in de stad geen zelfmoorden hadden en dat de gebieden met de meeste zelfmoorden in het centrum van San Francisco liggen.
+
+Wat gebeurt er als we het aantal bins verlagen tot 30?
+
+```{r}
+#| echo: false
+sf_map +
+  stat_binhex(aes(x = X, y = Y),
+              bins = 30,
+              data = suicide) +
+  coord_cartesian() 
+```
+
+```{r}
+#| echo: false
+#| message: false
+#| erorr: false
+#| warning: false
+temp <- sf_map +
+  stat_binhex(aes(x = X, y = Y),
+              bins = 30,
+              data = suicide) +
+  coord_cartesian() 
+```
+
+```{r}
+#| echo: false
+temp
+```
+
+Elke bin is veel groter en bestrijkt bijna heel San Francisco. Wees voorzichtig met kaarten als deze! Deze kaart is zo breed dat het lijkt alsof zelfmoorden overal in de stad voorkomen. We weten uit de kaart waarop elke zelfmoord als een stip wordt weergegeven dat er minder dan 1300 zelfmoorden zijn; dit is dus niet waar. Kaarten als deze maken het gemakkelijk om de lezer te misleiden, inclusief jezelf!
+
+Hoe zit het met het kijken naar 100 bins?
+
+```{r}
+#| echo: false
+sf_map +
+  stat_binhex(aes(x = X, y = Y),
+              bins = 100,
+              data = suicide) +
+  coord_cartesian() 
+```
+
+```{r}
+#| echo: false
+#| message: false
+#| erorr: false
+#| warning: false
+temp <- sf_map +
+  stat_binhex(aes(x = X, y = Y),
+              bins = 100,
+              data = suicide) +
+  coord_cartesian() 
+```
+
+```{r}
+#| echo: false
+temp
+```
+
+Nu is elke bin erg klein en een veel kleiner gebied in San Francisco heeft een zelfmoord gehad. Dus wat is het juiste aantal bins om te gebruiken? Hier is geen universeel antwoord op te geven- je moet beslissen wat het doel is van de gegevens die je gebruikt. Dit levert ernstige problemen op voor - al dan niet opzettelijke - manipulatie van de gegevens, aangezien de kaart zo gemakkelijk kan worden gewijzigd zonder dat de gegevens zelf veranderen.
+
+### Kleuren
+
+Om de kleuren van de bin te veranderen kunnen we de parameter `scale_fill_gradient()` gebruiken. Deze accepteert een kleur voor "laag", wanneer de gebeurtenissen zeldzaam zijn, en "hoog" voor de bakken met frequente gebeurtenissen. We gebruiken kleuren uit [ColorBrewer,](http://colorbrewer2.org) en selecteren het geel-roodachtige thema ("3-class YlOrRd") uit de Multi-hue sectie van het "sequentiële" gegevensgedeelte van de pagina.
+
+```{r}
+#| eval: false
+sf_map +
+  stat_binhex(aes(x = X, y = Y),
+              bins  = 60,
+              data = suicide) +
+  coord_cartesian() +
+  scale_fill_gradient(low = "#ffeda0",
+                      high = "#f03b20")
+```
+
+```{r}
+#| echo: false
+#| message: false
+#| erorr: false
+#| warning: false
+temp <- sf_map +
+  stat_binhex(aes(x = X, y = Y),
+              bins  = 60,
+              data = suicide) +
+  coord_cartesian() +
+  scale_fill_gradient(low = "#ffeda0",
+                      high = "#f03b20")
+```
+
+```{r}
+#| echo: false
+temp
+```
+
+Standaard labelt het de legende als "count". Aangezien we weten dat het hier gaat om tellingen van zelfmoorden, laten we dat als zodanig labelen.
+
+```{r}
+#| eval: false
+sf_map +
+  stat_binhex(aes(x = X, y = Y),
+              bins  = 60,
+              data = suicide) +
+  coord_cartesian() +
+  scale_fill_gradient('Zelfmoorden',
+                      low = "#ffeda0",
+                      high = "#f03b20")
+```
+
+```{r}
+#| echo: false
+#| message: false
+#| erorr: false
+#| warning: false
+temp <- sf_map +
+  stat_binhex(aes(x = X, y = Y),
+              bins  = 60,
+              data = suicide) +
+  coord_cartesian() +
+  scale_fill_gradient('Zelfmoorden',
+                      low = "#ffeda0",
+                      high = "#f03b20")
+```
+
+```{r}
+#| echo: false
+temp
+```
+
+# Choropleth kaarten
+
+Hieronder maken we gebruik van enkele bestanden die je [hier](https://github.com/jacobkap/r4crimz/tree/master/data) kunt vinden:\
+san_francisco_suicide_2003_2017.csv, san_francisco_neighborhoods.dbf, san_francisco_neighborhoods.prj, san_francisco_neighborhoods.shp, san_francisco_neighborhoods.shx.
+
+We hebben hotspot-kaarten gemaakt om te laten zien in welke gebieden in San Francisco de meeste zelfmoorden plaatsvonden. We maakten de kaarten op verschillende manieren en stelden steeds vast dat zelfmoorden het meest voorkwamen in het noordoosten van San Francisco. In dit hoofdstuk gaan we choropleth-kaarten maken, dat zijn gearceerde kaarten waarbij elke "eenheid" een bekend geografisch gebied is, zoals een staat of een buurt. Denk aan verkiezingskaarten waar staten blauw gekleurd zijn als een Democratische kandidaat die staat wint en rood als een Republikeinse kandidaat wint. Dit zijn choropletkaarten - elke staat is gekleurd om iets aan te geven. Hier zullen we verder werken aan de zelfmoordgegevens en choropleth-kaarten maken, gearceerd door het aantal zelfmoorden in elke buurt (we definiëren dit later in het hoofdstuk) in de stad.
+
+Omdat we meer gaan werken aan de zelfmoordgegevens van San Francisco, laten we die nu inlezen, als we dat nog niet hebben gedaan.
+
+```{r}
+library(readr)
+suicide <- read_csv("data/san_francisco_suicide_2003_2017.csv")
+suicide <- as.data.frame(suicide)
+```
+
+Het pakket dat we zullen gebruiken om geografische gegevens te verwerken en het meeste werk in dit hoofdstuk te doen is `sf`. `sf` is een geavanceerd pakket en doet veel meer dan wat we in dit hoofdstuk behandelen. Voor meer informatie over de mogelijkheden van het pakket zie de website ervoor [hier.](http://r-spatial.github.io/sf/)
+
+```{r}
+# wel installeren als je het nog niet hebt
+#| eval: false
+#install.packages("sf")
+```
+
+```{r}
+library(sf)
+```
+
+Voor dit deel moeten we een shapefile inlezen dat de grenzen van elke buurt in San Francisco weergeeft. Een shapefile is vergelijkbaar met een data.frame, maar bevat informatie over hoe een geografische grens zoals een staat moet worden getekend. De manier waarop `sf` de shapefiles inleest is via de `st_read()` functie. Onze invoer binnen de () is een string met de naam van het ".shp" bestand dat we willen inlezen (omdat we R vertellen een bestand op de computer te lezen in plaats van een bestaand object, moet het tussen aanhalingstekens staan). Dit shapefile bevat wijken in San Francisco, dus noemen we het object *sf_neighborhoods*.
+
+Ik heb deze gegevens gedownload van San Francisco's Open Data site [hier,](https://data.sfgov.org/Geographic-Locations-and-Boundaries/Analysis-Neighborhoods/p5b7-5n3h) door het Shapefile formaat te selecteren in de Export tab. Als je dat zelf doet, krijg je een zip-bestand met meerdere bestanden erin. Dit is normaal bij shapefiles, je hebt meerdere bestanden en leest alleen het bestand met de extensie ".shp" in in R. We hebben nog steeds **wel** alle bestanden nodig, en `st_read()` gebruikt ze, zelfs als ze niet expliciet worden aangeroepen. Zorg er dus voor dat elk gedownload bestand in dezelfde werkdirectory staat als het .shp-bestand. De bestanden van deze site hadden moeilijk te lezen bestandsnamen, dus heb ik ze allemaal hernoemd als "san_francisco_neighborhoods", hoewel dat er niet toe doet als ze eenmaal in R zijn ingelezen.
+
+```{r}
+sf_neighborhoods <- st_read("data/san_francisco_neighborhoods.shp",
+                            quiet = TRUE)
+```
+
+Zoals gebruikelijk bij nieuwe gegevens, bekijken we de eerste 6 rijen.
+
+```{r}
+head(sf_neighborhoods)
+```
+
+De laatste kolom is belangrijk. In shapefiles is de kolom "geometrie" de kolom met de instructies om de kaart te maken. Deze gegevens hebben een enkele rij voor elke buurt in de stad. Dus de kolom "geometrie" heeft in elke rij een lijst met coördinaten, die, als ze in volgorde worden verbonden, die buurt vormen. Aangezien de kolom "geometrie" de instructies bevat om een kaart te maken, kan `plot()` deze kolom gebruiken om een kaart van de gegevens te tonen.
+
+```{r}
+plot(sf_neighborhoods$geometry)
+```
+
+Hier hebben we een kaart van San Francisco opgedeeld in buurten. Is dit een perfecte weergave van de wijken in San Francisco? Nee. Het is gewoon een poging van de stad om definities van buurten te maken. Waarschijnlijk zult u merken dat gebieden op de grens van buurten meer op elkaar lijken dan op gebieden aan de andere kant van hun aangewezen buurt. Je kunt hier een beetje lezen over hoe San Francisco de buurtgrenzen heeft bepaald [hier,](https://data.sfgov.org/Geographic-Locations-and-Boundaries/Analysis-Neighborhoods/p5b7-5n3h) maar weet dat dit, zoals alle geografische gebieden die iemand heeft aangewezen, een zekere mate van onnauwkeurigheid en willekeur in zich heeft. Zoals wel vaker is dit gewoon weer een beperking waar we rekening mee moeten houden.
+
+In de `head()` resultaten was er een sectie over iets dat "epsg" en "proj4string" heet. Laten we het daar specifiek over hebben, aangezien ze belangrijk zijn voor het werken met ruimtelijke gegevens.
+
+Een probleem bij het werken met geografische gegevens is dat [de aarde niet plat is.](https://en.wikipedia.org/wiki/Spherical_Earth) Aangezien de aarde bolvormig is, zal er altijd enige vervorming optreden wanneer we proberen de gegevens uit te zetten op een plat vlak zoals een kaart. Om hiermee rekening te houden, moeten we de lengte- en breedtegraden die we hebben omzetten zodat ze goed werken op een kaart. Dat doen we door onze gegevens te "projecteren" op de gebieden van de aarde die we willen. Dit is een complex gebied waaraan veel werk is besteed (zowel abstract als specifiek voor R), dus hier zal een uiterst beknopt overzicht geven van het onderwerp en sommige aspecten ervan te veel vereenvoudigen.
+
+Als we kijken naar de uitvoer van `st_crs(sf_neighborhoods)` zien we dat het EPSG is ingesteld op 4326 en de proj4string (die ons de huidige kaartprojectie vertelt) is "+proj=longlat +datum=WGS84 +no_defs". Deze CRS, WGS84, is een standaard CRS en wordt gebruikt wanneer u een GPS gebruikt om een locatie te vinden. Om de CRS voor bepaalde delen van de wereld te vinden, zie [hier.](https://spatialreference.org/) Als je op die site zoekt naar "Californië", zult u zien dat Californië in 6 zones is onderverdeeld. De site is niet erg behulpzaam bij het bepalen van de zones, maar met wat Googelen kun je vaak kaarten van staten of regio's vinden waarop de zones staan afgebeeld. Wij willen Californië zone 3, die de EPSG-code 2227 heeft. We gebruiken deze code om deze gegevens goed te projecteren.
+
+Als we de proj4string voor 2227 willen, kunnen we `st_crs(2227)` uitvoeren. Ik voer het hier niet uit omdat het een grote hoeveelheid tekst zal afdrukken, maar je zou het op je eigen computer moeten uitvoeren. Merk op dat de tekst in deze uitvoer "US survey foot" bevat. Dit betekent dat de eenheden in 'feet' zijn. Sommige projecties hebben eenheden in meters, dus houd hier rekening mee als je een analyse uitvoert, zoals kijken of een punt binnen X voet van een bepaald gebied ligt.
+
+Laten we onze sf_neighborhoods gegevens omzetten naar coördinaatreferentiesysteem 2227 met `st_transform()`.
+
+```{r}
+#| eval: false
+sf_neighborhoods <- st_transform(sf_neighborhoods, crs = 2227)
+st_crs(sf_neighborhoods)
+```
+
+```{r}
+#| echo: false
+#| out-width: 100%
+#| out-height: 100%
+knitr::include_graphics("images/choropleth.PNG")
+```
+
+## Ruimtelijke verbindingen
+
+Wat we met deze buurten willen doen is uitzoeken in welke buurt elke zelfmoord plaatsvond en het aantal zelfmoorden per buurt optellen. Zodra we dat gedaan hebben, kunnen we een kaart maken op buurtniveau en het aantal zelfmoorden per buurt meten. Een ruimtelijke verbinding (spatial join) lijkt sterk op gewone verbindingen waarbij we twee datasets samenvoegen op basis van gemeenschappelijke variabelen (zoals de naam van de staat of de unieke ID-code van een persoon). In dit geval voegt het samen op basis van een gedeeld geografisch kenmerk, als twee lijnen elkaar snijden of (zoals we hier zullen doen) als een punt binnen een bepaald geografisch gebied ligt.
+
+Op dit moment staan onze *suïcide* gegevens in een data.frame met wat informatie over elke zelfmoord en de lengte- en breedtegraad van de zelfmoord in aparte kolommen. We willen dit data.frame omzetten in een ruimtelijk object zodat we kunnen vinden in welke buurt elke zelfmoord plaatsvond. We kunnen het omzetten in een ruimtelijk object met behulp van de `st_as_sf()` functie van `sf`. Onze invoer is eerst onze data, *suïcide.* Dan zetten we in de `coords` parameter een vector van de kolomnamen zodat de functie weet welke kolommen de lengte- en breedtegraad zijn zodat hij die kolommen kan converteren naar een "geometrie" kolom zoals we eerder zagen in *sf_neighborhoods*. We stellen de CRS in op de WGS84-standaard die we eerder zagen, maar we passen hem aan aan de CRS van de buurtgegevens.
+
+```{r}
+suicide <- st_as_sf(suicide, 
+                    coords = c("X", "Y"),
+                    crs = "+proj=longlat +ellps=WGS84 +no_defs")
+```
+
+We willen onze zelfmoordgegevens in dezelfde projectie als de buurtgegevens, dus moeten we `st_transform()` gebruiken om de projectie te veranderen. Aangezien we willen dat de CRS dezelfde is als in *sf_neighborhoods*, kunnen we deze instellen met `st_crs(sf_neighborhoods)` om de juiste CRS te gebruiken.
+
+```{r}
+suicide <- st_transform(suicide, 
+                        crs = st_crs(sf_neighborhoods))
+```
+
+Nu kunnen we er naar kijken met `head()` om te zien of het is geprojecteerd.
+
+```{r}
+head(suicide)
+```
+
+We zien dat het nu een "simple feature collection" is met de juiste projectie. En we zien dat er een nieuwe kolom "geometrie" is, net als in *sf_neighborhoods*. Het gegevenstype in "geometrie" is PUNT, aangezien onze gegevens slechts een enkele locatie zijn in plaats van een veelhoek zoals in de buurtgegevens.
+
+Aangezien we zowel de buurt- als de zelfmoordengegevens hebben, maken we snel een kaart om de gegevens te zien.
+
+```{r}
+plot(sf_neighborhoods$geometry)
+plot(suicide$geometry, add = TRUE, col = "red")
+```
+
+Onze volgende stap is het combineren van deze twee datasets om uit te zoeken hoeveel zelfmoorden er in elke buurt plaatsvonden. Dit wordt een proces in meerdere stappen, dus laten we het eerst plannen. Onze zelfmoordgegevens zijn één rij voor elke zelfmoord; onze buurtgegevens zijn één rij voor elke buurt. Aangezien ons doel is om de gegevens op buurtniveau in kaart te brengen, moeten we de buurt berekenen waar elke zelfmoord plaatsvond en vervolgens aggregeren tot buurtniveau om een telling van de zelfmoorden per buurt te krijgen. Dan moeten we dat combineren met de oorspronkelijke buurtgegevens en kunnen we die in kaart brengen.
+
+1.  Zoek uit in welke buurt elke zelfmoord plaatsvond.
+2.  Voeg de zelfmoordgegevens samen tot we een rij per buurt krijgen en een kolom met het aantal zelfmoorden in die buurt.
+3.  Combineer met de buurtgegevens
+4.  Maak een kaart.
+
+We beginnen met het vinden van de buurt waar elke zelfmoord plaatsvond met behulp van de functie `st_join()`, een functie in `sf`. Dit zorgt voor een ruimtelijke verbinding en vindt de polygoon (buurt in ons geval) waarin elk punt zich bevindt. Omdat we de gegevens gaan aggregeren, noemen we de uitvoer van deze functie *suicide_agg*. De volgorde in de () is belangrijk! Voor onze aggregatie willen we de uitvoer op zelfmoordniveau, dus beginnen we met de *suïcide* gegevens. In de volgende stap zullen we zien waarom dit van belang is.
+
+```{r}
+suicide_agg <- st_join(suicide, sf_neighborhoods)
+```
+
+Laten we naar de eerste zes rijen kijken.
+
+```{r}
+head(suicide_agg)
+```
+
+Er is nu de kolom *nhood* van de buurtgegevens, die zegt in welke buurt de zelfmoord plaatsvond. Nu kunnen we aggregeren tot op buurtniveau met de `group_by()` en `summarize()` functies uit het `dplyr` pakket.
+
+We hebben eigenlijk geen variabele met het aantal zelfmoorden, dus die moeten we maken. We kunnen het gewoon *number_suicides* noemen en het de waarde 1 geven omdat elke rij slechts één zelfmoord is.
+
+```{r}
+suicide_agg$number_suicides <- 1
+```
+
+Nu kunnen we de gegevens samenvoegen en de resultaten weer toewijzen aan *suicide_agg*.
+
+```{r}
+library(dplyr)
+suicide_agg <- suicide_agg %>% 
+  group_by(nhood) %>% 
+  summarize(number_suicides = sum(number_suicides))
+```
+
+Laten we een samenvatting bekijken van de *number_suicides* variabele die we hebben gemaakt.
+
+```{r}
+summary(suicide_agg$number_suicides)
+```
+
+Het minimum is één zelfmoord per buurt, 32 gemiddeld, en 141 in de buurt met de meeste zelfmoorden. Dus wat maken we van deze gegevens? Nou, er zijn enkele gegeven die problemen veroorzaken. Laten we eens nadenken over de minimumwaarde. Had elke buurt in de stad minstens één zelfmoord? Nee. Kijk eens naar het aantal rijen in deze gegevens, in gedachten houdend dat er één rij per buurt zou moeten zijn.
+
+```{r}
+nrow(suicide_agg)
+```
+
+En laten we het eens vergelijken met de *sf_neighborhoods* data.
+
+```{r}
+nrow(sf_neighborhoods)
+```
+
+In de gegevens over zelfmoorden ontbreken 2 buurten (een van de 40 waarden ontbreekt en is NA, geen echte buurt). Dat komt omdat als daar geen zelfmoorden plaatsvonden, er nooit een overeenkomstige rij in de gegevens zou zijn, zodat die buurt niet zou voorkomen in de zelfmoordgegevens. Dat zal hier geen groot probleem zijn, maar is iets om in gedachten te houden als dit een echt onderzoeksproject zou zijn.
+
+De gegevens zijn klaar om samen te voegen met de *sf_neighborhoods* gegevens. We introduceren een nieuwe functie die het samenvoegen van gegevens eenvoudig maakt. Deze functie komt ook uit het pakket `dplyr`.
+
+`left_join(data1, data2)`
+
+Deze functie voegt deze gegevens samen en behoudt alle rijen van de linker gegevens en elke kolom van beide gegevenssets. Hij combineert de gegevens op basis van overeenkomende kolommen (overeenkomend betekent dezelfde kolomnaam) in beide gegevenssets. Aangezien in onze gegevenssets de kolom *nhood* in beide bestaat, worden de gegevens op basis van die kolom samengevoegd.
+
+Er zijn twee andere functies die vergelijkbaar zijn, maar verschillen op basis van welke rijen ze bewaren.
+
+-   `left_join()` - Alle rijen uit linkse gegevens en alle kolommen uit linkse en rechtse gegevens
+-   `right_join()` - Alle rijen van de gegevens rechts en alle kolommen van de gegevens links en rechts
+-   `full_join()` - Alle rijen en alle kolommen van linkse en rechtse gegevens
+
+We zouden ook de `merge()` functie kunnen gebruiken, die in R is ingebouwd, maar die functie is langzamer dan de `dplyr` functies en vereist dat we handmatig de overeenkomende kolommen instellen.
+
+We willen alle rijen in *sf_neighborhoods* (alle buurten behouden), dus we kunnen `left_join(sf_neighborhoods, suicide_agg)` gebruiken. Laten we de resultaten toewijzen aan een nieuwe gegevensverzameling genaamd *sf_neighborhoods_suicide*.
+
+We hebben de ruimtelijke gegevens voor "suicide_agg" niet meer nodig, en het zal problemen veroorzaken met onze join als we die houden, dus laten we de kolom "geometrie" uit die gegevens verwijderen. We kunnen dit doen door de kolom de waarde NULL te geven.
+
+```{r}
+suicide_agg$geometry <- NULL
+```
+
+Nu kunnen we het koppelen.
+
+```{r}
+sf_neighborhoods_suicide <- left_join(sf_neighborhoods, suicide_agg)
+```
+
+Als we opnieuw naar `summary()` kijken voor *number_suicides* zien we dat er nu twee rijen met NA's zijn. Dit zijn de buurten waar geen zelfmoorden plaatsvonden en die dus niet voorkomen in de *suicide_agg* gegevens.
+
+```{r}
+summary(sf_neighborhoods_suicide$number_suicides)
+```
+
+We moeten deze waarden omzetten in 0. We gebruiken de functie `is.na()` om voorwaardelijk alle rijen te vinden met een NA-waarde in de kolom *number_suicides* en gebruiken de notatie met vierkante haken om de waarde in 0 te veranderen.
+
+```{r}
+sf_neighborhoods_suicide$number_suicides[
+  is.na(sf_neighborhoods_suicide$number_suicides)] <- 0
+```
+
+Als we het opnieuw controleren, zien we dat het minimum nu 0 is en dat het gemiddelde aantal zelfmoorden iets afneemt tot ongeveer 31,5 per buurt.
+
+```{r}
+summary(sf_neighborhoods_suicide$number_suicides)
+```
+
+## Choropleth kaarten maken
+
+**Tot slot** zijn we klaar om enkele chloropleth-kaarten te maken.
+
+Voor deze kaarten maken we weer gebruik van `ggplot2` en zorg ervoor dat het pakket is geladen.
+
+```{r}
+library(ggplot2)
+```
+
+Het voordeel van `ggplot2` is dat je langzaam grafieken of kaarten kunt bouwen en de grafiek bij elke stap kunt verbeteren. Zo heb je de functies als `geom_line()` voor lijngrafieken en `geom_point()` voor scatter plots. Voor het in kaart brengen van onze polygonen zullen we `geom_sf()` gebruiken, die weet hoe hij ruimtelijke gegevens moet verwerken.
+
+Zoals gewoonlijk beginnen we met `ggplot()`, waarbij we eerst onze gegevens invoeren. Dan gebruiken we binnen `aes` (de esthetiek van de grafiek/kaart) een nieuwe parameter `fill`. In `fill` zetten we de kolom *number-suicides* en het zal de polygonen (buurten) kleuren op basis van de waarden in die kolom. Dan kunnen we de `geom_sf()` toevoegen.
+
+```{r}
+ggplot(sf_neighborhoods_suicide, aes(fill = number_suicides)) +
+  geom_sf() 
+```
+
+We hebben nu een choropleth kaart gemaakt met het aantal zelfmoorden per buurt in San Francisco! Volgens de legenda hebben lichtblauwe buurten de meeste zelfmoorden en donkerblauwe buurten de minste (of helemaal geen). Normaal zouden we het omgekeerde willen, met donkere gebieden die een grotere hoeveelheid van wat de kaart laat zien betekenen.
+
+We kunnen `scale_fill_gradient()` gebruiken om de kleuren in te stellen zoals we willen. We voeren een kleur in voor een lage waarde en een kleur voor een hoge waarde en de kaart wordt met die kleuren verduisterd.
+
+```{r}
+ggplot(sf_neighborhoods_suicide, 
+       aes(fill = number_suicides)) +
+  geom_sf() +
+  scale_fill_gradient(low = "white",
+                      high = "red") 
+```
+
+Dit geeft een veel betere kaart en toont duidelijk de gebieden waar zelfmoorden het meest voorkomen en waar geen zelfmoorden plaatsvonden.
+
+Om deze kaart leesbaarder te maken en er beter uit te laten zien, voegen we een titel toe aan de kaart en de legenda.
+
+```{r}
+ggplot(sf_neighborhoods_suicide, 
+       aes(fill = number_suicides)) +
+  geom_sf() +
+  scale_fill_gradient(low = "white",
+                      high = "red") +
+  labs(fill = "# van zelfmoorden",
+       title = "Zelfmoorden in San Francisco, per buurt",
+       subtitle = "2003 - 2017") 
+```
+
+Aangezien de coördinaten niets toevoegen aan de kaart, halen we ze weg.
+
+```{r}
+ggplot(sf_neighborhoods_suicide,
+       aes(fill = number_suicides)) +
+  geom_sf() +
+  scale_fill_gradient(low = "white",
+                      high = "red") +
+  labs(fill = "# van zelfmoorden",
+       title = "Zelfmoorden in San Francisco, per buurt",
+       subtitle = "2003 - 2017") +
+  theme(axis.text.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks = element_blank())
+```
+
+Dus wat moeten we meenemen van deze kaart? Er zijn meer zelfmoorden in de binnenstad dan elders in de stad. Betekent dit dat mensen daar eerder zelfmoord plegen dan elders? Niet noodzakelijkerwijs. Een grote fout die mensen maken bij het maken van een choropleth kaart (of eigenlijk elk type kaart) is het per ongeluk maken van een bevolkingskaart. De donkerder gearceerde delen van onze kaart zijn ook de plaatsen waar veel mensen wonen. Dus als er meer mensen zijn, is het redelijk dat er meer zelfmoorden zijn (of misdaden, enz.). Wat we eigenlijk zouden willen doen, is een percentage maken per bevolkingsaantal (meestal per 100.000, hoewel dit veronderstelt dat het risico voor elke persoon in de stad gelijk is, wat niet echt correct is) om te controleren voor bevolkingsverschillen.
+
+We gebruiken deze gegevens straks om interactieve choropleth-kaarten te maken, dus laten we ze opslaan.
+
+```{r}
+#| eval: false
+save(sf_neighborhoods_suicide, file = "data/sf_neighborhoods_suicide.rda")
+```
+
+```{r}
+#| echo: false
+rm(sf_neighborhoods_suicide)
+```
+
+# Interactieve kaarten
+
+Voor dit deel gebruiken we de volgende bestanden, die je [hier](https://github.com/jacobkap/r4crimz/tree/master/data) kunt downloaden:\
+san_francisco_marijuana_geocoded.csv and sf_neighborhoods_suicide.rda.
+
+Hoewel choropleth-kaarten nuttig zijn, is hun vermogen om informatie op incidentniveau weer te geven vrij beperkt. Zij tonen eerder brede trends - waar in een stad misdaad plaatsvond - dan dat zij informatie verschaffen over specifieke misdaadincidenten. Hoewel brede trends belangrijk zijn, kleven er grote nadelen aan het feit dat je geen belangrijke informatie over een incident kunt krijgen zonder de gegevens te moeten controleren. Een interactieve kaart overbrugt deze kloof door trends te tonen en tegelijkertijd in te zoomen op individuele incidenten en informatie over elk incident te bekijken.
+
+Voor deze les gebruiken we gegevens over elke marihuana apotheek in San Francisco met een actieve apothekers licentie per eind september 2019. Het bestand heet "san_francisco_marijuana_geocoded.csv".
+
+Wanneer het is binnengehaald via California's Bureau of Cannabis Control ([here](https://aca5.accela.com/bcc/customization/bcc/cap/licenseSearch.aspx) als je geïnteresseerd bent) bevatten de data de adressen van elke apotheek maar zonder coördinaten. Zonder coördinaten kunnen we punten niet in kaart brengen, wat betekent dat we ze moeten geocoderen. Geocoderen is het proces van het nemen van een adres en het verkrijgen van de lengte- en breedtegraad van dat adres voor het in kaart brengen. Voor deze les heb ik de gegevens al gegeocodeerd.
+
+```{r}
+library(readr)
+marijuana <- read_csv("data/san_francisco_marijuana_geocoded.csv")
+marijuana <- as.data.frame(marijuana)
+```
+
+## Waarom zijn interactieve grafieken belangrijk?
+
+### Uw gegevens begrijpen
+
+Belangrijk is het om jouw data goed te begrijpen, dat is cruciaal voor goed onderzoek. Het maken van interactieve kaarten is een zeer nuttige manier om je gegevens beter te begrijpen, omdat je meteen geografische patronen kunt zien en snel naar kenmerken van die incidenten kunt kijken om ze te begrijpen.
+
+Straks maken we een kaart van elke marihuana apotheek in San Francisco waarop je op de apotheek kunt klikken om er informatie over te zien. Als we een cluster van apotheken zien, kunnen we op elke apotheek klikken om te zien of ze op elkaar lijken - bijvoorbeeld of ze eigendom zijn van dezelfde persoon. Hoewel het mogelijk is om deze patronen te vinden door alleen naar de gegevens te kijken, is het gemakkelijker om een geografisch patroon te zien en meteen informatie over elk incident te bekijken.
+
+### Politieafdelingen gebruiken ze
+
+Interactieve kaarten zijn populair bij grote politieafdelingen, zoals Philadelphia en New York City. Ze maken het mogelijk geografische patronen in de gegevens gemakkelijk te begrijpen en, wat belangrijk is, ze maken die toegang mogelijk voor mensen die niet over de technische vaardigheden beschikken om met de gegevens zelf te werken. Het leren van interactieve kaarten kan je helpen bij een toekomstige baan.
+
+## De interactieve kaart maken
+
+Zoals gewoonlijk bekijken we de bovenste 6 rijen van de gegevens.
+
+```{r}
+head(marijuana)
+```
+
+Deze gegevens bevatten informatie over het type vergunning, wie de eigenaar is en waar de apotheek zich bevindt (als adres en als coördinaten). We gaan een kaart maken met alle apotheken in de stad en zorgen ervoor dat als je op een stip klikt, er een popup verschijnt met informatie over die apotheek.
+
+We gebruiken het pakket `leaflet` voor onze interactieve kaart. `leaflet` produceert kaarten die lijken op Google Maps met cirkels (of elk icoontje dat we kiezen) voor elke waarde die we aan de kaart toevoegen. Je kunt inzoomen, rondscrollen, en bij elk incident een context geven die niet beschikbaar is op een statische kaart.
+
+```{r, eval = FALSE}
+# wel installeren als je het nog niet hebt
+# install.packages("leaflet")
+```
+
+```{r}
+library(leaflet)
+```
+
+Om een `leaflet` map te maken moeten we de functie `leaflet()` uitvoeren en een tile aan de map toevoegen. We kunnen gewoon de standaard tile gebruiken die geen invoer nodig heeft. Als je geïnteresseerd bent in andere tiles, zie dan deze [website](https://leaflet-extras.github.io/leaflet-providers/preview/).
+
+Wij zullen een 'standaardtile' van Open Street Maps gebruiken. Deze geeft straatnamen en markeert belangrijke kenmerken zoals parken en grote winkels, wat een nuttige context biedt voor het bekijken van de gegevens.
+
+```{r}
+#| eval: false
+leaflet() %>% 
+  addTiles()
+```
+
+```{r}
+#| echo: false
+#| eval: false
+
+m <- leaflet() %>% 
+  addTiles()
+saveWidget(m, "leaflet_map.html", selfcontained = FALSE)
+webshot("leaflet_map.html",
+        file = "images/leaflet_map1.png",
+        cliprect = "viewport")
+```
+
+```{r, echo = FALSE}
+knitr::include_graphics("images/leaflet_map1.png")
+```
+
+Wanneer je de bovenstaande code uitvoert, toont het een wereldkaart (verschillende keren gekopieerd). Zoom daarop in, en het toont relevante kenmerken van waar je ook kijkt.
+
+Let op de `%>%` tussen de `leaflet()` functie en de `addTiles()` functie. `leaflet` is een van de pakketten in R waarin we pipes kunnen gebruiken.
+
+Om de punten aan de grafiek toe te voegen gebruiken we de functie `addMarkers()`, die twee parameters heeft, `lng` en `lat`. Voor beide parameters zetten we de kolom waarin respectievelijk de lengtegraad en de breedtegraad staan.
+
+```{r}
+#| eval: false
+leaflet() %>% 
+  addTiles() %>%
+  addMarkers(lng = marijuana$long, 
+             lat = marijuana$lat)
+
+```
+
+```{r}
+#| echo: false
+#| eval: false
+m <- leaflet() %>% 
+  addTiles() %>%
+  addMarkers(lng = marijuana$long, 
+             lat = marijuana$lat)
+saveWidget(m, "leaflet_map.html", selfcontained = FALSE)
+webshot("leaflet_map.html", 
+        file = "images/leaflet_map2.png",
+        cliprect = "viewport")
+```
+
+```{r}
+#| echo: false
+knitr::include_graphics("images/leaflet_map2.png")
+```
+
+Het voegt nu een pictogram toe dat aangeeft waar elke apotheek in onze dataset zich bevindt. U kunt inzoomen en rondscrollen om meer te zien over waar de apotheken zich bevinden. Er zijn slechts enkele tientallen locaties in de gegevens, dus de popups die elkaar een beetje overlappen hebben geen invloed op onze kaart. Als we er meer hadden - zoals misdaadgegevens met miljoenen overtredingen - zou het erg moeilijk leesbaar worden. Om de pictogrammen in cirkels te veranderen kunnen we de functie `addMarkers()` veranderen in `addCircleMarkers()`, waarbij de rest van de code hetzelfde blijft.
+
+```{r}
+#| eval: false
+leaflet() %>% 
+  addTiles() %>%
+  addCircleMarkers(lng = marijuana$long, 
+                   lat = marijuana$lat)
+
+```
+
+```{r}
+#| echo: false
+#| eval: false
+m <- leaflet() %>% 
+  addTiles() %>%
+  addCircleMarkers(lng = marijuana$long, 
+                   lat = marijuana$lat)
+saveWidget(m, "leaflet_map.html", selfcontained = FALSE)
+webshot("leaflet_map.html",
+        file = "images/leaflet_map3.png",
+        cliprect = "viewport")
+```
+
+```{r}
+#| echo: false
+knitr::include_graphics("images/leaflet_map3.png")
+```
+
+Dit maakt van het icoontje cirkels, die minder ruimte innemen. Om de grootte van onze icoontjes aan te passen gebruiken we de `radius` parameter in `addMarkers()` of `addCircleMarkers()`. Hoe groter de straal, hoe groter de icoontjes.
+
+```{r}
+#| eval: false
+leaflet() %>% 
+  addTiles() %>%
+  addCircleMarkers(lng = marijuana$long, 
+                   lat = marijuana$lat,
+                   radius = 5)
+```
+
+```{r}
+#| echo: false
+#| eval: false
+m <- leaflet() %>% 
+  addTiles() %>%
+  addCircleMarkers(lng = marijuana$long, 
+                   lat = marijuana$lat,
+                   radius = 5)
+saveWidget(m, "leaflet_map.html", selfcontained = FALSE)
+webshot("leaflet_map.html",
+        file = "images/leaflet_map4.png",
+        cliprect = "viewport")
+```
+
+```{r}
+#| echo: false
+knitr::include_graphics("images/leaflet_map4.png")
+```
+
+Door de `radius` optie op 5 te zetten wordt de grootte van het icoontje een stuk kleiner. In je eigen kaarten zul je met deze optie moeten rommelen om het eruit te laten zien zoals je wilt. Laten we verder gaan met het toevoegen van informatie over elk icoontje wanneer erop geklikt wordt.
+
+## Popup informatie toevoegen
+
+Met de parameter `popup` in de `addMarkers()` of `addCircleMarkers()` functies kun je een karakterwaarde invoeren (als het nog geen karakterwaarde is, wordt het geconverteerd naar een karakterwaarde) die als popup wordt getoond als je op het icoontje klikt. Laten we hier eenvoudig beginnen met het invoeren van de kolom bedrijfseigenaar in onze gegevens en het vervolgens opbouwen tot een meer gecompliceerde popup.
+
+```{r}
+#| eval: false
+leaflet() %>% 
+  addTiles() %>%
+  addCircleMarkers(lng = marijuana$long, 
+                   lat = marijuana$lat,
+                   radius = 5,
+                   popup = marijuana$Business_Owner)
+```
+
+```{r}
+#| echo: false
+knitr::include_graphics("images/interactive_popup1.PNG")
+```
+
+Probeer rond te klikken en je zult zien dat de eigenaar van de apotheek waarop je hebt geklikt boven de stip verschijnt. Meestal willen we een titel hebben die aangeeft wat de waarde in de popup betekent. We kunnen dit doen door de functie `paste()` te gebruiken om tekst die de waarde uitlegt te combineren met de waarde zelf. Laten we de woorden "Bedrijfseigenaar:" toevoegen voor de kolom Bedrijfseigenaar.
+
+```{r}
+#| eval: false
+leaflet() %>% 
+  addTiles() %>%
+  addCircleMarkers(lng = marijuana$long, 
+                   lat = marijuana$lat,
+                   radius = 5,
+                   popup = paste("Eigenaar:",
+                                 marijuana$Business_Owner))
+```
+
+```{r}
+#| echo: false
+knitr::include_graphics("images/interactive_popup2.PNG")
+```
+
+We hebben niet al te veel informatie in de gegevens, maar laten we het adres en het licentienummer toevoegen aan de popup door ze toe te voegen aan de `paste()` functie die we gebruiken.
+
+```{r}
+#| eval: false
+leaflet() %>% 
+  addTiles() %>%
+  addCircleMarkers(lng = marijuana$long, 
+                   lat = marijuana$lat,
+                   radius = 5,
+                   popup = paste("Eigenaar:",
+                                 marijuana$Business_Owner,
+                                 "Adres:",
+                                 marijuana$Premise_Address,
+                                 "Licentie:", 
+                                 marijuana$License_Number))
+```
+
+```{r}
+#| echo: false
+knitr::include_graphics("images/interactive_popup3.PNG")
+```
+
+Als alles op een lijn gezet wordt, is het moeilijk om te lezen. `<br>` is HTML taal voor regelonderbreking.
+
+```{r}
+#| eval: false
+leaflet() %>% 
+  addTiles() %>%
+  addCircleMarkers(lng = marijuana$long, 
+                   lat = marijuana$lat,
+                   radius = 5,
+                   popup = paste("Eigenaar:",
+                                 marijuana$Business_Owner,
+                                 "<br>",
+                                 "Adres:", 
+                                 marijuana$Premise_Address,
+                                 "<br>",
+                                 "Licentie:",
+                                 marijuana$License_Number))
+```
+
+```{r}
+#| echo: false
+knitr::include_graphics("images/interactive_popup4.PNG")
+```
+
+## Omgaan met te veel markers
+
+In ons geval met slechts 33 rijen gegevens lost het veranderen van de markers in cirkels ons zichtbaarheidsprobleem op. In gevallen met veel meer rijen gegevens werkt dit niet altijd. Een oplossing hiervoor is om de gegevens te clusteren in groepen waarbij de punten alleen zichtbaar zijn als u inzoomt.
+
+Als we de code `clusterOptions = markerClusterOptions()` toevoegen aan onze `addCircleMarkers()` zal het voor ons clusteren.
+
+```{r}
+#| eval: false
+leaflet() %>% 
+  addTiles() %>%
+  addCircleMarkers(lng = marijuana$long, 
+                   lat = marijuana$lat,
+                   radius = 5,
+                   popup = paste("Eigenaar:", 
+                                 marijuana$Business_Owner,
+                                 "<br>",
+                                 "Adres:",
+                                 marijuana$Premise_Address,
+                                 "<br>",
+                                 "Licentie:",
+                                 marijuana$License_Number),
+                   clusterOptions = markerClusterOptions())
+```
+
+```{r}
+#| echo: false
+#| eval: false
+m <- leaflet() %>% 
+  addTiles() %>%
+  addCircleMarkers(lng = marijuana$long, 
+                   lat = marijuana$lat,
+                   radius = 5,
+                   popup = paste("Eigenaar:", 
+                                 marijuana$Business_Owner,
+                                 "<br>",
+                                 "Adres:",
+                                 marijuana$Premise_Address,
+                                 "<br>",
+                                 "Licentie:",
+                                 marijuana$License_Number),
+                   clusterOptions = markerClusterOptions())
+saveWidget(m, "leaflet_map.html", selfcontained = FALSE)
+webshot("leaflet_map.html",
+        file = "images/leaflet_map_temp.png",
+        cliprect = "viewport")
+```
+
+```{r}
+#| echo: false
+knitr::include_graphics("images/leaflet_map_temp.png")
+```
+
+Dicht bij elkaar gelegen locaties zijn gegroepeerd in tamelijk willekeurige groepen. We kunnen zien hoe groot elke groepering is door onze cursor over de cirkel te bewegen. Klik op een cirkel of zoom in, en het toont kleinere groepen op lagere aggregatieniveaus. Blijf klikken of inzoomen, en uiteindelijk wordt elke locatie als een eigen cirkel weergegeven.
+
+Deze methode is zeer nuttig voor het verwerken van grote hoeveelheden gegevens, omdat zo wordt vermeden dat de kaart met te veel pictogrammen tegelijk wordt overladen. Een nadeel is echter dat de clusters willekeurig worden gecreëerd, waardoor belangrijke context, zoals de buurt, verloren kan gaan.
+
+## Interactieve choropleth kaarten
+
+Hierboven hebben we gewerkt met choropleth-kaarten, dat zijn kaarten met gearceerde regio's, zoals staten die gekleurd zijn door welke politieke partij ze gewonnen hebben bij een verkiezing. Nu gaan we interactieve choropletkaarten maken waarbij je op een gearceerde regio kunt klikken en informatie over die regio te zien krijgt. We maken dezelfde kaart als voorheen - buurten gearceerd door het aantal zelfmoorden.
+
+We laden de gegevens over zelfmoorden in San Francisco per buurt die we eerder hebben gemaakt. We moeten ze ook projecteren op de standaard lengte- en breedteprojectie, anders werkt onze kaart niet goed.
+
+```{r}
+library(sf)
+load("data/sf_neighborhoods_suicide.rda") 
+sf_neighborhoods_suicide <- st_transform(sf_neighborhoods_suicide, 
+                                         "+proj=longlat +datum=WGS84")
+```
+
+We beginnen de `leaflet` map op dezelfde manier als voorheen, maar gebruiken de functie `addPolygons()`, en onze invoer is hier de geometriekolom van *sf_neighborhoods_suicide*.
+
+```{r}
+#| eval: false
+leaflet() %>% 
+  addTiles() %>%
+  addPolygons(data = sf_neighborhoods_suicide$geometry)
+```
+
+```{r}
+#| echo: false
+knitr::include_graphics("images/leaflet_choropleth1.png")
+```
+
+Het maakte een kaart met dikke blauwe lijnen die elke buurt aangeven. Laten we het uiterlijk van de grafiek een beetje veranderen voordat we een popup maken of de wijken arceren De parameter `color` in `addPolygons()` verandert de kleur van de lijnen - laten we hem veranderen in zwart. De lijnen zijn ook erg dik, waardoor ze in elkaar overlopen en de buurten moeilijk te zien zijn. We kunnen de `weight` parameter veranderen om de grootte van deze lijnen te veranderen - kleinere waarden zijn dunnere lijnen. Laten we proberen dit op 1 te zetten.
+
+```{r}
+#| eval: false
+leaflet() %>% 
+  addTiles() %>%
+  addPolygons(data = sf_neighborhoods_suicide$geometry,
+              color = "black",
+              weight = 1)
+```
+
+```{r}
+#| echo: false
+knitr::include_graphics("images/leaflet_choropleth2.png")
+```
+
+Dat ziet er beter uit en we kunnen elke buurt nu duidelijk onderscheiden.
+
+Zoals we eerder deden, kunnen we de popup-tekst direct toevoegen aan de functie die de geografische vormen maakt, in dit geval `addPolygons()`. Laten we de kolomwaarde *nhood* toevoegen - de naam van die buurt - en het aantal zelfmoorden in die buurt. Zoals eerder, wanneer we op een buurt klikken verschijnt een popup met de uitvoer die we hebben opgegeven.
+
+```{r}
+#| eval: false
+leaflet() %>% 
+  addTiles() %>%
+  addPolygons(data = sf_neighborhoods_suicide$geometry,
+              col = "black",
+              weight = 1,
+              popup = paste0("Buurt: ", 
+                             sf_neighborhoods_suicide$nhood,
+                             "<br>",
+                             "Aantal zelfmoorden: ",
+                             sf_neighborhoods_suicide$number_suicides))
+```
+
+```{r}
+#| echo: false
+knitr::include_graphics("images/leaflet_choropleth3.png")
+```
+
+Voor dit soort kaarten willen we meestal elke polygoon een kleur geven om aan te geven hoe vaak de gebeurtenis in de polygoon heeft plaatsgevonden. We gebruiken de functie `colorNumeric()`, die veel werk wegneemt van het inkleuren van de kaart. Deze functie neemt twee ingangen, eerst een kleurenpalet, dat we kunnen halen van de site [Color Brewer.](http://colorbrewer2.org/#type=sequential&scheme=OrRd&n=3) Laten we de vierde balk in de Sequential pagina gebruiken, die licht oranje tot rood is. Als je kijkt in de sectie met elke HEX-waarde staat er dat het palet "3-class OrRd" is. De "3-klasse" betekent gewoon dat we 3 kleuren hebben geselecteerd, de "OrRd" is het deel dat we willen. Dat vertelt `colorNumeric()` om het palet te maken met deze kleuren. De tweede parameter is de kolom voor onze numerieke variabele, *number_suicides*. We slaan de uitvoer van `colorNumeric("OrRd", sf_neighborhoods_suicide$number_suicides)` op als een nieuw object, dat we voor het gemak *pal* noemen omdat het een kleurenpalet is. Vervolgens stellen we in `addPolygons()` de parameter `fillColor` in op `pal(sf_neighborhoods_suicide$number_suicides)`, waardoor deze functie op de kolom wordt uitgevoerd. Wat dit echt doet is bepalen welke kleur elke buurt moet krijgen op basis van de waarde in de *number_suicides* kolom.
+
+```{r}
+#| eval: false
+pal <- colorNumeric("OrRd", sf_neighborhoods_suicide$number_suicides)
+leaflet() %>% 
+  addTiles() %>%
+  addPolygons(data = sf_neighborhoods_suicide$geometry,
+              col = "black",
+              weight = 1,
+              popup = paste0("Buurt: ",
+                             sf_neighborhoods_suicide$nhood,
+                             "<br>",
+                             "Aantal zelfmoorden: ",
+                             sf_neighborhoods_suicide$number_suicides),
+              fillColor = pal(sf_neighborhoods_suicide$number_suicides))
+```
+
+```{r}
+#| echo: false
+knitr::include_graphics("images/leaflet_choropleth4.png")
+```
+
+Aangezien de buurten transparant zijn, is het moeilijk te onderscheiden welke kleur wordt getoond. We kunnen elke buurt een effen kleur geven door de parameter `fillOpacity` in `addPolygons()` op 1 te zetten.
+
+```{r}
+#| eval: false
+leaflet() %>% 
+  addTiles() %>%
+  addPolygons(data = sf_neighborhoods_suicide$geometry,
+              col = "black",
+              weight = 1,
+              popup = paste0("Buurt: ",
+                             sf_neighborhoods_suicide$nhood,
+                             "<br>",
+                             "Aantal zelfmoorden: ",
+                             sf_neighborhoods_suicide$number_suicides),
+              fillColor = pal(sf_neighborhoods_suicide$number_suicides),
+              fillOpacity = 1)
+```
+
+```{r}
+#| echo: false
+knitr::include_graphics("images/leaflet_choropleth5.png")
+```
+
+Om een legenda toe te voegen gebruiken we de functie `addLegend()`, die drie parameters nodig heeft. `pal` vraagt welk kleurenpalet we gebruiken - we willen dat het precies hetzelfde is als waarmee we de buurten kleuren, dus gebruiken we het *pal* object dat we gemaakt hebben. De `values` parameter wordt gebruikt voor welke kolom onze numerieke waarden komen, in ons geval de *number_suicides* kolom dus die voeren we in. Tenslotte bepaalt `opacity` hoe transparant de legenda zal zijn. Aangezien elke buurt is ingesteld om helemaal niet transparant te zijn, zetten we dit ook op 1 om consistent te zijn.
+
+```{r}
+#| eval: false
+leaflet() %>% 
+  addTiles() %>%
+  addPolygons(data = sf_neighborhoods_suicide$geometry,
+              col = "black",
+              weight = 1,
+              popup = paste0("Buurt: ", 
+                             sf_neighborhoods_suicide$nhood,
+                             "<br>",
+                             "Aantal zelfmoorden: ",
+                             sf_neighborhoods_suicide$number_suicides),
+              fillColor = pal(sf_neighborhoods_suicide$number_suicides),
+              fillOpacity = 1) %>%
+  addLegend(pal = pal, 
+            values = sf_neighborhoods_suicide$number_suicides,
+            opacity = 1)
+```
+
+```{r}
+#| echo: false
+knitr::include_graphics("images/leaflet_choropleth6.png")
+```
+
+Tenslotte kunnen we een titel aan de legende toevoegen met de `title` parameter binnen `addLegend()`.
+
+```{r}
+#| eval: false
+leaflet() %>% 
+  addTiles() %>%
+  addPolygons(data = sf_neighborhoods_suicide$geometry,
+              col = "black",
+              weight = 1,
+              popup = paste0("Buurt: ",
+                             sf_neighborhoods_suicide$nhood,
+                             "<br>",
+                             "Aantal zelfmoorden: ",
+                             sf_neighborhoods_suicide$number_suicides),
+              fillColor = pal(sf_neighborhoods_suicide$number_suicides),
+              fillOpacity = 1) %>%
+  addLegend(pal = pal, 
+            values = sf_neighborhoods_suicide$number_suicides,
+            opacity = 1,
+            title = "Suicides") %>%
+ addProviderTiles(providers$CartoDB.Positron)  
+```
+
+```{r}
+#| echo: false
+knitr::include_graphics("images/leaflet_choropleth7.png")
+```

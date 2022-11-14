@@ -20,7 +20,7 @@ about:
 ---
 
 
-Met deze blog Harrie's Hoekje wil ik enkele ontwikkelingen op het terrein van moderne data-analyse bijhouden. Op dit terrein gebeurt op dit moment heel veel. Het zo nu en dan erover schrijven is voor mij een manier om een beetje bij te blijven en ontwikkelingen die mij interesseren zichtbaar te maken.   
+Met deze blog Harrie's Hoekje wil ik enkele ontwikkelingen op het terrein van moderne data-analyse bijhouden. Op dit terrein gebeurt op dit moment heel veel. Het zo nu en dan erover schrijven is voor mij een manier om een beetje bij te blijven en ontwikkelingen die mij interesseren zichtbaar te maken. Oudere versie (2017-2022) vind je [hier](https://harrieshoekje.netlify.app), gemaakt met `Distill`. De blog die je nu leest beslaat de periode 2019-heden, is in een nieuw jasje gestoken en gemaakt met `Quarto`.     
 
 
 

@@ -1,7 +1,7 @@
 ---
 title: "Werken met Quarto"
 description: |
-    Over het werken met Quarto, de opvolger of het equivalent van RMardown
+    Over het werken met Quarto, de opvolger of het equivalent van RMarkdown
 author: "HarrieJonkman"
 date: "2022-10-07"
 categories: [communicatie]

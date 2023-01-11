@@ -1,0 +1,1010 @@
+---
+title: "Werken met Tidymodels, een suite voor machine learning"
+description: |
+    `Tidymodels` is het suite-pakket van Posit om met machinelearning te werken. Op de website staan vijf handleidingen die voor deze post wat bewerkt zijn en die de verschillende aspecten van het pakket laten zien. Het is een introductie, het vertelt iets over de belangrijkste onderdelen en er wordt een uitgebreide case-studie gepresenteerd.
+author: "Max Kuhn en Julia Silge, bewerkt door HarrieJonkman"
+date: "2023-01-11"
+categories: [modelleren]
+image: "Screenshot1.PNG"
+---
+
+
+# Introductie
+
+`Tidymodels` is een nieuwe versie van Max Kuhns pakket `CARET` en kan voor verschillende machine learning taken worden gebruikt. Het is sterk geïnspireerd door `Tidyverse`. Ook `Tidymodels` is een suite van verschillende pakketten, van voorbereiding tot en met evaluatie en dat het mogelijk maakt om het uitvoeren van analyses steeds op een vergelijkbare manier uit te voeren. Over dit pakket is een zeer duidelijke website gemaakt met uitleg [website](https://www.tidymodels.org). Tegelijkertijd is er het [boek](https://www.tmwr.org). Hieronder zie je een bewerkte versie van de vijf handleidingen die op de website zijn te vinden.
+
+# Handleiding 1: Overall
+
+Met de eerste handleiding ([see](https://www.tidymodels.org/start/models/) krijg je een idee hoe `tidymodels` werkt. Hierin zet je enkele belangrijke stappen: je opent de data, specificeert en traint het model, gebruikt daarbij verschillende `engines` (technieken) en je leert te begrijpen hoe het allemaal werkt. In deze handleiding staat het [`parsnip`-pakket](https://parsnip.tidymodels.org/) centraal.
+
+Eerst moet je, zoals altijd, enkele pakketten openen.
+
+```{r}
+#| echo: true
+#| results: hide
+# Het basispakket
+library(tidymodels)
+## Enkele ondersteunende pakketten 
+library(readr)       # voor importeren van data
+library(broom.mixed) # om bayesiaanse modellen om te zetten naar tidy tibbles
+library(dotwhisker)  # voor visualiseren van regressieresultaten
+```
+
+## De dataset
+
+In deze handleiding wordt met data van zeeëgels gewerkt. [Hier](https://link.springer.com/article/10.1007/BF00349318) vind je het artikel over voedingsregimes dat hieronder wordt uitgewerkt
+
+Eerst maar eens die data inlezen.
+
+```{r}
+urchins <-
+# Data werden verzameld voor de handleiding
+# zie https://www.flutterbys.com.au/stats/tut/tut7.5a.html
+read_csv("https://tidymodels.org/start/models/urchins.csv") %>%
+# Verander de namen om ze iets minder uitgebreid te laten zijn
+setNames(c("food_regime", "initial_volume", "width")) %>%
+# Factoren zijn handig bij modeleren, daarom een kolumn omgezet
+mutate(food_regime = factor(food_regime, levels = c("Initial", "Low", "High")))
+```
+
+Laten we de data vervolgens eens bekijken, met 72 rijen (zeeëgels) en drie variabelen.
+
+```{r}
+glimpse(urchins)
+```
+
+Het is goed om de data dan ook eens te visualiseren.
+
+```{r}
+ ggplot(urchins,
+               aes(x = initial_volume,
+                   y = width,
+                   group = food_regime,
+                   col = food_regime)) +
+                geom_point() +
+                geom_smooth(method = lm, se = FALSE) +
+                scale_color_viridis_d(option = "plasma", end = .7)
+```
+
+## Bouwen en fitten van een model
+
+Een standaard twee-weg analyse van variantie (ANOVA) is zinvol voor deze dataset omdat deze zowel een continue als een categorische voorspeller bevat.
+
+In dit geval draaien we een lineaire regressie.
+
+```{r}
+lm_mod <-
+        linear_reg() %>%
+        set_engine("lm")
+##  Train/fit/schatten van model 
+lm_fit <-
+                lm_mod %>%
+                fit(width ~ initial_volume * food_regime, data = urchins)
+## tidy uitprinten
+tidy(lm_fit)
+## resultaten plotten
+        tidy(lm_fit) %>%
+                dwplot(dot_args = list(size = 2, color = "black"),
+                       whisker_args = list(color = "black"),
+                       vline = geom_vline(xintercept = 0, colour = "grey50", linetype = 2))
+```
+
+## Een model gebruiken om te voorspellen
+
+Het model hebben we gedefinieerd. Stel dat we vervolgens een voorspelling willen maken voor egels met een volume van 20ml. Zet deze punten erin.
+
+```{r}
+ new_points <- expand.grid(initial_volume = 20,
+                          food_regime = c("Initial", "Low", "High"))
+```
+
+Fit dan het model met deze nieuwe datapunten.
+
+```{r}
+mean_pred <- predict(lm_fit, new_data = new_points)
+mean_pred
+```
+
+Laat dan ook de betrouwbaarheidsintervallen hiervoor zien.
+
+```{r}
+conf_int_pred <- predict(lm_fit,
+                                 new_data = new_points,
+                                 type = "conf_int")
+```
+
+Combineer de informatie.
+
+```{r}
+plot_data <-
+                new_points %>%
+                bind_cols(mean_pred) %>%
+                bind_cols(conf_int_pred)
+```
+
+En plot dan de resultaten.
+
+```{r}
+ ggplot(plot_data, aes(x = food_regime)) +
+                geom_point(aes(y = .pred)) +
+                geom_errorbar(aes(ymin = .pred_lower,
+                                  ymax = .pred_upper),
+                              width = .2) +
+                labs(y = "urchin size")
+```
+
+## Model met een andere `engine`.
+
+Laten we nu niet lineaire regressie op een standaardmanier uitvoeren. Stel dat we het nu Bayesiaans willen doen. In dat geval moet je eerst de prior-distributie vastzetten.
+
+```{r}
+ prior_dist <- rstanarm::student_t(df = 1)
+        set.seed(123)
+```
+
+Dan definiëren we het model opnieuw.
+
+```{r}
+ bayes_mod <-
+                linear_reg() %>%
+                set_engine("stan",
+                           prior_intercept = prior_dist,
+                           prior = prior_dist)
+```
+
+Vervolgens trainen we het nieuwe model.
+
+```{r}
+ bayes_fit <-
+                bayes_mod %>%
+                fit(width ~ initial_volume * food_regime, data = urchins)
+```
+
+Print de gegevens van het model vervolgens uit.
+
+```{r}
+  print(bayes_fit, digits = 5)
+```
+
+# Handleiding 2: Voorbereiding
+
+In de tweede handleiding staan met name voorbereidende activiteiten centraal, activiteiten die je moet uitvoeren voordat je gaat modelleren. Hierbij gaat het bijvoorbeeld om het omzetten van variabelen zodat ze beter werken bij modelleren, variabelen naar andere schalen omzetten, hele groepen variabelen omzetten of om nadrukken te leggen op bepaalde aspecten van variabelen. Het gaat vooral om het pakket [recipes](https://www.tidymodels.org/start/recipes/).
+
+Nu deze pakketten laden.
+
+```{r}
+#| echo: true
+#| results: hide
+library(nycflights13)    # voor vluchtdata
+library(skimr)           # voor samenvattingen van variabelen
+```
+
+## De data
+
+Het gaat hier om New York City vluchtdata.
+
+```{r}
+# set seed om ervoor te zorgen dat herhalingen zelfde resultaten geven ----
+set.seed(123)
+## Laden van data ----
+data(flights)
+## Bekijken van data ----
+skimr::skim(flights)
+```
+
+Laten we enkele veranderingen in de dataset aanbrengen.
+
+```{r}
+flight_data <-
+                flights %>%
+                mutate(
+# Converteer de 'arrival delay'-variabele in een factorvariabele
+                  arr_delay = ifelse(arr_delay >= 30, "late", "on_time"),
+                  arr_delay = factor(arr_delay),
+# We zullen de datum en niet de tijd gebruiken
+                  date = as.Date(time_hour)
+                ) %>%
+# Includeer ook de weersdata
+inner_join(weather, by = c("origin", "time_hour")) %>%
+# We gebruiken alleen specifieke kolommen
+select(dep_time, flight, origin, dest, air_time, distance,
+                       carrier, date, arr_delay, time_hour) %>%
+# Missende data halen we eruit
+na.omit() %>%
+# Voor het draaien van modellen, is het beter om kwalitatieve data te hebbebn
+# zet deze om in factoren (ipv karakter strings)
+mutate_if(is.character, as.factor)
+```
+
+We zien dat 16% meer dan een half uur vertraging heeft.
+
+```{r}
+flight_data %>% 
+  count(arr_delay) %>% 
+  mutate(prop = n/sum(n))
+```
+
+Laten we de veranderingen eens bekijken. We zien bv dat de variabele `arr-delay` een factor variabele geworden is. Dat is voor het trainen van een logistisch regressiemodel van belang. `flight` is een numerieke variabele en `time-hour` is een dttm variabele. Die gebruiken we niet in de training maar wel als eventuele controlevariabelen.
+
+```{r}
+ glimpse(flight_data)
+```
+
+Er zijn 104 vluchtbestemmingen en 16 verschillende maatschappijen.
+
+```{r}
+flight_data %>% 
+  skimr::skim(dest, carrier) 
+```
+
+## Data splitten
+
+Vervolgens splitsenen we de dataset in training- en testdata. We splitten het en dan maken we twee datasets.
+
+```{r}
+set.seed(555)
+## Splitsen ----
+data_split <- initial_split(flight_data, prop = 3/4)
+## Training & Testing ----
+train_data <- training(data_split)
+test_data  <- testing(data_split)
+```
+
+Definieer het model en geef twee variabelen een nieuwe rol (ID). Deze kun je later gebruiken om te zien als iets niet helemaal goed gegaan is bij het voorspellen. Laat uiteindelijk zien hoe de dataset eruit ziet.
+
+```{r}
+flights_rec <-
+        recipe(arr_delay ~ ., data = train_data)
+        
+flights_rec <-
+                recipe(arr_delay ~ ., data = train_data) %>%
+                update_role(flight, time_hour, new_role = "ID")
+
+summary(flights_rec)
+```
+
+We voegen nog enkele handelingen toe met `recipe`. Je kunt verschillende zaken tegelijk uitvoeren mbt verschillende variabelen.
+
+```{r}
+flights_rec <-
+        recipe(arr_delay ~ ., data = train_data) %>%
+        update_role(flight, time_hour, new_role = "ID") %>%
+        step_date(date, features = c("dow", "month")) %>%
+        step_holiday(date, holidays = timeDate::listHolidays("US")) %>%
+        step_rm(date) %>%
+        step_dummy(all_nominal(), -all_outcomes()) %>%
+        step_zv(all_predictors())
+```
+
+## Model fitten
+
+We specificeren het model als logistische regressie met de glm als `engine` en specificeren de workflow.
+
+```{r}
+lr_mod <-
+          logistic_reg() %>%
+          set_engine("glm")
+## Specificeren workflow ----
+flights_wflow <-
+          workflow() %>%
+          add_model(lr_mod) %>%
+          add_recipe(flights_rec)
+flights_wflow
+```
+
+Vervolgens fitten we het model en kijken naar de resultaten.
+
+```{r}
+ flights_fit <-
+                flights_wflow %>%
+                fit(data = train_data)
+## Halen resultaten eruit
+ flights_fit %>%
+                pull_workflow_fit() %>%
+                tidy()
+```
+
+## Voorspellen
+
+We gebruiken de getrainde werkflow om te voorspellen. Nu zetten we deze werkflow van de trainingsset in op de testdata.
+
+```{r}
+predict(flights_fit, test_data)
+```
+
+Laat het voorspellen van de testdata zien en geef de waarschijnlijkheid terug.
+
+```{r}
+flights_pred <-
+                predict(flights_fit, test_data, type = "prob") %>%
+                bind_cols(test_data %>% select(arr_delay, time_hour, flight))
+        flights_pred
+```
+
+Plot deze gegevens met name via [yardstick-pakket](https://yardstick.tidymodels.org/)
+
+```{r}
+ flights_pred %>%
+                roc_curve(truth = arr_delay, .pred_late) %>%
+                autoplot()
+```
+
+Hoe groot is nu de AREA onder de curve? 76,1%, redelijk.
+
+```{r}
+ flights_pred %>%
+                roc_auc(truth = arr_delay, .pred_late)
+```
+
+# Handleiding 3: Evaluatie
+
+In de derde handleiding gaat het vooral om het evalueren van het model. We willen de performance van het model weten en dat doen we vooral met het [resampling-pakket](url:%20https://www.tidymodels.org/start/resampling/)
+
+Eerst gaan we de data binnenhalen waar we in deze handleiding mee zullen werken. Het gaat om data die iets zeggen over de kwaliteit van celbeeld segementatie. Ze zitten in dit pakket.
+
+Bij het vaststellen van effecten van drugs (medicijn wel of niet) wordt er vaak gekeken naar de effecten op de cellen. Dat is op de beelden te zien. Dan wordt er naar de kleur of de afmeting gekeken of naar segmentatie zoals hier.
+
+```{r}
+# tidymodels hebben we al actief gemaakt
+# voor de cellen data ----
+library(modeldata) 
+
+## Laad de data ----
+data(cells, package = "modeldata")
+
+## Dit zijn de data
+cells
+## Uitkomst variable is 'class'
+## PS = "poorly segmented, slecht gesegementeerd" WS = "weekly segmented, zwak gesegementeerd"
+        cells %>%
+                count(class) %>%
+                mutate(prop = n/sum(n))
+```
+
+## Data splitsen
+
+De functie `rsample::initial_split()` neemt de oorspronkelijke gegevens en slaat de informatie op over hoe de delen moeten worden gemaakt. In de oorspronkelijke analyse maakten de auteurs hun eigen trainings-/testset en die informatie staat in de kolom "case". Om te demonstreren hoe we een splitsing maken, verwijderen we deze kolom voordat we onze eigen splitsing maken.
+
+```{r}
+set.seed(123)
+cell_split <- rsample::initial_split(cells %>% select(-case),
+                            strata = class)
+```
+
+Hier hebben we het strata-argument gebruikt, dat een gestratificeerde splitsing uitvoert. Dit zorgt ervoor dat, ondanks de onevenwichtigheid die we in onze klassenvariabele hebben opgemerkt, onze trainings- en testdatasets ongeveer dezelfde proporties slecht gesegmenteerde en goed gesegmenteerde cellen behouden als in de oorspronkelijke gegevens. Na de initiële splitsing leveren de functies training() en test() de eigenlijke datasets op.
+
+```{r}
+cell_train <- training(cell_split)
+cell_test  <- testing(cell_split)
+
+nrow(cell_train)
+
+nrow(cell_train)/nrow(cells)
+
+
+# trainingset proporties volgens class
+cell_train %>% 
+  count(class) %>% 
+  mutate(prop = n/sum(n))
+
+
+# testset proporties volgens class
+cell_test %>% 
+  count(class) %>% 
+  mutate(prop = n/sum(n))
+```
+
+Het meeste modelleerwerk wordt op de trainingset uitgevoerd.
+
+## Modelleren
+
+Een van de voordelen van een random forest model is dat het zeer onderhoudsarm is; het vereist zeer weinig voorbewerking van de gegevens en de standaardparameters geven doorgaans redelijke resultaten. Om die reden zullen we geen recept maken voor de celgegevens en gaan meteen aan de slag.
+
+```{r}
+rf_mod <-
+        rand_forest(trees = 1000) %>%
+        set_engine("ranger") %>%
+        set_mode("classification")
+```
+
+Dit nieuwe object `rf_fit` is het model dat we hebben getraind op de trainingsgegevensverzameling
+
+```{r}
+set.seed(234)
+rf_fit <-
+        rf_mod %>%
+        fit(class ~ ., data = cell_train)
+```
+
+## Schatten van de performance
+
+Prestaties kunnen worden gemeten aan de hand van de algemene classificatienauwkeurigheid en de Receiver Operating Characteristic (ROC) curve. Het `yardstick`-pakket heeft functies voor het berekenen van beide maten, genaamd `roc_auc()` en `accuracy()`. Gebruik hiervoor niet de trainingsset. Je moet de trainingsset opnieuw bewerken om betrouwbare schattingen te krijgen.
+
+Daarom modelleren we het opnieuw maar nu met `resample`.
+
+```{r}
+ set.seed(345)
+        folds <- vfold_cv(cell_train, v = 10)
+        folds
+        rf_wf <-
+                workflow() %>%
+                add_model(rf_mod) %>%
+                add_formula(class ~ .)
+```
+
+De kolom `.metrics` bevat de prestatiestatistieken die uit de 10 beoordelingssets zijn gemaakt. Deze kunnen handmatig worden ontnomen, maar het `tune`-pakket bevat een aantal eenvoudige functies die deze gegevens kunnen extraheren:
+
+```{r}
+  set.seed(456)
+        rf_fit_rs <-
+                rf_wf %>%
+                fit_resamples(folds)
+## Om de metrieken te krijgen ----
+        collect_metrics(rf_fit_rs)
+```
+
+## Conclusie
+
+Denk aan de waarden die we nu hebben voor nauwkeurigheid en AUC. Deze prestatiecijfers zijn nu realistischer (d.w.z. lager) dan onze eerste poging om prestatiecijfers te berekenen in de handleiding hierboven.
+
+```{r}
+rf_testing_pred <-                      # originele slechte idee
+        predict(rf_fit, cell_test) %>%
+        bind_cols(predict(rf_fit, cell_test, type = "prob")) %>%
+        bind_cols(cell_test %>% select(class))
+rf_testing_pred %>%                   # testset voorspellingen
+        roc_auc(truth = class, .pred_PS)
+rf_testing_pred %>%                   # test set voorspellingen
+        accuracy(truth = class, .pred_class)
+```
+
+# Handleiding 4: Hyperparameters
+
+Sommige modelparameters kunnen tijdens de modeltraining niet rechtstreeks uit een dataset worden geleerd; dit soort parameters worden hyperparameters genoemd. Enkele voorbeelden van hyperparameters zijn het aantal voorspellers dat wordt bemonsterd bij splitsingen in een 'tree'model (wij noemen dit `mtry` in tidymodels) of de leersnelheid in een 'boosted tree'model (wij noemen dit learn_rate). In plaats van dit soort hyperparameters te leren tijdens de modeltraining, kunnen we de beste waarden voor deze waarden schatten door veel modellen te trainen op opnieuw gesampelde gegevenssets en te onderzoeken hoe goed al deze modellen presteren. Dit proces heet [tuning](url:%20https://www.tidymodels.org/start/tuning/)
+
+```{r}
+#| echo: true
+#| results: hide
+# tidymodels heb je al geopend met daarin het tune pakket met de andere pakketten
+# andere pakketten
+# modeldata, voor de cellen data, ook al geopend
+# vip om het belang van variabelen te plotten
+library(vip)         # 
+```
+
+De data openen
+
+```{r}
+# door experts gelabelled als 'well-segmented' (WS) of 'poorly segmented' (PS).
+data(cells, package = "modeldata")
+cells
+```
+
+## Voorspellen van beeldsegmentatie maar nu beter
+
+Random forest-modellen is een methode om bomen te schatten en die presteren doorgaans goed met standaard hyperparameters. De nauwkeurigheid van sommige andere soortgelijke modellen kan echter gevoelig zijn voor de waarden van de hyperparameters. In dit artikel zullen we een beslisboommodel (decision tree model) trainen.
+
+```{r}
+set.seed(123)
+cell_split <- initial_split(cells %>% select(-case),
+                            strata = class)
+cell_train <- training(cell_split)
+cell_test  <- testing(cell_split)
+```
+
+# Hyperparameters afstemmen
+
+Laten we beginnen met het `parsnip` pakket, met een `decision_tree()` model met de `rpart` engine. Om de hyperparameters `cost_complexity` en `tree_depth` van de beslisboom te tunen, maken we een modelspecificatie die aangeeft welke hyperparameters we willen tunen.
+
+```{r}
+tune_spec <-
+        decision_tree(
+                cost_complexity = tune(),
+                tree_depth = tune()
+        ) %>%
+        set_engine("rpart") %>%
+        set_mode("classification")
+tune_spec
+
+## dials::grid_regular() 
+tree_grid <- grid_regular(cost_complexity(),
+                          tree_depth(),
+                          levels = 5)
+tree_grid
+```
+
+Gewapend met ons raster gevuld met 25 kandidaat-beslisboommodellen, laten we cross-validatie maken voor tuning:
+
+```{r}
+set.seed(234)
+cell_folds <- vfold_cv(cell_train)
+```
+
+We zijn klaar voor het afstellen! Laten we `tune_grid()` gebruiken om modellen te passen bij alle verschillende waarden die we hebben gekozen voor elke afgestemde hyperparameter. Er zijn verschillende mogelijkheden om het object voor tuning te bouwen:
+
+-   Stem een modelspecificatie af samen met een recept of model, of\
+-   Een workflow() afstemmen die een modelspecificatie en een recept of model preprocessor bundelt.\
+    Hier gebruiken we een `workflow()` met een eenvoudige formule; indien dit model een meer gecompliceerde gegevensvoorbewerking vereist, zouden we `add_recipe()` kunnen gebruiken in plaats van `add_formula()`.
+
+```{r}
+ set.seed(345)
+        tree_wf <- workflow() %>%
+                add_model(tune_spec) %>%
+                add_formula(class ~ .)
+```
+
+Zodra we onze resultaten over het afstellen hebben, kunnen we ze zowel via visualisatie verkennen als het beste resultaat selecteren.
+
+```{r}
+ tree_res <-
+                tree_wf %>%
+                tune_grid(
+                        resamples = cell_folds,
+                        grid = tree_grid
+                )
+        tree_res
+```
+
+De functie `collect_metrics()` geeft ons een nette tabel met alle resultaten. We hadden 25 kandidaat-modellen en twee metrieken, `accuracy` en `roc_auc`, en we krijgen een rij voor elke .metriek en model.
+
+```{r}
+tree_res %>% 
+  collect_metrics()
+```
+
+Laten we er een grafiek van maken.
+
+```{r}
+tree_res %>%
+                collect_metrics() %>%
+                mutate(tree_depth = factor(tree_depth)) %>%
+                ggplot(aes(cost_complexity, mean, color = tree_depth)) +
+                geom_line(size = 1.5, alpha = 0.6) +
+                geom_point(size = 2) +
+                facet_wrap(~ .metric, scales = "free", nrow = 2) +
+                scale_x_log10(labels = scales::label_number()) +
+                scale_color_viridis_d(option = "plasma", begin = .9, end = 0)
+
+## Wat is de beste?
+best_tree <- tree_res %>%
+                select_best("roc_auc")
+        best_tree
+```
+
+# Afronden
+
+Wij kunnen ons workflow-object `tree_wf` bijwerken (of "finaliseren") met de waarden van `select_best()`.
+
+```{r}
+ final_wf <-
+                tree_wf %>%
+                finalize_workflow(best_tree)
+        final_wf
+```
+
+## Laatste fit
+
+Tot slot passen we dit definitieve model toe op de opleidingsgegevens en gebruiken we onze testgegevens om de modelprestatie te schatten die we verwachten te zien met nieuwe gegevens. Wij kunnen de functie `last_fit()` gebruiken voor ons definitieve model; deze functie past het definitieve model toe op de volledige reeks opleidingsgegevens en evalueert het definitieve model op de testgegevens.
+
+```{r}
+final_tree <-
+            final_wf %>%
+            fit(data = cell_train)
+
+final_tree
+        
+## variabele belang
+library(vip)
+final_tree %>%
+                pull_workflow_fit() %>%
+                vip(geom = "point")
+```
+
+Tot slot passen we dit definitieve model toe op de trainingsgegevens en gebruiken we onze testgegevens om de modelprestatie te schatten die we verwachten te zien met nieuwe gegevens.
+
+Wij kunnen de functie `last_fit()` gebruiken voor ons definitieve model; deze functie past het definitieve model toe op de volledige reeks trainingsgegevens en evalueert het definitieve model op de testgegevens.
+
+```{r}
+final_fit <-
+          final_wf %>%
+          last_fit(cell_split)
+## verzamel de metrieken
+final_fit %>%
+          collect_metrics()
+```
+
+Toon nog even de ROC-curve.
+
+```{r}
+ final_fit %>%
+                collect_predictions() %>%
+                roc_curve(class, .pred_PS) %>%
+                autoplot()
+```
+
+De prestatiecijfers van de testset geven aan dat we tijdens onze tuneprocedure niet te veel hebben aangepast.
+
+Het object `final_fit` bevat een definitieve, passende workflow die je kunt gebruiken voor voorspellingen op nieuwe gegevens of om de resultaten verder te begrijpen. Je kunt dit object uitpakken met een van de helpfuncties extract\_.
+
+```{r}
+final_tree <- extract_workflow(final_fit)
+final_tree
+```
+
+Misschien willen we ook begrijpen welke variabelen belangrijk zijn in dit uiteindelijke model. Wij kunnen het `vip`-pakket gebruiken om het belang van variabelen te schatten op basis van de structuur van het model.
+
+```{r}
+library(vip)
+
+final_tree %>% 
+  extract_fit_parsnip() %>% 
+  vip()
+```
+
+Dit zijn de geautomatiseerde beeldanalysemetingen die het belangrijkst zijn voor de voorspelling van de segmentatiekwaliteit.
+
+We laten het aan de lezer over om te onderzoeken of zij een andere beslisboom-hyperparameter willen afstemmen. Daarvoor kun je de referentiedocumenten raadplegen,of de functie `args()` gebruiken om te zien welke `parsnip`-objectargumenten beschikbaar zijn:
+
+```{r}
+args(decision_tree)
+```
+
+# Handleiding 5: Case-studie
+
+De vier handleiding hiervoor waren steeds gericht op één taak met betrekking tot modelleren. Onderweg hebben we ook de kernpakketten in het tidymodels ecosysteem geïntroduceerd en enkele van de belangrijkste functies die je nodig hebt om met modellen te gaan werken.
+
+De vijfde en laatste handleiding is een case-studie waarin we de voorgaande kennis gebruiken als basis om een voorspellend model van begin tot eind te bouwen met gegevens over hotelovernachtingen [case-studie](url:%20https://www.tidymodels.org/start/case-study/).
+
+```{r}
+#| echo: true
+#| results: hide
+##  tidymodels moet geïnstalleerd zijn evenals vip
+## Verder:
+library(readr)       
+# voor importeren van data
+```
+
+## Data
+
+Eerst de data binnenhalen, iets aanpassen en bekijken.
+
+```{r}
+##  Inlezen
+hotels <-
+                read_csv('https://tidymodels.org/start/case-study/hotels.csv') %>%
+                mutate_if(is.character, as.factor)
+
+dim(hotels)
+```
+
+Allicht alle variabelen nog eens goed bekijken.
+
+```{r}
+ glimpse(hotels)
+```
+
+De uitkomst variabele is `children`, een factorvariabele met twee niveaus (wel of geen kinderen. 8,1% van de gasten heeft kinderen bij zich tijdens de hotelovernachtingen.
+
+```{r}
+hotels %>%
+                count(children) %>%
+                mutate(prop = n/sum(n))
+```
+
+## Splitsen van data
+
+We reserveren 25% van de data voor de test-data. De variabele `children` is behoorlijk uit balans, dus we stratificeren de dataset op deze variabele als we deze opsplitsen.
+
+```{r}
+set.seed(123)
+        splits      <- initial_split(hotels, strata = children)
+        hotel_other <- training(splits)
+        hotel_test  <- testing(splits)
+```
+
+Zo ziet de trainingsset er nu uit qua `children` variabele.
+
+```{r}
+hotel_other %>%
+                count(children) %>%
+                mutate(prop = n/sum(n))
+```
+
+Zo ziet de testtest eruit op dezelfde variabele, vergelijkbaar:
+
+```{r}
+hotel_test  %>%
+                count(children) %>%
+                mutate(prop = n/sum(n))
+```
+
+Van de trainingsset maken we ook nog een aparte validitatie set. De
+
+![Opzet](Screenshot1.png)
+
+Zo ziet het er dan uit.
+
+We gebruiken de functie `validation_split()` om 20% van de `hotel_other` verblijven toe te wijzen aan de validatieset en 30.000 verblijven aan de trainingset. Dit betekent dat de prestatiecijfers van ons model worden berekend op een enkele set van 7.500 hotelovernachtingen. Dat is vrij groot, dus de hoeveelheid gegevens zou voldoende precisie moeten opleveren om een betrouwbare indicator te zijn voor hoe goed elk model de uitkomst voorspelt met een enkele iteratie van resampling.
+
+```{r}
+ set.seed(234)
+        val_set <- validation_split(hotel_other,
+                                    strata = children,
+                                    prop = 0.80)
+```
+
+Ook dit hebben we gestratificeerd op de uitkomstvariabele `children`.
+
+## Eerste model
+
+Hier wordt, en ik gebruik toch maar even de Engelse woorden, een 'penalized logistic regression' model gebruikt via `glmnet`. De `penalty=tune(),mixture = 1` haalt irrelevante predictoren weg.
+
+```{r}
+  lr_mod <-
+                logistic_reg(penalty = tune(), mixture = 1) %>%
+                set_engine("glmnet")
+```
+
+Via het pakket `recipe` dat in `tidymodels` zit kun je enkele aanvullende voorbereidende handelingen verrichten. Zoals:
+
+\- `step_date()` creëert voorspellers voor het jaar, de maand en de dag van de week.\
+- `step_holiday()` genereert een reeks indicatorvariabelen voor specifieke feestdagen. Hoewel we niet weten waar deze twee hotels zich bevinden, weten we wel dat de landen van herkomst voor de meeste verblijven in Europa liggen.\
+- `step_rm()` verwijdert variabelen; hier gebruiken we het om de oorspronkelijke datumvariabele te verwijderen omdat we die niet langer in het model willen.
+
+Bovendien moeten alle categorische voorspellers (bv. `distribution-channel`, `hotel`, ...) worden omgezet naar dummy-variabelen en moeten alle numerieke voorspellers worden gecentreerd en geschaald.
+
+`- step_dummy()` zet tekens of factoren (d.w.z. nominale variabelen) om in een of meer numerieke binaire modeltermen voor de niveaus van de oorspronkelijke gegevens.\
+- `step_zv()` verwijdert indicatorvariabelen die slechts één unieke waarde bevatten (bv. allemaal nullen). Dit is belangrijk omdat voor gestrafte modellen de voorspellers moeten worden gecentreerd en geschaald.
+
+`- step_normalize()` centreert en schaalt numerieke variabelen.
+
+\
+Als we al deze stappen samenvoegen tot een recept voor ons gekozen model ('penalized logistic regression\`), hebben we:
+
+```{r}
+holidays <- c("AllSouls", "AshWednesday", "ChristmasEve", "Easter",
+                      "ChristmasDay", "GoodFriday", "NewYearsDay", "PalmSunday")
+```
+
+```{r}
+ lr_recipe <-
+                recipe(children ~ ., data = hotel_other) %>%
+                step_date(arrival_date) %>%
+                step_holiday(arrival_date, holidays = holidays) %>%
+                step_rm(arrival_date) %>%
+                step_dummy(all_nominal(), -all_outcomes()) %>%
+                step_zv(all_predictors()) %>%
+                step_normalize(all_predictors())
+```
+
+Laten we nu alles ('model en 'recipe') in een `workflow` plaatsen.
+
+```{r}
+ lr_workflow <-
+                workflow() %>%
+                add_model(lr_mod) %>%
+                add_recipe(lr_recipe)
+```
+
+Welke penalties moeten we gebruiken? Omdat we slechts een hyperparameter hoeven af te stellen, gebruiken we een grid met 30 verschillende waarden in een kolom.
+
+```{r}
+lr_reg_grid <- tibble(penalty = 10^seq(-4, -1, length.out = 30))
+        lr_reg_grid %>% top_n(-5) # lowest penalty values
+        lr_reg_grid %>% top_n(5)  # highest penalty values
+        ## 4.5 Train & Tune ----
+        lr_res <-
+                lr_workflow %>%
+                tune_grid(val_set,
+                          grid = lr_reg_grid,
+                          control = control_grid(save_pred = TRUE),
+                          metrics = metric_set(roc_auc))
+```
+
+Het is makkelijk om de validatieset metrieken te visualiseren door het gebied onder de ROC-curve uit te zetten tegen de reeks van waarden:
+
+```{r}
+ lr_plot <-
+                lr_res %>%
+                collect_metrics() %>%
+                ggplot(aes(x = penalty, y = mean)) +
+                geom_point() +
+                geom_line() +
+                ylab("Gebied onder de ROC Curve") +
+                scale_x_log10(labels = scales::label_number())
+
+        lr_plot
+```
+
+De prestaties van ons model lijken overall het beste te doen bij de kleinere strafwaarden. Als we alleen uitgaan van de roc_auc-metriek zouden we meerdere opties voor de "beste" waarde van deze hyperparameter kunnen vinden:
+
+```{r}
+top_models <-
+  lr_res %>% 
+  show_best("roc_auc", n = 15) %>% 
+  arrange(penalty) 
+top_models
+```
+
+Als we `select_best()` zouden gebruiken, zou dit kandidaat-model 11 opleveren met een penalty-waarde van 0,00137. Kandidaat-model 12 met een strafwaarde van 0,00174 heeft in feite dezelfde prestaties als het numeriek beste model, maar kan meer voorspellers elimineren. Laten we deze nemen.
+
+```{r}
+lr_best <- 
+  lr_res %>% 
+  collect_metrics() %>% 
+  arrange(penalty) %>% 
+  slice(12)
+lr_best
+```
+
+Laten we deze visualiseren:
+
+```{r}
+lr_auc <- 
+  lr_res %>% 
+  collect_predictions(parameters = lr_best) %>% 
+  roc_curve(children, .pred_children) %>% 
+  mutate(model = "Logistic Regression")
+
+autoplot(lr_auc)
+```
+
+Het prestatieniveau van dit logistische regressiemodel is goed, maar niet baanbrekend. Misschien is de lineaire aard van de voorspellingsvergelijking te beperkend voor deze dataset. Als volgende stap zouden we een sterk niet-lineair model kunnen overwegen dat wordt gegenereerd met behulp van een 'vertakte'-methode.
+
+## 'Vertakte'-methode
+
+Een effectieve en onderhoudsarme modelleringstechniek is een `random forest`. Vertakte modellen vereisen zeer weinig voorbewerking en kunnen vele soorten voorspellers aan (continu, categorisch, enz.).
+
+Bouw het model zo dat het de trainingstijd reduceert. Het `tune`-pakket kan parallelle verwerking voor u doen en staat gebruikers toe om meerdere processors of aparte machines te gebruiken om modellen te fitten. Zo detecteer je de processoren:
+
+```{r}
+ cores <- parallel::detectCores()
+        cores
+```
+
+Vervolgens het model bouwen.
+
+```{r}
+ rf_mod <-
+                rand_forest(mtry = tune(), min_n = tune(), trees = 1000) %>%
+                # tune() is voor later
+                set_engine("ranger", num.threads = cores) %>%
+                set_mode("classification")
+```
+
+Opgelet: Geen processoren vaststellen behalve voor `random forest`
+
+In tegenstelling tot de \`penalized logistic regression' modellen zoals hierboven gebruikt, vraagt het 'random forest model' geen dummies of genormaliseerde voorspellers.
+
+```{r}
+rf_recipe <-
+                recipe(children ~ ., data = hotel_other) %>%
+                step_date(arrival_date) %>%
+                step_holiday(arrival_date) %>%
+                step_rm(arrival_date)
+```
+
+Creëer vervolgens de workflow.
+
+```{r}
+ rf_workflow <-
+                workflow() %>%
+                add_model(rf_mod) %>%
+                add_recipe(rf_recipe)
+```
+
+Train en stel het model af. Laat zien wat er moet worden afgesteld.
+
+```{r}
+ rf_mod %>%
+                parameters()
+```
+
+Laat zien wel ruimte je hebt.
+
+```{r}
+set.seed(345)
+        rf_res <-
+                rf_workflow %>%
+                tune_grid(val_set,
+                          grid = 25,
+                          control = control_grid(save_pred = TRUE),
+                          metrics = metric_set(roc_auc))
+```
+
+Laat zien wat de beste keuze is.
+
+```{r}
+rf_res %>%
+                show_best(metric = "roc_auc")
+
+```
+
+Het bereik van de y-as geeft echter aan dat het model zeer robuust is voor de keuze van deze parameterwaarden --- op één na zijn alle ROC AUC-waarden groter dan 0,90.
+
+```{r}
+autoplot(rf_res)
+```
+
+Selecteer de beste.
+
+```{r}
+ rf_best <-
+                rf_res %>%
+                select_best(metric = "roc_auc")
+        rf_best
+```
+
+Stel het model af op de beste voorspelling.
+
+```{r}
+rf_auc <-
+                rf_res %>%
+                collect_predictions(parameters = rf_best) %>%
+                roc_curve(children, .pred_children) %>%
+                mutate(model = "Random Forest")
+```
+
+Plot vervolgens het beste model.
+
+```{r}
+bind_rows(rf_auc, lr_auc) %>%
+                ggplot(aes(x = 1 - specificity, y = sensitivity, col = model)) +
+                geom_path(lwd = 1.5, alpha = 0.8) +
+                geom_abline(lty = 3) +
+                coord_equal() +
+                scale_color_viridis_d(option = "plasma", end = .6)
+       
+```
+
+De laatste fit.
+
+Bouw het model opnieuw op en neem de beste hyperparameter waarde voor ons 'random forest model'. Definieer ook een nieuw argument: `importance = "impurity"`
+
+Het laatste model ziet er dan zo uit.
+
+```{r}
+last_rf_mod <-
+                rand_forest(mtry = 8, min_n = 7, trees = 1000) %>%
+                set_engine("ranger", num.threads = cores, importance = "impurity") %>%
+                set_mode("classification")
+        ## Laatste werkflow
+        last_rf_workflow <-
+                rf_workflow %>%
+                update_model(last_rf_mod)
+```
+
+De laatste fit dan nu.
+
+```{r}
+ set.seed(345)
+        last_rf_fit <-
+                last_rf_workflow %>%
+                last_fit(splits)
+```
+
+Evalueer het model.
+
+```{r}
+last_rf_fit %>%
+                collect_metrics()
+        ## 6.5 review variable importance ----
+        last_rf_fit %>%
+                pluck(".workflow", 1) %>%
+                pull_workflow_fit() %>%
+                vip(num_features = 20)
+```
+
+Laatste roc, zelfde voor de validatie set. Goede voorspeller op de nieuwe data.
+
+```{r}
+last_rf_fit %>%
+                collect_predictions() %>%
+                roc_curve(children, .pred_children) %>%
+                autoplot()
+```
+
+# Literatuur
+
+-   https://www.tidymodels.org/, met name https://www.tidymodels.org/start/.\
+-   Kuhn, M. & Silge, J. (2022). *Tidy Modeling with R. A Framework for Modeling in the Tidyverse*. Boston: Sebastopol (CA): O'Reilly. zie: https://www.tmwr.org

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-0.9.476">
+<meta name="generator" content="quarto-1.2.269">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,14 +10,19 @@
 <meta name="dcterms.date" content="2022-10-07">
 <meta name="description" content="Bespreking van een interessant leerboek moderne dataanalyse Telling stories with data van Rohan Alexander">
 
-<title>- Verhalen vertellen met data</title>
+<title>Verhalen vertellen met data</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-span.underline{text-decoration: underline;}
-div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -56,7 +61,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -69,7 +74,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -83,6 +88,23 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -104,22 +126,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 }</script>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body class="nav-fixed">
@@ -134,17 +140,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html">Harrie’s Hoekje</a>
+    <a class="nav-link" href="../../about.html">
+ <span class="menu-text">Harrie’s Hoekje</span></a>
   </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/Jonkman1"><i class="bi bi-github" role="img">
 </i> 
- </a>
+ <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
 </i> 
- </a>
+ <span class="menu-text"></span></a>
   </li>  
 </ul>
               <div id="quarto-search" class="" title="Search"></div>
@@ -186,6 +193,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <p class="date">October 7, 2022</p>
       </div>
     </div>
+    
       
     </div>
     
@@ -194,10 +202,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc">
+        <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
-  <ul>
+  <ul class="collapse">
   <li><a href="#inleiding" id="toc-inleiding" class="nav-link active" data-scroll-target="#inleiding">Inleiding</a></li>
   <li><a href="#australische-verkiezingen" id="toc-australische-verkiezingen" class="nav-link" data-scroll-target="#australische-verkiezingen">Australische verkiezingen</a></li>
   </ul>
@@ -228,14 +236,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3 class="anchored" data-anchor-id="plan">Plan</h3>
 <p>Voor dit voorbeeld moeten we twee aspecten plannen. Het eerste is hoe de dataset die we nodig hebben eruit zal zien en het tweede is hoe de uiteindelijke grafiek eruit zal zien.</p>
 <p>De basisvereiste voor de dataset is dat deze in ieder geval de naam van de zetel (in Australië soms “divisie” genoemd) en de partij van de gekozene bevat. Een snelle schets van de dataset die we nodig hebben, zou er dus als volgt uit kunnen zien <a href="#fig-australiaexample-data">Figure&nbsp;1 (a)</a>.</p>
-<div class="quarto-layout-panel">
+<div id="fig-australiaexample" class="quarto-layout-panel">
 <figure class="figure">
 <div class="quarto-layout-row quarto-layout-valign-bottom">
 <div class="quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
 <div id="fig-australiaexample-data" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="figures/number-of-seats.png" class="img-fluid figure-img" data-ref-parent="fig-australiaexample"></p>
-<p></p><figcaption aria-hidden="true" class="figure-caption">(a) Korte schets van een dataset die nuttig zou kunnen zijn voor het analyseren van Australische verkiezingen</figcaption><p></p>
+<p></p><figcaption class="figure-caption">(a) Korte schets van een dataset die nuttig zou kunnen zijn voor het analyseren van Australische verkiezingen</figcaption><p></p>
 </figure>
 </div>
 </div>
@@ -243,12 +251,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="fig-australiaexample-graph" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="figures/possible-seats.png" class="img-fluid figure-img" data-ref-parent="fig-australiaexample"></p>
-<p></p><figcaption aria-hidden="true" class="figure-caption">(b) Korte schets van een mogelijke grafiek van het aantal door elke partij gewonnen zetels</figcaption><p></p>
+<p></p><figcaption class="figure-caption">(b) Korte schets van een mogelijke grafiek van het aantal door elke partij gewonnen zetels</figcaption><p></p>
 </figure>
 </div>
 </div>
 </div>
-<p></p><figcaption aria-hidden="true" class="figure-caption">Figure 1: Schetsen van een dataset en grafiek met betrekking tot de Australische verkiezingen</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;1: Schetsen van een dataset en grafiek met betrekking tot de Australische verkiezingen</figcaption><p></p>
 </figure>
 </div>
 <p>We moeten ook een plan maken voor de grafiek waarin we geïnteresseerd zijn. Aangezien we het aantal zetels willen weergeven dat elke partij won, is een snelle schets van waar we naar zouden kunnen streven <a href="#fig-australiaexample-graph">Figure&nbsp;1 (b)</a>.</p>
@@ -277,7 +285,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="fig-quarto-australian-elections-3" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="figures/02-rstudio_cloud-3.png" class="img-fluid figure-img" style="width:75.0%"></p>
-<p></p><figcaption aria-hidden="true" class="figure-caption">Figure 2: Screenshot van Rohans australian_elections.qmd na eerste opzet en met een premabel</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;2: Screenshot van Rohans australian_elections.qmd na eerste opzet en met een premabel</figcaption><p></p>
 </figure>
 </div>
 <p>Hierna moeten we de werkruimte instellen. Hiervoor moeten alle benodigde pakketten worden geïnstalleerd en geladen. Een pakket hoeft maar één keer per computer geïnstalleerd te worden, maar moet elke keer dat het gebruikt wordt, moet het geladen worden. In dit geval gaan we <code>tidyverse</code> <span class="citation" data-cites="Wickham2017">[@Wickham2017]</span>, en <code>janitor</code> <span class="citation" data-cites="janitor">[@janitor]</span> gebruiken. Ze moeten worden geïnstalleerd omdat dit de eerste keer is dat ze worden gebruikt, en daarna moeten ze elk worden geladen.</p>
@@ -290,7 +298,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="fig-quarto-australian-elections-4" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="figures/02-rstudio_cloud-4.png" class="img-fluid figure-img" style="width:75.0%"></p>
-<p></p><figcaption aria-hidden="true" class="figure-caption">Figure 3: Screenshot van Rohans australian_elections.qmd met de groene pijl om de brok uit te voeren</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;3: Screenshot van Rohans australian_elections.qmd met de groene pijl om de brok uit te voeren</figcaption><p></p>
 </figure>
 </div>
 <p>Nu de pakketten zijn geïnstalleerd, moeten ze worden geladen. Aangezien die installatiestap maar één keer per computer hoeft te gebeuren, kan die code worden uitgecommentarieerd zodat hij niet per ongeluk wordt uitgevoerd.</p>
@@ -343,14 +351,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <p>Op een gegeven moment zal je code niet meer werken en zul je anderen om hulp willen vragen. Maak geen screenshot van een klein stukje code en verwacht niet dat iemand op basis daarvan kan helpen. Dat kunnen ze vrijwel zeker niet. In plaats daarvan moet je ze je hele script geven op een manier die ze kunnen uitvoeren. Over GitHub wordt later in zijn boek geschreven <strong>?@sec-reproducible-workflows</strong>, maar voor nu, als je hulp nodig hebt, moet je een GitHub account aanmaken, waarmee je je code kunt delen op een manier die nuttiger is dan het maken van een screenshot. Ga daarvoor naar <a href="https://github.com">GitHub</a> (<a href="#fig-githubone">Figure&nbsp;4 (a)</a>). Nadenken over een geschikte gebruikersnaam is belangrijk omdat dit onderdeel wordt van je professionele profiel. Het zou dus zinvol zijn om een gebruikersnaam te hebben die professioneel is, onafhankelijk van een cursus, en idealiter gerelateerd aan je echte naam. Zoek dan naar een “+” in de rechterbovenhoek, en selecteer dan “New gist”.</p>
-<div class="quarto-layout-panel">
+<div id="fig-githubgist" class="quarto-layout-panel">
 <figure class="figure">
 <div class="quarto-layout-row quarto-layout-valign-bottom">
 <div class="quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
 <div id="fig-githubone" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="figures/github_1.png" class="img-fluid figure-img" data-ref-parent="fig-githubgist"></p>
-<p></p><figcaption aria-hidden="true" class="figure-caption">(a) GitHub aanmeldscherm</figcaption><p></p>
+<p></p><figcaption class="figure-caption">(a) GitHub aanmeldscherm</figcaption><p></p>
 </figure>
 </div>
 </div>
@@ -358,7 +366,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="fig-githubgistone" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="figures/githubgistone.png" class="img-fluid figure-img" data-ref-parent="fig-githubgist"></p>
-<p></p><figcaption aria-hidden="true" class="figure-caption">(b) New GitHub Gist</figcaption><p></p>
+<p></p><figcaption class="figure-caption">(b) New GitHub Gist</figcaption><p></p>
 </figure>
 </div>
 </div>
@@ -368,12 +376,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="fig-githubgisttwo" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="figures/githubgisttwo.png" class="img-fluid figure-img" data-ref-parent="fig-githubgist"></p>
-<p></p><figcaption aria-hidden="true" class="figure-caption">(c) Creëer een publiek GitHub Gist om code te delen</figcaption><p></p>
+<p></p><figcaption class="figure-caption">(c) Creëer een publiek GitHub Gist om code te delen</figcaption><p></p>
 </figure>
 </div>
 </div>
 </div>
-<p></p><figcaption aria-hidden="true" class="figure-caption">Figure 4: Een Gist aanmaken om code te delen bij een hulpvraag</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;4: Een Gist aanmaken om code te delen bij een hulpvraag</figcaption><p></p>
 </figure>
 </div>
 <p>Vanaf hier moet je alle code aan die gist toevoegen, niet alleen het laatste stukje dat een fout geeft. En geef het een betekenisvolle bestandsnaam met “.R” aan het einde, bijvoorbeeld “australische_verkiezingen.R”.</p>
@@ -641,7 +649,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="fig-canadanice" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="verhalenvertellen_files/figure-html/fig-canadanice-1.png" class="img-fluid figure-img" width="672"></p>
-<p></p><figcaption aria-hidden="true" class="figure-caption">Figure 5: Aantal gewonnen zetels, per politieke partij, bij de Australische Federale Verkiezingen van 2022</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;5: Aantal gewonnen zetels, per politieke partij, bij de Australische Federale Verkiezingen van 2022</figcaption><p></p>
 </figure>
 </div>
 </div>
@@ -664,6 +672,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -685,7 +711,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
     button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
     setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
       button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
     }, 1000);
@@ -713,31 +756,50 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      let href = ref.getAttribute('href');
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
     });
   }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
   var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
   for (var i=0; i<bibliorefs.length; i++) {
     const ref = bibliorefs[i];
-    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
-    tippyHover(ref, function() {
-      var popup = window.document.createElement('div');
-      cites.forEach(function(cite) {
-        var citeDiv = window.document.createElement('div');
-        citeDiv.classList.add('hanging-indent');
-        citeDiv.classList.add('csl-entry');
-        var biblioDiv = window.document.getElementById('ref-' + cite);
-        if (biblioDiv) {
-          citeDiv.innerHTML = biblioDiv.innerHTML;
-        }
-        popup.appendChild(citeDiv);
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
       });
-      return popup.innerHTML;
-    });
+    }
   }
 });
 </script>

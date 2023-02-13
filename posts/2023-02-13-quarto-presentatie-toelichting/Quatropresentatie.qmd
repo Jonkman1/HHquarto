@@ -1,0 +1,220 @@
+---
+title: "Begin van mijn Quartoreis, een opzet voor een Quarto presentatie"
+description: |
+    Met Quarto, het nieuwe programma om wetenschappelijk te schrijven, kun je ook mooie presentaties maken. Megahn Hall maakte een mooie versie. De toelichting vind je hier. 
+author: "Meghan Hall, bewerking Harrie Jonkman"
+date: "2023-02-13"
+categories: [communiceren]
+image: "Screenshot1.PNG"
+---
+
+## Quatro
+Afgelopen weken heb ik wat met Quarto geëxperimenteerd. Zo heb ik met Quarto een boek gemaakt en daarover zal ik nog een andere blog schrijven. Ook heb ik met Quarto wat presentaties gemaakt. Meghan Hall heeft mij hier veel geleerd. Zij heeft een presentatie in Quarto gezet [hier](https://meghan.rbind.io/slides/neair/neair.html#/title-slide) en de repository daarvan vind je [hier](https://github.com/meghall06/neair). Hoe ze deze aantrekkelijke presentatie heeft opgemaakt, beschrijft ze in haar [blog](https://meghan.rbind.io/blog/quarto-slides/). 
+
+**HIER VIND JE DIE PRESENTATIE**   
+De presentatie heb ik vertaald en in andere kleuren gezet [hier](https://github.com/Jonkman1/Quartopresentation/NEAIRNederlands.html). De blogopmaak heb ik zelf wat aangepast. De aangepaste presentatie en blog vind je op mijn github-site [hier](https://github.com/Jonkman1/Quartopresentation). Hartelijke dank Meghan Hall voor jouw duidelijke uitleg, veel van geleerd. 
+
+## Begin van mijn Quarto reis
+
+[Quarto](https://quarto.org/) is een nieuw open-source technisch publicatiesysteem van RStudio. Het lijkt in veel opzichten op R Markdown (dat niet verdwijnt, maak je geen zorgen!), behalve dat het geen R vereist, meer talen ondersteunt en de functionaliteit van veel RMarkdown pakketten combineert (b.v. blogdown, bookdown).
+
+Meghan, maar ikzelf ook, is een toegewijde RMarkdown gebruiker, maar ze wil beginnen met het verkennen van de nieuwe Quarto functies. Haar eerste project was slides voor een [workshop](https://meghan.rbind.io/talk/neair/)---Ze zou normaal de RMarkdown-gebaseerde xaringan gebruiken voor HTML presentaties, maar besloot om het Quarto alternatief uit te proberen, dat reveal.js gebruikt.
+
+> De slides die ze met Quarto maakte zijn [hier](https://meghan.rbind.io/slides/neair/neair.html#/title-slide) en de code vind je op GitHub [hier](https://github.com/meghall06/personal-website/blob/master/static/slides/NEAIR/NEAIR.qmd).
+
+Veel van de functionaliteit is gelijkaardig aan xaringan of andere gelijkaardige RMarkdown HTML formaten, maar er is veel nieuwe syntax om te leren (en ook veel nieuwe functies!), dus heeft ze deze post samengesteld om een paar dingen te verzamelen die ze geleerd heeft terwijl ze voor de eerste keer een Quarto-presentatie maakte.
+
+## Quarto bronnen
+
+Haar favoriete introductie op het publicatiesysteem zelf is [Alison Hill's](https://www.apreshill.com/) samenvattende[post](https://www.apreshill.com/blog/2022-04-we-dont-talk-about-quarto/). [Mine Çetinkaya-Rundel](https://mine-cr.com/) heeft een doorlopende [blog](https://mine-cetinkaya-rundel.github.io/quarto-tip-a-day/) met een nieuwe Quartotip elke dag.
+
+## Emojis
+
+Eerst maar eens---hoe gebruik je emoji's in Quarto?? Gelukkig was dat niet zo moeilijk. Door de volgende regel aan de  YAML toe te voegen:
+
+```.yaml
+---
+from: markdown+emoji
+---
+```
+
+Je kunt emoji's toevoegen door te schrijven \:wave\: om :wave: te krijgen. De hele lijst met emoji codes vind je [hier](https://gist.github.com/rxaviers/7360908). ([Dit](https://quarto.org/docs/reference/formats/presentations/revealjs.html#slides) is een goede lijst met welke YAML opties er beschikbaar zijn.)
+
+## Aangepaste elementen
+
+Er zijn ingebouwde presentatiethema's in Quarto, en net als bij xaringan heb je de mogelijkheid om een van de meegeleverde thema's aan te passen of om een eigen thema te bouwen. Om dit te doen, maak je een `custom.scss` bestand aan (hier veranderd in `customNSCR.scss`) en verwijs je ernaar in jouw YAML:
+
+```.yaml
+---
+format: 
+  revealjs:
+    theme: [moon, customNSCR.scss]
+---
+```
+
+De oorspronkelijke `custom.scss` file die Meghan gebruikte voor haar slides vind je [hier](https://github.com/meghall06/personal-website/blob/master/static/slides/NEAIR/custom.scss) en naast enkele "gewone" aanpassingen zoals het specificeren van achtergrondkleur, letterkleur, linkkleur, enz., waren er een paar specifieke aspecten die ik wilde veranderen of toevoegen.
+
+### Uiterlijk van het codeblok
+
+Standaard hebben codeblokken in Quarto dezelfde achtergrondkleur als de dia's zelf, met een lichtere rand (alle standaard elementen staan [hier](https://quarto.org/docs/presentations/revealjs/themes.html#sass-variables)). Ik wilde een lichtere achtergrond voor mijn codeblok, met een donkere rand, dus heb ik de volgende veranderingen aangebracht in mijn `.scss` bestand:
+
+```.scss
+$code-block-bg: #ded9ca;
+$code-block-border-color: #000000;
+```
+
+
+### Footer text
+
+De standaard voettekst in Quarto reveal.js-slides heeft tekst gecentreerd onderaan de pagina, maar Meghan wilde dat haar voettekst kleinere tekst had die rechts uitgelijnd was. Dit leek een simpele aanpassing, maar het sleutelen aan de `.footer` class in de `.scss` bestand werkte niet en ze kwam er maar niet achter waarom.
+
+Later, nadat ze het had opgegeven :expressionless:, was ze aan het bladeren door de [reveal.js GitHub issues](https://github.com/quarto-dev/quarto-cli/issues?q=is%3Aissue+reveal+) (nog een techniek die ze aanbeveelt om te leren!) en stuitte toevallig op [een](https://github.com/quarto-dev/quarto-cli/issues/746) die toevallig de oplossing voor haar footerprobleem bevatte! 
+
+Het [standaard `footer.css` bestand](https://github.com/quarto-dev/quarto-cli/blob/main/src/resources/formats/revealjs/plugins/support/footer.css) is onderdeel van een reveal.js plugin die *na* elk thema of aangepaste bestanden laadt. En zo leerde ze over de `!important` eigenschap! Door die eigenschap aan haar elementen toe te voegen, kon ze eindelijk de voettekst bewerken. Zoals JJ in dat nummer schreef, is dit "buiten de lijntjes kleuren".
+
+```.scss
+.reveal .footer {
+  font-size: 0.35em !important;
+  text-align: right !important;
+}
+```
+
+### Sectie koppen
+
+De dia's die ze ontwikkeld heeft, hebben verschillende secties. Ze wilde iets ontwerpen om in de rechter bovenhoek te plaatsen dat de huidige sectie zou aangeven. Om dit te doen, maakte ze een nieuwe klasse in mijn `.scss` bestand genaamd `.sectionhead`.
+
+{{< figure src="header.png" lightbox="true" >}}
+
+Ze wou dat ze een meer specifieke aanbeveling had voor het leren van CSS/SCSS (deel het alsjeblieft als je een favoriete bron hebt!; daar ben ikzelf, Harrie, ook naar op zoek trouwens). Alles wat ze heeft geleerd heeft gevonden door ofwel te googlen of door het bekijken van de bestanden van andermans werk dat ze aantrekkelijk vindt. Uitzoeken hoe ze deze `.sectionhead` moest maken, was zoeken op *hoe maak ik een tekstvak in CSS* en veel spelen met de verschillende elementen totdat ze iets had dat haar aansprak.
+
+```.scss
+.sectionhead {
+  font-size: 1em;
+  text-align: center;
+  color: $presentation-heading-color;
+  font-family: $presentation-heading-font;
+  background-color: $body-bg;
+  margin: 1px;
+  padding: 2px 2px 2px 2px;
+  width: 120px;
+  border-left: 10px solid;
+}
+```
+
+### Elementen vinden om aan te passen
+
+Dit is erg specifiek en willekeurig, maar er is een [functie in Quarto slides](https://quarto.org/docs/presentations/revealjs/advanced.html#fragments) die tekst vervaagt bij een klik. Het lijkt ~50% te vervagen, maar ze wilde dat het nog meer vervaagde. Maar waar moet je beginnen om uit te zoeken *hoe* je dat kunt aanpassen? 
+
+Om dit in de slides aan te geven, gebruikt ze `.fragment.semi-fade-out`. Dus ze zocht [de Quarto repo](https://github.com/quarto-dev/quarto-cli) voor die bepaalde string en vond het hier [here](https://github.com/quarto-dev/quarto-cli/blob/303c4bc9f52ea0b0c36c5eb5dfbade9cece2b100/src/resources/formats/revealjs/reveal/css/reveal.scss), in de hoofd `.scss` file voor reveal. Die file verschafte de standaardsyntax, die ze in haar `custom.scss` file kon plakken en zo veranderde de ondoorzichtigheid.
+
+```.scss
+.reveal .slides section .fragment.semi-fade-out {
+	opacity: 1;
+	visibility: inherit;
+
+	&.visible {
+		opacity: 0.25;
+		visibility: inherit;
+	}
+}
+```
+
+## Absolute positie
+
+Een van de handigste functies van Quarto reveal.js slides is [absolute positie](https://quarto.org/docs/presentations/revealjs/advanced.html#absolute-position, waarmee je elementen specifiek op een slide kunt plaatsen.
+
+{{< figure src="featured.png" lightbox="true" >}}
+
+Ze heeft dit gebruikt om afbeeldingen te plaatsen, natuurlijk, maar ook om screenshots en code met tekst te annoteren (zoals in het voorbeeld hierboven), haar `.sectionhead` op elke dia te plaatsen en, in gevallen zoals de dia hieronder, een kleine outline toe te voegen voor nadruk.
+
+{{< figure src="box.png" lightbox="true" >}}
+
+Deze elementen kunnen ook als fragmenten worden toegevoegd, d.w.z., om te verschijnen bij een klik. De volgende code plaatst deze twee boxen (die ik heb gemaakt met een nieuwe `.blackbox` klasse in mijn `.scss bestand`) op de dia. De `. . .` bovenaan deze code geeft aan dat ze verschijnen bij een klik na de rest van de diacode. Je zou ook een `. . . ` tussen deze twee codegedeeltes plaatsen om de vakjes te laten verschijnen bij aparte kliks.
+
+
+```r
+. . .
+
+::: {.absolute top="42%" left="4%" width="150"}
+::: {.blackbox}
+:::
+:::
+
+::: {.absolute top="42%" left="69%" width="185"}
+::: {.blackbox}
+:::
+:::
+```
+
+## Code aanpassingen
+
+[Codeblokken in reveal.js](https://quarto.org/docs/presentations/revealjs/#code-blocks) laten veel aanpassingen toe en dit zijn de twee die ik het nuttigst vond.
+
+### Codevouwen
+
+{{< figure src="expand.png" lightbox="true" >}}
+
+Voor sommige voorbeelden tijdens het lesgeven, wil ze de code beschikbaar hebben, maar niet noodzakelijk alles op het scherm, wat onhandelbaar en/of afleidend zou kunnen zijn. De `code-fold` optie is hier heel geschikt voor, omdat de code alleen "on demand" beschikbaar is, en je kunt zelfs aangeven welke tekst er naast de pijl getoond moet worden. De code hieronder toont de `code-fold` en `code-summary` opties in gebruik.
+
+Opmerking terzijde: ik vind het prettig dat de chunkopties in de chunk zelf staan, voorafgegaan door `#|`, in plaats van in de `{r}` haakjes--het is veel leesbaarder.
+
+
+```
+#| code-fold: true
+#| code-summary: "expand for full code"
+#| fig-align: "center"
+fac_enr %>% 
+  filter(!is.na(avg_enr)) %>% 
+  ggplot(aes(x = year, y = avg_enr, group = rank, color = rank)) +
+  geom_line() +
+  geom_point() +
+  scale_color_brewer(type = "qual", palette = "Dark2") +
+  labs(x = NULL, y = "Average enrollment",
+       title = "Average undergraduate enrollment per rank over time") +
+  theme_linedraw() +
+  theme(panel.grid.major.x = element_blank(),
+        axis.ticks = element_blank(),
+        legend.title = element_blank(),
+        legend.background = element_rect(fill = NA),
+        legend.key = element_rect(fill = NA),
+        legend.position = c(0.85, 0.82))
+```
+
+### Incrementele code markering
+
+{{< figure src="highlight.png" lightbox="true" >}}
+
+Code highlighting is op zich geen nieuwe functie (je kon zeker al coderegels op laten lichten in xaringan), maar hier is het heel gemakkelijk om door code te "stappen" door verschillende regels te benadrukken bij een klik. Dit is super handig om de aandacht te vestigen tijdens het lesgeven en om code regel voor regel uit te leggen.
+
+De volgende optie zou beginnen met het oplichten van regel 1 en 2 van het codeblok, dan regel 3 bij een klik, dan regel 4 bij een volgende klik.
+
+````r
+```{r}
+#| code-line-numbers: "1-2|3|4"
+```
+````
+
+## Tekst stijlen
+
+Uitzoeken hoe je tekst kunt stijlen was een beetje een leercurve voor haar---niet omdat het moeilijk is, het is gewoon anders dan xaringan en ze kon het niet goed uitgelegd vinden in de docs (hoewel de docs zo uitgebreid zijn, dat ik het waarschijnlijk gewoon ergens gemist heb). De [code voor de demo presentatie](https://github.com/quarto-dev/quarto-web/blob/main/docs/presentations/revealjs/demo/index.qmd) was nuttig om wat stylingvoorbeelden op te pikken. Haar beste tip is om het werk van anderen te volgen en als je iets ziet dat je bevalt, zoek dan het GitHub bestand en zoek uit hoe zij het gedaan hebben! (zo heb ik dat zelf ook bij jou gedaan, Maghan)
+
+### In-line 
+
+Als je wilt <span style = 'color:#cc0000;'>red words</span>, type je `[red words]{style="color:#cc0000"}`.
+
+### Grotere stukken
+
+Als je in plaats daarvan de stijl van een groter stuk tekst wilt aanpassen, geef dan de sectie aan met `:::` (die aan het eind moet worden herhaald) en gebruik dezelfde `{style}` syntaxis.
+
+```r
+::: {style="font-size: 1.5em; text-align: center"}
+text
+
+text
+
+text
+:::
+```
+
+### Logo
+Ikzelf heb er nog een logo aan toegevoegd, dat links bovenin geplaatst worden. Ik wilde het alleen groter afgedrukt krijgen en dat lukte mij niet. Als ik gevonden heb hoe dat werkt, zal ik dat nog aanpassen.

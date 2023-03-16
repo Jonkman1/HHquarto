@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Harrie Jonkman">
+<meta name="dcterms.date" content="2023-03-18">
+<meta name="description" content="In dit blog laat ik zien hoe je zelf met Quarto een blog kunt maken en hoe je dat kunt publiceren en verspreiden. Je kunt hier het blog vinden en de stappen die gezet zijn om het te maken en te publiceren.">
+
+<title>Maken en publiceren van een blog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+ <span class="menu-text">Harrie’s Hoekje</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Jonkman1"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Maken en publiceren van een blog</h1>
+                  <div>
+        <div class="description">
+          <p>In dit blog laat ik zien hoe je zelf met Quarto een blog kunt maken en hoe je dat kunt publiceren en verspreiden. Je kunt hier het blog vinden en de stappen die gezet zijn om het te maken en te publiceren.</p>
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">communiceren</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Harrie Jonkman </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 18, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#quarto" id="toc-quarto" class="nav-link active" data-scroll-target="#quarto">Quarto</a></li>
+  <li><a href="#tt_blog" id="toc-tt_blog" class="nav-link" data-scroll-target="#tt_blog">TT_blog</a></li>
+  <li><a href="#achtergrond-van-tt_blog" id="toc-achtergrond-van-tt_blog" class="nav-link" data-scroll-target="#achtergrond-van-tt_blog">Achtergrond van TT_blog</a></li>
+  <li><a href="#repository-op-github" id="toc-repository-op-github" class="nav-link" data-scroll-target="#repository-op-github">1. Repository op GitHub</a></li>
+  <li><a href="#vanuit-github-werken" id="toc-vanuit-github-werken" class="nav-link" data-scroll-target="#vanuit-github-werken">3. Vanuit GitHub werken</a></li>
+  <li><a href="#opmaak" id="toc-opmaak" class="nav-link" data-scroll-target="#opmaak">4. Opmaak</a></li>
+  <li><a href="#tot-slot" id="toc-tot-slot" class="nav-link" data-scroll-target="#tot-slot">Tot slot</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="quarto" class="level2">
+<h2 class="anchored" data-anchor-id="quarto">Quarto</h2>
+<p>Met Quarto ben je in staat om inhoud en code naar verschillende wetenschappelijke producten om te zetten. Dat kunnen artikelen, rapporten, boeken, websites of b.v. dashboards zijn. Met Quarto kun je ook een blog maken. Hier laat ik jullie zien hoe je zo’n blog kunt maken. Om meer over Quarto te leren verwijs ik je naar de uitgebreide <a href="https://quarto.org">Quarto-website</a>.</p>
+</section>
+<section id="tt_blog" class="level2">
+<h2 class="anchored" data-anchor-id="tt_blog">TT_blog</h2>
+<p>Dit is overigens het blog dat ik met Quarto heb gemaakt <a href="https://tt-blog.netlify.app">TT-blog</a>, het eindresultaat van deze tutorial. Al het materiaal (teksten, plaatjes, ondersteunend materiaal) vind je op <a href="https://github.com/Jonkman1/Quartoblog">Github</a>. Op 4 april geef ik er een NSC-R workshop over. Die presentatie zal <a href="">hier</a> komen te staan.</p>
+</section>
+<section id="achtergrond-van-tt_blog" class="level2">
+<h2 class="anchored" data-anchor-id="achtergrond-van-tt_blog">Achtergrond van TT_blog</h2>
+<p>De NSC-R werkgroep organiseert regelmatig bijeenkomsten om medewerkers en betrokkenen te informeren over ontwikkelingen op het terrein van moderne data-analyse met inzet van het programma <code>R</code>. Het werk van deze werkgroep vind je op <a href="https://nscrweb.netlify.app/blog.html">NSC-R Workshops</a>.</p>
+<p>Onderdeel van deze workshops zijn NSC-R Tidy Tuesday-bijeenkomsten. Iemand leidt mensen door een bepaald analysescript en laat zo zien wat en hoe je de analyse met R kunt uitvoeren. In de periode januari 2022-januari 2023 zijn er tien verschillende van deze bijeenkomsten georganiseerd. In enkele stappen heb ik elk van deze workshopteksten naar tien posts van dit blog omgezet en ik heb er een about-pagina aan toegevoegd met achtergrondinformatie over de workshops. Het blog heb ik als product via internet gepubliceerd. Een aantal stappen zijn essentieel:</p>
+<ol type="1">
+<li><p>Allereerst heb ik op GitHub een repository geopend (<em>Repository op GitHub</em>).</p></li>
+<li><p>Vervolgens heb ik het blogformat van <code>Quarto</code> binnengehaald en dat als uitgangspunt voor dit blog genomen. Vervolgens heb ik van de diverse workshopteksten posts gemaakt, ik heb er een about-pagina mert achtergrondinformatie aan toegevoegd (<em>Open Quartoblog</em>).</p></li>
+<li><p>Al deze documenten heb ik vervolgens binnen de repository van GitHub geplaatst (<em>Werken vanaf GitHub</em>).</p></li>
+<li><p>Daarna heb ik de opmaak nog wat aangepast (<em>Opmaak</em>).</p></li>
+<li><p>Als je het project als repository op GitHub hebt staan, kun je het product vervolgens via <code>Netlify</code> publiceren (<em>Publiceren</em>).</p></li>
+</ol>
+<p>Hieronder ga ik wat uitgebreider op de vijf stappen in.</p>
+</section>
+<section id="repository-op-github" class="level2">
+<h2 class="anchored" data-anchor-id="repository-op-github">1. Repository op GitHub</h2>
+<p>Vaak begint een project met het openen van een repository op GitHub. Probeer zo veel mogelijk vanuit GitHub te werken. Jouw laatste versies zijn dan veilig opgeborgen en in principe kun je zo mogelijk makkelijk en goed met anderen samenwerken.</p>
+<p><img src="github.png" class="img-fluid" alt="Nieuwe repository"> ## 2. Open Quartoblog</p>
+<p><code>Quarto</code> is de nieuwe versie van <code>R Markdown</code>, het populaire pakket van R om wetenschappelijk te kunnen schrijven. <code>R Markdown</code> is er nu tien/twaalf jaar en blijft bestaan (ook ik zal het blijven gebruiken). Echter, <code>Quarto</code> heeft enkele kenmerken dat deze innovatie interessant maakt. Een van de voordelen is b.v. dat je er niet alleen in RStudio mee kunt werken maar ook met Python of VS Code. In deze tutorial wordt gebruik gemaakt van RStudio. In de nieuwe versies van RStudio is <code>Quarto</code> al opgenomen (dus dat hoef je niet apart te installeren). Als je met <code>R Markdown</code> werkt moet je steeds een ander pakket binnenhalen (voor het maken van een blog weer een ander pakket dan voor een boek). Bij <code>Quarto</code> hoef je dat niet steeds te doen. Nog een ander voordeel, ook het werken met <code>Quarto</code> zelf heeft enkele voordelen (bv dat je snel kunt wisselen tussen resultaat (Visual) en code (Soure) bv).</p>
+<p><img src="Screenshot2.png" class="img-fluid"></p>
+<p><code>Quarto</code>-documenten sla je op als <code>.qmd</code>-documenten.Verder werkt het veelal het zelfde als .<code>rmd</code>-documenten. Ook dit systeem werkt met Markdown tekst. De code chunks schrijf je wel net wat anders.Je begint <code>{r}</code> en de opdracht zet je eronder met <code>#|</code> zols hieronder.</p>
+<pre><code>#| warning: false
+#| echo: true
+#| label: fig-agecat
+#| fig-cap: "Age categories and their numbers"
+#| cap-location: margin</code></pre>
+<p>Uitgebreide informatie vind je over <a href="https://quarto.org/docs/get-started/authoring/rstudio.html">Schrijven</a> en <a href="https://quarto.org/docs/get-started/computations/rstudio.html">coderen</a> op de website van <code>Quarto</code>. Je kunt ook de teksten van het boek nemen en zien hoe ik dit heb gedaan.</p>
+<p>Net als andere wetenschappelijke producten (zoals artikelen, rapporten, boeken) kun je er ook een blog mee maken. Voor deze tutorial heb ik een eenvoudig blog gemaakt. Crëeer eerst binnen RStudio een nieuw project en kies voor New Directory.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="newproject.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Nieuw project</figcaption><p></p>
+</figure>
+</div>
+<p>Vervolgens kies je voor <code>Quarto Blog</code>.</p>
+<p><img src="quartoblog.png" class="img-fluid" alt="Quarto Book"> En dit blog geef je dan een naam, in ons geval <em>TT_blog</em></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="quartoblog2.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">TT_blog</figcaption><p></p>
+</figure>
+</div>
+<p>Als je dit project opent, zie je dat er verschillende bestanden zijn binnengehaald.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="structure.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Bestanden</figcaption><p></p>
+</figure>
+</div>
+<p>Als je dit project vervolgens opent en het document <code>index.qmd</code>rendert, zal het bestand <code>_site</code> worden toegevoegd.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="structure2.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">_book</figcaption><p></p>
+</figure>
+</div>
+<p>Als je dan <code>_site/index.html</code> opent, zie je het resultaat.</p>
+<p>Dit project heb ik als uitgangspunt genomen en vervolgens heb ik de tien workshopsbestanden toegevoegd en achtergrondinformatie gegeven over het project in de about-file. Dat moet je steeds stap voor stap doen. Maar hier zie je hoe de projectmap er uiteindelijk uitziet.</p>
+<p>Zo ziet dan dan de structuur van het blog eruit. Over andere zaken zal ik straks nog wat bij de opmaak opmerken</p>
+</section>
+<section id="vanuit-github-werken" class="level2">
+<h2 class="anchored" data-anchor-id="vanuit-github-werken">3. Vanuit GitHub werken</h2>
+<p>Ook voor deze klus is het belangrijk dat je vanaf GitHub werkt. Dat is het versie controle programma waarover ik al eens vaker heb geschreven.Zie bijvoorbeeld <a href="https://nscrweb.netlify.app/posts/2021-11-25-github/">hier</a>. Het is belangrijk om stap voor stap te kunnen werken, om alles goed bij te houden (versie-controle), eventueel met anderen in het project te kunnen samenwerken, maar ook om het eindproduct te kunnen communiceren.</p>
+<p>Het is natuurlijk goed als je vanaf het begin het project in GitHub hebt opgeslagen. In dat geval begin je met het openen van een nieuwe repository om GitHub, koppel je het met jouw lokale projectmap en voeg je er nieuwe bestanden aan toe. Je zorgt steeds dat de nieuwste versie op GitHub staat. Je moet dan wel een account daar hebben.</p>
+<p>Het kan ook zijn dat je het project al op jouw lokale computer hebt staan en het vervolgens op GitHub moet plaatsen. In dat geval kun je ook het pakket <code>usethis</code> gebruiken. [Usethis](https://usethis.r-lib.org/. Dat pakket moet je dan wel hebben geinstalleerd en geöpend in de projectmap van het boek.</p>
+<p>Start met het commando</p>
+<pre><code>usethis::use_git()</code></pre>
+<p>Hij vraagt dan of je <code>commit your changes</code> toestaat en herstart dan RStudio en accepteer dit.</p>
+<p>Geef dan het volgende commando om een Github repository te creëren om alles op GitHub op te slaan.</p>
+<pre><code>usethis::use_github()</code></pre>
+<p>In mijn geval heb ik trouwens alle nieuwe bestanden met de hand in de GitHub repository geplaatst. Hoe je het ook doet, alles moet op in ieder geval op GitHub staan voordat je het blog kunt publiceren.</p>
+</section>
+<section id="opmaak" class="level2">
+<h2 class="anchored" data-anchor-id="opmaak">4. Opmaak</h2>
+<p>De stijl van het product kun je op verschillende manieren aanpassen. In <code>Quarto</code> zelf zitten er verschillende thema’s waar je voor kunt kiezen. In mijn geval heb ik voor <code>cosmo</code> gekozen. Dat vermeld je dan in het <code>yml</code>-bestand. Je kunt in datzelfde bestand ook lettergroottes, -types, achtergrondkleuren of andere stijlaspecten definiëren. Wat je ook kunt doen is een apart <code>css</code>-bestand toevoegen waarin je de stijl van, in dit geval boek, definieert. Ook over dit onderwerp zou veel meer te vertellen zijn, maar dat laat ik voor nu even zitten.</p>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Cosmo</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Darkly</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">Sketchy</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p><img src="cosmo.png" class="img-fluid"></p>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p><img src="darkly.png" class="img-fluid"></p>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<p><img src="sketchy.png" class="img-fluid"></p>
+</div>
+</div>
+</div>
+<p>Voor de about-site heb je ook verschillende keuze</p>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Jolla</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Trestles</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false">Solana</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-4" role="tab" aria-controls="tabset-2-4" aria-selected="false">Marquee</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-5" role="tab" aria-controls="tabset-2-5" aria-selected="false">Broadside</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<p><img src="jolla.png" class="img-fluid"></p>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<p><img src="trestles.png" class="img-fluid"></p>
+</div>
+<div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
+<p><img src="solana.png" class="img-fluid"></p>
+</div>
+<div id="tabset-2-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-4-tab">
+<p><img src="marquee.png" class="img-fluid"></p>
+</div>
+<div id="tabset-2-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-5-tab">
+<p><img src="broadside.png" class="img-fluid"></p>
+</div>
+</div>
+</div>
+<p>Je kunt de stijl ook nog ‘met de hand’ aanpassen.</p>
+<p><img src="scss.png" class="img-fluid" alt="css/scss"> 5. Publiceren</p>
+<p>Voor het publiceren van het blog heb ik het programma <code>Netlify</code>gebruikt. Ook hier moet je een account hebben (wel gratis net als GitHub). Vervolgens moet je ervoor zorgen dat ingelogd bent.</p>
+<p>Zeg dan dat je een nieuwe site wilt openen.Bij het inloggen kun je het beste jouw GitHub account gebruiken. Verbind het met jouw GitHub account en kies jouw repository (in ons geval Quartoblog) die je wilt publiceren.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pickrepository.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Via GitHub</figcaption><p></p>
+</figure>
+</div>
+<p>Kies jouw settings uit. In dit geval is <code>_site</code> de basisrepository en is <code>_site/</code> de directory. Klik op deploy (publiceren).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="sitesetting.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">kies setting</figcaption><p></p>
+</figure>
+</div>
+<p>Vervolgens kun je ook de naam veranderen (van de onbegrijpelijke Netlifynaam naar jouw herkenbare <code>tt_blog</code> naam).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="changesitename.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Naam veranderen</figcaption><p></p>
+</figure>
+</div>
+<p>En</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="changesitename2.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Naam Veranderen2</figcaption><p></p>
+</figure>
+</div>
+<p>De naam is dus veranderd in tt_blog en uiteindelijk is dit het adres geworden dat je van Netlify krijgt: <code>https://tt-blog.netlify.app</code> en dit is het resultaat</p>
+<p><a href="https://tt-blog.netlify.app">tt-blog</a></p>
+</section>
+<section id="tot-slot" class="level2">
+<h2 class="anchored" data-anchor-id="tot-slot">Tot slot</h2>
+<p>Het maken van een blog lijkt heel erg op het maken van een boek of een website (zie ook mijn blog van februari over het maken en verspreiden van een boek). Als je het een kunt, wordt het andere product makkelijker om te maken. Werk vanuit een project met verschillende mappen; zorg ervoor dat je altijd met GitHub werkt en doe alles stap voor stap. Begin met een klein project en werk het daarna uit. Om te publiceren heb ik tot nu toe met <code>Netlify</code>. Het moet ook met <code>GitHub Pages</code>kunnen. <code>Quarto</code> zelf heeft ook een eigen systeem om te publiceren (<code>Quarto Pub</code>) en dan is er nog <code>Posit Connect</code> en zijn er nog allerlei andere diensten waarmee je jouw producten onder de aandacht kunt brengen. Later zal ik nog eens een blog schrijven over deze mogelijkheden.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -1,41 +1,47 @@
 ---
-title: "Maken en publiceren van een boek"
+title: "Maken en publiceren van een blog"
 description: |
-    In dit blog laat ik zien hoe je met Quarto een boek kunt maken en hoe je dat kunt publiceren en verspreiden. Je kunt hier het boek vinden en de stappen die gezet zijn om het te maken en te publiceren
+    In dit blog laat ik zien hoe je zelf met Quarto een blog kunt maken en hoe je dat kunt publiceren en verspreiden. Je kunt hier het blog vinden en de stappen die gezet zijn om het te maken en te publiceren.
 author: "Harrie Jonkman"
-date: "2023-02-20"
+date: "2023-03-18"
 categories: [communiceren]
-image: "TT_book_opzet.PNG"
+image: "Screenshot.PNG"
 ---
 
 
 ## Quarto
 
-Met Quarto ben je in staat om inhoud en code naar verschillende wetenschappelijke producten om te zetten. Dat kunnen artikelen, rapporten, blogs, websites of b.v. dashboards zijn. Met Quarto kun je ook boeken maken in verschillende vormen (html, pdf, word of epub). In dit blog laat ik jullie zien hoe je een html-boek kunt maken. Om meer over Quarto te leren verwijs ik je naar de [Quarto-website](https://quarto.org).
+Met Quarto ben je in staat om inhoud en code naar verschillende wetenschappelijke producten om te zetten. Dat kunnen artikelen, rapporten, boeken, websites of b.v. dashboards zijn. Met Quarto kun je ook een blog maken. Hier laat ik jullie zien hoe je zo'n blog kunt maken. Om meer over Quarto te leren verwijs ik je naar de uitgebreide [Quarto-website](https://quarto.org).
 
-## TT_book
+## TT_blog
 
-Dit is overigens het boek dat ik met Quarto heb gemaakt [TT-book](https://ttbook.netlify.app), het eindresultaat van deze tutorial. Al het materiaal (teksten, plaatjes, ondersteunend materiaal) vind je op [Github](https://github.com/Jonkman1/TT_book).
+Dit is overigens het blog dat ik met Quarto heb gemaakt [TT-blog](https://tt-blog.netlify.app), het eindresultaat van deze tutorial. Al het materiaal (teksten, plaatjes, ondersteunend materiaal) vind je op [Github](https://github.com/Jonkman1/Quartoblog). Op 4 april geef ik er een NSC-R workshop over. Die presentatie zal [hier]() komen te staan.
 
-## Achtergrond van het boek
+## Achtergrond van TT_blog
 
 De NSC-R werkgroep organiseert regelmatig bijeenkomsten om medewerkers en betrokkenen te informeren over ontwikkelingen op het terrein van moderne data-analyse met inzet van het programma `R`. Het werk van deze werkgroep vind je op [NSC-R Workshops](https://nscrweb.netlify.app/blog.html).
 
-Onderdeel van deze workshops zijn NSC-R Tidy Tuesday-bijeenkomsten. Iemand leidt mensen door een bepaald analysescript en laat zo zien wat en hoe je de analyse met R kunt uitvoeren. In de periode januari 2022-januari 2023 zijn verschillende van deze bijeenkomsten georganiseerd. In enkele stappen heb ik deze workshopteksten naar een boek omgezet en dit boek heb ik als product via internet gepubliceerd. Een aantal stappen zijn essentieel:
+Onderdeel van deze workshops zijn NSC-R Tidy Tuesday-bijeenkomsten. Iemand leidt mensen door een bepaald analysescript en laat zo zien wat en hoe je de analyse met R kunt uitvoeren. In de periode januari 2022-januari 2023 zijn er tien verschillende van deze bijeenkomsten georganiseerd. In enkele stappen heb ik elk van deze workshopteksten naar tien posts van dit blog omgezet en ik heb er een about-pagina aan toegevoegd met achtergrondinformatie over de workshops. Het blog heb ik als product via internet gepubliceerd. Een aantal stappen zijn essentieel:
 
-1.  Allereerst heb ik de verschillende scripts genomen en in `Quarto` omgezet (*Tekstschrijven met Quarto*).\
+1.  Allereerst heb ik op GitHub een repository geopend (*Repository op GitHub*).
 
-2.  Vervolgens heb ik het boekformat van `Quarto` binnengehaald en dat als uitgangspunt voor dit boek genomen. Vervolgens heb ik van de workshopteksten hoofdstukken gemaakt, ik heb er een inleiding en samenvatting aan toegevoegd en ik heb de referenties eraan toegevoegd (*Creëren van een boek*).
+2.  Vervolgens heb ik het blogformat van `Quarto` binnengehaald en dat als uitgangspunt voor dit blog genomen. Vervolgens heb ik van de diverse workshopteksten posts gemaakt, ik heb er een about-pagina mert achtergrondinformatie aan toegevoegd (*Open Quartoblog*).
 
-3.  Belangrijk is dat je het project op GitHub zet (*Werken vanaf GitHub*).
+3.  Al deze documenten heb ik vervolgens binnen de repository van GitHub geplaatst (*Werken vanaf GitHub*).
 
-4.  Als je het project als repository of GitHub heb staan, kun je het product vervolgens via `Netlify` publiceren (*Publiceren*).
+4.  Daarna heb ik de opmaak nog wat aangepast (*Opmaak*).
 
-5.  Daarna heb ik de opmaak nog wat aangepast (*Opmaak*).
+5.  Als je het project als repository op GitHub hebt staan, kun je het product vervolgens via `Netlify` publiceren (*Publiceren*).
+
+
 
 Hieronder ga ik wat uitgebreider op de vijf stappen in.
 
-## 1. Tekstschrijven met Quarto
+## 1. Repository op GitHub
+Vaak begint een project met het openen van een repository op GitHub. Probeer zo veel mogelijk vanuit GitHub te werken. Jouw laatste versies zijn dan veilig opgeborgen en in principe kun je zo mogelijk makkelijk en goed met anderen samenwerken.
+
+![Nieuwe repository](github.png)
+## 2. Open Quartoblog
 
 `Quarto` is de nieuwe versie van `R Markdown`, het populaire pakket van R om wetenschappelijk te kunnen schrijven. `R Markdown` is er nu tien/twaalf jaar en blijft bestaan (ook ik zal het blijven gebruiken). Echter, `Quarto` heeft enkele kenmerken dat deze innovatie interessant maakt. Een van de voordelen is b.v. dat je er niet alleen in RStudio mee kunt werken maar ook met Python of VS Code. In deze tutorial wordt gebruik gemaakt van RStudio. In de nieuwe versies van RStudio is `Quarto` al opgenomen (dus dat hoef je niet apart te installeren). Als je met `R Markdown` werkt moet je steeds een ander pakket binnenhalen (voor het maken van een blog weer een ander pakket dan voor een boek). Bij `Quarto` hoef je dat niet steeds te doen. Nog een ander voordeel, ook het werken met `Quarto` zelf heeft enkele voordelen (bv dat je snel kunt wisselen tussen resultaat (Visual) en code (Soure) bv).
 
@@ -51,33 +57,31 @@ Hieronder ga ik wat uitgebreider op de vijf stappen in.
 
 Uitgebreide informatie vind je over [Schrijven](https://quarto.org/docs/get-started/authoring/rstudio.html) en [coderen](https://quarto.org/docs/get-started/computations/rstudio.html) op de website van `Quarto`. Je kunt ook de teksten van het boek nemen en zien hoe ik dit heb gedaan.
 
-## 2. Creëren van een boek
 
-Net als andere wetenschappelijke producten (zoals artikelen en rapporten) kun je ook boek in verschillende formaten creëren: html, pdf, word of epub. In deze tutorial heb ik een boek in html-formaat gemaakt.Crëer eerst binnen RStudio een nieuw project en kies voor New Directory.
 
-![Nieuw project](Creer_project.png)
+Net als andere wetenschappelijke producten (zoals artikelen, rapporten, boeken) kun je er ook een blog mee maken. Voor deze tutorial heb ik een eenvoudig blog gemaakt. Crëeer eerst binnen RStudio een nieuw project en kies voor New Directory.
 
-Vervolgens kies je voor `Quarto Book`.
+![Nieuw project](newproject.png)
 
-![Quarto Book](quarto_book.png) En dit boek geef je dan een naam, in ons geval *TT_book*
+Vervolgens kies je voor `Quarto Blog`.
 
-![TT_book](create_quarto_book.png)
+![Quarto Book](quartoblog.png) En dit blog geef je dan een naam, in ons geval *TT_blog*
+
+![TT_blog](quartoblog2.png)
 
 Als je dit project opent, zie je dat er verschillende bestanden zijn binnengehaald.
 
-![Bestanden](bestanden.png) Als je dit project vervolgens opent en het document `index.qmd`rendert, zal het bestand `-book` worden toegevoegd.
+![Bestanden](structure.png) 
 
-![\_book](_book.png)
+Als je dit project vervolgens opent en het document `index.qmd`rendert, zal het bestand `_site` worden toegevoegd.
 
-Als je dan `_book/index.html` opent, zie je het resultaat.
+![\_book](structure2.png)
 
-Dit project heb ik als uitgangspunt genomen en vervolgens heb ik de workshopsbestanden, de inleiding, de samenvatting en de referenties hieraan toegevoegd. Dat moet je steeds stap voor stap doen. Maar hier zie je hoe de projectmap er uiteindelijk uitziet. Belangrijk is wel dat je het `yaml`-document goed aanpast en dat je daarin omschrijft wat er aan hoofdstukken in het boek moet worden opgenomen.
+Als je dan `_site/index.html` opent, zie je het resultaat.
 
-Zo ziet dan het hele boek eruit, met een intro, tien hoofdstukken en een samenvatting. Over andere zaken zal ik straks nog wat bij de opmaak opmerken.
+Dit project heb ik als uitgangspunt genomen en vervolgens heb ik de tien workshopsbestanden toegevoegd en achtergrondinformatie gegeven over het project in de about-file. Dat moet je steeds stap voor stap doen. Maar hier zie je hoe de projectmap er uiteindelijk uitziet.
 
-![TT_book-opzet](TT_book_opzet.png) Belangrijk is wel dat je het `yaml`-document aanpast aan de opzet die jij wilt maken.Vergelijk zelf het yaml-document dat je krijgt als je Quarto book opent en de yaml voor dit TT_book. Alle hoofdstukken moeten in het yaml-document zijn omschreven. Hier zie je het yaml document. Bij de opmaak zeg ik hier nog wat over. Hier zie een deel van yaml-opzet. Let voor op de hoofdstukken. Bij de opmaak kom ik nog op dit document terug.
-
-![yaml-deel](yaml-deel.png)
+Zo ziet dan dan de structuur van het blog eruit. Over andere zaken zal ik straks nog wat bij de opmaak opmerken
 
 ## 3. Vanuit GitHub werken
 
@@ -97,50 +101,86 @@ Geef dan het volgende commando om een Github repository te creëren om alles op 
 
     usethis::use_github()
 
-Nogmaals, alles moet op GitHub staan voordat je het boek kunt publiceren.
 
-## 4. Publiceren
+In mijn geval heb ik trouwens alle nieuwe bestanden met de hand in de GitHub repository geplaatst. Hoe je het ook doet, alles moet op in ieder geval op GitHub staan voordat je het blog kunt publiceren.
 
-Voor het publiceren van het boek heb ik het programma `Netlify`gebruikt. Ook hier moet je een account hebben (wel gratis net als GitHub). Vervolgens moet je ervoor zorgen dat ingelogd bent.
+## 4. Opmaak
 
-Zeg dan dat je een nieuwe site wilt openen (je moet het boek in dit geval als nieuwe site zien).
 
-![Nieuwe site openen](01_Impor_project.png).
+De stijl van het product kun je op verschillende manieren aanpassen. In `Quarto` zelf zitten er verschillende thema's waar je voor kunt kiezen. In mijn geval heb ik voor `cosmo` gekozen. Dat vermeld je dan in het `yml`-bestand. Je kunt in datzelfde bestand ook lettergroottes, -types, achtergrondkleuren of andere stijlaspecten definiëren. Wat je ook kunt doen is een apart `css`-bestand toevoegen waarin je de stijl van, in dit geval boek, definieert. Ook over dit onderwerp zou veel meer te vertellen zijn, maar dat laat ik voor nu even zitten.
 
-Bij het inloggen kun je het beste jouw GitHub account gebruiken. Verbind het met jouw GitHub account
+::: {.panel-tabset}
 
-![Via GitHub](02_chooseGitHub.png)
+## Cosmo
 
-Kies uit jouw repositories in dit geval de TT-repository (de projectmap waarin alles zit)
+![](cosmo.png)
 
-![TT-bookrepository](03_Pickrepository.png)
+## Darkly
 
-Kies jouw settings uit. In dit geval is `-book` de basisrepository en is `_book/` de directory. Klik op deploy (publiceren).
+![](darkly.png)
 
-![kies setting](04_build_setting.png)
+## Sketchy
 
-Vervolgens kun je ook de naam veranderen (van de onbegrijpelijke Netlifynaam naar jouw herkenbare `TT_book` naam).
+![](sketchy.png)
 
-![Naam veranderen](05_changesitesetting.png)
+::: 
 
-De naam is dus veranderd in TT_book en uiteindelijk is dit het adres geworden dat je van Netlify krijgt: `https://ttbook.netlify.app` en dit is het resultaan
+Voor de about-site heb je ook verschillende keuze
 
-[TT_book](https://ttbook.netlify.app)
+::: {.panel-tabset}
 
-## 5. Opmaak
+## Jolla
 
-### Referenties
+![](jolla.png)
 
-Heel kort iets over referenties. Zelf werk ik met het Zotero om referenties in op te slaan. Als je dat gedaan hebt, moet je dit bestand vervolgens als bib-bestand opslaan. Als je in de map van TT_book kijkt, vind je het `referencestt.bib` bestand. Daarin zitten alle referenties van de workshops. In de tekst zelf zet je dan bv @bernasco_nsc-r_2022 tussen haakjes (\[\]) als je wilt verwijzen naar een bijeenkomst die Bernasco in 2022 heeft gegeven. In de \_yml schrijf je dan dat de bibliografie te vinden is in het bestand `referencestt.bib`.
+## Trestles
 
-Referenties kunnen op verschillende manieren beschreven worden. Op internet kun je verschillende stijlen vinden [citation styles](https://en.wikipedia.org/wiki/Citation#Styles). Hier is gekozen voor de apa stijl (apa.csl). Dit kun je als document binnenhalen en daar kun je in jouw `yml`-bestand naar verwijzen (`csl:apa.csl`).
+![](trestles.png)
 
-![Referenties](Referentie.png)
+## Solana
 
-### Stijl
+![](solana.png)
 
-De stijl van het product kun je op verschillende manieren defiëren. In `Quarto` zelf zitten er verschillende thema's waar je voor kunt kiezen. In mijn geval heb ik voor `cosmo` gekozen. Dat vermeld je dan in het `yml`-bestand. Je kunt in datzelfde bestand ook lettergroottes, -types, achtergrondkleuren of andere stijlaspecten definiëren. Wat je ook kunt doen is een apart `css`-bestand toevoegen waarin je de stijl van, in dit geval boek, definieert. Ook over dit onderwerp zou veel meer te vertellen zijn, maar dat laat ik voor nu even zitten.
+## Marquee
+
+![](marquee.png)
+
+## Broadside
+
+![](broadside.png)
+
+:::
+
+
+Je kunt de stijl ook nog 'met de hand' aanpassen. 
+
+![css/scss](scss.png)
+5. Publiceren
+
+Voor het publiceren van het blog heb ik het programma `Netlify`gebruikt. Ook hier moet je een account hebben (wel gratis net als GitHub). Vervolgens moet je ervoor zorgen dat ingelogd bent.
+
+Zeg dan dat je een nieuwe site wilt openen.Bij het inloggen kun je het beste jouw GitHub account gebruiken. Verbind het met jouw GitHub account en kies jouw repository (in ons geval Quartoblog) die je wilt publiceren.
+
+![Via GitHub](pickrepository.png)
+
+
+Kies jouw settings uit. In dit geval is `_site` de basisrepository en is `_site/` de directory. Klik op deploy (publiceren).
+
+![kies setting](sitesetting.png)
+
+Vervolgens kun je ook de naam veranderen (van de onbegrijpelijke Netlifynaam naar jouw herkenbare `tt_blog` naam).
+
+![Naam veranderen](changesitename.png)
+
+En 
+
+![Naam Veranderen2](changesitename2.png)
+
+De naam is dus veranderd in tt_blog en uiteindelijk is dit het adres geworden dat je van Netlify krijgt: `https://tt-blog.netlify.app` en dit is het resultaat
+
+[tt-blog](https://tt-blog.netlify.app)
+
 
 ## Tot slot
 
-Het maken van een boek lijkt heel erg op het maken van een blog of een website. Als je het een kunt, wordt het andere product makkelijker om te maken. Werk vanuit een project met verschillende mappen; zorg ervoor dat je altijd met GitHub werkt en doe alles stap voor stap. Begin met een klein project en werk het daarna uit. Om te publiceren heb ik tot nu toe met `Netlify` en `GitHub Pages` gewerkt. `Quarto` heeft ook een eigen systeem om te publiceren (`Quarto Pub`) en dan is er nog `Posit Connect` en zijn er nog allerlei andere diensten waarmee je jouw producten onder de aandacht kunt brengen. Later zal ik nog eens een blog schrijven over deze mogelijkheden.
+Het maken van een blog lijkt heel erg op het maken van een boek of een website (zie ook mijn blog van februari over het maken en verspreiden van een boek). Als je het een kunt, wordt het andere product makkelijker om te maken. Werk vanuit een project met verschillende mappen; zorg ervoor dat je altijd met GitHub werkt en doe alles stap voor stap. Begin met een klein project en werk het daarna uit. Om te publiceren heb ik tot nu toe met `Netlify`. Het moet ook met `GitHub Pages`kunnen. `Quarto` zelf heeft ook een eigen systeem om te publiceren (`Quarto Pub`) en dan is er nog `Posit Connect` en zijn er nog allerlei andere diensten waarmee je jouw producten onder de aandacht kunt brengen. Later zal ik nog eens een blog schrijven over deze mogelijkheden.

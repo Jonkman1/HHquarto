@@ -11,11 +11,25 @@ image: "Screenshot.PNG"
 
 ## Quarto
 
-Met Quarto ben je in staat om inhoud en code naar verschillende wetenschappelijke producten om te zetten. Dat kunnen artikelen, rapporten, boeken, websites of b.v. dashboards zijn. Met Quarto kun je ook een blog maken. Hier laat ik jullie zien hoe je zo'n blog kunt maken. Om meer over Quarto te leren verwijs ik je naar de uitgebreide [Quarto-website](https://quarto.org).
+Met Quarto ben je in staat om inhoud en code naar verschillende wetenschappelijke producten om te zetten. Dat kunnen artikelen, rapporten, boeken, websites of b.v. dashboards zijn. Met Quarto kun je ook een blog maken. Hier laat ik jullie zien hoe je zo'n blog kunt maken. Om meer over Quarto te leren verwijs ik je naar de uitgebreide [Quarto-website](https://quarto.org). Ondertussen heb ik verschillende blogs/websites en boeken met Quarto gemaakt, waaronder: 
+- [Mijn eigen website](https://harriejonkmanweb.netlify.app/)   
+
+- [Harrie's Hoekje](https://harrieshoekjequarto.netlify.app/)   
+
+- [NSCR-workshops](https://nscr.netlify.app)   
+
+- [Democratie en Onderwijs](https://democratieenonderwijs.netlify.app)   
+
+- [Quarto Boek](https://ttbook.netlify.app)]   
+
 
 ## TT_blog
 
 Dit is overigens het blog dat ik met Quarto heb gemaakt [TT-blog](https://tt-blog.netlify.app), het eindresultaat van deze tutorial. Al het materiaal (teksten, plaatjes, ondersteunend materiaal) vind je op [Github](https://github.com/Jonkman1/Quartoblog). Op 4 april geef ik er een NSC-R workshop over. Die presentatie zal [hier]() komen te staan.
+
+## Presentatie over Quarto Blog
+
+Over deze blog maken met Quarto heb ik een aparte presentatie gemaakt. Het resultaat vind je [hier](https://quartoblogpresentation.netlify.app). Op GitHub heb ik deze presentatie geplaatst, [hier](https://github.com/Jonkman1/Quartoblogpresentation)
 
 ## Achtergrond van TT_blog
 

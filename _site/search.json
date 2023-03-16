@@ -1831,7 +1831,7 @@
     "href": "posts/2023-03-18-quarto-blog/schrijf_publiseer_blog.html",
     "title": "Maken en publiceren van een blog",
     "section": "",
-    "text": "Met Quarto ben je in staat om inhoud en code naar verschillende wetenschappelijke producten om te zetten. Dat kunnen artikelen, rapporten, boeken, websites of b.v. dashboards zijn. Met Quarto kun je ook een blog maken. Hier laat ik jullie zien hoe je zo’n blog kunt maken. Om meer over Quarto te leren verwijs ik je naar de uitgebreide Quarto-website."
+    "text": "Met Quarto ben je in staat om inhoud en code naar verschillende wetenschappelijke producten om te zetten. Dat kunnen artikelen, rapporten, boeken, websites of b.v. dashboards zijn. Met Quarto kun je ook een blog maken. Hier laat ik jullie zien hoe je zo’n blog kunt maken. Om meer over Quarto te leren verwijs ik je naar de uitgebreide Quarto-website. Ondertussen heb ik verschillende blogs/websites en boeken met Quarto gemaakt, waaronder: - Mijn eigen website\n\nHarrie’s Hoekje\nNSCR-workshops\nDemocratie en Onderwijs\nQuarto Boek]"
   },
   {
     "objectID": "posts/2023-03-18-quarto-blog/schrijf_publiseer_blog.html#tt_blog",
@@ -1937,5 +1937,12 @@
     "title": "Maken en publiceren van een boek",
     "section": "Tot slot",
     "text": "Tot slot\nHet maken van een boek lijkt heel erg op het maken van een blog of een website. Als je het een kunt, wordt het andere product makkelijker om te maken. Werk vanuit een project met verschillende mappen; zorg ervoor dat je altijd met GitHub werkt en doe alles stap voor stap. Begin met een klein project en werk het daarna uit. Om te publiceren heb ik tot nu toe met Netlify en GitHub Pages gewerkt. Quarto heeft ook een eigen systeem om te publiceren (Quarto Pub) en dan is er nog Posit Connect en zijn er nog allerlei andere diensten waarmee je jouw producten onder de aandacht kunt brengen. Later zal ik nog eens een blog schrijven over deze mogelijkheden."
+  },
+  {
+    "objectID": "posts/2023-03-18-quarto-blog/schrijf_publiseer_blog.html#presentatie-over-quarto-blog",
+    "href": "posts/2023-03-18-quarto-blog/schrijf_publiseer_blog.html#presentatie-over-quarto-blog",
+    "title": "Maken en publiceren van een blog",
+    "section": "Presentatie over Quarto Blog",
+    "text": "Presentatie over Quarto Blog\nOver deze blog maken met Quarto heb ik een aparte presentatie gemaakt. Het resultaat vind je hier. Op GitHub heb ik deze presentatie geplaatst, hier"
   }
 ]

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.269">
+<meta name="generator" content="quarto-1.3.353">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -20,7 +20,7 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
 </style>
@@ -62,6 +62,7 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
@@ -72,27 +73,29 @@ ul.task-list li input[type="checkbox"] {
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
+            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html">
+    <a class="nav-link" href="../../about.html" rel="" target="">
  <span class="menu-text">Harrie’s Hoekje</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/Jonkman1"><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/Jonkman1" rel="" target=""><i class="bi bi-github" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://twitter.com" rel="" target=""><i class="bi bi-twitter" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
 </ul>
-              <div id="quarto-search" class="" title="Search"></div>
+            <div class="quarto-navbar-tools">
+</div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
@@ -196,9 +199,6 @@ ul.task-list li input[type="checkbox"] {
 <section id="waarschijnlijkheid" class="level2">
 <h2 class="anchored" data-anchor-id="waarschijnlijkheid">Waarschijnlijkheid</h2>
 <p>Eerst maar eens enkele R-pakketten openen om mee te werken (dplyr, reshap2, tidyr, ggplot2, knitr, readr, cowplot, janitor) en om de data te kunnen laden (NHANES):</p>
-<div class="cell">
-
-</div>
 <p>Waarschijnlijkheidstheorie is de tak van de wiskunde die zich bezighoudt met kans en onzekerheid. Het vormt een belangrijk deel van de basis voor statistiek omdat het ons de wiskundige instrumenten verschaft om onzekere gebeurtenissen te beschrijven. De studie van waarschijnlijkheid is deels ontstaan uit belangstelling voor het begrijpen van kansspelen, zoals kaarten of dobbelen. Deze spelen bieden nuttige voorbeelden van veel statistische concepten omdat bij herhaling van deze spelen de kans op verschillende uitkomsten (meestal) gelijk blijft. Er zijn echter diepgaande vragen over de betekenis van waarschijnlijkheid die we hier niet zullen behandelen (zie Aanbevolen literatuur aan het einde als je meer wilt weten over dit fascinerende onderwerp en zijn geschiedenis).</p>
 </section>
 <section id="wat-is-waarschijnlijkheid" class="level2">
@@ -233,7 +233,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Een andere manier om de waarschijnlijkheid van een gebeurtenis te bepalen is het experiment vele malen uit te voeren en te tellen hoe vaak elke gebeurtenis zich voordoet. Uit de relatieve frequentie van de verschillende uitkomsten kunnen we de waarschijnlijkheid van elke uitkomst berekenen. Laten we bijvoorbeeld zeggen dat we de kans op regen in San Francisco willen weten. We moeten eerst het experiment definiëren — laten we zeggen dat we voor elke dag in 2017 de gegevens van de National Weerstation bekijken en bepalen of er regen is gevallen op het weerstation in het centrum van San Francisco. Volgens deze gegevens waren er in 2017 73 regendagen. Om de kans op regen in San Francisco te berekenen, delen we gewoon het aantal regendagen door het aantal getelde dagen (365), wat P(regen in SF in 2017) = 0,2 oplevert.</p>
 <div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped">
+<table class="table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: right;">aantal regendagen</th>
@@ -252,16 +252,13 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <p>Hoe weten we dat de empirische waarschijnlijkheid ons het juiste getal geeft? Het antwoord op deze vraag komt van de <em>wet van de grote getallen</em>, die aantoont dat de empirische kans de ware kans benadert naarmate de steekproefomvang toeneemt. We kunnen dit zien als een groot aantal keren munten opgooien (simuleren), en kijken naar onze schatting van de kans op kop na elke worp. Ga er voor hier maar van uit dat we voor de computer een manier hebben om een willekeurige uitkomst te genereren voor elke worp.</p>
-<div class="cell">
-
-</div>
 <p>Het linkerpaneel van figuur laat zien dat de geschatte kans op koppen convergeert naar de werkelijke waarde van 0,5 naarmate het aantal steekproeven (d.w.z. muntproeven) toeneemt. Merk echter op dat de schattingen zeer ver van de ware waarde kunnen afwijken wanneer de steekproefomvang klein is. Een praktijkvoorbeeld hiervan werd gezien bij de speciale verkiezing voor de Amerikaanse Senaat in Alabama in 2017, waarbij de Republikein Roy Moore het opnam tegen de Democraat Doug Jones.Het rechterpaneel toont het relatieve aantal stemmen dat in de loop van de avond voor elk van de kandidaten werd gemeld, naarmate er meer stembiljetten werden geteld. Aan het begin van de avond waren de stemmenaantallen bijzonder onstabiel, met een grote aanvankelijke voorsprong voor Jones en een lange periode waarin Moore de leiding had, totdat Jones uiteindelijk de leiding nam en de race won.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="Stats21_files/figure-html/ElectionResults-1.png" style="height:50.0%" width="768" class="figure-img"></p>
-<p></p><figcaption class="figure-caption">Figuur1. Links: Een demonstratie van de wet van de grote getallen. Een munt werd 30.000 keer opgegooid, en na elke worp werd de kans op kop berekend op basis van het aantal koppen en staarten dat tot dan toe was verzameld. Het duurt ongeveer 15.000 keer voordat de waarschijnlijkheid de werkelijke waarschijnlijkheid van 0,5 bereikt. Rechts: Relatief aandeel van de stemmen in de speciale verkiezing van 12 december 2017 voor de zetel van de Amerikaanse Senaat in Alabama, als functie van het percentage kiesdistricten dat rapporteert. Deze gegevens zijn overgenomen uit: https://www.ajc.com/news/national/alabama-senate-race-live-updates-roy-moore-doug-jones/KPRfkdaweoiXICW3FHjXqI/</figcaption><p></p>
+<figcaption class="figure-caption">Figuur1. Links: Een demonstratie van de wet van de grote getallen. Een munt werd 30.000 keer opgegooid, en na elke worp werd de kans op kop berekend op basis van het aantal koppen en staarten dat tot dan toe was verzameld. Het duurt ongeveer 15.000 keer voordat de waarschijnlijkheid de werkelijke waarschijnlijkheid van 0,5 bereikt. Rechts: Relatief aandeel van de stemmen in de speciale verkiezing van 12 december 2017 voor de zetel van de Amerikaanse Senaat in Alabama, als functie van het percentage kiesdistricten dat rapporteert. Deze gegevens zijn overgenomen uit: https://www.ajc.com/news/national/alabama-senate-race-live-updates-roy-moore-doug-jones/KPRfkdaweoiXICW3FHjXqI/</figcaption>
 </figure>
 </div>
 </div>
@@ -318,7 +315,7 @@ P(Uitkomst6_{worp1} \cup Uitkomst6_{worp2}) = P(Uitkomst6_{worp1}) + P(Uitkomst6
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="Stats21_files/figure-html/ThrowMatrix-1.png" style="height:50.0%" width="384" class="figure-img"></p>
-<p></p><figcaption class="figure-caption">Figuur2. Elke cel in deze matrix vertegenwoordigt een uitkomst van twee worpen van een dobbelsteen, waarbij de kolommen staan voor de eerste worp en de rijen voor de tweede worp. De cellen in rood staan voor de cellen met een zes in de eerste of tweede worp; de rest is blauw..</figcaption><p></p>
+<figcaption class="figure-caption">Figuur2. Elke cel in deze matrix vertegenwoordigt een uitkomst van twee worpen van een dobbelsteen, waarbij de kolommen staan voor de eerste worp en de rijen voor de tweede worp. De cellen in rood staan voor de cellen met een zes in de eerste of tweede worp; de rest is blauw..</figcaption>
 </figure>
 </div>
 </div>
@@ -373,11 +370,8 @@ P(k\le2)= P(k=2) + P(k=1) + P(k=0) = 6e^{-5} + .002 + .040 = .043
 \]</span></p>
 <p>In veel gevallen zou het aantal mogelijke uitkomsten te groot zijn om de cumulatieve kans te berekenen door alle mogelijke waarden op te sommen; gelukkig kan deze direct worden berekend voor elke theoretische kansverdeling. De tabel hieronder toont de cumulatieve kans op elk mogelijk aantal geslaagde vrije worpen in het voorbeeld van hierboven, waaruit we kunnen opmaken dat de kans dat Curry 2 of minder vrije worpen maakt uit 4 pogingen 0,043 is.</p>
 <div class="cell">
-
-</div>
-<div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped">
+<table class="table table-sm table-striped small">
 <caption>Simpele en cumulatieve waarschijnlijkheidsdistributies voor aantal succesvolle vrije worpen van Steph Curry in 4 pogingen.</caption>
 <thead>
 <tr class="header">
@@ -432,7 +426,7 @@ P(A|B) = \frac{P(A \cap B)}{P(B)}
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/conditional_probability.png" style="height:50.0%" width="288" class="figure-img"></p>
-<p></p><figcaption class="figure-caption">Figuur 3. Een grafische voorstelling van de voorwaardelijke waarschijnlijkheid, die laat zien hoe de voorwaardelijke waarschijnlijkheid onze analyse beperkt tot een deelverzameling van de gegevens.</figcaption><p></p>
+<figcaption class="figure-caption">Figuur 3. Een grafische voorstelling van de voorwaardelijke waarschijnlijkheid, die laat zien hoe de voorwaardelijke waarschijnlijkheid onze analyse beperkt tot een deelverzameling van de gegevens.</figcaption>
 </figure>
 </div>
 </div>
@@ -443,11 +437,8 @@ P(A|B) = \frac{P(A \cap B)}{P(B)}
 <h2 class="anchored" data-anchor-id="vaststellen-van-conditionele-waarschijnlijkheden-van-data">Vaststellen van conditionele waarschijnlijkheden van data</h2>
 <p>Wij kunnen voorwaardelijke kansen ook rechtstreeks uit gegevens berekenen. Stel dat we geïnteresseerd zijn in de volgende vraag: Wat is de kans dat iemand diabetes heeft, als hij niet lichamelijk actief is? – Dat is <span class="math inline">\(P(diabetes|inactief)\)</span>. De NHANES-dataset bevat twee variabelen die de twee delen van deze vraag behandelen. De eerste (<code>Diabetes</code>) vraagt of de persoon ooit te horen heeft gekregen dat hij diabetes heeft, de tweede (``PhysActive```) registreert of de persoon deelneemt aan sport, fitness of recreatieve activiteiten van ten minste matige intensiteit. Laten we eerst de eenvoudige kansen berekenen die in de tabel staan. De tabel laat zien dat de kans dat iemand in de NHANES-dataset diabetes heeft .1 is, en dat de kans dat iemand inactief is .45 is.</p>
 <div class="cell">
-
-</div>
-<div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped">
+<table class="table table-sm table-striped small">
 <caption>Samenvattende data voor diabetes en fysieke activiteit</caption>
 <thead>
 <tr class="header">
@@ -479,7 +470,7 @@ P(A|B) = \frac{P(A \cap B)}{P(B)}
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped">
+<table class="table table-sm table-striped small">
 <caption>Gedeelde waarschijnlijkheden voor Diabetes en FysActieve variabelen.</caption>
 <thead>
 <tr class="header">
@@ -518,9 +509,6 @@ P(A|B) = \frac{P(A \cap B)}{P(B)}
 </table>
 </div>
 </div>
-<div class="cell">
-
-</div>
 <p>Om <span class="math inline">\(P(diabetes|inactief)\)</span> te berekenen moeten we ook de gezamenlijke waarschijnlijkheid van diabetes <em>en</em> inactiviteit kennen, naast de eenvoudige waarschijnlijkheid van elk van beide. Deze staan in de tabel. Op basis van deze gezamenlijke kansen kunnen we <span class="math inline">\(P(diabetes|inactief)\)</span> berekenen. Een manier om dit in een computerprogramma te doen is eerst te bepalen of de FysActieve variabele voor elk individu gelijk was aan “Nee”, en dan het gemiddelde van die waarheidswaarden te nemen. Aangezien TRUE/FALSE-waarden door de meeste programmeertalen (waaronder R en Python) worden behandeld als respectievelijk 1/0, kunnen we de waarschijnlijkheid van een eenvoudige gebeurtenis gemakkelijk bepalen door eenvoudigweg het gemiddelde te nemen van een logische variabele die de waarheidswaarde ervan weergeeft. Vervolgens gebruiken we die waarde om de voorwaardelijke kans te berekenen, waarbij we vinden dat de kans dat iemand diabetes heeft, gegeven dat hij lichamelijk inactief is, is 0.141.</p>
 </section>
 <section id="onafhankelijkheid" class="level2">
@@ -533,7 +521,7 @@ P(A|B) = P(A)
 <p>Laten we een ander voorbeeld bekijken, aan de hand van de NHANES-gegevens: Zijn lichamelijke en geestelijke gezondheid onafhankelijk van elkaar? NHANES bevat twee relevante vragen: <em>PhysActive</em>, die vraagt of de persoon lichamelijk actief is, en <em>DaysMentHlthBad</em>, die vraagt hoeveel dagen van de laatste 30 de persoon een slechte geestelijke gezondheid had. Laten we iedereen die de afgelopen maand meer dan 7 dagen een slechte geestelijke gezondheid had, beschouwen als iemand met een slechte geestelijke gezondheid. Op basis hiervan kunnen we een nieuwe variabele genaamd <em>badMentalHealth</em> definiëren als een logische variabele die aangeeft of elke persoon meer dan 7 dagen een slechte geestelijke gezondheid had of niet. We kunnen de gegevens eerst samenvatten om te laten zien hoeveel personen in elke combinatie van de twee variabelen vallen (weergegeven in de tabel hieronder en dan delen door het totale aantal waarnemingen om een tabel met verhoudingen te maken.</p>
 <div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped">
+<table class="table table-sm table-striped small">
 <caption>Samenvatting van absolute frequentiedata voor mentale gezondheid en fysieke activiteit.</caption>
 <thead>
 <tr class="header">
@@ -568,7 +556,7 @@ P(A|B) = P(A)
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped">
+<table class="table table-sm table-striped small">
 <caption>Samenvatting van relatieve frequentiedata voor mentale gezondheid en fysieke activiteit.</caption>
 <thead>
 <tr class="header">
@@ -604,7 +592,7 @@ P(A|B) = P(A)
 <p>Dit toont ons het aandeel van alle waarnemingen die in elke cel vallen. Wat we hier echter willen weten is de voorwaardelijke kans op een slechte geestelijke gezondheid, afhankelijk van of men lichamelijk actief is of niet. Om dit te berekenen delen we elke groep lichaamsbeweging door het totale aantal waarnemingen, zodat elke rij nu sommeert tot één (weergegeven in Tabel hierboven). Hier zien we de voorwaardelijke kansen op een slechte of goede geestelijke gezondheid voor elke groep lichaamsbeweging (in de bovenste twee rijen) samen met de algemene kans op een goede of slechte geestelijke gezondheid in de derde rij. Om te bepalen of geestelijke gezondheid en lichamelijke activiteit onafhankelijk zijn, zouden we de eenvoudige kans op een slechte geestelijke gezondheid (in de derde rij) vergelijken met de voorwaardelijke kans op een slechte geestelijke gezondheid als men lichamelijk actief is (in de tweede rij).</p>
 <div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped">
+<table class="table table-sm table-striped small">
 <caption>Samenvatting van conditionele waarschijnlijkheid voor mentale gezondheid gegeven fysieke activiteit.</caption>
 <thead>
 <tr class="header">
@@ -710,9 +698,6 @@ P(B|A) = \frac{P(A|B)}{P(A)}*P(B)
 </section>
 <section id="bayesiaanse-statistiek" class="level1">
 <h1>Bayesiaanse statistiek</h1>
-<div class="cell">
-
-</div>
 <p>Dit deel gaat in op de benadering van statistische modellering en inferentie die in contrast staat met de nulhypothesetest die we standaard kennen. Wat hier behandeld wordt staat bekend als “Bayesiaanse statistiek”, naar dominee Thomas Bayes, wiens theorema hierboven aan de orde kwam. In dit deel leer je hoe het theorema van Bayes een manier is om gegevens te begrijpen die veel van de conceptuele problemen oplost die samenhangen met het testen van nulhypothesen. Maar het introduceert ook enkele nieuwe uitdagingen.</p>
 <section id="generatieve-modellen" class="level2">
 <h2 class="anchored" data-anchor-id="generatieve-modellen">Generatieve modellen</h2>
@@ -723,7 +708,7 @@ P(B|A) = \frac{P(A|B)}{P(A)}*P(B)
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/BayesianInference.png" class="img-fluid figure-img" style="width:80.0%"></p>
-<p></p><figcaption class="figure-caption">Figuur 4. Een schema van het idee van een generatief model.</figcaption><p></p>
+<figcaption class="figure-caption">Figuur 4. Een schema van het idee van een generatief model.</figcaption>
 </figure>
 </div>
 </div>
@@ -765,9 +750,6 @@ P(H|D) = \frac{P(D|H)*P(H)}{P(D)}
 <section id="de-prior-specificeren" class="level3">
 <h3 class="anchored" data-anchor-id="de-prior-specificeren">De prior specificeren</h3>
 <p>Om het theorema van Bayes te gebruiken, moeten we eerst de prior voor de hypothese specificeren. In dit geval kennen we het reële getal niet, maar we kunnen aannemen dat het vrij klein is. Volgens de <a href="https://www.faa.gov/air_traffic/by_the_numbers/media/Air_Traffic_by_the_Numbers_2018.pdf">FAA</a> waren er in 2017 971.595.898 vliegtuigpassagiers in de VS. Laten we zeggen dat een van die reizigers een explosief in zijn tas had — dat zou een voorafgaande waarschijnlijkheid van 1 op 971 miljoen geven, wat erg klein is! Het beveiligingspersoneel kan in de maanden na de aanslag van 9/11 redelijkerwijs een sterkere waarschijnlijkheid hebben gehad, dus laten we zeggen dat hun subjectieve overtuiging was dat één op de miljoen reizigers een explosief bij zich droeg.</p>
-<div class="cell">
-
-</div>
 </section>
 <section id="wat-data-verzamelen" class="level3">
 <h3 class="anchored" data-anchor-id="wat-data-verzamelen">Wat data verzamelen</h3>
@@ -798,16 +780,10 @@ P(E|T) = \frac{P(T|E)*P(E)}{P(T|E)*P(E) + P(T|\neg E)*P(\neg E)}
 <p>In het vorige voorbeeld waren er slechts twee mogelijke uitkomsten - het explosieve is er of het is er niet - en we wilden weten welke uitkomst het meest waarschijnlijk was, gegeven de gegevens. Maar in andere gevallen willen we Bayesiaanse schattingen gebruiken om de numerieke waarde van een parameter te schatten. Laten we zeggen dat we willen weten hoe doeltreffend een nieuw pijnstiller is; om dit te testen kunnen we een groep patiënten het medicijn toedienen en hen dan vragen of hun pijn al dan niet verbeterd is na het innemen van het medicijn. We kunnen Bayesiaanse analyse gebruiken om aan de hand van deze gegevens te schatten voor welk deel van de mensen het geneesmiddel effectief zal zijn.</p>
 <section id="specificeren-van-de-prior" class="level3">
 <h3 class="anchored" data-anchor-id="specificeren-van-de-prior">Specificeren van de prior</h3>
-<div class="cell">
-
-</div>
 <p>In dit geval hebben we geen voorafgaande informatie over de werkzaamheid van het geneesmiddel, dus gebruiken we een <em>uniforme verdeling</em> als onze prior, omdat alle waarden even waarschijnlijk zijn bij een uniforme verdeling. Om het voorbeeld te vereenvoudigen, bekijken we slechts een deelverzameling van 99 mogelijke waarden van werkzaamheid (van .01 tot .99, in stappen van .01). Daarom heeft elke mogelijke waarde een prioriteitswaarschijnlijkheid van 1/99.</p>
 </section>
 <section id="verzamelen-van-wat-data" class="level3">
 <h3 class="anchored" data-anchor-id="verzamelen-van-wat-data">Verzamelen van wat data</h3>
-<div class="cell">
-
-</div>
 <p>We hebben gegevens nodig om het effect van het geneesmiddel te schatten. Laten we zeggen dat we het middel aan 100 personen toedienen en dat we merken dat 64 positief op het middel reageren.</p>
 </section>
 <section id="berekenen-van-de-likelihood" class="level3">
@@ -818,7 +794,7 @@ P(E|T) = \frac{P(T|E)*P(E)}{P(T|E)*P(E) + P(T|\neg E)*P(\neg E)}
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="Stats21_files/figure-html/like2-1.png" style="height:50.0%" width="384" class="figure-img"></p>
-<p></p><figcaption class="figure-caption">Figuur 5. Waarschijnlijkheid van elk mogelijk aantal responders onder verschillende hypothesen (p(respond)=0,5 (effen), 0,7 (gestippeld), 0,3 (gestreept). Waargenomen waarde weergegeven in de verticale lijn</figcaption><p></p>
+<figcaption class="figure-caption">Figuur 5. Waarschijnlijkheid van elk mogelijk aantal responders onder verschillende hypothesen (p(respond)=0,5 (effen), 0,7 (gestippeld), 0,3 (gestreept). Waargenomen waarde weergegeven in de verticale lijn</figcaption>
 </figure>
 </div>
 </div>
@@ -827,25 +803,16 @@ P(E|T) = \frac{P(T|E)*P(E)}{P(T|E)*P(E) + P(T|\neg E)*P(\neg E)}
 <section id="berekenen-van-de-marginale-likelihood-1" class="level3">
 <h3 class="anchored" data-anchor-id="berekenen-van-de-marginale-likelihood-1">Berekenen van de marginale likelihood</h3>
 <p>Naast de waarschijnlijkheid van de gegevens onder verschillende hypothesen, moeten we ook de totale waarschijnlijkheid van de gegevens kennen, waarbij alle hypothesen worden gecombineerd (d.w.z. de marginale waarschijnlijkheid). Deze marginale waarschijnlijkheid is vooral belangrijk omdat zij helpt waarborgen dat de posterior waarden ware waarschijnlijkheden zijn. In dit geval maakt ons gebruik van een reeks discrete mogelijke parameterwaarden het gemakkelijk om de marginale waarschijnlijkheid te berekenen, omdat we gewoon de waarschijnlijkheid van elke parameterwaarde onder elke hypothese kunnen berekenen en ze kunnen optellen.</p>
-<div class="cell">
-
-</div>
-<div class="cell">
-
-</div>
 </section>
 <section id="bereken-de-posterior" class="level3">
 <h3 class="anchored" data-anchor-id="bereken-de-posterior">Bereken de posterior</h3>
 <p>We hebben nu alle onderdelen die we nodig hebben om de posterior kansverdeling over alle mogelijke waarden van <span class="math inline">\(p_{respond}\)</span> te berekenen, zoals hieronder weergegeven.</p>
 <div class="cell">
-
-</div>
-<div class="cell">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="Stats21_files/figure-html/posteriorDist-1.png" style="height:50.0%" width="384" class="figure-img"></p>
-<p></p><figcaption class="figure-caption">Figuur 6. Posterior kansverdeling voor de waargenomen gegevens uitgezet in ononderbroken lijn tegen uniforme prior-verdeling (stippellijn). De maximale a posteriori (MAP) waarde wordt aangegeven door het diamantensymbool.</figcaption><p></p>
+<figcaption class="figure-caption">Figuur 6. Posterior kansverdeling voor de waargenomen gegevens uitgezet in ononderbroken lijn tegen uniforme prior-verdeling (stippellijn). De maximale a posteriori (MAP) waarde wordt aangegeven door het diamantensymbool.</figcaption>
 </figure>
 </div>
 </div>
@@ -864,19 +831,10 @@ P(E|T) = \frac{P(T|E)*P(E)}{P(T|E)*P(E) + P(T|\neg E)*P(\neg E)}
 <section id="effecten-van-verschillende-priors" class="level3">
 <h3 class="anchored" data-anchor-id="effecten-van-verschillende-priors">Effecten van verschillende priors</h3>
 <p>In het vorige voorbeeld gebruikten we een <em>vlakke prior</em>, wat betekent dat we geen reden hadden om aan te nemen dat een bepaalde waarde van <span class="math inline">\(p_{reageert}\)</span> meer of minder waarschijnlijk was. Maar stel dat we in plaats daarvan waren uitgegaan van eerdere gegevens: In een eerdere studie hadden onderzoekers 20 mensen getest en vastgesteld dat 10 van hen positief hadden gereageerd. Dit zou ons ertoe gebracht hebben te beginnen met de veronderstelling dat de behandeling bij 50% van de mensen effect heeft. We kunnen dezelfde berekening uitvoeren als hierboven, maar dan met de informatie uit de vorige studie als informatie voor onze prior.</p>
-<div class="cell">
-
-</div>
 <p>De waarschijnlijkheid en de marginale waarschijnlijkheid zijn niet veranderd, alleen de prior. Het effect van de verandering in de prior is dat de posterior dichter bij de massa van de nieuwe prior, die gecentreerd is op 0,5, komt te liggen.</p>
 <p>Laten we nu eens kijken wat er gebeurt als we naar de analyse komen met een nog sterkere prior overtuiging. Stel dat in plaats van 10 responders op 20 mensen te hebben waargenomen, de voorafgaande studie 500 mensen had getest en 250 responders had gevonden. Dit zou ons in principe een veel sterkere prior moeten geven. De prior is veel meer geconcentreerd rond 0,5, en de posterior ligt ook veel dichter bij de prior. Het algemene idee is dat Bayesiaanse inferentie de informatie van de prior en de likelihood combineert, waarbij de relatieve sterkte van elk wordt gewogen.</p>
-<div class="cell">
-
-</div>
 <p>Dit voorbeeld benadrukt ook het sequentiële karakter van Bayesiaanse analyse – de posterior van de ene analyse kan de prior worden voor de volgende analyse.</p>
 <p>Ten slotte is het belangrijk te beseffen dat als de prioriteiten sterk genoeg zijn, ze de gegevens volledig kunnen overweldigen. Stel dat je een absolute prioriteit hebt dat <span class="math inline">\(p_{reageert}\)</span> 0,8 of hoger is, zodat je de prior waarschijnlijkheid van alle andere waarden op nul zet. Wat gebeurt er dan als we de posterior berekenen?</p>
-<div class="cell">
-
-</div>
 <div class="cell">
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Use of `df$posteriors_absolute` is discouraged. Use
@@ -886,7 +844,7 @@ P(E|T) = \frac{P(T|E)*P(E)}{P(T|E)*P(E) + P(T|\neg E)*P(\neg E)}
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="Stats21_files/figure-html/posteriorDistPrior-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
-<p></p><figcaption class="figure-caption">Figuur 7. A: Effecten van priors op de posterior verdeling. De oorspronkelijke posterior verdeling op basis van een vlakke prior is blauw gekleurd. De prior gebaseerd op de observatie van 10 responders op 20 personen is uitgezet in de gestippelde zwarte lijn, en de posterior met deze prioriteit is uitgezet in rood. B: Effecten van de sterkte van de prior op de posterior distributie. De blauwe lijn toont de posterior verkregen met de prior op basis van 50 reageerders op 100 personen. De gestippelde zwarte lijn toont de prior gebaseerd op 250 reageerders uit 500 observaties, en de rode lijn toont de posterior gebaseerd op die prioriteit. C: Effecten van de sterkte van de prior op de posterior verdeling. De blauwe lijn toont de posterior verkregen met een absolute prior die stelt dat p(antwoord) 0,8 of groter is. De prior is weergegeven in de gestippelde zwarte lijn.</figcaption><p></p>
+<figcaption class="figure-caption">Figuur 7. A: Effecten van priors op de posterior verdeling. De oorspronkelijke posterior verdeling op basis van een vlakke prior is blauw gekleurd. De prior gebaseerd op de observatie van 10 responders op 20 personen is uitgezet in de gestippelde zwarte lijn, en de posterior met deze prioriteit is uitgezet in rood. B: Effecten van de sterkte van de prior op de posterior distributie. De blauwe lijn toont de posterior verkregen met de prior op basis van 50 reageerders op 100 personen. De gestippelde zwarte lijn toont de prior gebaseerd op 250 reageerders uit 500 observaties, en de rode lijn toont de posterior gebaseerd op die prioriteit. C: Effecten van de sterkte van de prior op de posterior verdeling. De blauwe lijn toont de posterior verkregen met een absolute prior die stelt dat p(antwoord) 0,8 of groter is. De prior is weergegeven in de gestippelde zwarte lijn.</figcaption>
 </figure>
 </div>
 </div>
@@ -908,9 +866,6 @@ P(E|T) = \frac{P(T|E)*P(E)}{P(T|E)*P(E) + P(T|\neg E)*P(\neg E)}
 <p>Nu we geleerd hebben hoe Bayesiaanse schattingen moeten worden uitgevoerd, gaan we over tot het gebruik van Bayesiaanse methoden voor hypothesetoetsing. Stel dat er twee politici zijn die van mening verschillen over de vraag of het publiek voorstander is van een extra belasting om de nationale parken te steunen. Senator Smith denkt dat slechts 40% van de mensen voor de belasting is, terwijl senator Jones denkt dat 60% van de mensen voor is. Om dit te testen laten zij een peiling uitvoeren, waarin 1000 willekeurig gekozen mensen wordt gevraagd of zij zo’n belasting steunen. De resultaten zijn dat 490 van de mensen in de steekproef voor de belasting zijn. Op basis van deze gegevens zouden we willen weten: Ondersteunen de gegevens de beweringen van de ene senator boven de andere, en met hoeveel? We kunnen dit testen met een concept dat bekend staat als de [Bayes factor] (https://bayesfactor.blogspot.com/2014/02/the-bayesfactor-package-this-blog-is.html), die kwantificeert welke hypothese beter is door te vergelijken hoe goed elke hypothese de waargenomen gegevens voorspelt.</p>
 <section id="bayes-factoren" class="level3">
 <h3 class="anchored" data-anchor-id="bayes-factoren">Bayes factoren</h3>
-<div class="cell">
-
-</div>
 <p>De Bayes-factor kenmerkt de relatieve waarschijnlijkheid van de gegevens onder twee verschillende hypothesen. Hij wordt gedefinieerd als:</p>
 <p><span class="math display">\[
 BF = \frac{p(data|H_1)}{p(data|H_2)}
@@ -923,14 +878,11 @@ BF = \frac{p(data|H_1)}{p(data|H_2)}
 <p>Stel dat wij een medisch onderzoeker zijn die een klinische proef uitvoert voor de behandeling van diabetes en wij willen weten of een bepaald geneesmiddel de bloedglucose verlaagt in vergelijking met een placebo. Wij werven een groep vrijwilligers en wijzen hen willekeurig toe aan een van beide groepen en wij meten de verandering in hemoglobine A1C (een marker voor het bloedglucosegehalte) in elke groep gedurende de periode waarin het geneesmiddel of het placebo werd toegediend. Wat we willen weten is: Is er een verschil tussen het medicijn en de placebo?</p>
 <p>Laten we eerst wat gegevens genereren en ze analyseren met behulp van nulhypothesetests. Laten we vervolgens een onafhankelijke t-test uitvoeren, waaruit blijkt dat er een significant verschil is tussen de groepen:</p>
 <div class="cell">
-
-</div>
-<div class="cell">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="Stats21_files/figure-html/bayesTesting-1.png" style="height:50.0%" width="384" class="figure-img"></p>
-<p></p><figcaption class="figure-caption">Figuur 8. Box plots met gegevens voor medicijn- en placebogroepen.</figcaption><p></p>
+<figcaption class="figure-caption">Figuur 8. Box plots met gegevens voor medicijn- en placebogroepen.</figcaption>
 </figure>
 </div>
 </div>
@@ -1086,9 +1038,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -1153,6 +1119,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {

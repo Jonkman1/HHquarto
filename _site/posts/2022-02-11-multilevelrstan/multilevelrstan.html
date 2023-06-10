@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.269">
+<meta name="generator" content="quarto-1.3.353">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -20,9 +20,10 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -49,43 +50,13 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -125,6 +96,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
@@ -135,27 +107,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
+            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html">
+    <a class="nav-link" href="../../about.html" rel="" target="">
  <span class="menu-text">Harrie’s Hoekje</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/Jonkman1"><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/Jonkman1" rel="" target=""><i class="bi bi-github" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://twitter.com" rel="" target=""><i class="bi bi-twitter" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
 </ul>
-              <div id="quarto-search" class="" title="Search"></div>
+            <div class="quarto-navbar-tools">
+</div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
@@ -237,9 +211,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<div class="cell">
-
-</div>
 <blockquote class="blockquote">
 <p>Een paar jaar geleden schreven Joonho Lee en collega’s van de Berkley Universiteit onder leiding van Sophia Rabe-Hesketh (van wie ik al eerder veel geleerd heb over multilevel analyse) een mooie tutorial over het gebruik van <strong>rstanarm</strong> in multilevelanalyse. Omdat deze tutorial in vele opzichten leerzaam is, heb ik deze vertaald. Zo maakte ik mij het werken met rstanarm eigen maar ook hoe je zo’n tutorial in rmarkdown zet. Alle credits gaan natuurlijk naar Joonhoo Lee e.a.. De oorspronkelijke tutorial van 24 april 2018 vind je <a href="https://mc-stan.org/users/documentation/case-studies/tutorial_rstanarm.html">hier</a>. Later vond ik ook op github de syntax en kon ik diverse eigen fouten weer bijstellen <a href="https://github.com/stan-dev/example-models/blob/master/education/tutorial_rstanarm/tutorial_rstanarm.Rmd">hier</a>.</p>
 </blockquote>
@@ -357,12 +328,6 @@ Fixed effects:
 (Intercept)    73.72       1.11    66.4</code></pre>
 </div>
 </div>
-<div class="cell">
-
-</div>
-<div class="cell">
-
-</div>
 <p>Onder <code>Fixed effects</code> zien we dat het intercept <span class="math inline">\(u_{a}\)</span>, gemiddeld over de populatie van scholen, wordt geschat op 73,72. Onder <code>Random-effects</code> zien we dat de standaardafwijking tussen de scholen <span class="math inline">\(\sigma_{a}\)</span> wordt geschat op <span class="math inline">\(8.67\)</span> en de standaardafwijking binnen de scholen <span class="math inline">\(\sigma_{y}\)</span> op <span class="math inline">\(13.81\)</span>.</p>
 </section>
 <section id="model-2-variërend-intercept-model-met-een-enkele-voorspeller" class="level2">
@@ -403,9 +368,6 @@ Correlation of Fixed Effects:
         (Intr)
 femaleF -0.338</code></pre>
 </div>
-</div>
-<div class="cell">
-
 </div>
 <p>De gemiddelde regressielijn over de scholen wordt dus geschat als <span class="math inline">\(\hat{\mu}_{ij}=69.73+ 6.74 x_{ij}\)</span>, waarbij <span class="math inline">\(\sigma_\_alpha\)</span> en <span class="math inline">\(\sigma_y\)</span> worden geschat als respectievelijk <span class="math inline">\(8.76\)</span> en <span class="math inline">\(13.41\)</span>. Als we deze schattingen van <span class="math inline">\(\mu_alpha\)</span>, <span class="math inline">\(\beta\)</span>, <span class="math inline">\(\sigma^2_{y}\)</span>, en <span class="math inline">\(\sigma^2_{alpha}\)</span> als de ware parameterwaarden beschouwen, kunnen we de **Best Linear Unbiased Predictions (BLUPs) voor de fouten op schoolniveau <span class="math inline">\(\hat{u}_j = \hat{\alpha}_{j} - \hat{\mu}_{\alpha}\)</span> verkrijgen.</p>
 <p>De BLUPs zijn equivalent met de zogenaamde <strong>Empirical Bayes</strong> (EB)-voorspelling, die het gemiddelde is van de posterieure verdeling van <span class="math inline">\(u_{j}\)</span> gegeven alle geschatte parameters, alsmede de willekeurige variabelen <span class="math inline">\(y_{ij}\)</span> en <span class="math inline">\(x_{ij}\)</span> voor het cluster. Deze voorspellingen worden “Bayes” genoemd omdat ze gebruik maken van de vooraf gespecificeerde prioriteitsverdeling<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> <span class="math inline">\(u_j \sim N(\mu_\alpha, \sigma^2_\alpha)\)</span>, en bij uitbreiding <span class="math inline">\(u_j \sim N(0, \sigma^2_\alpha)\)</span>, en “Empirisch” genoemd omdat de parameters van deze prior, <span class="math inline">\(\mu_\alpha\)</span> en <span class="math inline">\(\sigma^2_{\alpha}\)</span>, naast <span class="math inline">\(\beta\)</span> en <span class="math inline">\(\sigma^2_{y}\)</span>, geschat worden uit de data.</p>
@@ -500,7 +462,7 @@ femaleF -0.338</code></pre>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="multilevelrstan_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="528"></p>
-<p></p><figcaption class="figure-caption">De blauw-gestreepte, rood-gestreepte en paars-gestippelde lijnen geven respectievelijk de volledige pooling, no-pooling en gedeeltelijke pooling schattingen weer. We zien dat de geschatte schoolspecifieke regressielijn van de gedeeltelijke pooling-schattingen tussen de volledige pooling- en de geenpooling-regressielijn ligt. Er is meer pooling (paarse stippellijn dichter bij blauwe ononderbroken lijn) op scholen met een kleine steekproefomvang.</figcaption><p></p>
+<figcaption class="figure-caption">De blauw-gestreepte, rood-gestreepte en paars-gestippelde lijnen geven respectievelijk de volledige pooling, no-pooling en gedeeltelijke pooling schattingen weer. We zien dat de geschatte schoolspecifieke regressielijn van de gedeeltelijke pooling-schattingen tussen de volledige pooling- en de geenpooling-regressielijn ligt. Er is meer pooling (paarse stippellijn dichter bij blauwe ononderbroken lijn) op scholen met een kleine steekproefomvang.</figcaption>
 </figure>
 </div>
 </div>
@@ -544,9 +506,6 @@ Correlation of Fixed Effects:
         (Intr)
 femaleF -0.574</code></pre>
 </div>
-</div>
-<div class="cell">
-
 </div>
 <p>In dit model wordt de residuele standaardafwijking binnen de school geschat als <span class="math inline">\(\hat{\sigma}_{y}=\)</span> 13.03. De geschatte standaardafwijkingen van de schoolintercepten en de schoolhellingen zijn respectievelijk <span class="math inline">\(\hat{\sigma}_{\alpha}= 10.15\)</span> en <span class="math inline">\(\hat{\sigma}_{\beta}= 6.92\)</span>. De geschatte correlatie tussen variërende intercepts en hellingen is <span class="math inline">\(\hat{\rho} = -0.52\)</span>. We kunnen een soortgelijke code als die in paragraaf 2.2 gebruiken om de gegevens en de schoolspecifieke regressielijnen voor een selectie van acht scholen te plotten.</p>
 <div class="cell" data-fig.margin="true">
@@ -643,9 +602,6 @@ Num. levels: school 73
 * For help interpreting the printed output see ?print.stanreg
 * For info on the priors used see ?prior_summary.stanreg</code></pre>
 </div>
-</div>
-<div class="cell">
-
 </div>
 <p>Hier is de puntschatting van <span class="math inline">\(\mu_{\alpha}\)</span> uit <code>stan_lmer</code> <span class="math inline">\(73.75\)</span> en dit komt overeen met de mediaan van de posterior trekkingen. Dit is vergelijkbaar met de ML schatting uit <code>lmer</code>. De puntschatting voor <span class="math inline">\(`sigma_{_alpha}\)</span> van <code>stan_lmer</code> is <span class="math inline">\(8.87\)</span>, die groter is dan de ML schatting (<span class="math inline">\(8.67\)</span>). Dit verschil kan deels komen doordat de ML benadering in <code>lmer()</code> geen rekening houdt met de onzekerheid in <span class="math inline">\(\mu_{\alpha}\)</span> bij het schatten van <span class="math inline">\(\sigma_{\alpha}\)</span>. De REML benadering (<span class="math inline">\(8.75\)</span>) in <code>lmer()</code> houdt, zoals eerder vermeld, wel rekening met deze onzekerheid.</p>
 <p>Bij gebruik van <code>stan_lmer</code> worden standaardfouten verkregen door de mediaan absolute afwijking (MAD) van elke trekking ten opzichte van de mediaan van die trekkingen te beschouwen. Het is bekend dat ML de neiging heeft om onzekerheden te onderschatten, omdat het gebaseerd is op puntschattingen van hyperparameters. Full Bayes daarentegen propageert de onzekerheid in de hyperparameters over alle niveaus van het model en levert adequatere onzekerheidsschattingen op. Zie ook Brown e.a. (2006) voor verdere discussie.</p>
@@ -935,9 +891,6 @@ b[(Intercept) school:23208]  79.23 2.81 73.60 79.22 85.02</code></pre>
 0.12425 0.87575 </code></pre>
 </div>
 </div>
-<div class="cell">
-
-</div>
 <p>Dit betekent dat de posterior waarschijnlijkheid dat School 60501 beter is dan School 68271 87.6% is. Elk paar scholen binnen de steekproef van scholen kan op deze manier vergeleken worden.</p>
 </section>
 </section>
@@ -1113,9 +1066,6 @@ Num. levels: school 73
 * For info on the priors used see ?prior_summary.stanreg</code></pre>
 </div>
 </div>
-<div class="cell">
-
-</div>
 <p>Hier zien we dat de puntschattingen voor <span class="math inline">\(\mu_{\alpha}\)</span> en <span class="math inline">\(\sigma_{y}\)</span> identiek zijn aan de ML-schattingen uit <code>lmer()</code> fit. De puntschatting voor $<span class="math inline">\(_bèta\)</span> is iets anders in dit model (7.14 vergeleken met 7.13). Verder is, net als bij de vorige twee modellen, de Bayesiaanse schatting voor <span class="math inline">\(\sigma_{\alpha}\)</span> (10.3) groter dan de ML schatting (10.15). Daarnaast zijn de Bayesiaanse schattingen voor <span class="math inline">\(\sigma_{\beta}\)</span> (7.2) en <span class="math inline">\(\rho\)</span> (-0.49) groter dan de overeenkomstige ML schattingen (respectievelijk 6.92 en -0.52).</p>
 </section>
 </section>
@@ -1189,9 +1139,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -1256,6 +1220,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {

@@ -1,0 +1,202 @@
+---
+title: "Enkelvoudige, meervoudige en moderatie regressieanalyse"
+description: |
+    In deze blog zet ik enkele verschillende vormen van regressie (enkelvoudige, meervoudige en modererende regressie) op rij en vergelijk ik de modellen. Met bepaalde pakketten worden de effecten inzichtelijk gemaakt.
+author: "Harrie Jonkman"
+date: "2023-07-03"
+categories: [modelleren]
+image: "Screenshot1.PNG"
+---
+
+
+# Inleiding
+
+Onlangs heb ik een groep studenten van Forensische Orthopedagogiek van de Universeriteit van Amsterdam begeleid bij het schrijven van hun masterscriptie. Ze hadden met elkaar een sample verzameld. Ze moesten op zoek naar de relatie tussen cannabisgebruik en online-blootstelling aan cannabis. Daarboven op moesten ze op zoek naar of bepaalde variabelen deze invloed beïnvloeden. Daarvoor moesten ze een moderatieanalyse uitvoeren. In deze korte blog laat ik zien hoe ik deze techniek zou uitvoeren. Dat heb ik de studenten ook laten zien en hier deel ik het met anderen. Eerst introduceer ik heel kort moderatie analyse als onderdeel van regressieanalyse en wat de achterliggende ideeën ervan. Dan ligt ik kort de dataset uit die gebruikt is. Dan laat ik zien welke pakketten van R ik hierbij heb gebruikt en hoe deze pakketten ons werk hierbij kunnen ondersteunen. Dan laat ik twee soorten modernatieanalyses zien. Één analyse waarbij de moderator een categoriale variabele en een andere analyse waarbij de moderator een continue variabele is. Dan laat ik kort de tekst zien hoe de tekst er dan uitziet.
+
+# Moderatieanalyse
+
+Moderatieanalyse is een vorm van regressieanalyse. Een **moderator** $z$ is een variable die van invloed is op de richting en/of de sterkte van de relatie tussen een onafhankelijke variabele $x$ en een afhankelijke variabele $y$. Die invloed wordt gezien als interactie tussen $x$ en $z$ in de relatie met $y$.
+
+Hieronder volgen twee moderatieanalyses (eerst met een categoriale en dan een continue variabele). Elk van de moderatieanalyse wordt vergeleken met een enkelvoudige en een meervoudige regressie.
+
+Enkelvoudige regressie (Model 1) ziet er dan zo uit:
+
+$$y= \beta_{0} + \beta_{1}  + \epsilon$$ Vervolgens voegen we de variabele $z$ eerst toe in een meervoudigige regressie (Model2) $$y= \beta_{0} + \beta_{1} + \beta_{2}{z} + \epsilon$$ Dan wordt het interactieffect tussen de twee onafhankelijke variabelen toegevoegd in de moderatieanalyse (Model 3). Het interactieeffect zien we in de regressie coefficient $\beta_{3}{x}{z}$ die het product is van de ene onafhankelijke variabele. In de analyse kijken we dan of de moderator significant is. Is dat het geval, dan kunnen we zeggen dat de moderator het verband tussen afhankelijke en onafhankelijke variabele beïnvloedt. Hier gaat het om moderatieanalyse of **gemodereerde multiple regressie**. Model 3 ziet er dan zo uit:
+
+$$y= \beta_{0} + \beta_{1}{x} + \beta_{2}{z} + \beta_{3}{x}{z} + \epsilon$$ Hieronder laat ik zien hoe je dat achtereenvolgens doet in R. De moderatieanalyse met een categoriale variabele is net iets anders dan een moderatieanalyse met een continue variabele. Beide laat ik hier onder zien. Eerst maar eens iets over de pakketten die ik bij de analyses heb gebruikt.
+
+# De pakketten
+
+Voor deze analyse maak ik gebruik van enkkele pakketten die hierbij - Het pakket `haven` heb ik gebruikt om het spss-databestand toegankelijk voor R te maken; - `Tidyverse` gebruik ik voor het bewerken van het bestand maar ook om de resultaten goed te kunnen visualiseren; - De pakketten `jtools` en `huxtable` zijn gebruikt om de modellen overzichtelijk in een tabel te kunnen afddrukken; - Het pakket `interactions` is gebruikt om van moderatie inzichtelijke interactieplots te tonen. De pakketten moeten wel op jouw machine geïnstalleerd zijn om te kunnen gebruiken.
+
+```{r}
+library(haven) # pakket om spss bestanden binnen te halen
+library(tidyverse) # bekende dataverwerkingspakket
+library(jtools) # hier kunnen mooi regressie modellen mee in tabelvorm worden gebracht
+library(huxtable) # werkt samen met jtools 
+library(interactions) # om moderatieeffecten te visualiseren 
+```
+
+# De dataset
+
+De dataset bestaat uit 153 observaties en 79 variabelen. Laten we die maar eerst eens binnenhalen.
+
+```{r}
+df<- read_sav("Dataset Onderzoek Cannabis Scriptie.sav")
+glimpse(df)
+```
+
+Voor mijn analyse heb ik twee uitkomstvariabelen gebruiken (gebruik van cannabis en intentie om cannabis te gebruiken), een onafhankelijke variabele (online blootstelling aan cannabisgebruik) en twee moderatoren (een categoriale en continue variabele). Laten we de dataset eerst eens kleiner maken en deze variabelen eruit halen.
+
+```{r}
+df<- df |>
+  select(CAN, Can_intent_1, ONLINE_CAN, Ouders_can,SM_FREQ)
+glimpse(df)
+```
+
+Ik geef de variabelen een duidelijkere naam en gebruik alleen kleine letters.
+
+```{r}
+df<- 
+  rename(df, can=CAN, can_intent=Can_intent_1, online_can=ONLINE_CAN, ouders_can=Ouders_can, sm_freq=SM_FREQ)
+```
+
+Van ouders die cannabis gebruiken heb ik een dichotome variabele gemaakt (wel of niet ook gebruikt).
+
+```{r}
+df<-df |>mutate(ouders_can=recode(ouders_can,
+                                  `0`="niet",
+                                  `1`="wel",
+                                  `2`="wel",
+                                  `3`="wel",
+                                  `4`="wel"))
+```
+
+Voor de tweede analyse gebruik ik gecentreerde variabelen. Laat ik die toevoegen aan het databestand.
+
+```{r}
+df<-df |> mutate(
+  online_can_c = scale(online_can, scale = FALSE),
+  sm_freq_c = scale(sm_freq, scale = FALSE)
+)
+```
+
+Hoe ziet het databestand er nu uit?
+
+```{r}
+glimpse(df)
+```
+
+# Moderatieanalyse met een continue moderator
+
+Allereerst drie vormen van regressies rondom sociale media frequentie: enkelvoudig (met een onafhankelijke variabele), meervoudig (met twee onafhankelijke variabelem) en moderatieanalyse (interactie van de ene onafhankelijke met een andere onafhankelijke variabele).
+
+## Enkelvoudige regressie
+
+```{r}
+model4 <- lm(can ~ online_can_c, data=df) 
+```
+
+```{r}
+summ(model4)
+```
+
+## Meervoudige regressie
+
+```{r}
+
+
+model5 <- lm(can ~ online_can_c + sm_freq_c, data=df) 
+  
+```
+
+```{r}
+summ(model5)
+```
+
+## Gemodereerde multiple regressie
+
+```{r}
+model6 <-lm(can ~ online_can_c + sm_freq_c + online_can_c*sm_freq_c, data=df)
+summ(model6)
+```
+
+Als we deze modellen naast elkaar zetten, zien we dat de meervoudige en de moderatieanalyse geen significantie opleveren voor de variabelen die zijn toegevoegd.
+
+```{r}
+export_summs(model4, model5, model6)
+```
+
+Ook de grafiek laat zien dat de regressielijnen voor de verschillende groepen vrijwel gelijk lopen (geen interactieeffect).
+
+```{r}
+library(interactions)
+
+interact_plot(model6, "online_can_c", "sm_freq_c", plot.points = TRUE)
+```
+
+# Moderatieanalyse met een dichotome moderator
+
+Vervolgens ga ik drie regressieanalyses uitvoeren om later de resultaten te kunnen vergelijken: enkelvoudige regressie, meervoudige regressie en moderatieanalyse met dichotome moderator.
+
+## Enkelvoudige regressie
+
+De eerste regressie ziet er zo uit:
+
+```{r}
+model1 <- lm(can ~ online_can, data=df) 
+```
+
+Dit zijn de resultaten. `jstools` geeft deze resultaten helder weer.
+
+```{r}
+summ(model1)
+```
+
+## Meervoudige regressie
+
+Vervolgens voeg ik er een onafhankelijke variabele aan toe:
+
+```{r}
+model2 <- lm(can ~ online_can + ouders_can, data=df) 
+```
+
+En dat ziet er zo uit:
+
+```{r}
+summ(model2)
+```
+
+## Gemodereerde multiple regressie
+
+Tot slot voer ik de moderatieanalyse uit, zoals hier:
+
+```{r}
+model3 <-lm(can ~ online_can + ouders_can + online_can*ouders_can, data=df)
+```
+
+Met dit als resultaat:
+
+```{r}
+summ(model3)
+```
+
+We kunnen de resultaten in een duidelijke tabel terug zien. De modellen netjes naast elkaar, met sterkte van de coëfficienten, met p-waardes en met verklaarde variantie. We zien dat model 3 duidelijk het sterkste is.
+
+```{r}
+export_summs(model1, model2, model3)
+```
+
+Het interactieffect is in deze grafiek goed te zien:
+
+```{r}
+library(interactions)
+
+interact_plot(model3, "online_can", "ouders_can", plot.points = TRUE)
+```
+
+# Opzet wetenschappelijk artikel als resultaat met `Quarto`
+
+De dataset kreeg ik van een van de studenten toegestuurd die in haar analyses ook deze moderatoren gebruikte (ook al had ze de eerste variabele niet dichotoom gemaakt).
+
+Mijn analyse en haar tekst gebruik ik om in een volgende blog de resultaten ook op papier te zetten. Ik maak hier een opzet voor met `quarto` waar je goed wetenschappelijke artikelen mee kunt maken die aan bepaalde voorwaarden moeten voldoen. De opzet en de uiteindelijke tekst met resultaten vind je straks in de volgende blog.

@@ -1,0 +1,13 @@
+---
+title: "Introductie op multilevel analyse in R met lme4 en tidyverse"
+description: |
+    Deze blog laat zien hoe je met de R-pakketten lme4 en tidyverse op eigentijdse wijze multilevel analyses kunt uitvoeren.
+author: "Raffaele Vacca, bewerking Harrie Jonkman"
+date: "2023-07-03"
+categories: [modelleren]
+image: "Screenshot1.PNG"
+---
+
+Ik had al een tijdje geen multilevel-analyses meer gedaan en wilde dat weer eens doen met aangepaste technieken. Ben zelf 'opgeleid' met het prachtige werk van de multilevelgroep uit Bristol (Goldstein, Rabash, Brown e.a.) en ook dat van Joop Hox, die ik op dit gebied van dichtbij heb meegemaakt. Toen ik wat rondkeek, kwam ik de blog van Rafaella Vacca (Universiteit van Milaan) tegen, die ik inzichtelijk en vernieuwend vond. Hij werkt met het pakket `lme4` en `tidyverse`. Hieronder vind je mijn bewerkte versie. Dank je wel Rafaella.
+
+[Hier](https://jonkman1.github.io/multilevel-analyse/) kun je de blog vinden en [hier](https://github.com/Jonkman1/multilevel-analyse) de codes.

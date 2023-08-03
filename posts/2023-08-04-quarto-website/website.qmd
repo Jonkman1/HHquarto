@@ -1,0 +1,14 @@
+---
+title: "Website bouwen"
+description: |
+    Dit blog laat zien hoe je met Quarto een website kunt bouwen.
+author: "Sam Csik, bewerking Harrie Jonkma"
+date: "2023-08-04"
+categories: [communiceren]
+image: "Screenshot1.PNG"
+---
+
+Onlangs heb ik [mijn web-site](https://harriejonkman.nl/) opnieuw gebouwd en ben daar nog mee bezig. Dit keer heb ik het met met `Quarto` gedaan. `Quarto` is dat prachtige programma waarmee je verschillende wetenschappelijke producten kunt maken zoals artikelen, rapporten, boeken, presentaties, blogs en dus ook websites. Het werkt met Python, VS Code, Observable en dus ook met R, waar ik zelf mee werk. Net zoals Lisa Lendway (https://lisalendway.netlify.app/posts/2020-12-09-buildingdistill/) eerder voor mij het beste uitlegde hoe Distill werkt (een ander R-programma waarmee je blogs en websites kunt bouwen), geeft Sem Csik (https://ucsb-meds.github.io/creating-quarto-websites/) hier een hele goede uitleg over websites bouwen met `Quarto`. Toen ik met mijn eigen website bezig was, las ik deze tekst heel goed en vertaalde de tekst voor deze blog. Zo maakte ik mij de werkwijze het beste eigen. Later maakte ze ook nog een tekst over hoe je de website-stijl naar je eigen hand kunt zetten. Daar zal ik ook nog eens aandacht aan besteden. Voor nu wil ik je hartelijke danken, Sem. 
+
+Het [blog]( https://jonkman1.github.io/website-bouwen/) vind je hier, de [codes](https://github.com/Jonkman1/website-bouwen) zijn hier te vinden.
+

@@ -39,31 +39,31 @@ library(interactions) # om moderatieeffecten te visualiseren
 
 # De dataset
 
-De dataset bestaat uit 153 observaties en 79 variabelen. Laten we die maar eerst eens binnenhalen.
+De dataset bestond uit 153 observaties en 79 variabelen. Laten we alleen de belangrijke variabelen binnenhalen (dataset `df`). Dit had ik gedaan.
 
-```{r}
+```
 df<- read_sav("Dataset Onderzoek Cannabis Scriptie.sav")
-glimpse(df)
 ```
 
-Voor mijn analyse heb ik twee uitkomstvariabelen gebruiken (gebruik van cannabis en intentie om cannabis te gebruiken), een onafhankelijke variabele (online blootstelling aan cannabisgebruik) en twee moderatoren (een categoriale en continue variabele). Laten we de dataset eerst eens kleiner maken en deze variabelen eruit halen.
+Voor mijn analyse heb ik twee uitkomstvariabelen gebruikt (gebruik van cannabis en intentie om cannabis te gebruiken), een onafhankelijke variabele (online blootstelling aan cannabisgebruik) en twee moderatoren (een categoriale en continue variabele). Ik heb de dataset kleiner gemaken en de variabelen eruit gehaald.
 
-```{r}
+```
 df<- df |>
   select(CAN, Can_intent_1, ONLINE_CAN, Ouders_can,SM_FREQ)
 glimpse(df)
+
 ```
 
-Ik geef de variabelen een duidelijkere naam en gebruik alleen kleine letters.
+Ik gaf de variabelen een duidelijkere naam en gebruikte alleen kleine letters.
 
-```{r}
+```
 df<- 
   rename(df, can=CAN, can_intent=Can_intent_1, online_can=ONLINE_CAN, ouders_can=Ouders_can, sm_freq=SM_FREQ)
 ```
 
-Van ouders die cannabis gebruiken heb ik een dichotome variabele gemaakt (wel of niet ook gebruikt).
+Van ouders die cannabis gebruikten, heb ik een dichotome variabele gemaakt (wel of niet ook gebruikt).
 
-```{r}
+```
 df<-df |>mutate(ouders_can=recode(ouders_can,
                                   `0`="niet",
                                   `1`="wel",
@@ -72,18 +72,20 @@ df<-df |>mutate(ouders_can=recode(ouders_can,
                                   `4`="wel"))
 ```
 
-Voor de tweede analyse gebruik ik gecentreerde variabelen. Laat ik die toevoegen aan het databestand.
+Voor de tweede analyse gebruikte ik gecentreerde variabelen. Die heb ik toegevoegd aan het databestand.
 
-```{r}
+```
 df<-df |> mutate(
   online_can_c = scale(online_can, scale = FALSE),
   sm_freq_c = scale(sm_freq, scale = FALSE)
 )
 ```
 
-Hoe ziet het databestand er nu uit?
+
+Zo ziet het databestand er nu uit?
 
 ```{r}
+df<-read_csv('df.csv')
 glimpse(df)
 ```
 

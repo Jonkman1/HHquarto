@@ -1,0 +1,123 @@
+---
+title: "Werken met verwijzingen"
+description: |
+    Dit is een blog over literatuurverwijzingen en hoe je hiermee kunt werken in R/RStudio. Daarvoor moet je het programma Zotero op jouw computer zetten. Hieronder laat ik zien hoe je vervolgens literatuur binnen kunt halen, hoe je een bibliotheek opbouwt, hoe je de verwijzingen in de tekst zet en hoe je voor een bepaalde literatuurklasse kunt kiezen. 
+author: "Harrie Jonkma"
+date: "2023-10-03"
+categories: [communiceren]
+bibliography: references.bib
+image: "Screenshot.PNG"
+---
+
+
+![](images/Screenshot.png){width=50%} 
+
+### Inleiding
+
+Zotero is een citeermanagement programma voor de desktop met mogelijkheden van online opslagmogelijkheden. Het helpt je om jouw literatuur en andere informatie voor onderzoek te verzamelen en te organiseren. Je kunt er boeken, artikelen, hoofdstukken etc in kwijt. Met Zotero kun je jouw verwijzingen goed managen, opslaan, organiseren en je kunt het bijvoorbeeld verwerken in een word document. Het werkt ook heel goed samen met R/RStudio. In deze blog laat ik zien hoe het werkt en je een `Quarto` document een bibliografie maakt in de stijl die jij voor ogen hebt. Haal eerst [Zotero](https://www.zotero.org/) binnen en download het op jouw computer.
+
+![](images/Screenshot0.png){width=50%}
+
+Er zijn verschillende manieren om met Zotero te werken.
+
+1. Je kunt de referenties handmatig in voeren. Daarvoor open je het *Zotero* programma op jouw computer. Maak linksboven eerst een bepaalde biblioteek aan. Als de balk van die bibliotheek donker is, is die bibliotheek geopend. Voeg dan een boek, artikel of anderzins toe aan jouw bibliotheek.
+
+![](images/Screenshot1.png){width=50%}
+
+2. Je kunt ook referentie exporteren van een database als je bijvoorbeeld een literatuursearch uitvoert. In de database zoek je `"` icoon of naar een optie dat *Share*, *Cite* of *Export* (afhankelijk van de databas). Selecteer deze optie voor Zotero of .ris. De export zal het bestand (.ris) binnenhalen. Als het niet vanzelf gaat, dubbelklik op het bestand.
+
+3. De makkelijkste manier is allicht om met een *Zotero Connector* te werken. Je hebt zo'n connector voor Chrome, Google en Firefox. De keuze hangt af van de browser waarmee je werkt. Ikzelf werk met Firefox en daar zal ik hieronder verder op ingaan.
+
+4. Je kunt overigens ook online de literatuurlijst maken [zoterobib](https://zbib.org/). Dat spreekt vanzelf.
+
+### Installeren van Zotero en connector
+
+Haal eerst de Zotero connector binnen. In dit geval is dat de Zotero-Firefox conncector.
+
+![](images/Screenshot2.png){width=50%}
+
+Als het goed is zie je dan rechtsboven in de browser dit icoontje staan. Als dat gebeurd is, kunnen we een bibliotheek opbouwen.
+
+![](images/Screenshot3.png){width=50%}
+
+### Opbouwen van bibiotheek
+
+Nu ben je klaar om een bibliotheek op te bouwen. Hoe dat gaat kan ik het beste laten zien aan de hand van een voorbeeld. Deze week was ik bezig met het opbouwen van een bibliotheek rondom Lawrence A. Cremin, een onderwijshistoricus die leefde van 1925-1990. Dit heb ik nodig voor mijn blog [Democratie en onderwijs](https://democratieenonderwijs.netlify.app/). Daarin recenseer ik boeken over dit onderwerp en daar doorheen wil ik het werk bespreken van drie wetenschappers die zich op een bijzondere manier met dit onderwerp hebben beziggehouden: John Dewey, Lawrence Cremin en Diana Ravitch. Deze week werkte ik aan een literatuurlijst van Cremin.
+
+In Zotero had ik een bibliotheek met de naam Cremin aan gemaakt. Vervolgens ben ik naar de zoekmachine van de universiteitsbibliotheek van Amsterdam gegaan en heb ik de naam **cremin, lawrence a.** ingetikt.
+
+![](images/Screenshot4.png){width=50%}
+
+Daarna heb ik in de browser op het icoontje van Zotero getikt en aangegeven dat de Zotero connector de boeken kan binnenhalen. Vervolgens heb ik aangegeven welke hij moet selecteren en deze opgeslagen. 
+
+![](images/Screenshot5.png){width=50%}
+
+Daarna ben ik opzoek gegaan naar andere boeken van hem. Vervolgens ben ik in Google Scholar op zoek gegaan naar artikelen over Cremin. Daarvoor tikte ik *Cremin l.a. memoir biographie* in. Ook nu klik ik op het connectoricoontje, tik aan welke artikelen ik wil bewaren en voeg deze toe aan mijn bibliotheek.
+
+Wanneer alles klaar is loop ik nog een keer door de bibliotheek heen, verwijder dubbelingen en maak het consistenter.
+
+Belangrijk is dat de key op een consistente manier wordt ingesteld....
+
+### Quarto en toevoegen van citaten aan een document
+
+Vervolgens open ik een New File-\>Quarto Document en geef het html-bestand de naam `Cremin`. 
+
+![](images/Screenshot6.png){width=50%}
+
+Vervolgens begin je dan met het schrijven van tekst in dat html-bestand
+
+
+
+>In 1951 schreef Lawrence Cremin zijn proefschrift over de geschiedenis van het Amerikaanse onderwijssysteem en met name over de ontwikkeling en het belang van het gewone en publieke onderwijssteem in Amerika in de 19e eeuw. Het boek heet *The American Common School: A Historical Conception* [@cremin1951]. 
+
+Voor deze referentie ga naar `Visual`(zie pijl) en dan open je Insert en Citation (zie pijl).
+
+![](images/Screenshot7.png){width=50%}
+
+Als je de bibliotheek geopend hebt, kun je de referentie *The American Commons school* aanklikken.
+
+![](images/Screenshot8.png){width=50%}
+
+
+>In 1961 kwam zijn *The Transformation of the School: Progressivism in American Education* uit waarin hij de progressieve onderwijsbeweging en de invloed ervan op het Amerikaanse onderwijs, de theorie en praktijk, onderzoekt [@cremin1961]
+
+>Ellwood Patterson Cubberley was invloedrijk voor het onderwijs en de geschienis van het onderwijs in Amerika aan het begin van de 20ste eeuw. In 1965 verscheen Cremins biografie over haar [@cremin]
+
+>Hij werd vooral bekend met zijn standaard werkt over de *American Education*. Het eerste deel is *The Colonial Experience 1607-1783* en verscheen in 1972 [@cremin1972]. Acht jaar later (1980) kwam *The National Experience, 1783-1876* uit [@cremin1980]. Weer acht jaar later (1988) verscheen *The Metropolitan Experience 1876-1980* waarmee hij deze hisorische trilogie afsloot [@cremin1988] xxx
+
+>Ook nog wat secundaire literatuur, waaronder [@lagemann1994], [@zembylas2002] en [@bohan2005]. 
+
+Als je in een project gewerkt hebt, worden de gebruikte referenties opgeslagen. Uiteindelijk slaat hij alle verwijzingen als hieronder op in een `references.bib`-file.  
+
+
+![](images/Screenshot11.png)
+
+### Gebruik van stijlen
+
+Instellen op Zotero style repository. In dit geval heb ik Zotero Style Repository op APA 7the edition ingesteld. 
+
+![](images/Screenshot9.png)
+
+Ingesteld op APA7. Je kunt ook de klasse toevoegen aan de yaml van het quarto document, zoals hier bijvoorbeeld met `csl:nature.csl`.
+
+![](images/Screenshot10.png)
+
+[Hier](https://github.com/citation-style-language/styles) vind je de stijlen die je kunt downloaden en informatie. De stijl kun je als document aan jouw project toevoegen
+
+### Zotero en Word
+
+Er zijn plugins van Zotero voor Word, die veelal automatisch in Word geplaatst worden. Je kunt dan op de taakbalk Zotero zien staan, referenties uit de bibliotheek halen en een literatuurlijst maken. [Hier](Cremininword.docx) je het fraaie resultaat. 
+
+### Enkele tips
+
+::: {.callout-tip}
+-   [Zotero handleiding](https://www.zotero.org/support/)
+-   Yale university over Zotero
+-   [uba over zotero](https://uba.uva.nl/ondersteuning/onderwijs/citeren-en-bronvermelden/zotero.html)
+-   leerzame video over verschillende manieren om eenvoudig literatuur toe te voegen van de [Idaho State University Library](https://www.youtube.com/watch?v=V7eQFo2TUdU)
+-   Goede uitleg over Zotero als onderdeel van reproduceerbaar onderzoek [Reproducible Medical Research with R](https://bookdown.org/pdr_higgins/rmrwr/)
+- Over Quarto en verwijzingen vind je [hier](https://quarto.org/docs/authoring/footnotes-and-citations.html) de nodige informatie
+:::
+
+### Literatuurlijst
+

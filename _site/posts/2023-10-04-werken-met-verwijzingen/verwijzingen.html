@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Harrie Jonkma">
+<meta name="dcterms.date" content="2023-10-03">
+<meta name="description" content="Dit is een blog over literatuurverwijzingen en hoe je hiermee kunt werken in R/RStudio. Daarvoor moet je het programma Zotero op jouw computer zetten. Hieronder laat ik zien hoe je vervolgens literatuur binnen kunt halen, hoe je een bibliotheek opbouwt, hoe je de verwijzingen in de tekst zet en hoe je voor een bepaalde literatuurklasse kunt kiezen.">
+
+<title>Werken met verwijzingen</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html" rel="" target="">
+ <span class="menu-text">Harrie’s Hoekje</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Jonkman1" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com" rel="" target=""><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Werken met verwijzingen</h1>
+                  <div>
+        <div class="description">
+          <p>Dit is een blog over literatuurverwijzingen en hoe je hiermee kunt werken in R/RStudio. Daarvoor moet je het programma Zotero op jouw computer zetten. Hieronder laat ik zien hoe je vervolgens literatuur binnen kunt halen, hoe je een bibliotheek opbouwt, hoe je de verwijzingen in de tekst zet en hoe je voor een bepaalde literatuurklasse kunt kiezen.</p>
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">communiceren</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Harrie Jonkma </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">October 3, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p><img src="images/Screenshot.png" class="img-fluid" style="width:50.0%"></p>
+<section id="inleiding" class="level3">
+<h3 class="anchored" data-anchor-id="inleiding">Inleiding</h3>
+<p>Zotero is een citeermanagement programma voor de desktop met mogelijkheden van online opslagmogelijkheden. Het helpt je om jouw literatuur en andere informatie voor onderzoek te verzamelen en te organiseren. Je kunt er boeken, artikelen, hoofdstukken etc in kwijt. Met Zotero kun je jouw verwijzingen goed managen, opslaan, organiseren en je kunt het bijvoorbeeld verwerken in een word document. Het werkt ook heel goed samen met R/RStudio. In deze blog laat ik zien hoe het werkt en je een <code>Quarto</code> document een bibliografie maakt in de stijl die jij voor ogen hebt. Haal eerst <a href="https://www.zotero.org/">Zotero</a> binnen en download het op jouw computer.</p>
+<p><img src="images/Screenshot0.png" class="img-fluid" style="width:50.0%"></p>
+<p>Er zijn verschillende manieren om met Zotero te werken.</p>
+<ol type="1">
+<li>Je kunt de referenties handmatig in voeren. Daarvoor open je het <em>Zotero</em> programma op jouw computer. Maak linksboven eerst een bepaalde biblioteek aan. Als de balk van die bibliotheek donker is, is die bibliotheek geopend. Voeg dan een boek, artikel of anderzins toe aan jouw bibliotheek.</li>
+</ol>
+<p><img src="images/Screenshot1.png" class="img-fluid" style="width:50.0%"></p>
+<ol start="2" type="1">
+<li><p>Je kunt ook referentie exporteren van een database als je bijvoorbeeld een literatuursearch uitvoert. In de database zoek je <code>"</code> icoon of naar een optie dat <em>Share</em>, <em>Cite</em> of <em>Export</em> (afhankelijk van de databas). Selecteer deze optie voor Zotero of .ris. De export zal het bestand (.ris) binnenhalen. Als het niet vanzelf gaat, dubbelklik op het bestand.</p></li>
+<li><p>De makkelijkste manier is allicht om met een <em>Zotero Connector</em> te werken. Je hebt zo’n connector voor Chrome, Google en Firefox. De keuze hangt af van de browser waarmee je werkt. Ikzelf werk met Firefox en daar zal ik hieronder verder op ingaan.</p></li>
+<li><p>Je kunt overigens ook online de literatuurlijst maken <a href="https://zbib.org/">zoterobib</a>. Dat spreekt vanzelf.</p></li>
+</ol>
+</section>
+<section id="installeren-van-zotero-en-connector" class="level3">
+<h3 class="anchored" data-anchor-id="installeren-van-zotero-en-connector">Installeren van Zotero en connector</h3>
+<p>Haal eerst de Zotero connector binnen. In dit geval is dat de Zotero-Firefox conncector.</p>
+<p><img src="images/Screenshot2.png" class="img-fluid" style="width:50.0%"></p>
+<p>Als het goed is zie je dan rechtsboven in de browser dit icoontje staan. Als dat gebeurd is, kunnen we een bibliotheek opbouwen.</p>
+<p><img src="images/Screenshot3.png" class="img-fluid" style="width:50.0%"></p>
+</section>
+<section id="opbouwen-van-bibiotheek" class="level3">
+<h3 class="anchored" data-anchor-id="opbouwen-van-bibiotheek">Opbouwen van bibiotheek</h3>
+<p>Nu ben je klaar om een bibliotheek op te bouwen. Hoe dat gaat kan ik het beste laten zien aan de hand van een voorbeeld. Deze week was ik bezig met het opbouwen van een bibliotheek rondom Lawrence A. Cremin, een onderwijshistoricus die leefde van 1925-1990. Dit heb ik nodig voor mijn blog <a href="https://democratieenonderwijs.netlify.app/">Democratie en onderwijs</a>. Daarin recenseer ik boeken over dit onderwerp en daar doorheen wil ik het werk bespreken van drie wetenschappers die zich op een bijzondere manier met dit onderwerp hebben beziggehouden: John Dewey, Lawrence Cremin en Diana Ravitch. Deze week werkte ik aan een literatuurlijst van Cremin.</p>
+<p>In Zotero had ik een bibliotheek met de naam Cremin aan gemaakt. Vervolgens ben ik naar de zoekmachine van de universiteitsbibliotheek van Amsterdam gegaan en heb ik de naam <strong>cremin, lawrence a.</strong> ingetikt.</p>
+<p><img src="images/Screenshot4.png" class="img-fluid" style="width:50.0%"></p>
+<p>Daarna heb ik in de browser op het icoontje van Zotero getikt en aangegeven dat de Zotero connector de boeken kan binnenhalen. Vervolgens heb ik aangegeven welke hij moet selecteren en deze opgeslagen.</p>
+<p><img src="images/Screenshot5.png" class="img-fluid" style="width:50.0%"></p>
+<p>Daarna ben ik opzoek gegaan naar andere boeken van hem. Vervolgens ben ik in Google Scholar op zoek gegaan naar artikelen over Cremin. Daarvoor tikte ik <em>Cremin l.a. memoir biographie</em> in. Ook nu klik ik op het connectoricoontje, tik aan welke artikelen ik wil bewaren en voeg deze toe aan mijn bibliotheek.</p>
+<p>Wanneer alles klaar is loop ik nog een keer door de bibliotheek heen, verwijder dubbelingen en maak het consistenter.</p>
+<p>Belangrijk is dat de key op een consistente manier wordt ingesteld….</p>
+</section>
+<section id="quarto-en-toevoegen-van-citaten-aan-een-document" class="level3">
+<h3 class="anchored" data-anchor-id="quarto-en-toevoegen-van-citaten-aan-een-document">Quarto en toevoegen van citaten aan een document</h3>
+<p>Vervolgens open ik een New File-&gt;Quarto Document en geef het html-bestand de naam <code>Cremin</code>.</p>
+<p><img src="images/Screenshot6.png" class="img-fluid" style="width:50.0%"></p>
+<p>Vervolgens begin je dan met het schrijven van tekst in dat html-bestand</p>
+<blockquote class="blockquote">
+<p>In 1951 schreef Lawrence Cremin zijn proefschrift over de geschiedenis van het Amerikaanse onderwijssysteem en met name over de ontwikkeling en het belang van het gewone en publieke onderwijssteem in Amerika in de 19e eeuw. Het boek heet <em>The American Common School: A Historical Conception</em> <span class="citation" data-cites="cremin1951">(<a href="#ref-cremin1951" role="doc-biblioref">Cremin 1951</a>)</span>.</p>
+</blockquote>
+<p>Voor deze referentie ga naar <code>Visual</code>(zie pijl) en dan open je Insert en Citation (zie pijl).</p>
+<p><img src="images/Screenshot7.png" class="img-fluid" style="width:50.0%"></p>
+<p>Als je de bibliotheek geopend hebt, kun je de referentie <em>The American Commons school</em> aanklikken.</p>
+<p><img src="images/Screenshot8.png" class="img-fluid" style="width:50.0%"></p>
+<blockquote class="blockquote">
+<p>In 1961 kwam zijn <em>The Transformation of the School: Progressivism in American Education</em> uit waarin hij de progressieve onderwijsbeweging en de invloed ervan op het Amerikaanse onderwijs, de theorie en praktijk, onderzoekt <span class="citation" data-cites="cremin1961">(<a href="#ref-cremin1961" role="doc-biblioref">Cremin 1961</a>)</span></p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Ellwood Patterson Cubberley was invloedrijk voor het onderwijs en de geschienis van het onderwijs in Amerika aan het begin van de 20ste eeuw. In 1965 verscheen Cremins biografie over haar <span class="citation" data-cites="cremin">(<a href="#ref-cremin" role="doc-biblioref">Cremin, n.d.</a>)</span></p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Hij werd vooral bekend met zijn standaard werkt over de <em>American Education</em>. Het eerste deel is <em>The Colonial Experience 1607-1783</em> en verscheen in 1972 <span class="citation" data-cites="cremin1972">(<a href="#ref-cremin1972" role="doc-biblioref">Cremin 1972</a>)</span>. Acht jaar later (1980) kwam <em>The National Experience, 1783-1876</em> uit <span class="citation" data-cites="cremin1980">(<a href="#ref-cremin1980" role="doc-biblioref">Cremin 1980</a>)</span>. Weer acht jaar later (1988) verscheen <em>The Metropolitan Experience 1876-1980</em> waarmee hij deze hisorische trilogie afsloot <span class="citation" data-cites="cremin1988">(<a href="#ref-cremin1988" role="doc-biblioref">Cremin 1988</a>)</span> xxx</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Ook nog wat secundaire literatuur, waaronder <span class="citation" data-cites="lagemann1994">(<a href="#ref-lagemann1994" role="doc-biblioref">Lagemann and Graham 1994</a>)</span>, <span class="citation" data-cites="zembylas2002">(<a href="#ref-zembylas2002" role="doc-biblioref">Zembylas 2002</a>)</span> en <span class="citation" data-cites="bohan2005">(<a href="#ref-bohan2005" role="doc-biblioref">Bohan 2005</a>)</span>.</p>
+</blockquote>
+<p>Als je in een project gewerkt hebt, worden de gebruikte referenties opgeslagen. Uiteindelijk slaat hij alle verwijzingen als hieronder op in een <code>references.bib</code>-file.</p>
+<p><img src="images/Screenshot11.png" class="img-fluid"></p>
+</section>
+<section id="gebruik-van-stijlen" class="level3">
+<h3 class="anchored" data-anchor-id="gebruik-van-stijlen">Gebruik van stijlen</h3>
+<p>Instellen op Zotero style repository. In dit geval heb ik Zotero Style Repository op APA 7the edition ingesteld.</p>
+<p><img src="images/Screenshot9.png" class="img-fluid"></p>
+<p>Ingesteld op APA7. Je kunt ook de klasse toevoegen aan de yaml van het quarto document, zoals hier bijvoorbeeld met <code>csl:nature.csl</code>.</p>
+<p><img src="images/Screenshot10.png" class="img-fluid"></p>
+<p><a href="https://github.com/citation-style-language/styles">Hier</a> vind je de stijlen die je kunt downloaden en informatie. De stijl kun je als document aan jouw project toevoegen</p>
+</section>
+<section id="zotero-en-word" class="level3">
+<h3 class="anchored" data-anchor-id="zotero-en-word">Zotero en Word</h3>
+<p>Er zijn plugins van Zotero voor Word, die veelal automatisch in Word geplaatst worden. Je kunt dan op de taakbalk Zotero zien staan, referenties uit de bibliotheek halen en een literatuurlijst maken. <a href="Cremininword.docx">Hier</a> je het fraaie resultaat.</p>
+</section>
+<section id="enkele-tips" class="level3">
+<h3 class="anchored" data-anchor-id="enkele-tips">Enkele tips</h3>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><a href="https://www.zotero.org/support/">Zotero handleiding</a></li>
+<li>Yale university over Zotero</li>
+<li><a href="https://uba.uva.nl/ondersteuning/onderwijs/citeren-en-bronvermelden/zotero.html">uba over zotero</a></li>
+<li>leerzame video over verschillende manieren om eenvoudig literatuur toe te voegen van de <a href="https://www.youtube.com/watch?v=V7eQFo2TUdU">Idaho State University Library</a></li>
+<li>Goede uitleg over Zotero als onderdeel van reproduceerbaar onderzoek <a href="https://bookdown.org/pdr_higgins/rmrwr/">Reproducible Medical Research with R</a></li>
+<li>Over Quarto en verwijzingen vind je <a href="https://quarto.org/docs/authoring/footnotes-and-citations.html">hier</a> de nodige informatie</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="literatuurlijst" class="level3">
+
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">Literatuurlijst</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-bohan2005" class="csl-entry" role="listitem">
+Bohan, Chara H. 2005. <span>“Lawrence <span>A</span>. <span>Cremin</span>.”</span>
+</div>
+<div id="ref-cremin1951" class="csl-entry" role="listitem">
+Cremin, Lawrence A. 1951. <em>The <span>American Common School An Historic Conception</span></em>. First Edition. <span>Bureau of Publications Columbia University</span>.
+</div>
+<div id="ref-cremin1961" class="csl-entry" role="listitem">
+———. 1961. <em>The <span>Transformation</span> of the <span>School</span>: <span>Progressivism</span> in <span>American Education</span>, 1876-1957</em>. First Edition. <span>Alfred A. Knopf</span>.
+</div>
+<div id="ref-cremin1972" class="csl-entry" role="listitem">
+———. 1972. <em>American <span>Education</span>: <span>The Colonial Experience</span>, 1607-1783</em>. <span>New York</span>: <span>Harpercollins College Div</span>.
+</div>
+<div id="ref-cremin1980" class="csl-entry" role="listitem">
+———. 1980. <em>American <span>Education</span>: <span>The National Experience</span>, 1783-1876</em>. First Edition. <span>New York</span>: <span>HarperCollins</span>.
+</div>
+<div id="ref-cremin1988" class="csl-entry" role="listitem">
+———. 1988. <em>American <span>Education</span>: <span>The Metropolitan Experience</span>, 1876-1980</em>. First Edition. <span>New York</span>: <span>Harpercollins</span>.
+</div>
+<div id="ref-cremin" class="csl-entry" role="listitem">
+———. n.d. <em>The <span>Wonderful World</span> of <span>Ellwood Patterson Cubberley</span></em>.
+</div>
+<div id="ref-lagemann1994" class="csl-entry" role="listitem">
+Lagemann, Ellen Condliffe, and Patricia Albjerg Graham. 1994. <span>“Lawrence <span>A</span>. <span>Cremin</span>: <span>A Biographical Memoir</span>.”</span> <em>Teachers College Record: The Voice of Scholarship in Education</em> 96 (1): 102–13. <a href="https://doi.org/10.1177/016146819409600102">https://doi.org/10.1177/016146819409600102</a>.
+</div>
+<div id="ref-zembylas2002" class="csl-entry" role="listitem">
+Zembylas, Michalinos. 2002. <span>“<span>Lawrence A</span>. <span>Cremin</span> 1925-90.”</span> <em>Fifty Modern Thinkers on Education: From Piaget to the Present</em>, 154.
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

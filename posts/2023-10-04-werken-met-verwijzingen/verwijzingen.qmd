@@ -106,7 +106,7 @@ Ingesteld op APA7. Je kunt ook de klasse toevoegen aan de yaml van het quarto do
 
 ### Zotero en Word
 
-Er zijn plugins van Zotero voor Word, die veelal automatisch in Word geplaatst worden. Je kunt dan op de taakbalk Zotero zien staan, referenties uit de bibliotheek halen en een literatuurlijst maken. [Hier](Cremininword.docx) je het fraaie resultaat. 
+Er zijn plugins van Zotero voor Word, die veelal automatisch in Word geplaatst worden. Je kunt dan op de taakbalk Zotero zien staan, referenties uit de bibliotheek halen en een literatuurlijst maken. [Hier](https://github.com/Jonkman1/HHquarto/blob/main/posts/2023-10-04-werken-met-verwijzingen/Creminword.docx) vind je het fraaie resultaat (klik op View Raw). 
 
 ### Enkele tips
 

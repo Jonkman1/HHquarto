@@ -143,7 +143,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         </div>
       </div>
                           <div class="quarto-categories">
-                <div class="quarto-category">analyse</div>
+                <div class="quarto-category">theorie</div>
+                <div class="quarto-category">voorbereiden</div>
+                <div class="quarto-category">modelleren</div>
               </div>
                   </div>
   </div>
@@ -215,9 +217,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mice)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'mice' was built under R version 4.1.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
 <pre><code>
 Attaching package: 'mice'</code></pre>
 </div>
@@ -231,10 +230,10 @@ Attaching package: 'mice'</code></pre>
 
     cbind, rbind</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> airquality</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>data[<span class="dv">4</span><span class="sc">:</span><span class="dv">10</span>,<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>,<span class="dv">7</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>data[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,<span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> airquality</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>data[<span class="dv">4</span><span class="sc">:</span><span class="dv">10</span>,<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>,<span class="dv">7</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>data[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,<span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     Ozone           Solar.R           Wind             Temp      
  Min.   :  1.00   Min.   :  7.0   Min.   : 1.700   Min.   :57.00  
@@ -256,8 +255,8 @@ Attaching package: 'mice'</code></pre>
 </div>
 <p>Wat categorische variabelen betreft, is het vervangen van categorische variabelen gewoonlijk niet aan te bevelen. Het is wel gebruikelijk om ontbrekende categorische variabelen te vervangen door de modus van de waargenomen variabelen, maar het is de vraag of dat een goede keuze is. Ook al ontbreken er in dit geval geen datapunten van de categorische variabelen (Month, Day), we verwijderen ze uit onze dataset (we kunnen ze later weer toevoegen als dat nodig is) en bekijken de gegevens met <code>summary()</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">6</span>)]</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">6</span>)]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     Ozone           Solar.R           Wind             Temp      
  Min.   :  1.00   Min.   :  7.0   Min.   : 1.700   Min.   :57.00  
@@ -281,13 +280,13 @@ Attaching package: 'mice'</code></pre>
 </ul>
 <p>Ervan uitgaande dat de gegevens MCAR zijn, kan een teveel aan ontbrekende gegevens ook een probleem zijn. Gewoonlijk is een veilige maximumdrempel 5% van het totaal voor grote datasets. Als de ontbrekende gegevens voor een bepaald kenmerk of een bepaalde steekproef meer dan 5% bedragen, moet u dat kenmerk of die steekproef waarschijnlijk weglaten. Daarom controleren we op kenmerken (kolommen) en steekproeven (rijen) waar meer dan 5% van de data ontbreekt met een eenvoudige functie</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>pMiss <span class="ot">&lt;-</span> <span class="cf">function</span>(x){<span class="fu">sum</span>(<span class="fu">is.na</span>(x))<span class="sc">/</span><span class="fu">length</span>(x)<span class="sc">*</span><span class="dv">100</span>}</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(data,<span class="dv">2</span>,pMiss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pMiss <span class="ot">&lt;-</span> <span class="cf">function</span>(x){<span class="fu">sum</span>(<span class="fu">is.na</span>(x))<span class="sc">/</span><span class="fu">length</span>(x)<span class="sc">*</span><span class="dv">100</span>}</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(data,<span class="dv">2</span>,pMiss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Ozone   Solar.R      Wind      Temp 
 24.183007  4.575163  4.575163  3.267974 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(data,<span class="dv">1</span>,pMiss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(data,<span class="dv">1</span>,pMiss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  [1]  25  25  25  50 100  50  25  25  25  50  25   0   0   0   0   0   0   0
  [19]   0   0   0   0   0   0  25  25  50   0   0   0   0  25  25  25  25  25
@@ -306,7 +305,7 @@ Attaching package: 'mice'</code></pre>
 <h2 class="anchored" data-anchor-id="gebruik-mice-voor-het-bekijken-van-ontbrekende-data-patronen">Gebruik `mice voor het bekijken van ontbrekende data patronen</h2>
 <p>Het <code>mice</code> pakket biedt een mooie functie <code>md.pattern()</code> om een beter inzicht te krijgen in het patroon van ontbrekende gegevens.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">md.pattern</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">md.pattern</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="missende-waarden_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -328,10 +327,7 @@ Attaching package: 'mice'</code></pre>
 <p>De output vertelt ons dat 104 gegevens compleet zijn, 34 data missen alleen de Ozonmeting, 3 data missen alleen de Solar.R waarde enzovoort.</p>
 <p>Een wellicht meer behulpzame visuele weergave kan worden verkregen met behulp van het VIM pakket als volgt</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(VIM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'VIM' was built under R version 4.1.3</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(VIM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required package: colorspace</code></pre>
 </div>
@@ -353,7 +349,7 @@ Attaching package: 'VIM'</code></pre>
 
     sleep</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>aggr_plot <span class="ot">&lt;-</span> <span class="fu">aggr</span>(data, <span class="at">col=</span><span class="fu">c</span>(<span class="st">'navyblue'</span>,<span class="st">'red'</span>), <span class="at">numbers=</span><span class="cn">TRUE</span>, <span class="at">sortVars=</span><span class="cn">TRUE</span>, <span class="at">labels=</span><span class="fu">names</span>(data), <span class="at">cex.axis=</span>.<span class="dv">7</span>, <span class="at">gap=</span><span class="dv">3</span>, <span class="at">ylab=</span><span class="fu">c</span>(<span class="st">"Histogram van missende data"</span>,<span class="st">"Patroon"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>aggr_plot <span class="ot">&lt;-</span> <span class="fu">aggr</span>(data, <span class="at">col=</span><span class="fu">c</span>(<span class="st">'navyblue'</span>,<span class="st">'red'</span>), <span class="at">numbers=</span><span class="cn">TRUE</span>, <span class="at">sortVars=</span><span class="cn">TRUE</span>, <span class="at">labels=</span><span class="fu">names</span>(data), <span class="at">cex.axis=</span>.<span class="dv">7</span>, <span class="at">gap=</span><span class="dv">3</span>, <span class="at">ylab=</span><span class="fu">c</span>(<span class="st">"Histogram van missende data"</span>,<span class="st">"Patroon"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="missende-waarden_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -370,7 +366,7 @@ Attaching package: 'VIM'</code></pre>
 <p>Uit de grafiek kunnen we opmaken dat bij bijna 70% van de data geen informatie ontbreekt, bij 22% ontbreekt de ozonwaarde en bij de overige variabelen ontbreekt zo’n 5%. Door deze aanpak ziet de situatie er naar mijn mening een stuk duidelijker uit.</p>
 <p>Een andere (hopelijk) behulpzame visuele benadering is een speciale boxplot</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">marginplot</span>(data[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">marginplot</span>(data[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="missende-waarden_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -381,7 +377,7 @@ Attaching package: 'VIM'</code></pre>
 <h2 class="anchored" data-anchor-id="imputeren-van-missende-data">Imputeren van missende data</h2>
 <p>De <code>mice()</code> functie zorgt voor het imputatieprocess</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>tempData <span class="ot">&lt;-</span> <span class="fu">mice</span>(data,<span class="at">m=</span><span class="dv">5</span>,<span class="at">maxit=</span><span class="dv">50</span>,<span class="at">meth=</span><span class="st">'pmm'</span>,<span class="at">seed=</span><span class="dv">500</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>tempData <span class="ot">&lt;-</span> <span class="fu">mice</span>(data,<span class="at">m=</span><span class="dv">5</span>,<span class="at">maxit=</span><span class="dv">50</span>,<span class="at">meth=</span><span class="st">'pmm'</span>,<span class="at">seed=</span><span class="dv">500</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
  iter imp variable
@@ -636,7 +632,7 @@ Attaching package: 'VIM'</code></pre>
   50   4  Ozone  Solar.R  Wind  Temp
   50   5  Ozone  Solar.R  Wind  Temp</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(tempData)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(tempData)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Class: mids
 Number of multiple imputations:  5 
@@ -659,7 +655,7 @@ Temp        1       1    1    0</code></pre>
 </ul>
 <p>Als u de geïmputeerde gegevens wilt controleren, bijvoorbeeld voor de variabele Ozon, moet u de volgende regel code invoeren</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>tempData<span class="sc">$</span>imp<span class="sc">$</span>Ozone</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>tempData<span class="sc">$</span>imp<span class="sc">$</span>Ozone</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     1   2   3   4   5
 5   13  19  12 115  63
@@ -703,7 +699,7 @@ Temp        1       1    1    0</code></pre>
 </div>
 <p>De uitvoer toont de geïmputeerde data voor elke observatie (eerste kolom links) binnen elke geïmputeerde dataset (eerste rij bovenaan). Als u de gebruikte imputatiemethode voor elke variabele wilt controleren, kunt u dat met <code>mice</code> heel eenvoudig doen</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>tempData<span class="sc">$</span>meth</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>tempData<span class="sc">$</span>meth</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Ozone Solar.R    Wind    Temp 
   "pmm"   "pmm"   "pmm"   "pmm" </code></pre>
@@ -711,7 +707,7 @@ Temp        1       1    1    0</code></pre>
 </div>
 <p>Nu kunnen we de voltooide dataset terugkrijgen met de <code>complete()</code>functie. Het is bijna gewoon Engels:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>completedData <span class="ot">&lt;-</span> <span class="fu">complete</span>(tempData,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>completedData <span class="ot">&lt;-</span> <span class="fu">complete</span>(tempData,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>De ontbrekende waarden zijn vervangen door de geïmputeerde waarden in de eerste van de vijf datasets. Als je een andere wilt gebruiken, verander dan de tweede parameter in de <code>complete()</code> functie.</p>
 </section>
@@ -720,14 +716,14 @@ Temp        1       1    1    0</code></pre>
 <p>Laten we de verdelingen van de originele en geïmputeerde data vergelijken met behulp van een aantal handige plots. Allereerst kunnen we een scatterplot gebruiken en Ozon uitzetten tegen alle andere variabelen.</p>
 <p>Hier is dat het geval:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xyplot</span>(tempData,Ozone <span class="sc">~</span> Wind<span class="sc">+</span>Temp<span class="sc">+</span>Solar.R,<span class="at">pch=</span><span class="dv">18</span>,<span class="at">cex=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xyplot</span>(tempData,Ozone <span class="sc">~</span> Wind<span class="sc">+</span>Temp<span class="sc">+</span>Solar.R,<span class="at">pch=</span><span class="dv">18</span>,<span class="at">cex=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="missende-waarden_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Wat wij willen zien is dat de vorm van de magenta punten (geïmputeerd) overeenkomt met de vorm van de blauwe punten (waargenomen). De overeenkomstige vorm zegt ons dat de geïmputeerde waarden inderdaad “plausibele waarden” zijn. Een andere nuttige grafiek is de densitygrafiek:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">densityplot</span>(tempData)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">densityplot</span>(tempData)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="missende-waarden_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -735,7 +731,7 @@ Temp        1       1    1    0</code></pre>
 <p>De dichtheid van de geïmputeerde gegevens voor elke geïmputeerde dataset wordt getoond in magenta, terwijl de dichtheid van de waargenomen gegevens in blauw wordt getoond. Nogmaals, onder onze eerdere aannames verwachten we dat de verdelingen vergelijkbaar zijn.</p>
 <p>Een andere nuttige visuele kijk op de verdelingen kan worden verkregen met de <code>stripplot()</code> functie die de verdelingen van de variabelen als afzonderlijke punten toont</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stripplot</span>(tempData, <span class="at">pch =</span> <span class="dv">20</span>, <span class="at">cex =</span> <span class="fl">1.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stripplot</span>(tempData, <span class="at">pch =</span> <span class="dv">20</span>, <span class="at">cex =</span> <span class="fl">1.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="missende-waarden_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -745,8 +741,8 @@ Temp        1       1    1    0</code></pre>
 <h2 class="anchored" data-anchor-id="pooling">Pooling</h2>
 <p>Veronderstel dat de volgende stap in onze analyse erin bestaat een lineair model op de gegevens toe te passen. Dan kun je je afvragen welke geïmputeerde dataset je moet kiezen. Het <code>mice</code> pakket maakt het weer heel gemakkelijk om een model te passen op elk van de geïmputeerde datasets en dan deze resultaten samen te voegen</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>modelFit1 <span class="ot">&lt;-</span> <span class="fu">with</span>(tempData,<span class="fu">lm</span>(Temp<span class="sc">~</span> Ozone<span class="sc">+</span>Solar.R<span class="sc">+</span>Wind))</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">pool</span>(modelFit1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>modelFit1 <span class="ot">&lt;-</span> <span class="fu">with</span>(tempData,<span class="fu">lm</span>(Temp<span class="sc">~</span> Ozone<span class="sc">+</span>Solar.R<span class="sc">+</span>Wind))</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">pool</span>(modelFit1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         term    estimate   std.error statistic        df      p.value
 1 (Intercept) 72.70719792 2.761360433 26.330209 117.27936 0.000000e+00
@@ -758,7 +754,7 @@ Temp        1       1    1    0</code></pre>
 <p>De variabele <code>modelFit1</code> bevat de resultaten van de aanpassing die is uitgevoerd over de geïmputeerde datasets, terwijl de <code>pool()</code> functie ze allemaal samenvoegt. Blijkbaar is alleen de Ozon variabele statistisch significant.</p>
 <p>Vergeet niet dat we de <code>mice</code>-functie hebben geïnitialiseerd met een specifieke ‘seed’-instelling. Daarom zijn de resultaten enigszins afhankelijk van onze initiële keuze. Om dit effect te verminderen, kunnen we een hoger aantal datasets toerekenen, door de standaard <code>m=5</code> parameter in de <code>mice()</code> functie als volgt te wijzigen</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>tempData2 <span class="ot">&lt;-</span> <span class="fu">mice</span>(data,<span class="at">m=</span><span class="dv">50</span>,<span class="at">seed=</span><span class="dv">245435</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>tempData2 <span class="ot">&lt;-</span> <span class="fu">mice</span>(data,<span class="at">m=</span><span class="dv">50</span>,<span class="at">seed=</span><span class="dv">245435</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
  iter imp variable
@@ -1013,8 +1009,8 @@ Temp        1       1    1    0</code></pre>
   5   49  Ozone  Solar.R  Wind  Temp
   5   50  Ozone  Solar.R  Wind  Temp</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>modelFit2 <span class="ot">&lt;-</span> <span class="fu">with</span>(tempData2,<span class="fu">lm</span>(Temp<span class="sc">~</span> Ozone<span class="sc">+</span>Solar.R<span class="sc">+</span>Wind))</span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">pool</span>(modelFit2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>modelFit2 <span class="ot">&lt;-</span> <span class="fu">with</span>(tempData2,<span class="fu">lm</span>(Temp<span class="sc">~</span> Ozone<span class="sc">+</span>Solar.R<span class="sc">+</span>Wind))</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">pool</span>(modelFit2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         term    estimate   std.error statistic        df      p.value
 1 (Intercept) 72.60178955 2.915916315 24.898448 105.59368 0.000000e+00

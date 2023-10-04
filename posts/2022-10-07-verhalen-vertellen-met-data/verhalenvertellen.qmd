@@ -4,7 +4,7 @@ description: |
     Bespreking van een interessant leerboek moderne dataanalyse Telling stories with data van Rohan Alexander
 author: "HarrieJonkman"
 date: "2022-10-07"
-categories: [voorbereiding, modelleren, communicatie]
+categories: [voorbereiden, modelleren, communiceren]
 image: "Screenshot.PNG"
 ---
 

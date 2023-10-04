@@ -4,7 +4,7 @@ description: |
     Statistisch denken in de 21ste eeuw met R én Python
 author: "Russel Poldrack,  bewerking HarrieJonkman"
 date: "2022-11-07"
-categories: [voorbereiding, modelleren, communicatie]
+categories: [voorbereiden, modelleren, communiceren]
 image: "Screenshot.PNG"
 ---
 

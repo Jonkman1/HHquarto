@@ -4,7 +4,7 @@ description: |
     Een post over opschonen en ontrafelen van data
 author: "Bewerking Harrie Jonkman"
 date: "10-03-2021"
-categories: [voorbereiding]
+categories: [voorbereiden]
 image: "Screenshot1.png"
 ---
 

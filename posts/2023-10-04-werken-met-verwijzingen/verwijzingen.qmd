@@ -102,7 +102,7 @@ Ingesteld op APA7. Je kunt ook de klasse toevoegen aan de yaml van het quarto do
 
 ![](images/Screenshot10.png)
 
-[Hier](https://github.com/citation-style-language/styles) vind je de stijlen die je kunt downloaden en informatie. De stijl kun je als document aan jouw project toevoegen
+[Hier](https://github.com/citation-style-language/styles) vind je de stijlen die je kunt downloaden en informatie. De stijl kun en moet je als document aan jouw project toevoegen.
 
 ### Zotero en Word
 

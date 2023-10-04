@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="HarrieJonkman">
+<meta name="dcterms.date" content="2022-10-07">
+<meta name="description" content="Bespreking van een interessant leerboek moderne dataanalyse Telling stories with data van Rohan Alexander">
+
+<title>Verhalen vertellen met data</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html" rel="" target="">
+ <span class="menu-text">Harrie’s Hoekje</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Jonkman1" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com" rel="" target=""><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Verhalen vertellen met data</h1>
+                  <div>
+        <div class="description">
+          <p>Bespreking van een interessant leerboek moderne dataanalyse Telling stories with data van Rohan Alexander</p>
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">voorbereiding</div>
+                <div class="quarto-category">modelleren</div>
+                <div class="quarto-category">communicatie</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>HarrieJonkman </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">October 7, 2022</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#inleiding" id="toc-inleiding" class="nav-link active" data-scroll-target="#inleiding">Inleiding</a></li>
+  <li><a href="#australische-verkiezingen" id="toc-australische-verkiezingen" class="nav-link" data-scroll-target="#australische-verkiezingen">Australische verkiezingen</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p><img src="Screenshot.PNG" class="img-fluid"></p>
+<section id="inleiding" class="level2">
+<h2 class="anchored" data-anchor-id="inleiding">Inleiding</h2>
+<p>Soms zijn er van die boeken die een goed overzicht geven van de stand van zaken in moderne data analyse en die je jonge mensen zou aanraden om te lezen en te gebruiken. Natuurlijk is het <em>R for Data Science</em>-boek van Wickham en Grolemund <span class="citation" data-cites="r4ds">[@r4ds]</span> zo’n boek. Irizarry’s <em>Introduction to Data Science</em> <span class="citation" data-cites="Introdatas">[@Introdatas]</span> is ook zo’n boek. Zelf vind ik <em>R for Health Data Science</em> van Harrison and Pius <span class="citation" data-cites="RforHealth">[@RforHealth]</span> een mooi, kort en krachtig leerboek. Omdat er zoveel gebeurt op dit terrein, zijn dit soort boeken al snel niet meer helemaal up-to-date. Niet dat je daar teveel van aan moet trekken; goede boeken blijven ook op dit terrein hun waarde vasthouden. Aan introductieboeken moderne dataanalyse moest ik denken toen ik onlangs <em>Telling Stories With Data</em> van Rohan Alexander <span class="citation" data-cites="Tellingstories">[@Tellingstories]</span> las. Dat vind ik een heel goed eigentijds boek over moderne data analyse dat ook in dit rijtje opgenomen kan worden. Als je tweede helft 2022 jonge mensen hierover iets wilt leren, is dit boek heel aantrekkelijk. Rowan Alexander laat je zien wat je kunt doen met data en biedt een goede onderbouwing van hoe je met data en de kennis om kunt gaan. Het is heel uitgebreid en soms allicht net wat te lang omdat Alexander zo op details ingaat.</p>
+<p>Het boek bestaat uit vier delen. In het eerste deel wordt de <strong>basis</strong> gelegd; je moet verhalen willen vertellen met data. Daarom is het ook zo belangrijk dat je de de componenten van de workflow voor ogen houdt: plannen (bedenk goed waar je heel wilt), simuleren (let bij die voorbereiding op de details), verkrijgen (zorg voor een dataset waar je mee kunt werken), exploreren (beschrijf en modelleer) en delen (communiceer de resultaten die je gevonden hebt en wijs op zwakheden en sterkten van de benadering). In dit deel laat Alexander ook zien hoe R werkt, hoe je met reproduceerbaar onderzoek om moet gaan en ook wat het belang ervan is.</p>
+<p>Nadat Alexander het raamwerk gelegd heeft gaat hij, vreemd genoeg, in op <strong>communicatie</strong>. Ik zou dit verderop in het boek hebben geplaatst, maar in dit deel gaat hij in op schrijven over onderzoek, waar je daarbij op moet letten en hoe data daarin een rol spelen. Dan is er nog statische communicatie en hoe we de lezer door grafieken en tabellen een gevoel geven bij de dataset. Dit deel gaat ook over interactieve communicatie, over websites, interactieve kaarten en apps waarmee de onderzoeker meer en meer zijn verhaal kan doen.</p>
+<p>In het derde deel <strong>acquisitie</strong> gaat hij weer terug en vraagt hij zich af Eigen data maar ook census data moeten aan bepaalde eisen voldoen en als een boer land- en tuinbouwproducten teelt, moet een onderzoeker met z’n data omgaan. Waar je aan kunt denken, laat Alexander zien. Soms moeten we we ook data verkrijgen, die op allerlei api’s of andere vormen van dataopslag staan. Weer in andere gevallen moeten we zelf op jacht naar de data, bv. via experimentele onderzoeken.</p>
+<p>Het vierde deel gaat over <strong>voorbereiding</strong>. Denk daarbij aan het opschonen en prepareren van datasets. Grote delen van de tijd van onderzoekers wordt aan dit deel van het werk besteed en Alexander geeft je hierbij verschillende suggesties en voorbeelden mee. Een groot deel van dit werk wordt natuurlijk met <code>tidyverse</code> en <code>janitor</code> gedaan. Bij voorbereiding gaat het ook om opslaan en deel. Data moeten te vinden, toegankelijk, van verschillende kanten mee te werken en herbruikbaar zijn. Denk hier vanaf het begin over na. Via GitHub kun je niet alleen op een goede manier de gegevens en codes opslaan maar zo kun je ook de analyses en de uiteindelijke resultaten delen. Niet alleen binnen de onderzoeksgroep, ook met de buitenwereld. Dit alles heeft niet alleen met het vraagstuk van veiligheid maar ook met vraagstuk van efficiëntie te maken.</p>
+<p>Het vijfde uitgebreide hoofdstuk gaat over <strong>modelleren</strong>. Uiteraard gaat hij in op exploratieve data analyse waarmee de variabelen zelf begrijpen, eenvoudige relaties met andere variabelen en wat we aan gegevens missen. Daarna gaat hij verder met hoe je lineaire modellen uitvoert, omgaat met causaliteit in observationele data. Maar hij gaat ook in op ingewikkelde data analyse zoals multilevel analyse en tekstanalyse.</p>
+<p>Alexander sluit af met enkele concluderende opmerkingen die in de richting gaan van dat data analyse zich verder zal als discipline en dat we betere verhalen over de wereld kunnen vertellen. Deze opmerkingen verdienen niet heel veel aandacht nu. Alexander had hier zelf meer aandacht aan moeten besteden. Maar ik wil optimistisch afsluiten omdat het bij elkaar toch een heel leerzaam boek geworden is waarmee je leert hoe je tegenwoordig moderne data-analyse uitvoert, met R en RStudio, met bepaalde pakketten, maar ook GitHub en Quarto dat nog maar kort op de markt is. Het gaat om statistiek en om computerwetenschappen. Centraal staan reproduceerbaarheid, workflows en respect (veiligheid, privacy). Lees het boek, zou ik zeggen en probeer en analyseer met hem mee. Alle codes staan op internet <a href="https://github.com/RohanAlexander/telling_stories">hier</a>.</p>
+<p>Als je een idee wilt krijgen van het boek, hieronder heb ik een deel uit het tweede hoofdstuk gehad. In dat hoofdstuk laat hij aan de hand van enkele voorbeelden zien, wat je in het boek kunt verwachten. Een voorbeeld is onderzoek naar de recente Australische verkiezingen.</p>
+</section>
+<section id="australische-verkiezingen" class="level2">
+<h2 class="anchored" data-anchor-id="australische-verkiezingen">Australische verkiezingen</h2>
+<p>Australië is een parlementaire democratie met 151 zetels in het Huis van Afgevaardigden, het lagerhuis waaruit de regering wordt gevormd. Er zijn twee grote partijen – “Liberal” en “Labor” – twee kleinere partijen – “Nationals” en “Greens” – en vele kleinere partijen en onafhankelijken. Hieronder maken we een grafiek van het aantal zetels dat elke partij won in de federale verkiezingen van 2022.</p>
+<section id="plan" class="level3">
+<h3 class="anchored" data-anchor-id="plan">Plan</h3>
+<p>Voor dit voorbeeld moeten we twee aspecten plannen. Het eerste is hoe de dataset die we nodig hebben eruit zal zien en het tweede is hoe de uiteindelijke grafiek eruit zal zien.</p>
+<p>De basisvereiste voor de dataset is dat deze in ieder geval de naam van de zetel (in Australië soms “divisie” genoemd) en de partij van de gekozene bevat. Een snelle schets van de dataset die we nodig hebben, zou er dus als volgt uit kunnen zien <a href="#fig-australiaexample-data">Figure&nbsp;1 (a)</a>.</p>
+<div id="fig-australiaexample" class="quarto-layout-panel">
+<figure class="figure">
+<div class="quarto-layout-row quarto-layout-valign-bottom">
+<div class="quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-australiaexample-data" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="figures/number-of-seats.png" class="img-fluid figure-img" data-ref-parent="fig-australiaexample"></p>
+<figcaption class="figure-caption">(a) Korte schets van een dataset die nuttig zou kunnen zijn voor het analyseren van Australische verkiezingen</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-australiaexample-graph" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="figures/possible-seats.png" class="img-fluid figure-img" data-ref-parent="fig-australiaexample"></p>
+<figcaption class="figure-caption">(b) Korte schets van een mogelijke grafiek van het aantal door elke partij gewonnen zetels</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p></p><figcaption class="figure-caption">Figure&nbsp;1: Schetsen van een dataset en grafiek met betrekking tot de Australische verkiezingen</figcaption><p></p>
+</figure>
+</div>
+<p>We moeten ook een plan maken voor de grafiek waarin we geïnteresseerd zijn. Aangezien we het aantal zetels willen weergeven dat elke partij won, is een snelle schets van waar we naar zouden kunnen streven <a href="#fig-australiaexample-graph">Figure&nbsp;1 (b)</a>.</p>
+</section>
+<section id="simuleren" class="level3">
+<h3 class="anchored" data-anchor-id="simuleren">Simuleren</h3>
+<p>We simuleren nu wat gegevens, om onze schetsen wat specifieker te maken.</p>
+<p>Om te beginnen maakt u in RStudio een nieuw Quarto-document (“Bestand” -&gt; “Nieuw bestand” -&gt; “Quarto-document…”). Geef het een titel, zoals “verkenning_australische verkiezingen_2022”, en voeg uw naam toe als auteur. Laat de andere opties als standaard, en klik dan op “Create”. Voor dit voorbeeld zetten we alles in dit ene Quarto-document. U moet het opslaan als “australische_elections.verkiezingen” (“File” -&gt; “Save As…”).</p>
+<p>Verwijder bijna alle standaard inhoud en maak dan onder het titelmateriaal een nieuwe R code chunk (“Code” -&gt; “Insert Chunk”) en voeg preambule documentatie toe die uitlegt:</p>
+<ul>
+<li>het doel van het document;</li>
+<li>de auteur en contactgegevens</li>
+<li>wanneer het bestand is geschreven of voor het laatst is bijgewerkt; en</li>
+<li>randvoorwaarden waarop het bestand is gebaseerd.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">#### Preambule ####</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Doel: Lees de gegevens van de Australische verkiezingen van 2022 in en maak een</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># grafiek van het aantal zetels dat elke partij won.</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Auteur: Harrie Jonkman</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># E-mail: harriejonkman@xs4all.nl</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Datum: 6 oktober 2022</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Voorwaarden: Je moet weten waar je Australische verkiezingsgegevens kunt krijgen.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In R zijn regels die beginnen met “#” commentaar. Dit betekent dat ze door R niet als code worden uitgevoerd, maar bedoeld zijn om door mensen te worden gelezen. Elke regel van deze preambule moet beginnen met een “". Maak ook duidelijk dat dit de preambule is door er”####” omheen te zetten. Het resultaat moet er als volgt uitzien <a href="#fig-quarto-australian-elections-3">Figure&nbsp;2</a>.</p>
+<div id="fig-quarto-australian-elections-3" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="figures/02-rstudio_cloud-3.png" class="img-fluid figure-img" style="width:75.0%"></p>
+<figcaption class="figure-caption">Figure&nbsp;2: Screenshot van Rohans australian_elections.qmd na eerste opzet en met een premabel</figcaption>
+</figure>
+</div>
+<p>Hierna moeten we de werkruimte instellen. Hiervoor moeten alle benodigde pakketten worden geïnstalleerd en geladen. Een pakket hoeft maar één keer per computer geïnstalleerd te worden, maar moet elke keer dat het gebruikt wordt, moet het geladen worden. In dit geval gaan we <code>tidyverse</code> <span class="citation" data-cites="Wickham2017">[@Wickham2017]</span>, en <code>janitor</code> <span class="citation" data-cites="janitor">[@janitor]</span> gebruiken. Ze moeten worden geïnstalleerd omdat dit de eerste keer is dat ze worden gebruikt, en daarna moeten ze elk worden geladen.</p>
+<p>Hieronder volgt een voorbeeld van de installatie van de pakketten (er is overdreven veel commentaar toegevoegd om duidelijk te maken wat er gebeurt; in het algemeen is dit niveau van commentaar onnodig). Voer deze code uit door te klikken op de kleine groene pijl bij de R-code chunk (<a href="#fig-quarto-australian-elections-4">Figure&nbsp;3</a>). Ikzelf doe dit met het pakket packman waarmee het pakket alleen wordt geïnstalleerd als je het nog niet hebt (Pacman moet wel geïnstalleerd zijn)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pacman)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(tidyverse, janitor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="fig-quarto-australian-elections-4" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="figures/02-rstudio_cloud-4.png" class="img-fluid figure-img" style="width:75.0%"></p>
+<figcaption class="figure-caption">Figure&nbsp;3: Screenshot van Rohans australian_elections.qmd met de groene pijl om de brok uit te voeren</figcaption>
+</figure>
+</div>
+<p>Nu de pakketten zijn geïnstalleerd, moeten ze worden geladen. Aangezien die installatiestap maar één keer per computer hoeft te gebeuren, kan die code worden uitgecommentarieerd zodat hij niet per ongeluk wordt uitgevoerd.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">#### Workspace opzet ####</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("tidyverse") # Dit hoef je maar een keer te doen</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("janitor") # idem</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># Een verzameling pakketten voor data-verwerking</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor) <span class="co"># Om datasets op te schonen</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We kunnen het hele document renderen door op “Renderen” te klikken. Wanneer u dit doet, kan u gevraagd worden om enkele pakketten te installeren. Als dat gebeurt, moet u daarmee instemmen. Dit zal resulteren in een HTML-document.</p>
+<p>Voor een inleiding op de pakketten die zojuist zijn geïnstalleerd, bevat elk pakket een helpbestand met informatie erover en hun functies. Het kan worden geopend door een vraagteken voor de pakketnaam te zetten en dan die code in de console uit te voeren. Bijvoorbeeld <code>?tidyverse</code>.</p>
+<p>Om onze gegevens te simuleren, moeten we een dataset maken met twee kolommen: “Divisie” en “partij”, en een aantal waarden voor elke kolom. In het geval van “Division” zijn redelijke waarden een naam van een van de 151 Australische divisies. In het geval van “partij” zijn redelijke waarden een van de volgende vijf: “Liberal”, “Labor”, “National”, “Green”, “Other”. Ook deze code kan worden uitgevoerd door te klikken op de kleine groene pijl bij de R-codebrok.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>simulated_data <span class="ot">&lt;-</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Gebruik 1 tm 151 voor elke 'divisie</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Division"</span> <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">151</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Randomly van een van de vijf opties, met replacement, 151 keer</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Party"</span> <span class="ot">=</span> <span class="fu">sample</span>(</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="fu">c</span>(</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Liberal"</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Labor"</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"National"</span>,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Green"</span>,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Other"</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> <span class="dv">151</span>,</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">replace =</span> <span class="cn">TRUE</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>simulated_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 151 x 2
+   Division Party   
+      &lt;int&gt; &lt;chr&gt;   
+ 1        1 Other   
+ 2        2 National
+ 3        3 Labor   
+ 4        4 Other   
+ 5        5 Labor   
+ 6        6 Green   
+ 7        7 National
+ 8        8 Other   
+ 9        9 Labor   
+10       10 Other   
+# ... with 141 more rows</code></pre>
+</div>
+</div>
+<p>Op een gegeven moment zal je code niet meer werken en zul je anderen om hulp willen vragen. Maak geen screenshot van een klein stukje code en verwacht niet dat iemand op basis daarvan kan helpen. Dat kunnen ze vrijwel zeker niet. In plaats daarvan moet je ze je hele script geven op een manier die ze kunnen uitvoeren. Over GitHub wordt later in zijn boek geschreven <strong>?@sec-reproducible-workflows</strong>, maar voor nu, als je hulp nodig hebt, moet je een GitHub account aanmaken, waarmee je je code kunt delen op een manier die nuttiger is dan het maken van een screenshot. Ga daarvoor naar <a href="https://github.com">GitHub</a> (<a href="#fig-githubone">Figure&nbsp;4 (a)</a>). Nadenken over een geschikte gebruikersnaam is belangrijk omdat dit onderdeel wordt van je professionele profiel. Het zou dus zinvol zijn om een gebruikersnaam te hebben die professioneel is, onafhankelijk van een cursus, en idealiter gerelateerd aan je echte naam. Zoek dan naar een “+” in de rechterbovenhoek, en selecteer dan “New gist”.</p>
+<div id="fig-githubgist" class="quarto-layout-panel">
+<figure class="figure">
+<div class="quarto-layout-row quarto-layout-valign-bottom">
+<div class="quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-githubone" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="figures/github_1.png" class="img-fluid figure-img" data-ref-parent="fig-githubgist"></p>
+<figcaption class="figure-caption">(a) GitHub aanmeldscherm</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-githubgistone" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="figures/githubgistone.png" class="img-fluid figure-img" data-ref-parent="fig-githubgist"></p>
+<figcaption class="figure-caption">(b) New GitHub Gist</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-bottom">
+<div class="quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-githubgisttwo" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="figures/githubgisttwo.png" class="img-fluid figure-img" data-ref-parent="fig-githubgist"></p>
+<figcaption class="figure-caption">(c) Creëer een publiek GitHub Gist om code te delen</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p></p><figcaption class="figure-caption">Figure&nbsp;4: Een Gist aanmaken om code te delen bij een hulpvraag</figcaption><p></p>
+</figure>
+</div>
+<p>Vanaf hier moet je alle code aan die gist toevoegen, niet alleen het laatste stukje dat een fout geeft. En geef het een betekenisvolle bestandsnaam met “.R” aan het einde, bijvoorbeeld “australische_verkiezingen.R”.</p>
+<p>Klik op “Create public gist”. We kunnen dan de URL naar deze Gist delen met wie we vragen om te helpen, uitleggen wat het probleem is, en wat we proberen te bereiken. Het zal veel gemakkelijker zijn om te helpen, omdat alle code beschikbaar is.</p>
+</section>
+<section id="verkrijgen" class="level3">
+<h3 class="anchored" data-anchor-id="verkrijgen">Verkrijgen</h3>
+<p>Nu willen we de feitelijke gegevens hebben. De gegevens die we nodig hebben zijn van de ‘Australian Electoral Commission’ (AEC), het niet-partijgebonden bureau dat de Australische federale verkiezingen organiseert. We kunnen een pagina van hun website doorgeven aan <code>read_csv()</code> van <code>readr</code> <span class="citation" data-cites="citereadr">[@citereadr]</span>. We hoeven <code>readr</code> niet expliciet te laden omdat het deel uitmaakt van het <code>tidyverse</code>. De <code>&lt;-</code> of “assignment operator” wijst de uitvoer van <code>read_csv()</code> toe aan een object genaamd “raw_elections_data”.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">#### Data inlezen ####</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>raw_elections_data <span class="ot">&lt;-</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>(</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">file =</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>      <span class="st">"https://results.aec.gov.au/27966/website/Downloads/HouseMembersElectedDownload-27966.csv"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">show_col_types =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">skip =</span> <span class="dv">1</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># We hebben de gegevens van de AEC website gelezen. We willen het misschien bewaren</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># voor het geval er iets gebeurt of ze het verplaatsen.</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> raw_elections_data,</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="st">"australian_voting.csv"</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We kunnen de dataset snel bekijken met <code>head()</code> die de eerste zes rijen toont, en <code>tail()</code> die de laatste zes rijen toont.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(raw_elections_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 x 8
+  DivisionID DivisionNm StateAb CandidateID GivenNm   Surname   PartyNm  PartyAb
+       &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;  
+1        179 Adelaide   SA            36973 Steve     GEORGANAS Austral~ ALP    
+2        197 Aston      VIC           36704 Alan      TUDGE     Liberal  LP     
+3        198 Ballarat   VIC           36409 Catherine KING      Austral~ ALP    
+4        103 Banks      NSW           37018 David     COLEMAN   Liberal  LP     
+5        180 Barker     SA            37083 Tony      PASIN     Liberal  LP     
+6        104 Barton     NSW           36820 Linda     BURNEY    Austral~ ALP    </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(raw_elections_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 x 8
+  DivisionID DivisionNm StateAb CandidateID GivenNm    Surname  PartyNm  PartyAb
+       &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;  
+1        152 Wentworth  NSW           37451 Allegra    SPENDER  Indepen~ IND    
+2        153 Werriwa    NSW           36810 Anne Maree STANLEY  Austral~ ALP    
+3        150 Whitlam    NSW           36811 Stephen    JONES    Austral~ ALP    
+4        178 Wide Bay   QLD           37506 Llew       O'BRIEN  Liberal~ LNP    
+5        234 Wills      VIC           36452 Peter      KHALIL   Austral~ ALP    
+6        316 Wright     QLD           37500 Scott      BUCHHOLZ Liberal~ LNP    </code></pre>
+</div>
+</div>
+<p>We moeten de gegevens opschonen zodat we ze kunnen gebruiken. We proberen ze te laten lijken op de dataset die we in de planningsfase voor ogen hadden. Hoewel het prima is om van het plan af te wijken, moet dit een weloverwogen, beredeneerde beslissing zijn. Na het inlezen van de dataset die we hebben opgeslagen, zullen we eerst de namen van de variabelen aanpassen. Dit doen we met <code>clean_names()</code> uit <code>janitor</code> <span class="citation" data-cites="janitor">[@janitor]</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">#### Basic opschonen ####</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>raw_elections_data <span class="ot">&lt;-</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>(</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">file =</span> <span class="st">"australian_voting.csv"</span>,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">show_col_types =</span> <span class="cn">FALSE</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Maak de namen makkelijker om te typen</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>cleaned_elections_data <span class="ot">&lt;-</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>(raw_elections_data)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Have a look at the first six rows</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cleaned_elections_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 x 8
+  division_id division_nm state_ab candidate_id given_nm surname party~1 party~2
+        &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;           &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  
+1         179 Adelaide    SA              36973 Steve    GEORGA~ Austra~ ALP    
+2         197 Aston       VIC             36704 Alan     TUDGE   Liberal LP     
+3         198 Ballarat    VIC             36409 Catheri~ KING    Austra~ ALP    
+4         103 Banks       NSW             37018 David    COLEMAN Liberal LP     
+5         180 Barker      SA              37083 Tony     PASIN   Liberal LP     
+6         104 Barton      NSW             36820 Linda    BURNEY  Austra~ ALP    
+# ... with abbreviated variable names 1: party_nm, 2: party_ab</code></pre>
+</div>
+</div>
+<p>De namen zijn sneller te typen omdat RStudio ze automatisch aanvult. Daartoe beginnen we de naam van een kolom te typen en gebruiken dan “tab” om hem aan te vullen.</p>
+<p>Er zijn veel kolommen in de dataset, en wij zijn voornamelijk geïnteresseerd in twee: “division_nm”, en “party_nm”. We kunnen bepaalde interessante kolommen kiezen met <code>select()</code> uit <code>dplyr</code> <span class="citation" data-cites="citedplyr">[@citedplyr]</span> die we geladen hebben als onderdeel van de <code>tidyverse</code>. De “pipe operator”, <code>|&gt;</code>, zet de uitvoer van een regel om in de eerste invoer van de functie op de volgende regel.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>cleaned_elections_data <span class="ot">&lt;-</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  cleaned_elections_data <span class="sc">|&gt;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Select only certain columns</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    division_nm,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    party_nm</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Even naar de eerste zes rijen kijken</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cleaned_elections_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 x 2
+  division_nm party_nm              
+  &lt;chr&gt;       &lt;chr&gt;                 
+1 Adelaide    Australian Labor Party
+2 Aston       Liberal               
+3 Ballarat    Australian Labor Party
+4 Banks       Liberal               
+5 Barker      Liberal               
+6 Barton      Australian Labor Party</code></pre>
+</div>
+</div>
+<p>Sommige namen van de kolommen zijn nog steeds niet duidelijk omdat ze afgekort zijn. We kunnen de namen van de kolommen in deze dataset bekijken met <code>names()</code>. En we kunnen de namen wijzigen met <code>rename()</code> van <code>dplyr</code> <span class="citation" data-cites="citedplyr">[@citedplyr]</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(cleaned_elections_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "division_nm" "party_nm"   </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>cleaned_elections_data <span class="ot">&lt;-</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  cleaned_elections_data <span class="sc">|&gt;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">division =</span> division_nm,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">elected_party =</span> party_nm</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cleaned_elections_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 x 2
+  division elected_party         
+  &lt;chr&gt;    &lt;chr&gt;                 
+1 Adelaide Australian Labor Party
+2 Aston    Liberal               
+3 Ballarat Australian Labor Party
+4 Banks    Liberal               
+5 Barker   Liberal               
+6 Barton   Australian Labor Party</code></pre>
+</div>
+</div>
+<p>We kunnen nu kijken naar de unieke waarden in de kolom “elected_party” met behulp van <code>unique()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>cleaned_elections_data<span class="sc">$</span>elected_party <span class="sc">|&gt;</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Australian Labor Party"              
+[2] "Liberal"                             
+[3] "Liberal National Party of Queensland"
+[4] "The Greens"                          
+[5] "The Nationals"                       
+[6] "Independent"                         
+[7] "Katter's Australian Party (KAP)"     
+[8] "Centre Alliance"                     </code></pre>
+</div>
+</div>
+<!-- We zien dat we de achternaam van de gekozen kandidaat hebben, gevolgd door een komma, gevolgd door hun voornaam, gevolgd door een spatie, gevolgd door de naam van de partij in zowel het Engels als het Frans, gescheiden door een schuine streep. We kunnen deze kolom in stukken breken met `separate()` van `tidyr` [@citetidyr]. -->
+<!-- ```{r} -->
+<!-- cleaned_elections_data <-  -->
+<!--   cleaned_elections_data |>  -->
+<!--   # Separate the column into two based on the slash -->
+<!--   separate(col = elected_candidate, -->
+<!--            into = c("Other", "party"), -->
+<!--            sep = "/") |>  -->
+<!--   # Remove the "Other" column -->
+<!--   select(-other) -->
+<!-- head(cleaned_elections_data) -->
+<!-- ``` -->
+<p>Aangezien hier meer details in staan dan we wilden, kunnen we de partijnamen vereenvoudigen tot wat we gesimuleerd hebben, met behulp van <code>recode()</code> uit <code>dplyr</code> <span class="citation" data-cites="citedplyr">[@citedplyr]</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>cleaned_elections_data <span class="ot">&lt;-</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  cleaned_elections_data <span class="sc">|&gt;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">elected_party =</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">recode</span>(</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>        elected_party,</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Australian Labor Party"</span> <span class="ot">=</span> <span class="st">"Labor"</span>,</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Liberal National Party of Queensland"</span> <span class="ot">=</span> <span class="st">"Liberal"</span>,</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"The Nationals"</span> <span class="ot">=</span> <span class="st">"Nationals"</span>,</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"The Greens"</span> <span class="ot">=</span> <span class="st">"Greens"</span>,</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Independent"</span> <span class="ot">=</span> <span class="st">"Other"</span>,</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Katter's Australian Party (KAP)"</span> <span class="ot">=</span> <span class="st">"Other"</span>,</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Centre Alliance"</span> <span class="ot">=</span> <span class="st">"Other"</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cleaned_elections_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 x 2
+  division elected_party
+  &lt;chr&gt;    &lt;chr&gt;        
+1 Adelaide Labor        
+2 Aston    Liberal      
+3 Ballarat Labor        
+4 Banks    Liberal      
+5 Barker   Liberal      
+6 Barton   Labor        </code></pre>
+</div>
+</div>
+<p>Onze gegevens komen nu vrij goed overeen met ons plan (<a href="#fig-australiaexample-data">Figure&nbsp;1 (a)</a>). Voor elke kiesdivisie hebben we de partij van de persoon die deze won.</p>
+<p>Nu we de dataset mooi hebben opgeschoond, moeten we hem opslaan, zodat we in de volgende fase met die opgeschoonde dataset kunnen beginnen. We moeten ervoor zorgen dat we het opslaan onder een nieuwe bestandsnaam, zodat we de ruwe gegevens niet vervangen, en zodat het later gemakkelijk is de opgeschoonde dataset te identificeren.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> cleaned_elections_data,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="st">"cleaned_elections_data.csv"</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="verkennen" class="level3">
+<h3 class="anchored" data-anchor-id="verkennen">verkennen</h3>
+<p>Misschien willen we nu de dataset die we hebben gemaakt, verkennen. Een manier om een dataset beter te begrijpen is het maken van een grafiek. In het bijzonder willen we hier de grafiek bouwen die we gepland hebben in <a href="#fig-australiaexample-graph">Figure&nbsp;1 (b)</a>.</p>
+<p>Eerst lezen we de zojuist gemaakte dataset in.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="do">#### Data inlezen ####</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>cleaned_elections_data <span class="ot">&lt;-</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>(</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">file =</span> <span class="st">"cleaned_elections_data.csv"</span>,</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">show_col_types =</span> <span class="cn">FALSE</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We kunnen snel tellen hoeveel zetels elke partij won met <code>count()</code> van <code>dplyr</code> <span class="citation" data-cites="citedplyr">[@citedplyr]</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>cleaned_elections_data <span class="sc">|&gt;</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(elected_party)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 x 2
+  elected_party     n
+  &lt;chr&gt;         &lt;int&gt;
+1 Greens            4
+2 Labor            77
+3 Liberal          48
+4 Nationals        10
+5 Other            12</code></pre>
+</div>
+</div>
+<p>Om de grafiek te bouwen waarin we geïnteresseerd zijn, gebruiken we <code>ggplot2</code> <span class="citation" data-cites="citeggplot">[@citeggplot]</span> dat deel uitmaakt van de <code>tidyverse</code>. Het belangrijkste aspect van dit pakket is dat we grafieken bouwen door lagen toe te voegen met “+”, wat we de “add operator” noemen. In het bijzonder zullen we een staafdiagram maken met <code>geom_bar()</code> uit <code>ggplot2</code> <span class="citation" data-cites="citeggplot">[@citeggplot]</span>. Australia is a parliamentary democracy with 151 seats in the House of Representatives, which is the house from which government is formed. There are two major parties</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>cleaned_elections_data <span class="sc">|&gt;</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> elected_party)) <span class="sc">+</span> <span class="co"># aes staat voor "aesthetics" en</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># stelt ons in staat de x-as variabele te specificeren</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="verhalenvertellen_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Hiermee is bereikt wat we wilden bereiken. Maar we kunnen het er wat mooier laten uitzien door de standaardopties aan te passen en de labels te verbeteren (<a href="#fig-canadanice">Figure&nbsp;5</a>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>cleaned_elections_data <span class="sc">|&gt;</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> elected_party)) <span class="sc">+</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span> <span class="co"># Maak het thema netter</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Partij"</span>,</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Aantal zetels"</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="co"># Maak de labels meer betekenisvol </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-canadanice" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="verhalenvertellen_files/figure-html/fig-canadanice-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;5: Aantal gewonnen zetels, per politieke partij, bij de Australische Federale Verkiezingen van 2022</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="delen" class="level3">
+<h3 class="anchored" data-anchor-id="delen">Delen</h3>
+<p>Tot nu toe hebben we gegevens gedownload, opgeschoond en een grafiek gemaakt. Normaal gesproken moeten we wat we gedaan hebben uitvoerig toelichten. In dit geval kunnen we een paar alinea’s schrijven over wat we hebben gedaan, waarom we het hebben gedaan en wat we hebben gevonden om onze werkflow af te sluiten. Hieronder volgt een voorbeeld.</p>
+<blockquote class="blockquote">
+<p>Australië is een parlementaire democratie met 151 zetels in het Huis van Afgevaardigden, het huis waaruit de regering wordt gevormd. Er zijn twee grote partijen—“Liberal” en “Labor”—twee kleinere partijen—“Nationals” en “Greens”—en veel kleine partijtjes. De federale verkiezingen van 2022 vonden plaats op 21 mei en er werden ongeveer 15 miljoen stemmen uitgebracht. Wij waren geïnteresseerd in het aantal zetels dat elke partij won.</p>
+<p>We hebben de resultaten, per zetel, gedownload van de website van de Australian Electoral Commission. We hebben de dataset opgeschoond en schoongemaakt met behulp van de statistische programmeertaal R <span class="citation" data-cites="citeR">[@citeR]</span> inclusief de <code>tidyverse</code> <span class="citation" data-cites="tidyverse">[@tidyverse]</span> en <code>janitor</code> <span class="citation" data-cites="janitor">[@janitor]</span>. Vervolgens hebben we een grafiek gemaakt van het aantal zetels dat elke politieke partij won. (<a href="#fig-canadanice">Figure&nbsp;5</a>).</p>
+<p>De Labor Party won 77 zetels, gevolgd door de Liberal Party met 48 zetels. De kleinere partijen wonnen het volgende aantal zetels: Nationals, 10 zetels en de Greens, 4 zetels. Tenslotte werden er 10 onafhankelijken gekozen en kandidaten van enkele andere partijen.</p>
+<p>De zetelverdeling is scheef in de richting van de twee grote partijen, wat een weerspiegeling kan zijn van relatief stabiele voorkeuren van de Australische kiezers, of mogelijk van inertie als gevolg van de voordelen van een reeds grote partij, zoals een nationaal netwerk en financiering, of een andere reden. Een beter begrip van de redenen voor deze verdeling is van belang voor toekomstige werkzaamheden. Hoewel de dataset bestaat uit iedereen die heeft gestemd, is het vermeldenswaard dat in Australië sommigen systematisch worden uitgesloten van stemming; en het is voor sommigen veel moeilijker om te stemmen dan voor anderen.</p>
+</blockquote>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -4,7 +4,7 @@ description: |
     Sinds kort kun je in RStudio ook met een AI-tool werken die jou ondersteunt bij het schrijven van codes. Deze tool heet *Copilot* en sinds kort is er een plugin voor RStudio. In deze blog laat ik zien hoe je deze plugin kunt installeren en hoe je ermee kunt werken. 
 author: "Harrie Jonkman"
 date: "2023-11-01"
-categories: [communiceren]
+categories: [analyseren]
 bibliography: references.bib
 image: "Screenshot.PNG"
 ---

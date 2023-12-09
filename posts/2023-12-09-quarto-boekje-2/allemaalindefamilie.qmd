@@ -1,0 +1,19 @@
+---
+title: "Quarto boekje 2"
+description: |
+    Quarto is gemaakt voor wetenschappelijke schrijven. Het programma kan ook heel goed worden gebruikt voor andere doeleinden. Hier een voorbeeld van een heel persoonlijk boekje dat ik onlangs gemaakt heb naar aanleiding van de geboorte van mijn kleindochter.  
+author: "Harrie Jonkman"
+date: "2023-12-09"
+categories: [communiceren]
+image: "allemaalindefamilie.PNG"
+---
+
+
+## Allemaal in de familie
+Dit jaar (2023) is onze kleindochter Lilou Jonkman-van Leeuwen geboren, de dochter van onze dochter Rosa Jonkman en schoonzoon Ivo van Leeuwen. Naar aanleiding van deze gebeurtenis maakten we (familie Jonkman en familie Van Leeuwen) een boekje met de titel *Allemaal in de familie*. Ik heb de familieleden gevraagd een kortje tekstje over zichzelf en hun toekomstwensen voor de kleine te schrijven. Mijn zoon Sal heeft er tekeningen bij gemaakt. Het boekje is vormgegeven door mijn vrouw. Deze versie van het boekje heb ik zelf vormgegeven met R en Quarto.
+
+[Hier](https://allemaalindefamilie.netlify.app/) kun je het vinden:
+
+Hoe ik het heb gemaakt vind je op [Github](https://github.com/Jonkman1/Allemaal_in_de_familie)
+
+![Allemaal in de familie](allemaalindefamilie.PNG)

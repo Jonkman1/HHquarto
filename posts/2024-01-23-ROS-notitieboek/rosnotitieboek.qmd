@@ -1,0 +1,33 @@
+---
+title: "ROS_notitieboek"
+description: |
+    Sinds kort is er vanuit het NSC-R Werkgroep een leesclub gestart rondom het boek *Regression and Other Stories* van Gelman, Hill en Vehtari. Ter ondersteuning van deze leesclub is dit Notitieboek gemaakt. In dit Notitieboek vind je korte samenvattingen van de hoofdstukken van het ROS-boek en presentaties van deze hoofdstukken door verschillende personen. De inhoud van het Notitieboek zal in de loop van de tijd groeien.  
+author: "Harrie Jonkman"
+date: "2024-01-23"
+categories: [analyseren]
+image: "Screenshot.PNG"
+---
+
+
+## De Leesclub
+
+
+![](Screenshot.PNG)
+
+<br>
+
+Dit is een Notitieboek rondom het boek **Regression and Other Stories** van Andrew Gelman, Jennifer Hill, and Aki Vehtari. Dit boek is [hier](https://avehtari.github.io/ROS-Examples/). Het Notitieboek is [hier](https://github.com/Jonkman1/Regression_reading_club_NSCR) verkrijgbaar. 
+
+Het Notitieboek maakt deel uit van de **NSC-R Workshops**, waaraan ik meedoe en waarvoor ik de website heb ontworpen. De NSC-R Workshops is een serie online instructiesessies van een uur om deelnemers te ondersteunen bij het ontwikkelen van hun vaardigheden in data-analyse met R, en om `open science`-principes te promoten. De NSC-R workshopbijeenkomsten worden georganiseerd door een team dat grotendeels verbonden is aan het Nederlands Instituut voor de Studie van Criminaliteit en Rechtshandhaving (NSCR), maar ze staan open voor iedereen, ongeacht affiliatie of vaardigheidsniveau. Er zijn workshops over specifieke onderwerpen en Tidy Tuesday workshops die meer basisvaardigheden en materialen behandelen. Een verzameling van deze laatste workshopmaterialen is ikzelf eerder samengebracht in één document dat je kunt vinden op [hier](https://ttbook.netlify.app/).
+
+Vanaf november 2023 zijn de workshops over specifieke onderwerpen veranderd in een leesgroep, waarin de wereld van data-analyse wordt verkend met het boek *Regression and Other Stories* van Gelman, Hill en Vehtari als inspiratiebron.
+
+In dit ROS-Notitieboek vind je korte samenvattingen van de hoofdstukken van het ROS-boek en presentaties van deze hoofdstukken door verschillende personen. De inhoud van het Notitieboek zal in de loop van de tijd groeien. 
+
+# Materialen
+- [Hier](https://users.aalto.fi/~ave/ROS.pdf) vind je het boek van Gelman en anderen.
+- [Hier](https://avehtari.github.io/ROS-Examples/examples.html) vind je achtergrondinformatie and syntaxen.
+- [Hier](https://nscrweb.netlify.app/blog) is de website van de NSC-R Workshops.
+- [Hier](https://nscrweb.netlify.app/posts/2024-01-23-nsc-r-workshop-ros/) vind je informatie over de leesclub
+- [Hier](https://rosnotebook.netlify.app/) vind je het ROS-Notitieboek.
+

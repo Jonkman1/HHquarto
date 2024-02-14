@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Harrie Jonkman">
-<meta name="dcterms.date" content="2024-02-14">
-<meta name="description" content="Op dit moment begeleid ik een groep studenten bij het opstellen en afronden van hun masterthesis. Daarvoor moeten ze een meta-analyse uitvoeren. Mij is gevraagd toe te werken bijvoorbeeld naar een multilevel meta-analyse met moderatoren. Een mooie inleiding daarop is het hoofdstuk “Multilevel” meta-analyse uit het boek Doing Meta-Analysis in R van Harrer, Cuijpers, Furukawa, and Ebert (2021), dat ik daarom hier bewerkt heb. De komende tijd zal ik het hele boek als een notitieboek opzetten (een verkorte en samenvattende versie). Dit hoofdstuk is een aanzet daarvoor.">
+<meta name="dcterms.date" content="2024-01-23">
+<meta name="description" content="Op dit moment begeleid ik een groep studenten bij het opstellen en afronden van hun masterthesis. Daarvoor moeten ze een meta-analyse uitvoeren. Mij is gevraagd toe te werken bijvoorbeeld naar een multilevel meta-analyse. Daarvoor heb ik het hoofdstuk “Multilevel” meta-analyse uit het boek Doing Meta-Analysis in R van Harrer, Cuijpers, Furukawa, and Ebert (2021) vertaald en bewerkt. De komende tijd zal ik het hele boek als een notitieboek opzetten. Dit hoofdstuk is een aanzet daarvoor.">
 
 <title>Multilevel meta-analyse</title>
 <style>
@@ -142,7 +142,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <h1 class="title">Multilevel meta-analyse</h1>
                   <div>
         <div class="description">
-          <p>Op dit moment begeleid ik een groep studenten bij het opstellen en afronden van hun masterthesis. Daarvoor moeten ze een meta-analyse uitvoeren. Mij is gevraagd toe te werken bijvoorbeeld naar een multilevel meta-analyse met moderatoren. Een mooie inleiding daarop is het hoofdstuk <em>“Multilevel” meta-analyse</em> uit het boek <em>Doing Meta-Analysis in R</em> van Harrer, Cuijpers, Furukawa, and Ebert (2021), dat ik daarom hier bewerkt heb. De komende tijd zal ik het hele boek als een notitieboek opzetten (een verkorte en samenvattende versie). Dit hoofdstuk is een aanzet daarvoor.</p>
+          <p>Op dit moment begeleid ik een groep studenten bij het opstellen en afronden van hun masterthesis. Daarvoor moeten ze een meta-analyse uitvoeren. Mij is gevraagd toe te werken bijvoorbeeld naar een multilevel meta-analyse. Daarvoor heb ik het hoofdstuk <em>“Multilevel” meta-analyse</em> uit het boek <em>Doing Meta-Analysis in R</em> van Harrer, Cuijpers, Furukawa, and Ebert (2021) vertaald en bewerkt. De komende tijd zal ik het hele boek als een notitieboek opzetten. Dit hoofdstuk is een aanzet daarvoor.</p>
         </div>
       </div>
                           <div class="quarto-categories">
@@ -164,7 +164,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">February 14, 2024</p>
+        <p class="date">January 23, 2024</p>
       </div>
     </div>
     
@@ -195,9 +195,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="introductie" class="level2">
 <h2 class="anchored" data-anchor-id="introductie">Introductie</h2>
-<p>Op dit moment begeleid ik een groep studenten bij het opstellen en afronden van hun masterthesis. Daarvoor moeten ze een meta-analyse uitvoeren over de relatie tussen ingrijpende jeugdervaring (Adversed Childhood Experiences (ACE’s)) en opvoeden. Mij is gevraagd toe te werken naar een multilevel meta-analyse met moderatoren, een methode waarbij rekening wordt gehouden met de afhankelijkheid van effect sizes (zie bv. Assink, Wibbelink, et al.&nbsp;2016) en de invloed van enkele onafhankelijke variabelen op de resultaten wordt meegenomen. Voor mijzelf was hierbij het hoofdstuk <em>“Multilevel” meta-analyse</em> uit het boek <em>Doing Meta-Analysis in R</em> van Harrer, Cuijpers, Furukawa, and Ebert (2021) zeer inzichtelijk.<br>
-In dit hoofdstuk wordt gebruik gemaakt van de dataset uit de <code>Chernobyl</code>-studie van Møller en Mousseau (2015). In deze maatschappelijk zeer relevante studie wordt het effect van de straling die vrijkwam bij de Chernobyl ramp van 26 april 1986 op het aanpassingsniveau van diverse soorten onderzocht. Hiervoor werden 45 relevante studies betrokken die over in totaal 30 soorten onderzochten. Het overall effect van die straling op het aanpassingsniveau van de soorten was heel groot (<span class="math inline">\(E\)</span>=0.67; 95% CI: 0.59-0.73), waarbij het 44,3% van de totale variantie wegnam in een ongestructureerd random-effect model. Er bleek veel overlap tussen de soorten te zijn en de tijd veranderde de grootte van de effecten niet significant.<br>
-Omdat het zo behulpzaam was heb ik het vertaald en bewerkt, waarbij een van de gepresenteerde methodes worden gebruikt (in het boek worden ook alternatieven geboden). De komende tijd zal ik het hele boek van Harrer et al.&nbsp;als een notitieboek opzetten. Dit hoofdstuk is een aanzet daarvoor met een of twee maanden zal het als blog hierverschijnen. Elk hoofdstuk wordt dan, net als dit hoofdstuk, verdeeld in enkele theoretische notities en een praktisch deel waarin getoond wordt hoe het werkt in <code>R</code>.</p>
+<p>Op dit moment begeleid ik een groep studenten bij het opstellen en afronden van hun masterthesis. Daarvoor moeten ze een meta-analyse uitvoeren over de relatie tussen ingrijpende jeugdervaring (Adversed Childhood Experiences (ACE’s)) en opvoeden. Mij is gevraagd toe te werken naar een multilevel meta-analyse, een methode waarbij rekening wordt gehouden met de afhankelijkheid van effect sizes (zie bv. Assink, Wibbelink, et al.&nbsp;2016). Voor mijzelf was hierbij het hoofdstuk <em>“Multilevel” meta-analyse</em> uit het boek <em>Doing Meta-Analysis in R</em> van Harrer, Cuijpers, Furukawa, and Ebert (2021) zeer inzichtelijk. Omdat het zo behulpzaam was heb ik het vertaald en bewerkt. De komende tijd zal ik het hele boek van Harrer et al.&nbsp;als een notitieboek opzetten. Dit hoofdstuk is een aanzet daarvoor met een of twee maanden zal het als blog hierverschijnen. Elk hoofdstuk wordt dan, net als dit hoofdstuk, verdeeld in enkele theoretische notities en een praktisch deel waarin getoond wordt hoe het werkt in <code>R</code>.</p>
 <p><br></p>
 </section>
 <section id="theorie" class="level2">
@@ -213,7 +211,7 @@ Omdat het zo behulpzaam was heb ik het vertaald en bewerkt, waarbij een van de g
 <p>Die model met drie niveau’s ziet er als volgt uit:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="Screenshot2.png" class="img-fluid figure-img"></p>
+<p><img src="img/Screenshot2.png" class="img-fluid figure-img"></p>
 <figcaption class="figure-caption">Drie niveaustructuur</figcaption>
 </figure>
 </div>
@@ -227,26 +225,25 @@ Omdat het zo behulpzaam was heb ik het vertaald en bewerkt, waarbij een van de g
 <p>Waarbij <span class="math inline">\(\hat\theta_{ij}\)</span> een schatting is van de ware effectgrootte <span class="math inline">\(\theta_{ij}\)</span>. De term <span class="math inline">\(ij\)</span> kan worden gelezen als “een effect size” <span class="math inline">\(i\)</span> geclusterd in cluster <span class="math inline">\(j\)</span>“. De parameter <span class="math inline">\(\kappa_{j}\)</span> is de gemiddelde effect size in cluster <span class="math inline">\(j\)</span>, en <span class="math inline">\(\mu\)</span> het totale gemiddelde populatie-effect. Net als voorheen kunnen we deze formules samenvoegen en zo de formule reduceren tot één regel:</p>
 <p><span class="math display">\[\hat\theta_{ij} = \mu + \zeta_{(2)ij} + \zeta_{(3)j} + \epsilon_{ij}\]</span></p>
 <p>In tegenstelling tot de conventionele meta-analyse (random-effects models) schatten modellen met drie niveau’s twee heterogeniteitsvarianties: de random-effectvariantie <em>binnen</em> clusters en de heterogeniteitsvariantie <em>tussen</em> clusters (de clusters zijn in dit geval studies). Het is ook mogelijk om categorische of continue voorspellers te testen met een model met drie niveaus. Dit resulteert in een mixed-effects model met drie niveaus.</p>
-<p>Het boek bespreekt overigens ook andere methodes om met het geclusterde karakter van de data om te gaan (geCorreleerde en Hierarchisch Effenten model (CHE) en Robust Variance Estimation (RVE) modellen). Deze methodes worden echter hier niet verder uitgewerkt .</p>
 </section>
 <section id="praktijk" class="level2">
 <h2 class="anchored" data-anchor-id="praktijk">Praktijk</h2>
 <section id="voorbereiding" class="level3">
 <h3 class="anchored" data-anchor-id="voorbereiding">Voorbereiding</h3>
-<p>Het <strong>{metafor}</strong> pakket is heel geschikt om meta-analyse op drie niveau’s uit te voeren. Het gebruikt ‘(restricted) maximum likelihood’ (REML-) procedures als default om dat te doen.</p>
+<p>Het <strong>{metafor}</strong> pakket is heel geschikt om meta-analyse op drie niveau’s uit te voeren. Het gebruikt ‘(restricted) maximum likelihood’ (REML-) procedures om dat te doen.</p>
 <p>We moeten eerst de biblitheek hiervan openen.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Wees er zeker van dat het pakket is geïnstalleerd</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(metafor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Voor hier gebruiken we de <code>Chernobyl</code> data set (gebaseerd op de studie van Möller en Mousseau, 2015). Die dataset is deel van het <code>dmetar</code> pakket waar meer datasets voor meta-analyse in zitten. Laten we <code>dmetar</code> en de dataset laden. Laten we meteen ook <code>tidyverse</code> laden, omdat we dat later nodig hebben voor databewerking.</p>
+<p>Voor hier gebruiken we de <code>Chernobyl</code> data set. xxx Die dataset is deel van het <code>dmetar</code> pakket waar meer datasets voor meta-analyse in zitten. Laten we ook dat pakket, het pakket en de data set laden. Laten we meteen ook <code>tidyverse</code> laden, omdat we dat later nodig hebben.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Wees er zeker van dat het pakket is geïnstalleerd</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dmetar)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Chernobyl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Laten we eens zien hoe de <code>Chernobyl</code> dataset eruit ziet.</p>
+<p>Laten we eens zien hoe die dataset eruit ziet.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Chernobyl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -284,13 +281,19 @@ $ es.id     &lt;chr&gt; "id_1", "id_2", "id_3", "id_4", "id_5", "id_6", "id_7", 
 </section>
 <section id="het-fitten-van-een-drie-niveau-ma-model" class="level3">
 <h3 class="anchored" data-anchor-id="het-fitten-van-een-drie-niveau-ma-model">Het fitten van een drie niveau ma-model</h3>
-<p>Een meta-analysemodel met drie niveaus kan worden uitgevoerd met de functie <code>rma.mv</code> in <strong>{metafor}</strong>. Hieronder vind je een lijst van de belangrijkste argumenten voor deze functie en hoe ze gespecificeerd moeten worden:</p>
+<p>Een meta-analysemodel met drie niveaus kan worden uitgevoerd met de functie <code>rma.mv</code> in <strong>{metafor}</strong>. Hier is een lijst van de belangrijkste argumenten voor deze functie en hoe ze gespecificeerd moeten worden:<br>
+</p>
 <ul>
-<li><p><code>yi</code>. De naam van de kolom in onze dataset die de berekende effectgroottes bevat. In ons voorbeeld is dit <code>z</code>, omdat Fisher-<span class="math inline">\(z\)</span> getransformeerde correlaties betere wiskundige eigenschappen hebben dan “niet-getransformeerde” correlaties.</p></li>
-<li><p><code>V</code>. De naam van de kolom in onze gegevensverzameling is die de <strong>variantie</strong> van de berekende effectgroottes bevat. In ons geval is dit <code>var.z</code>. Het is ook mogelijk om de gekwadrateerde standaardfout van de effectgrootte te gebruiken, aangezien <span class="math inline">\(SE^2_k=vk\)</span>.</p></li>
-<li><p><code>s.lab</code>. De naam van de kolom in onze dataset die de studielabels bevat.</p></li>
-<li><p><code>data</code>. De naam van de data set.</p></li>
-<li><p><code>test</code>. De test die we willen toepassen op onze regressiecoëfficiënten. We kunnen kiezen uit <code>"z"</code> (standaard) en <code>"t"</code> (aanbevolen; gebruikt een test vergelijkbaar met de Knapp-Hartung methode).</p></li>
+<li><p><code>yi</code>. De naam van de kolom in onze dataset die de berekende effectgroottes bevat. In ons voorbeeld is dit <code>z</code>, omdat Fisher-<span class="math inline">\(z\)</span> getransformeerde correlaties betere wiskundige eigenschappen hebben dan “niet-getransformeerde” correlaties.<br>
+</p></li>
+<li><p><code>V</code>. De naam van de kolom in onze gegevensverzameling is die de <strong>variantie</strong> van de berekende effectgroottes bevat. In ons geval is dit <code>var.z</code>. Het is ook mogelijk om de gekwadrateerde standaardfout van de effectgrootte te gebruiken, aangezien <span class="math inline">\(SE^2_k=vk\)</span><br>
+</p></li>
+<li><p><code>s.lab</code>. De naam van de kolom in onze dataset die de studielabels bevat.<br>
+</p></li>
+<li><p><code>data</code>. De naam van de data set.<br>
+</p></li>
+<li><p><code>test</code>. De test die we willen toepassen op onze regressiecoëfficiënten. We kunnen kiezen uit <code>"z"</code> (standaard) en <code>"t"</code> (aanbevolen; gebruikt een test vergelijkbaar met de Knapp-Hartung methode).<br>
+</p></li>
 <li><p><code>methode</code>. De methode die wordt gebruikt om de modelparameters te schatten. Zowel <code>"REML"</code> (aanbevolen; restricted maximum-likelihood) als <code>"ML"</code> (maximum likelihood) zijn mogelijk. Hou er rekening mee dat andere soorten heterogeniteitsschattingen tussen studies (bijv. Paule-Mandel) hier niet van toepassing zijn.</p></li>
 <li><p><code>random</code>. De naam van de kolom die hier het belangrijkst is. de algemene structuur van de formule ziet er als volgt uit: <code>~ 1 | cluster/effecten_binnen_cluster</code>. Hier gaan we uit van een structuur met drie niveaus: individuen (niveau 1), individuele effectgroottes (niveau 2) en studies (niveau 3), dus krijgen we de formule <code>~ 1 | author/es.id</code>.</p></li>
 </ul>
@@ -333,8 +336,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <p>Kijk naar de<code>Variance Components</code>:<br>
 - <code>sigma^2.1</code> toont de variantie op niveau 3 (variantie tussen clusters). Dit komt overeen met de heterogeniteitsvariantie tussen studies <span class="math inline">\(tau^2\)</span> van een conventionele meta-analyse (aangezien de clusters <code>author</code> (14 stuks in totaal) in ons model studies vertegenwoordigen). Dit is gelijk aan 33 effectgroottes (<code>author/es.id</code>) en de heterogeniteitsvariantie binnen studies.<br>
-- Onder <code>Modelresultaten</code> zien we de schatting van ons gepoolde effect (<span class="math inline">\(z=\)</span> 0.52 (95%CI: 0.25-0.80)). Om de interpretatie te vergemakkelijken, is het raadzaam om het effect terug te transformeren naar een normale correlatie.</p>
-<p>Dit laatste kan worden gedaan met de functie <code>convert_z2r</code> in het pakket <strong>{esc}</strong>:</p>
+- Onder <code>Modelresultaten</code> zien we de schatting van ons gepoolde effect (<span class="math inline">\(z=\)</span> 0.52 (95%CI: 0.25-0.80)). Om de interpretatie te vergemakkelijken, is het raadzaam om het effect terug te transformeren naar een normale correlatie. Dit kan worden gedaan met de functie <code>convert_z2r</code> in het pakket <strong>{esc}</strong>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(esc)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">convert_z2r</span>(<span class="fl">0.52</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -366,7 +368,7 @@ Total I2: 98.75% </code></pre>
 <p><img src="multilevel_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Is een model met drie niveaus eigenlijk wel nodig? Hiervoor moeten we het drie-niveau model vergelijken met een twee-niveau model. Die vergelijking kunnen we doen met behulp van de functie <code>anova</code>. Laten we eerst een tweeniveaumodel maken. Dat doen we door onder <code>method = "REML"</code> de optie <code>sigma2 = c(0, NA)</code> toe te voegen. Dit betekent dat we de variantie op niveau 3 op 0 zetten en het oorspronkelijk meta-analyse model overblijft.</p>
+<p>Is een model met drie niveaus eigenlijk wel nodig? Hiervoor moeten we het drie-niveau model vergelijken met een twee-niveau model. Die vergelijking kunnen we doen met behulp van de functie <code>anova</code>. Laten we eerst een tweeniveaumodel maken. Dat doen we door onder <code>method = "REML"</code> de optie <code>sigma2 = c(0, NA)</code> toe te voegen. Dit betekent dat we de variantie op niveau 3 op 0 zetten.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>l3.removed <span class="ot">&lt;-</span> <span class="fu">rma.mv</span>(<span class="at">yi =</span> z, </span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">V =</span> var.z, </span>
@@ -423,7 +425,7 @@ Reduced  2 62.3483 65.2798 62.7621 -29.1742 16.1025 &lt;.0001 4195.8268 </code><
 <p><span class="math display">\[\hat\theta_{ij} = \theta + \beta x_i + \zeta_{(2)ij} + \zeta_{(3)j} + \epsilon_{ij}\]</span></p>
 <p>Waarbij <span class="math inline">\(\theta\)</span> het intercept is en <span class="math inline">\(\beta\)</span> het regressiegewicht van een voorspellende variabele <span class="math inline">\(x\)</span>. Als we <span class="math inline">\(x_i\)</span> vervangen door een dummy, krijgen we een model dat kan worden gebruikt voor subgroepanalyses. Als <span class="math inline">\(x\)</span> continu is, stelt de bovenstaande formule een meta-regressiemodel met drie niveaus voor.</p>
 <p>Categorische of continue voorspellers kunnen gespecificeerd worden in <code>rma.mv</code> met het <code>mods</code> argument. Het argument vereist een formule, beginnend met een tilde (<code>~</code>), en dan de naam van de voorspeller. Meervoudige meta-regressie is ook mogelijk door meer dan één voorspeller op te geven (bijvoorbeeld <code>~ var1 + var2</code>).</p>
-<p>In het <code>Chernobyl</code> voorbeeld willen we controleren of correlaties verschillen afhankelijk van de totale hoeveelheid straling in het onderzochte monster (laag, gemiddeld of hoog). De moderator is in dit geval <code>radiation</code>. Deze informatie staat in de kolom <code>radiation</code> in onze dataset. Met onderstaande code kunnen we een moderatorenmodel met drie niveaus fitten:</p>
+<p>In ons <code>Chernobyl</code> voorbeeld willen we controleren of correlaties verschillen afhankelijk van de totale hoeveelheid straling in het onderzochte monster (laag, gemiddeld of hoog). Deze informatie staat in de kolom `radiation`` in onze dataset. Met onderstaande code kunnen we een moderatorenmodel met drie niveaus fitten:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>mod.model <span class="ot">&lt;-</span> <span class="fu">rma.mv</span>(<span class="at">yi =</span> z, <span class="at">V =</span> var.z, </span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">slab =</span> author, <span class="at">data =</span> Chernobyl,</span>
@@ -433,7 +435,7 @@ Reduced  2 62.3483 65.2798 62.7621 -29.1742 16.1025 &lt;.0001 4195.8268 </code><
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod.model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>De eerste belangrijke uitkomst is de <code>Test van moderatoren</code>. We zien dat <span class="math inline">\(F_{2,28}\)</span>= 0,45, met <span class="math inline">\(p\)</span>= 0,64. Dit betekent dat er geen significant verschil is tussen de subgroepen. Dit is hoe we de resultaten multilevel meta-analyse met een mzouden beschrijven</p>
+<p>De eerste belangrijke uitkomst is de <code>Test van moderatoren</code>. We zien dat <span class="math inline">\(F_{2,28}\)</span>= 0,45, met <span class="math inline">\(p\)</span>= 0,64. Dit betekent dat er geen significant verschil is tussen de subgroepen. Dit is hoe we de resultaten zouden beschrijven</p>
 <blockquote class="blockquote">
 <p>“De gepoolde correlatie op basis van het meta-analytische model met drie niveaus was <span class="math inline">\(r=\)</span> 0,48 (95%CI: 0,25-0,66; <span class="math inline">\(p\)</span> &lt; 0,001). De geschatte variantiecomponenten waren <span class="math inline">\(0,179\)</span> en <span class="math inline">\(0,119\)</span>. Dit betekent dat <span class="math inline">\(I^2_{Level 3}=\)</span> 0,179 en <span class="math inline">\(I^2_{Level 2}=\)</span> 0,119. Dit betekent dat <span class="math inline">\(I^2_{{Level 3}}=\)</span> 58,22% van de totale variatie kan worden toegeschreven aan tussen-cluster heterogeniteit en <span class="math inline">\(I^2_{{Level 2}}=\)</span> 31,86% aan binnen-cluster heterogeniteit. We vonden dat het model met drie niveaus een significant betere fit gaf vergeleken met een model met twee niveaus waarbij heterogeniteit op niveau 3 tot nul werd beperkt (<span class="math inline">\(I^2_1=\)</span> 16,10; <span class="math inline">\(p\)</span>&lt; 0,001).”</p>
 </blockquote>
@@ -445,7 +447,6 @@ Reduced  2 62.3483 65.2798 62.7621 -29.1742 16.1025 &lt;.0001 4195.8268 </code><
 <li><a href="https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/">Hier</a> vind je het boek van Harrer en anderen.</li>
 <li><a href="https://www.researchgate.net/publication/307168012_Fitting_three-level_meta-analytic_models_in_R_A_step-by-step_tutorial">Hier</a> vind je het artikel van Assink en Wibbelink.</li>
 <li><a href="https://pure.uva.nl/ws/files/2679897/166572_Handleiding_drie_level_meta_analyse_in_R_versie_3.2_.pdf">Hier</a> vind je de handleiding bij dat artikel.</li>
-<li><a href="https://pubmed.ncbi.nlm.nih.gov/25666381/">Hier</a> vind je de Chernobyl-studie van Møller en Mousseau.</li>
 </ul>
 
 

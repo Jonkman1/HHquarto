@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Andrew Heiss, bewerking Harrie Jonkman">
+<meta name="dcterms.date" content="2024-03-04">
+<meta name="description" content="In deze blog wordt ingegaan op het verschil tussen frequentistische en Bayesiaanse statistiek en wordt samengevat hoe je een Bayesiaanse analyse uitvoert in R.">
+
+<title>Bayes samengevat</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<script src="../../site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="../../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html" rel="" target="">
+ <span class="menu-text">Harrie’s Hoekje</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Jonkman1" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com" rel="" target=""><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Bayes samengevat</h1>
+                  <div>
+        <div class="description">
+          <p>In deze blog wordt ingegaan op het verschil tussen frequentistische en Bayesiaanse statistiek en wordt samengevat hoe je een Bayesiaanse analyse uitvoert in R.</p>
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">Bayesiaans</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Andrew Heiss, bewerking Harrie Jonkman </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 4, 2024</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#introductie" id="toc-introductie" class="nav-link active" data-scroll-target="#introductie">Introductie</a></li>
+  <li><a href="#over-het-bayesiaans-perspectief" id="toc-over-het-bayesiaans-perspectief" class="nav-link" data-scroll-target="#over-het-bayesiaans-perspectief">Over het Bayesiaans perspectief</a></li>
+  <li><a href="#bronnen" id="toc-bronnen" class="nav-link" data-scroll-target="#bronnen">Bronnen</a></li>
+  <li><a href="#super-kort-voorbeeld" id="toc-super-kort-voorbeeld" class="nav-link" data-scroll-target="#super-kort-voorbeeld">Super kort voorbeeld</a></li>
+  <li><a href="#confidence-intervallen-betrouwbaarheidsintervallen-vs.-credible-intervallen-geloofwaardigheidsintervallen" id="toc-confidence-intervallen-betrouwbaarheidsintervallen-vs.-credible-intervallen-geloofwaardigheidsintervallen" class="nav-link" data-scroll-target="#confidence-intervallen-betrouwbaarheidsintervallen-vs.-credible-intervallen-geloofwaardigheidsintervallen">Confidence intervallen (betrouwbaarheidsintervallen) vs.&nbsp;credible intervallen (geloofwaardigheidsintervallen)</a></li>
+  <li><a href="#algemene-samenvatting-van-intervallen" id="toc-algemene-samenvatting-van-intervallen" class="nav-link" data-scroll-target="#algemene-samenvatting-van-intervallen">Algemene samenvatting van intervallen</a></li>
+  <li><a href="#twee-manieren-om-beslissingen-te-nemen-met-posterior-verdelingen" id="toc-twee-manieren-om-beslissingen-te-nemen-met-posterior-verdelingen" class="nav-link" data-scroll-target="#twee-manieren-om-beslissingen-te-nemen-met-posterior-verdelingen">Twee manieren om beslissingen te nemen met posterior verdelingen</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="introductie" class="level2">
+<h2 class="anchored" data-anchor-id="introductie">Introductie</h2>
+<p>Regelmatig kijk ik naar de website van <a href="https://www.andrewheiss.com/">Andrew Heiss</a>. Van hem heb ik ondertussen al veel geleerd. Van zijn cursussen over visualisatie en programma-evaluatie bijvoorbeeld en ik vind hem heel goed in wetenschappelijk communiceren. Andrew Heiss is ook geïnteresseerd in Bayesiaanse statistiek. Op zijn site vond ik een hele duidelijke introductie op hierop onder de titel <a href="https://evalsp24.classes.andrewheiss.com/resource/bayes.html">Bayesian statistics resources</a>. Dat heeft hij zichzelf aangeleerd en hij stimuleert ook anderen dit zelf eigen te maken. Zijn introductieblog heb ik hier wat bewerkt.</p>
+<blockquote class="blockquote">
+<p>Dank je wel, Andrew, voor je enthousiasme en je heldere uitleg die je steeds voor iedereen toegankelijk maakt.</p>
+</blockquote>
+</section>
+<section id="over-het-bayesiaans-perspectief" class="level2">
+<h2 class="anchored" data-anchor-id="over-het-bayesiaans-perspectief">Over het Bayesiaans perspectief</h2>
+<p>In zijn lessen (<a href="../../slides/02-class.html#12">zie dit in de FAQ slides</a>) had Heiss het eerder over het verschil tussen frequentistische statistiek, waarbij je test op de waarschijnlijkheid van je gegevens gegeven een nulhypothese, of <span class="math inline">\(P(\text{data} \mid H_0)\)</span>, en Bayesiaanse statistiek, waarbij je test op de waarschijnlijkheid van je hypothese gegeven je gegevens, of <span class="math inline">\(P(H \mid \text{data})\)</span>.</p>
+<p>Dit verschil is belangrijk. In de wereld van frequentisme en ‘Nul Hypothese Significantie Testen (NHST)’, wat in bijna alle statistieklessen wordt gebruikt, moet je je bevindingen vergelijken met een hypothetische nulwereld en moet je praten over het verwerpen van de nul-hypothese. In de Bayes-wereld heb je het echter over de waarschijnlijkheid dat jouw hypothese juist is in plaats van de waarschijnlijkheid dat je een waarde ziet in een nulwereld. Eigenlijk veel handiger en gemakkelijker te interpreteren!</p>
+<p>Bayesiaanse statistiek vereist echter veel rekenkracht en een andere manier van denken over statistiek en getallen in het algemeen. En er zijn maar heel weinig lessen waarin dit wordt onderwezen.</p>
+</section>
+<section id="bronnen" class="level2">
+<h2 class="anchored" data-anchor-id="bronnen">Bronnen</h2>
+<p>Maar je kunt het ook zelf leren. Omdat maar heel weinig statsistiek-klassen Bayesiaanse statistiek onderwijzen, zijn veel mensen die het gebruiken autodidact (zoals Andrew Heiss zelf, en ik ook een beetje). En online zijn er heel veel bronnen om dit te leren. Hier zijn een paar van de beste die Andrew heeft gevonden en die ik wat heb aangevuld:</p>
+<ul>
+<li><a href="https://www.bayesrulesbook.com/">Dit betrekkelijk nieuwe <em>Bayes Rules</em> boek</a> is ontworpen als inleidend tekstboek voor een statistiek-klas waarin Bayesiaanse dingen worden onderwezen. Het is heel toegankelijk en goed (en gratis bovendien!). Als Andrew ooit een introductieles zou mogen geven over Bayesiaanse statistieken, dan zal hij dit gebruiken.</li>
+<li><a href="https://thinkinator.com/2016/01/12/r-users-will-now-inevitably-become-bayesians/">Deze blogpost is van 2016</a> is een geweldige korte inleiding en heeft ervoor gezorgd dat Heiss Bayesiaanse methoden is gaan gebruiken. <a href="https://paul-buerkner.github.io/brms/">Het <strong>brms</strong> pakket</a> maakt het ongelooflijk eenvoudig om Bayesiaanse dingen te doen, en de syntaxis is in principe hetzelfde als <code>lm()</code>.</li>
+<li><a href="https://www.andrewheiss.com/blog/2019/01/29/diff-means-half-dozen-ways/">Deze blogpost maakt duidelijk hoe je een simpele taak uitvoert</a> (een verschil-in-gemiddelden-test) met gewone oude frequentistische methoden, bootstrapping en met Bayesiaanse statistieken, zowel met brms als met onbewerkte Stan-code</li>
+<li><a href="https://www.tjmahr.com/bayes-theorem-in-three-panels/">Deze korte blogpost</a> geeft een nuttig overzicht van de intuïtie achter het Bayesiaans denken.</li>
+<li>Het super canonieke-iedereen-heeft-dit-boek is<a href="https://xcelab.net/rm/statistical-rethinking/"><em>Statistical Rethinking</em> by Richard McElreath</a>. Op die pagina heeft hij ook een hele reeks begeleidende lezingen op YouTube staan. Hij gebruikt geen brms of ggplot, maar iemand heeft al zijn modellen vertaald naar <a href="https://bookdown.org/ajkurz/Statistical_Rethinking_recoded/">tidyverse-based brms code here</a>. Heiss zelf heeft hier later ook wat handige codes bij gemaakt <a href="">hier</a></li>
+<li><a href="https://www.amazon.com/Theory-That-Would-Not-Die/dp/0300188226"><em>The Theory That Would Not Die</em></a> is een hele goede algemene inleiding in de geschiedenis van Bayesiaans denken en waarom het in de 20e eeuw verdween en werd vervangen door frequentisme en p-waarden en nulhypothesetests. <a href="">Hier</a> vertelt ze over dat boek.</li>
+</ul>
+</section>
+<section id="super-kort-voorbeeld" class="level2">
+<h2 class="anchored" data-anchor-id="super-kort-voorbeeld">Super kort voorbeeld</h2>
+<p>In de praktijk zou de R-code voor Bayesiaanse modellen bekend moeten zijn. Hier is bijvoorbeeld een oud frequentistisch OLS-model:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>model_ols <span class="ot">&lt;-</span> <span class="fu">lm</span>(hwy <span class="sc">~</span> displ <span class="sc">+</span> drv, <span class="at">data =</span> mpg)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(model_ols, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 4 × 7</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="do">##   term        estimate std.error statistic  p.value conf.low conf.high</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="do">##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="do">## 1 (Intercept)    30.8      0.924     33.4  4.21e-90    29.0      32.6 </span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="do">## 2 displ          -2.91     0.218    -13.4  1.73e-30    -3.34     -2.48</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="do">## 3 drvf            4.79     0.530      9.05 6.40e-17     3.75      5.83</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="do">## 4 drvr            5.26     0.734      7.17 1.03e-11     3.81      6.70</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Hier is datzelfde model, maar nu Bayesiaans uitgevoerd met het <strong>brms</strong> pakket, met de default-priors. Merk op dat de Bayesiaanse code in principe hetzelfde is als de frequentistische code, maar dat de output anders is.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(brms)         <span class="co"># Voor Bayesiaanse regressie met brm()</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom.mixed)  <span class="co"># Voor tidy() en glance() met op brms-gebaseerde modellen</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidybayes)    <span class="co"># Om er posterior trekkingen uit te halen</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center" data-hash="bayes_samengevat_cache/html/bayes-model_9899954abe4b908656d984d3ecdfcdb7">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># TDit duurt wel even</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>model_bayes <span class="ot">&lt;-</span> <span class="fu">brm</span>(hwy <span class="sc">~</span> displ <span class="sc">+</span> drv, <span class="at">data =</span> mpg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(model_bayes)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 5 × 8</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="do">##   effect   component group    term            estimate std.error conf.low conf.high</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="do">##   &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="do">## 1 fixed    cond      &lt;NA&gt;     (Intercept)        30.8      0.927    29.0      32.7 </span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="do">## 2 fixed    disp      &lt;NA&gt;     displ              -2.92     0.219    -3.34     -2.48</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="do">## 3 fixed    cond      &lt;NA&gt;     drvf                4.79     0.540     3.72      5.84</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="do">## 4 fixed    cond      &lt;NA&gt;     drvr                5.27     0.727     3.84      6.71</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="do">## 5 ran_pars cond      Residual sd__Observation     3.10     0.144     2.84      3.39</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In Bayes-land krijg je een verdeling van plausibele waarden gegeven de gegevens (of wat ook wel de “posterior distributie” wordt genoemd). Je kunt deze posterior distributie visualiseren:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Maak een lange dataset (sample) van de trekkingen voor deze drie coëfficiënten</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>posterior_draws <span class="ot">&lt;-</span> model_bayes <span class="sc">%&gt;%</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather_draws</span>(<span class="fu">c</span>(b_displ, b_drv, b_drvf, b_drvr))</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot dit</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(posterior_draws, <span class="fu">aes</span>(<span class="at">x =</span> .value, <span class="at">y =</span> <span class="fu">fct_rev</span>(.variable), <span class="at">fill =</span> .variable)) <span class="sc">+</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>(<span class="at">.width =</span> <span class="fu">c</span>(<span class="fl">0.8</span>, <span class="fl">0.95</span>), <span class="at">alpha =</span> <span class="fl">0.8</span>, <span class="at">point_interval =</span> <span class="st">"median_hdi"</span>) <span class="sc">+</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Coefficient"</span>, <span class="at">y =</span> <span class="st">"Variable"</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"80% en 95% credible intervals in zwart getoond"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="bayes_samengevat_files/figure-html/plot-bayes-results-1.png" class="img-fluid figure-img" style="width:75.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Dit zijn alle plausibele waarden voor deze coëfficiënten, gegeven de gegevens die we aan het model hebben gegeven. De zwarte balken onderaan tonen de 80% en 95% credible intervals (of het bereik van waarden dat 80/95% van de posterior dekt). Hiermee is er bij de één 95% kans dat de coëfficiënt voor de eerste variabele (<code>displ</code>)-verplaatsing tussen -3,35 en -2,48 ligt.</p>
+</section>
+<section id="confidence-intervallen-betrouwbaarheidsintervallen-vs.-credible-intervallen-geloofwaardigheidsintervallen" class="level2">
+<h2 class="anchored" data-anchor-id="confidence-intervallen-betrouwbaarheidsintervallen-vs.-credible-intervallen-geloofwaardigheidsintervallen">Confidence intervallen (betrouwbaarheidsintervallen) vs.&nbsp;credible intervallen (geloofwaardigheidsintervallen)</h2>
+<p>Het verschil tussen frequentistische confidence intervallen en Bayesiaanse credible (of posterior) intervallen is elders vaker duidelijk gemaakt, bijvoorbeeld hier <a href="https://doi.org/10.1257/jep.35.3.157">Guido Imbens’s essay over <em>p</em>-waarden</a>. Zijn conclusie daarin is</p>
+<blockquote class="blockquote">
+<p>Het zou beter zijn als rapportagestandaarden de nadruk zouden leggen op betrouwbaarheidsintervallen of standaardfouten, en, nog beter, op Bayesiaanse posterior intervallen.</p>
+</blockquote>
+<p>Imbens wil dat we Bayesiaanse posterior intervallen (of credible intervallen) gebruiken, maar hoe doen we dat?</p>
+<section id="frequentistische-confidence-intervallen" class="level3">
+<h3 class="anchored" data-anchor-id="frequentistische-confidence-intervallen">Frequentistische confidence intervallen</h3>
+<p>In frequentistische statistiek (waar in het onderwijs veelal de nadruk op ligt), is het hele doel om iets te schatten en af te leiden over een populatie met behulp van een steekproef. Dit “iets” is een waar (maar onbekend) iets dat een <em>populatieparameter</em> wordt genoemd. Het is een enkele, vaste waarde die in de wereld bestaat, en het is het belangrijkste dat je wilt ontdekken. Hier zijn een aantal verschillende populatieparameters:</p>
+<ul>
+<li><em>Average treatment effect</em> van een programma;<br>
+</li>
+<li><em>Proportie</em> linkshandige studenten op GSU;<br>
+</li>
+<li><em>Gemiddelde</em> huur van apartementen in NYC;<br>
+</li>
+<li><em>Proportie</em> rode M&amp;Ms dat in een fabriek geproduceerd wordt.</li>
+</ul>
+<p>In de frequentistische statistiek nemen we een steekproef uit de populatie, berekenen we de parameter (d.w.z. gemiddelde, mediaan, proportie, of wat dan ook) in de steekproef en controleren we vervolgens hoe goed deze gok zou kunnen zijn voor de hele populatie. Om dat te doen, kunnen we kijken naar een betrouwbaarheidsinterval. Zie een betrouwbaarheidsinterval als een net - het is een bereik van mogelijke waarden voor de populatieparameters en we kunnen er X% zeker van zijn (meestal 95%) dat dat net de populatieparameter oppikt. Een andere manier om hierover na te denken is je voor te stellen dat je meer monsters neemt. Als je 100 steekproeven neemt, zouden minstens 95 daarvan de ware populatieparameter in hun 95% betrouwbaarheidsinterval hebben. Frequentistische statistiek gaat ervan uit dat de onbekende populatieparameter vast en enkelvoudig is, maar dat de gegevens kunnen variëren-je kunt een experiment steeds herhalen of herhaalde steekproeven nemen uit een populatie om zekerder te zijn over de schatting van de parameter (en het net van het betrouwbaarheidsinterval te verkleinen).</p>
+<p><strong>Belangrijk</strong> is, als je het over betrouwbaarheidsintervallen hebt, je eigenlijk niets kunt zeggen over de schatting van de parameter zelf. Betrouwbaarheidsintervallen gaan over het netto, of het bereik zelf. Je kunt dit met goed fatsoen zeggen:</p>
+<blockquote class="blockquote">
+<p>We hebben 95% zekerheid dat dit betrouwbaarheidsinterval de ware populatieparameter weergeeft.</p>
+</blockquote>
+<p>Je kunt dit <strong>niet</strong> zeggen:</p>
+<blockquote class="blockquote">
+<p>Er is 95% kans dat de populatieparameter X is <em>of</em> er is 95% kans dat de werkelijke waarde in dit bereik valt.</p>
+</blockquote>
+<p>Betrouwbaarheidsintervallen vertellen je iets over het bereik, of het net. Dat is alles.</p>
+<p>Hier is een voorbeeld met gegevens over restaurantinspecties in Alaska. We willen weten of inspecties in het weekend soepeler zijn dan inspecties gedurende de werkweek.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gghalves)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>inspections <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://vincentarelbundock.github.io/Rdatasets/csv/causaldata/restaurant_inspections.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Eerst moeten we de gegevens bekijken om te zien of er duidelijke patronen zijn. Laten we kijken naar scores gescheiden door weekendstatus. We gebruiken <a href="https://erocoar.github.io/gghalves/">het handige <strong>gghalves</strong> pakket</a> om zowel de ruwe punten als een dichtheidsgrafiek te plotten. De oranje punten tonen de gemiddelde waarde:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(inspections, <span class="fu">aes</span>(<span class="at">x =</span> Weekend, <span class="at">y =</span> inspection_score)) <span class="sc">+</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_half_point</span>(<span class="at">side =</span> <span class="st">"l"</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="fl">0.5</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">transformation =</span> <span class="fu">position_jitter</span>(<span class="at">height =</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_half_violin</span>(<span class="at">side =</span> <span class="st">"r"</span>) <span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> <span class="st">"mean_se"</span>, <span class="at">fun.args =</span> <span class="fu">list</span>(<span class="at">mult =</span> <span class="fl">1.96</span>), <span class="at">color =</span> <span class="st">"orange"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="bayes_samengevat_files/figure-html/inspections-raw-distribution-1.png" class="img-fluid figure-img" style="width:75.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Het lijkt erop dat weekendinspecties veel zeldzamer zijn dan doordeweekse, en dat geen enkele weekendinspectie lager dan 80 scoort. Het lijkt er ook op dat de gemiddelde weekendscore iets hoger is dan de gemiddelde weekdagscore. Laten we eens kijken hoeveel verschil er is.</p>
+<p>Maar eerst gebruiken we de taal van inferentie en sampling. Onze populatieparameter (we noemen dat met de Griekse letter theta, of <span class="math inline">\(theta\)</span>) is een vast, waar getal dat in de wereld bestaat - restaurantinspecties in het weekend in Alaska hebben een hogere gemiddelde <span class="math inline">\(theta\)</span> score dan doordeweekse inspecties. We willen weten wat die <span class="math inline">\(theta\)</span> is en daarvoor kijken we naar wat betrouwbaarheidsintervallen.</p>
+<p>We kunnen kijken naar een basisverschil in gemiddelen op basis van weekendstatus:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>model_naive <span class="ot">&lt;-</span> <span class="fu">lm</span>(inspection_score <span class="sc">~</span> Weekend, </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> inspections)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(model_naive, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 2 × 7</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="do">##   term        estimate std.error statistic    p.value conf.low conf.high</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="do">##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="do">## 1 (Intercept)    93.6     0.0381   2458.   0             93.6      93.7 </span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="do">## 2 WeekendTRUE     2.10    0.433       4.84 0.00000131     1.25      2.95</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Hier zijn de weekendscores gemiddeld 2,1 punten hoger dan de weekdagscores (dat is onze schatting, of <span class="math inline">\(\hat{\theta}\)</span>. We hebben een betrouwbaarheidsinterval van 1,2-2,9. We kunnen <em>niet</em> zeggen dat we 95% zeker zijn dat de verhoging van de weekendscore (of <span class="math inline">\(\theta\)</span>) tussen 1,2 en 2,9 ligt. Wat we wel kunnen zeggen is dat we 95% zeker zijn dat het bereik 1,2-2,9 de ware populatieparameter <span class="math inline">\(\theta\)</span> weergeeft. Als we een heleboel verschillende steekproeven van inspectiescores zouden nemen en de gemiddelde weekend- vs.&nbsp;weekdagscore in elk van die steekproeven zouden berekenen, dan zou 95% van die betrouwbaarheidsintervallen de ware <span class="math inline">\(theta\)</span> moeten weergeven. Belangrijk is dat we nog steeds geen idee hebben wat de werkelijke <span class="math inline">\(theta\)</span> is, maar we zijn er vrij zeker van dat ons betrouwbaarheidsinterval het heeft vastgelegd.</p>
+<p>Deze schatting is waarschijnlijk fout, omdat er andere factoren zijn die de relatie tussen weekend en score verstoren. Misschien voert de gezondheidsdienst alleen weekendinspecties uit op plaatsen met veel filialen, of misschien deden ze in bepaalde jaren meer weekendinspecties. We kunnen hiervoor controleren in het model:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>model_adjusted <span class="ot">&lt;-</span> <span class="fu">lm</span>(inspection_score <span class="sc">~</span> Weekend <span class="sc">+</span> NumberofLocations <span class="sc">+</span> Year, </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">data =</span> inspections)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(model_adjusted, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 4 × 7</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="do">##   term              estimate std.error statistic  p.value conf.low conf.high</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="do">##   &lt;chr&gt;                &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="do">## 1 (Intercept)       225.     12.4          18.1  7.88e-73 200.      249.    </span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="do">## 2 WeekendTRUE         1.43    0.419         3.42 6.25e- 4   0.611     2.25  </span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="do">## 3 NumberofLocations  -0.0191  0.000436    -43.9  0         -0.0200   -0.0183</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="do">## 4 Year               -0.0646  0.00617     -10.5  1.45e-25  -0.0767   -0.0525</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Onze weekendschatting is iets kleiner geworden en is nu 1,43, met een betrouwbaarheidsinterval van 0,6-2,3. Nogmaals, zie dit als een net - we zijn er 95% zeker van dat de ware <span class="math inline">\(\theta\)</span> ergens in dat net zit. <span class="math inline">\(theta\)</span> kan 0,7 zijn, 1,4, 2,2 - wie zal het zeggen.</p>
+<p>Laten we voor de lol deze weekendschattingen en hun betrouwbaarheidsintervallen eens uitzetten:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Laten we alleen de weekendcoefficient van beide modellen bewaren:</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>freq_results_naive <span class="ot">&lt;-</span> <span class="fu">tidy</span>(model_naive, <span class="at">conf.int =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">model =</span> <span class="st">"Naive model"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">"WeekendTRUE"</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>freq_results_full <span class="ot">&lt;-</span> <span class="fu">tidy</span>(model_adjusted, <span class="at">conf.int =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">model =</span> <span class="st">"Full model"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">"WeekendTRUE"</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Zet deze in een enkelvoudige dataset en plot ze</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>freq_results <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(freq_results_naive, freq_results_full) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Zorg ervoor dat de modelnaam de volgorde volgt waarin het in de gegevens voorkomt in plaats van alfabetische volgorde</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">model =</span> <span class="fu">fct_inorder</span>(model))</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(freq_results, <span class="fu">aes</span>(<span class="at">x =</span> estimate, <span class="at">y =</span> model, <span class="at">color =</span> model)) <span class="sc">+</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">xmin =</span> conf.low, <span class="at">xmax =</span> conf.high)) <span class="sc">+</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="bayes_samengevat_files/figure-html/plot-freq-results-1.png" class="img-fluid figure-img" style="width:75.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="bayesiaanse-credible-intervals-geloofwaardigheidsintervallen" class="level3">
+<h3 class="anchored" data-anchor-id="bayesiaanse-credible-intervals-geloofwaardigheidsintervallen">Bayesiaanse credible intervals (geloofwaardigheidsintervallen)</h3>
+<p>Onthoud dat in de frequentistische statistiek <span class="math inline">\(theta\)</span> vast en enkelvoudig is en we hopen het op te pikken met onze betrouwbaarheidsintervalnetten. De gegevens die we verzamelen zijn variabel - we kunnen hypothetisch meer en meer steekproeven nemen en een heleboel betrouwbaarheidsintervallen berekenen om meer zekerheid te krijgen over waar <span class="math inline">\(theta\)</span> zou kunnen liggen. We kunnen betrouwbaarheidsintervallen alleen interpreteren als bereiken: “Er is 95% kans dat het bereik de ware waarde <span class="math inline">\(theta\)</span> bevat”. We kunnen niets zeggen over de schatting van <span class="math inline">\(theta\)</span> zelf. We hebben de waarschijnlijkheid van het bereik berekend, niet de waarschijnlijkheid van de werkelijke waarde.</p>
+<p>Bayesiaanse analyse laat ons echter <strong>wel</strong> praten over de waarschijnlijkheid van de werkelijke waarde. Bij Bayesianisme staan de gegevens waar je mee werkt vast (dat wil zeggen, je hebt ze één keer verzameld en dat is alles wat je hebt - je kunt niet oneindig veel extra monsters gaan verzamelen) en de populatieparameter <span class="math inline">\(theta\)</span> varieert en heeft onzekerheid (dat wil zeggen, in plaats van je één enkel getal voor te stellen dat niet te vangen is en dat het gemiddelde verschil is tussen scores in het weekend en doordeweeks, heeft <span class="math inline">\(theta\)</span> een bepaalde bandbreedte). Dit verschil wordt duidelijk in de formules voor het testen van hypotheses volgens elk van deze benaderingen:</p>
+<p>Dit verschil is duidelijk in de formules voor het testen van hypothesen volgens elk van deze benaderingen:</p>
+<p><span class="math display">\[\underbrace{P(\text{Data} \mid \theta)}_{\substack{\textbf{Frequentisme} \\ \text{Waarschijnlijkheid om de data te zien } \\ \text{gegeven het bestaan van } \theta \text{}}} \qquad \underbrace{P(\theta \mid \text{Data})}_{\substack{\textbf{Bayesiaanisme} \\ \text{Waarschijnlijkheid van } \theta \\ \text{gegeven de huidige data}}}\]</span></p>
+<p>Bayes’ theorema has heeft een mooie formule (<a href="https://www.youtube.com/watch?v=HZGCoVF3YvM">dat aansluit op intuïtie, zie deze video</a>):</p>
+<p><span class="math display">\[
+\underbrace{P(\theta \mid \text{Data})}_{\text{Posterior}} = \frac{\overbrace{P(\theta)}^{\text{Prior}} \times \overbrace{P(\text{Data} \mid \theta)}^{\text{Likelihood}}}{P(\text{Data})}
+\]</span></p>
+<p>Simpel gezegd (hopelijk!): combineer de waargenomen waarschijnlijkheid van de gegevens <span class="math inline">\(P(\text{Data} \mid \theta)\)</span> (dat is eigenlijk frequentisme!) met voorkennis over de verdeling van <span class="math inline">\(\theta\)</span> en je krijgt een posterior schatting van <span class="math inline">\(\theta\)</span>. Dit daadwerkelijk berekenen met echte gegevens kan echter lastig en rekenintensief zijn - vaak is er geen formele wiskundige manier om de feitelijke vergelijking te achterhalen.</p>
+<p>In plaats daarvan kunnen we een computer gebruiken om duizenden gissingen te simuleren en dan kijken naar de verdeling van daarvan (net zoals we hebben gedaan met <a href="../../resource/zilch.qmd#probability-with-computers-only">de Zilch-simulatie in de klas</a>).</p>
+<p>Een moderne methode om dit te doen heet Monte Carlo Markov Chain (MCMC) simulatie, die tegenwoordig de meeste op R gebaseerde tools voor Bayesiaanse statistieken gebruiken.</p>
+<p>Laten we eens Bayesiaans kijken naar de inspectiescores van restaurants in het weekend. Hier zijn we nog steeds geïnteresseerd in onze populatieparameter <span class="math inline">\(theta\)</span>, of de gemiddelde scoreverhoging in het weekend. Alleen gaan we er nu niet van uit dat <span class="math inline">\(theta\)</span> een vaste waarde in de wereld is die we proberen vast te leggen met betrouwbaarheidsintervallen - we gebruiken de gegevens die we hebben om de variatie in <span class="math inline">\(theta\)</span> te schatten. De eenvoudigste manier om Bayesiaanse analyse met R uit te voeren is met <a href="https://paul-buerkner.github.io/brms/">het <strong>brms</strong> pakket</a>, dat de bekende formule syntaxis gebruikt die je mogelijk eerder hebt gebruikt met <code>lm()</code>. De syntaxis is zeer vergelijkbaar, alleen met een paar extra argumenten:</p>
+<p><strong>MCMC dingen</strong></p>
+<p>Argumenten als <code>chains</code>, <code>iter</code> en <code>cores</code> betreffen de simulatie. <code>chains</code> definieert hoeveel parallelle simulaties er moeten gebeuren, <code>iter</code> bepaalt hoeveel iteraties er in elke keten moeten gebeuren, en <code>cores</code> verdeelt die ketens over de CPU’s in je computer (dus als je een computer met 4 cores hebt, kun je 4 ketens tegelijk uitvoeren; voer <code>parallel::detectCores()</code> uit in je R console om te zien hoeveel CPU cores je hebt). <code>seed</code> zorgt ervoor dat de random simulatieresultaten reproduceerbaar zijn (<a href="../../voorbeeld/random-numbers.qmd#seeds">zie hier voor meer over seeds</a>).</p>
+<p><strong>Priors</strong></p>
+<p>Deze definiëren je prior-geloof (kennis die je vooraf hebt) over de parameters (d.w.z. <span class="math inline">\(theta\)</span>) in het model. Als je denkt dat de verhoging van de inspectie in het weekend waarschijnlijk positief is, maar mogelijk ook negatief, of misschien wel nul, dan kun je die overtuiging in het model invoeren.</p>
+<p>Twee concrete voorbeelden:<br>
+- Als je er bijvoorbeeld vrij zeker van bent (misschien op basis van ervaringen in andere staten) dat weekendscores echt hoger zijn, kun je een <em>informatieve</em> prior geven die zegt dat <span class="math inline">\(theta\)</span> waarschijnlijk 1,5 punt ± een beetje variatie is, volgens een normale verdeling.<br>
+- Of, als je geen idee hebt wat het zou kunnen zijn - misschien is het superhoog zoals 10, misschien is het negatief zoals -5, of misschien is het 0 en is er geen weekend boost - dan kun je een <em>vage</em> prior geven die zegt dat <span class="math inline">\(\theta\)</span> 0 punten is ± een heleboel variatie.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)  <span class="co"># Voor het combineren van ggplot plots</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>plot_informative <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm, <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="fl">1.5</span>, <span class="at">sd =</span> <span class="fl">0.5</span>),</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">geom =</span> <span class="st">"area"</span>, <span class="at">fill =</span> <span class="st">"grey80"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Informatieve prior"</span>, <span class="at">subtitle =</span> <span class="st">"Normaal(gemiddelde = 1.5, sd = 0.5)"</span>,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"We zijn er betrekkelijk zeker van dat θ rond 1.5 is"</span>)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>plot_vague <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm, <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">10</span>),</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>                <span class="at">geom =</span> <span class="st">"area"</span>, <span class="at">fill =</span> <span class="st">"grey80"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="sc">-</span><span class="dv">35</span>, <span class="dv">35</span>) <span class="sc">+</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Vage prior"</span>, <span class="at">subtitle =</span> <span class="st">"Normaal(gemiddelde = 0, sd = 10)"</span>,</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"θ zit daar *ergens*"</span>)</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>plot_informative <span class="sc">|</span> plot_vague</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="bayes_samengevat_files/figure-html/priors-1.png" class="img-fluid figure-img" style="width:75.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Laten we de vage prior eens gebruiken. Dit is hoe je officieel een Bayesiaanse analyse uitvoert met <strong>brms</strong> en prior-informatie (vage prior dus) over <span class="math inline">\(theta\)</span> opneemt. Nogmaals, de syntaxis lijkt veel op <code>lm()</code>, alleen met wat extra’s over de prior en de MCMC-instellingen:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(brms)         <span class="co"># Voor Bayesiaanse regressie met brms</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom.mixed)  <span class="co"># Voor tidy() en glance() met op brms-gebaseerde models</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidybayes)    <span class="co"># Om de posterior trekkingen eruit te halen </span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggdist)       <span class="co"># Voor het maken van mooie posterior plots</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center" data-hash="bayes_samengevat_cache/html/actual-brms-model_b5fbbf75fb629d15a942b5393edbefda">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># bf() staat voor "bayes formula"; technisch gezien hoef je die niet te gebruiken, maar het </span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># maakt het leven makkelijker voor complexere modellen, dus het is een goede oefening, zelfs als </span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># je een eenvoudige formule zoals deze hier gebruikt</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Het zal een beetje tijd kosten om uit te voeren. Dit is wat het eigenlijk doet:</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Deze R-code vertalen naar Stan (een specifieke taal om Bayesiaanse dingen te doen met MCMC)</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. De Stan-code compileren naar sneller werkende C++-code</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Doe de MCMC bemonstering</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Stel de prior in voor de weekend coëfficiënt</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Gebruik get_priors() om alle andere standaard priors te zien</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Stel de prior in voor de weekendcoëfficiënt</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Gebruik get_priors() om alle andere standaardpriors te zien</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>priors <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">class =</span> <span class="st">"b"</span>, <span class="at">coef =</span> <span class="st">"WeekendTRUE"</span>)</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the model!</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>model_bayes <span class="ot">&lt;-</span> <span class="fu">brm</span>(<span class="fu">bf</span>(inspection_score <span class="sc">~</span> Weekend <span class="sc">+</span> NumberofLocations <span class="sc">+</span> Year),</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> inspections,</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>                   <span class="at">prior =</span> priors,</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>                   <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">iter =</span> <span class="dv">2000</span>, <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">1234</span>)</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="do">## Compiling Stan program...</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="do">## Start sampling</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Tjonge. Het duurde even voordat het liep, maar het liep! Nu kunnen we de resultaten controleren:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(model_bayes, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 5 × 8</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="do">##   effect   component group    term              estimate std.error conf.low conf.high</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="do">##   &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;                &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="do">## 1 fixed    cond      &lt;NA&gt;     (Intercept)       225.     12.5      200.      248.    </span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="do">## 2 fixed    cond      &lt;NA&gt;     WeekendTRUE         1.42    0.418      0.609     2.26  </span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="do">## 3 fixed    cond      &lt;NA&gt;     NumberofLocations  -0.0191  0.000430  -0.0200   -0.0183</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="do">## 4 fixed    cond      &lt;NA&gt;     Year               -0.0645  0.00621   -0.0764   -0.0521</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="do">## 5 ran_pars cond      Residual sd__Observation     6.04    0.0260     5.99      6.09</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Onze schatting voor de weekendboost, of <span class="math inline">\(hat{\theta}\)</span>, is 1.42, wat in principe hetzelfde is als de frequentistische schatting die we eerder vonden. We hebben ook een interval, maar het is geen betrouwbaarheidsinterval, het is een geloofwaardigheidsinterval. In plaats van ons te vertellen over het bereik van het netto betrouwbaarheidsinterval, vertelt dit geloofwaardigheidsinterval ons de waarschijnlijkheid dat <span class="math inline">\(hat{theta}\)</span> binnen dat interval valt. Het is in wezen de waarschijnlijkheid van de werkelijke waarde, niet de waarschijnlijkheid van het bereik. Op basis hiervan is er 95% kans dat - gegeven de gegevens die we hebben - de verhoging van de weekendscore (<span class="math inline">\(\hat{theta}\)</span>) tussen 0.61 en 2.26 ligt.</p>
+<p>We kunnen deze posterior-verdeling visualiseren om meer informatie te zien dan met onze frequentistische schatting. Onthoud dat onze simulatie duizenden mogelijke coëfficiënten voor <code>WeekendTRUE</code> heeft geschat, en dat ze allemaal even waarschijnlijk zijn. De waarde die we zien in <code>tidy()</code> is de mediaan van al deze gesimuleerde coëfficiënten, of trekkingen. We kunnen er hier een paar zien:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>model_bayes <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">spread_draws</span>(b_WeekendTRUE) <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 10 × 4</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="do">##    .chain .iteration .draw b_WeekendTRUE</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="do">##     &lt;int&gt;      &lt;int&gt; &lt;int&gt;         &lt;dbl&gt;</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="do">##  1      1          1     1         1.07 </span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="do">##  2      1          2     2         1.05 </span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="do">##  3      1          3     3         1.66 </span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="do">##  4      1          4     4         1.71 </span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="do">##  5      1          5     5         0.920</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="do">##  6      1          6     6         1.32 </span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="do">##  7      1          7     7         1.33 </span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="do">##  8      1          8     8         2.08 </span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="do">##  9      1          9     9         2.21 </span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="do">## 10      1         10    10         1.46</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Soms is de weekendboost 1,2, soms 1,7, soms 1,3, enz. Er zit veel variatie in. We kunnen al deze gesimuleerde coëfficiënten uitzetten om te zien waar ze zich het meest concentreren:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>weekend_draws <span class="ot">&lt;-</span> model_bayes <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">spread_draws</span>(b_WeekendTRUE)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(weekend_draws, <span class="fu">aes</span>(<span class="at">x =</span> b_WeekendTRUE)) <span class="sc">+</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>() <span class="sc">+</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">"Punt toont mediaan waarde;</span><span class="sc">\n</span><span class="st">dikke zwarte balk toont 66% geloofwaardigheidsinterval;</span><span class="sc">\n</span><span class="st">dunne balk toont 95% geloofdwaardigheidsinterval"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="bayes_samengevat_files/figure-html/weekend-posterior-halfeye-1.png" class="img-fluid figure-img" style="width:75.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>De weekendpuntenboost <span class="math inline">\(\hat{\theta}\)</span> is meestal geclusterd rond 1-2, en 95% van die trekkingen zijn tussen 2.26 en 2.26. We zijn er dus 95% zeker van dat de werkelijke weekendpuntboost tussen 0.61 en 2.26 ligt, met een mediaan van 1.42.</p>
+<p>We kunnen ook op een iets andere manier naar deze verdeling kijken door al deze posterieure trekkingen samen te vatten in 100 mogelijke waarden. Elk van deze punten is even waarschijnlijk en de ware waarde van <span class="math inline">\(\theta\)</span> kan elk van hen zijn, maar ook hier zijn de meeste geclusterd rond 1.42</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(weekend_draws, <span class="fu">aes</span>(<span class="at">x =</span> b_WeekendTRUE)) <span class="sc">+</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_dotsinterval</span>(<span class="at">quantiles =</span> <span class="dv">100</span>) <span class="sc">+</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">"Punt toont mediaan waarde;</span><span class="sc">\n</span><span class="st">dikke zwarte balk toont 66% `credible interval`;</span><span class="sc">\n</span><span class="st">dunne balk toont 95% `credible interval`"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="bayes_samengevat_files/figure-html/weekend-posterior-dots-1.png" class="img-fluid figure-img" style="width:75.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="algemene-samenvatting-van-intervallen" class="level2">
+<h2 class="anchored" data-anchor-id="algemene-samenvatting-van-intervallen">Algemene samenvatting van intervallen</h2>
+<p>We hebben dus twee verschillende filosofieën gezien voor het kwantificeren van onzekerheid met betrouwbaarheidsintervallen en geloofwaardigheidsintervallen. Hier volgt een algemeen overzicht van de twee benaderingen en hoe je ze kunt interpreteren:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small" data-quarto-postprocess="true">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Frequentisme</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Bayesianisme</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Benadering</td>
+<td style="text-align: left;">\(P(\text{Data} \mid \theta)\)</td>
+<td style="text-align: left;">\(P(\theta \mid \text{Data})\)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">\(\theta\) is een vaste enkelvoudige waarde; data is variabel en kan verzameld worden herhaald</td>
+<td style="text-align: left;">\(\theta\) is variabel en heeft onzekerheid; data is vast (je hebt één verzameling)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Hoe doe je het in R</td>
+<td style="text-align: left;"><code>lm(...)</code></td>
+<td style="text-align: left;"><code>library(brms)</code><br>
+<code>brm(...)</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Naam</td>
+<td style="text-align: left;">Betrouwbaarheidsinterval</td>
+<td style="text-align: left;">Gewloofwaardigheidsinterval (of posterior interval)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Intuitie</td>
+<td style="text-align: left;">Waarschijnlijkheid van het bereik</td>
+<td style="text-align: left;">Waarschijnlijkheid van de actuele waarde</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Interpretatie template</td>
+<td style="text-align: left;">Er is een waarschijnlijkheid van 95% dat dit bereik de echte waarde omvat van \(\theta\)</td>
+<td style="text-align: left;">Er is 95% waarschijnlijkheid dat de echte waarde van \(\theta\) hier binnen valt</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Weinig mensen denken zo</td>
+<td style="text-align: left;">Mensen <em>denken</em> zo</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+<section id="twee-manieren-om-beslissingen-te-nemen-met-posterior-verdelingen" class="level2">
+<h2 class="anchored" data-anchor-id="twee-manieren-om-beslissingen-te-nemen-met-posterior-verdelingen">Twee manieren om beslissingen te nemen met posterior verdelingen</h2>
+<p>In de wereld van frequentisme zijn we geïnteresseerd in de vraag of coëfficiënten statistisch verschillend zijn van 0 in een nulwereld waar er geen effect is. We vertrouwen op <em>p</em>-waarden om de waarschijnlijkheid te zien van een schatting die minstens zo groot is als wat we hebben berekend in een hypothetische wereld waar die schatting feitelijk 0 is. Dit is echt een niet-intuïtieve manier van denken over de wereld (denkbeeldige nulwerelden?!), dus iedereen interpreteert <em>p</em>-waarden altijd verkeerd.</p>
+<p>Onthoud echter wat je hebt gelezen in het artikel van <a href="https://doi.org/10.1257/jep.35.3.157">Imbens</a> - in het echte leven geven maar heel weinig mensen erom of een coëfficiënt significant verschilt van een hypothetische nulwaarde. In plaats daarvan willen mensen weten hoe zeker je bent van de schatting en wat het praktisch betekent. Is het zeker een positief effect, of kan het misschien nul zijn of misschien negatief? Significantiesterren kunnen ons niet veel vertellen over deze vragen, maar posterior Bayesiaanse intervallen wel.</p>
+<section id="waarschijnlijkheid-van-richting" class="level3">
+<h3 class="anchored" data-anchor-id="waarschijnlijkheid-van-richting">Waarschijnlijkheid van richting</h3>
+<p>Een vraag die we kunnen beantwoorden met Bayesiaanse resultaten is “Hoe zeker zijn we dat deze schatting positief (of negatief) is?”. Weten we zeker dat de weekendscores gemiddeld hoger zijn, of zouden ze soms negatief kunnen zijn? Weten we zeker dat het gemiddelde behandelingseffect van je programma armoede vermindert, of zou het in plaats daarvan misschien een positief effect kunnen hebben?</p>
+<p>Om dit uit te zoeken, kunnen we iets berekenen dat de <a href="https://easystats.github.io/bayestestR/articles/probability_of_direction.html">“waarschijnlijkheid van richting,”</a> wordt genoemd of het aandeel van de posterieure trekkingen dat boven (of onder) een willekeurig getal ligt. Wat is bijvoorbeeld de kans dat de weekend boost positief is (of groter dan 0)?</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vind de proportie van de posterieure trekkingen die groter zijn dan 0</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>weekend_draws <span class="sc">%&gt;%</span> </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">prop_greater_0 =</span> <span class="fu">sum</span>(b_WeekendTRUE <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">/</span> <span class="fu">n</span>())</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 1 × 1</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="do">##   prop_greater_0</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="do">##            &lt;dbl&gt;</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="do">## 1           1.00</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Wauw. 99,9% van de posterior trekkingen voor de weekend boost zijn groter dan 0, wat betekent dat er 99,9% kans is dat de coëfficiënt positief is, gegeven de gegevens die we hebben. Het mooie van de waarschijnlijkheid van richting is dat we elke waarde kunnen kiezen die we willen als drempelwaarde. Laten we zeggen dat de gezondheidsdirecteur van de staat wil weten of de scores in het weekend hoger zijn dan de scores doordeweeks, maar dat ze genoegen neemt met een kleine verhoging (weekends zijn leuk! inspecteurs zijn gelukkiger!). Doe alsof ze denkt dat een gemiddeld verschil van 1 of lager geen grote zorg is, maar een verschil groter dan 1 is een signaal dat weekendinspecteurs misschien te toegeeflijk zijn. In plaats daarvan kunnen we 1 als drempel gebruiken:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vind de proportie van de posterieure trekkingen die groter zijn dan 1</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>weekend_draws <span class="sc">%&gt;%</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">prop_greater_0 =</span> <span class="fu">sum</span>(b_WeekendTRUE <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="sc">/</span> <span class="fu">n</span>())</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 1 × 1</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="do">##   prop_greater_0</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="do">##            &lt;dbl&gt;</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="do">## 1          0.842</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Op basis hiervan is 84% van de trekkingen hoger dan 1, dus er is een kans van 84% dat de werkelijke <span class="math inline">\(theta\)</span> groter is dan 1. Merk op dat er hier geen discussie is over significantie - geen alfadrempels, geen sterren, geen nulwerelden. We hebben gewoon een kans dat <span class="math inline">\(theta}\)</span> boven de 1 is. We kunnen het zelfs visualiseren. Alles rechts van die verticale lijn bij 1 is “significant” (maar niet significant met nulwerelden en sterren).</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(weekend_draws, <span class="fu">aes</span>(<span class="at">x =</span> b_WeekendTRUE)) <span class="sc">+</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>(<span class="fu">aes</span>(<span class="at">fill_ramp =</span> <span class="fu">stat</span>(x <span class="sc">&gt;</span> <span class="dv">1</span>)), <span class="at">fill =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_ramp_discrete</span>(<span class="at">from =</span> <span class="st">"darkred"</span>, <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">"Punt toont mediaan waarde;</span><span class="sc">\n</span><span class="st">dikke zwarte balk toont 66% geloofwaardigheidsinterval;</span><span class="sc">\n</span><span class="st">dunne balk toont 95% geloofwaardigheidsinterval"</span>)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Warning: `stat(x &gt; 1)` was deprecated in ggplot2 3.4.0.</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="do">## ℹ Please use `after_stat(x &gt; 1)` instead.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="bayes_samengevat_files/figure-html/plot-pd-1.png" class="img-fluid figure-img" style="width:75.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Moet de gezondheidsdirecteur van de staat zich zorgen maken? Waarschijnlijk wel. Er is een kans van 84% dat de inspectiescores in het weekend gemiddeld ten minste 1 punt hoger liggen dan de doordeweekse scores, gezien de gegevens die we hebben.</p>
+</section>
+<section id="region-of-practical-equivalence-rope" class="level3">
+<h3 class="anchored" data-anchor-id="region-of-practical-equivalence-rope">Region of practical equivalence (ROPE)</h3>
+<p>Kijken naar de waarschijnlijkheid van richting is nuttig als je je afvraagt of een effect positief of negatief is (d.w.z. groter of kleiner dan 0), maar het is ook een beetje vreemd om over na te denken omdat we testen of iets groter of kleiner is dan een specifiek getal. In ons voorbeeld van de gezondheidsdirecteur deden we alsof het haar uitmaakte of de gemiddelde weekendscore 1 punt hoger was, maar dat is arbitrair.</p>
+<p>Een andere benadering is dat we kunnen denken aan een bereik van <span class="math inline">\(theta\)</span> waar er praktisch geen effect is. Zie dit als een soort “dode zone”. Als <span class="math inline">\(\hat{theta}\)</span> 0 is, weten we dat er geen effect is. Als <span class="math inline">\(\hat{\theta}\)</span> iets heel kleins is als 0,2 of -0,3, dan maakt het ons waarschijnlijk niet uit - dat is een heel klein beetje en kan gewoon een meetfout zijn. Het is niet echt iets om actie op te ondernemen. Als <span class="math inline">\({theta}\)</span> groot is zoals 1,3 of -2,4 of wat dan ook, dan hebben we reden om ons zorgen te maken, maar als de schatting in de “dode zone” ligt (hoe we dat ook willen definiëren), dan hoeven we ons niet echt zorgen te maken.</p>
+<p>De officiële Bayesiaanse term voor deze “dode zone” is <a href="https://easystats.github.io/bayestestR/articles/region_of_practical_equivalence.html">de <em>region of practical equivalence</em> (ROPE)</a>. Er zijn veel manieren om deze dode zone te bepalen - je kunt het baseren op ervaring met het fenomeen (bijvoorbeeld, als je de directeur gezondheidszorg bent en veel weet over inspectiescores, dan weet je welke scorebereiken van belang zijn), of je kunt het baseren op de gegevens die je hebt (bijvoorbeeld, <code>-0.1 * sd(uitkomst)</code> tot <code>0.1 * sd(uitkomst)</code>).</p>
+<p>Laten we voor dit voorbeeld doen alsof de gezondheidsdirecteur je vertelt dat elk effect tussen -0,5 en 0,5 er niet toe doet-voor haar zouden dat soort waarden hetzelfde zijn als 0. Nu we een dode zone of ROPE hebben, kunnen we het deel van de coëfficiënttrekkingen berekenen dat buiten die ROPE valt:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vind de proportie van de posterieure trekkingen die groter zijn dan 0,5 of kleiner dan -0,5</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>weekend_draws <span class="sc">%&gt;%</span> </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">prop_outside_rope =</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>(b_WeekendTRUE <span class="sc">&gt;=</span> <span class="sc">-</span><span class="fl">0.5</span> <span class="sc">&amp;</span> b_WeekendTRUE <span class="sc">&lt;=</span> <span class="fl">0.5</span>) <span class="sc">/</span> <span class="fu">n</span>())</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 1 × 1</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="do">##   prop_outside_rope</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="do">##               &lt;dbl&gt;</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="do">## 1             0.988</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(weekend_draws, <span class="fu">aes</span>(<span class="at">x =</span> b_WeekendTRUE)) <span class="sc">+</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>(<span class="fu">aes</span>(<span class="at">fill_ramp =</span> <span class="fu">stat</span>(x <span class="sc">&gt;=</span> <span class="fl">0.5</span> <span class="sc">|</span> x <span class="sc">&lt;=</span> <span class="sc">-</span><span class="fl">0.5</span>)), <span class="at">fill =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_ramp_discrete</span>(<span class="at">from =</span> <span class="st">"darkred"</span>, <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">"rect"</span>, <span class="at">xmin =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">xmax =</span> <span class="fl">0.5</span>, <span class="at">ymin =</span> <span class="sc">-</span><span class="cn">Inf</span>, <span class="at">ymax =</span> <span class="cn">Inf</span>, <span class="at">fill =</span> <span class="st">"purple"</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">"label"</span>, <span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> <span class="fl">0.75</span>, <span class="at">label =</span> <span class="st">"ROPE</span><span class="sc">\n</span><span class="st">(dode zone)"</span>) <span class="sc">+</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">"Punt toont mediaan waarde;</span><span class="sc">\n</span><span class="st">dikke zwarte balk toont 66% geloofwaardigheidsinterval;</span><span class="sc">\n</span><span class="st">dunne zwarte balk toont 95% geloofwaardigheidsinterval"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="bayes_samengevat_files/figure-html/plot-rope-1.png" class="img-fluid figure-img" style="width:75.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Gegeven deze gegevens ligt 98% van de posterior verdeling van de weekendboost buiten de ROPE, of dode zone, dus we kunnen dit als “significant” beschouwen (nogmaals, dit is een lastig woord omdat het niets te maken heeft met nulwerelden en sterren!</p>
+<p>Sommige mensen zeggen dat je moet kijken naar hoeveel van het 95% geloofwaardige interval binnen de dode zone ligt; anderen zeggen dat je moet kijken naar hoeveel van de hele verdeling binnen de dode zone ligt. Wij hebben alleen het laatste gedaan, met de hele verdeling. Als we willen zien hoeveel van het gebied binnen het betrouwbaarheidsinterval binnen de dode zone ligt, kunnen we de code een beetje veranderen om die waarnemingen eruit te filteren:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bepaal het 95% confidence interval bereik</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>weekend_cred_int <span class="ot">&lt;-</span> weekend_draws <span class="sc">%&gt;%</span> </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">median_hdi</span>()</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>weekend_cred_int<span class="sc">$</span>.lower</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 0.64</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Vind de proportie van de posterieure trekkingen die groter zijn dan 0,5 of kleiner dan</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co"># -0,5, maar kijk alleen binnen het 95% geloofwaardigheidsinterval</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>weekend_draws <span class="sc">%&gt;%</span> </span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Kijk alleen binnen de credible interval</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(b_WeekendTRUE <span class="sc">&gt;=</span> weekend_cred_int<span class="sc">$</span>.lower <span class="sc">&amp;</span> b_WeekendTRUE <span class="sc">&lt;=</span> weekend_cred_int<span class="sc">$</span>.upper) <span class="sc">%&gt;%</span> </span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">prop_outside_rope =</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>(b_WeekendTRUE <span class="sc">&gt;=</span> <span class="sc">-</span><span class="fl">0.5</span> <span class="sc">&amp;</span> b_WeekendTRUE <span class="sc">&lt;=</span> <span class="fl">0.5</span>) <span class="sc">/</span> <span class="fu">n</span>())</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 1 × 1</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="do">##   prop_outside_rope</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="do">##               &lt;dbl&gt;</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a><span class="do">## 1                 1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Als we alleen kijken naar het 95% betrouwbaarheidsinterval van de posterior, dan is er 0% kans dat een van die geschatte coëfficiënten in de dode zone / ROPE zit. Er is 100% kans dat het betrouwbaarheidsinterval de ROPE niet raakt. Je kunt dit ook visueel zien - kijk naar de figuur hierboven met de paarse ROPE. De dunne zwarte balk die het 95% betrouwbaarheidsinterval weergeeft, verschijnt niet in het paarse gebied. Welke benadering is beter - de volledige verdeling gebruiken of alleen het betrouwbaarheidsinterval? Wie zal het zeggen. Dat is aan jou.</p>
+<p>Tot slot hebben we hier de ROPE willekeurig bepaald op -0,5 tot 0,5, maar er zijn meer systematische manieren om dit te doen. <a href="https://easystats.github.io/bayestestR/articles/region_of_practical_equivalence.html#how-to-define-the-rope-range-">Een veelgebruikte en standaard suggestie</a> is om -0,1 en 0,1 maal de standaardafwijking van de uitkomstvariabele te gebruiken:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.1</span>, <span class="fl">0.1</span>) <span class="sc">*</span> <span class="fu">sd</span>(inspections<span class="sc">$</span>inspection_score)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] -0.63  0.63</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Op basis van deze benadering zou onze ROPE/dead zone -0,63 tot 0,63 moeten zijn. Laten we eens kijken hoe dat eruitziet:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vind de proportie van de posterior trekkingen die groter zijn dan 0,5 of kleiner dan # -0,5, maar kijk alleen binnen het 95% geloofwaardigheidsinterval</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>weekend_draws <span class="sc">%&gt;%</span> </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Kijk alleen binnen credible interval</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(b_WeekendTRUE <span class="sc">&gt;=</span> weekend_cred_int<span class="sc">$</span>.lower <span class="sc">&amp;</span> b_WeekendTRUE <span class="sc">&lt;=</span> weekend_cred_int<span class="sc">$</span>.upper) <span class="sc">%&gt;%</span> </span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">prop_outside_rope =</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>(b_WeekendTRUE <span class="sc">&gt;=</span> <span class="sc">-</span><span class="fl">0.63</span> <span class="sc">&amp;</span> b_WeekendTRUE <span class="sc">&lt;=</span> <span class="fl">0.63</span>) <span class="sc">/</span> <span class="fu">n</span>())</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 1 × 1</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="do">##   prop_outside_rope</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="do">##               &lt;dbl&gt;</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="do">## 1                 1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(weekend_draws, <span class="fu">aes</span>(<span class="at">x =</span> b_WeekendTRUE)) <span class="sc">+</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>(<span class="fu">aes</span>(<span class="at">fill_ramp =</span> <span class="fu">stat</span>(x <span class="sc">&gt;=</span> <span class="fl">0.63</span> <span class="sc">|</span> x <span class="sc">&lt;=</span> <span class="sc">-</span><span class="fl">0.63</span>)), <span class="at">fill =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_ramp_discrete</span>(<span class="at">from =</span> <span class="st">"darkred"</span>, <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">"rect"</span>, <span class="at">xmin =</span> <span class="sc">-</span><span class="fl">0.63</span>, <span class="at">xmax =</span> <span class="fl">0.63</span>, <span class="at">ymin =</span> <span class="sc">-</span><span class="cn">Inf</span>, <span class="at">ymax =</span> <span class="cn">Inf</span>, <span class="at">fill =</span> <span class="st">"purple"</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">"label"</span>, <span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> <span class="fl">0.75</span>, <span class="at">label =</span> <span class="st">"ROPE</span><span class="sc">\n</span><span class="st">(dode zone)"</span>) <span class="sc">+</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">"Punt toont mediaan waarde;</span><span class="sc">\n</span><span class="st">dikke zwarte balk toont 66% credible interval;</span><span class="sc">\n</span><span class="st">dunne zwarte balk toont 95% credible interval"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="bayes_samengevat_files/figure-html/plot-rope-sd-1.png" class="img-fluid figure-img" style="width:75.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Dit verandert onze resultaten maar een heel klein beetje. 97% van de volledige posterior verdeling en 99,7% van het betrouwbaarheidsinterval valt buiten deze ROPE. Mooi. We kunnen dus gerust zeggen dat het weekendeffect, of onze schatting van <span class="math inline">\(\theta\)</span> zeker praktisch en substantieel is (of “significant” als we met dat taalgebruik willen spelen).</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

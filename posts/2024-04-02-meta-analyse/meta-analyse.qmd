@@ -1,0 +1,18 @@
+---
+title: "Meta-analyse"
+description: |
+   In deze blog wordt een notitieboekje gepresenteerd dat hoort bij het boek *Doing Meta-Analysis in R. A Hands-On Guide* van Mathias Harrer, Pim Cuijpers, Toshi Furukawa en David Ebert. 
+author: "Mathias Harrer, Pim Cuijpers, Toshi Furukawa en David Ebert, bewerking Harrie Jonkman"
+date: "2024-04-02"
+categories: [Aanalyseren]
+image: "Screenshot.PNG"
+---
+
+[Dit](https://metaanalysegids.netlify.app/) is mijn notitieboekje dat hoort bij *Doing Meta-Analysis with R* dat Mathias Harrer, Pim Cuijpers, Toshi Furukawa, and David Ebert schreven. Het oorspronkelijke boek van Harrer en anderen is een open source boek kun je [hier](https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/) vinden. Omdat ik deze maanden een groep studenten begeleid bij het maken van een masterthesis waarbij ze de techniek van meta-analyse gebruiken, heb ik dit gemaakt om hen goed bij het uitvoeren van hun activiteiten te kunnen ondersteunen en hen naar betreffende onderwerpen kan verwijzen. Uiteraard raad ik iedereen dit duidelijke en bijzonder helder geschreven boek aan die informatie zoekt over de achtergronden van meta-analyse, de diverse onderdelen van een meta-analyse en de technieken die je kunt gebruiken om een meta-analyse uit te voeren.
+
+![](Screenshot.PNG)
+
+
+
+
+

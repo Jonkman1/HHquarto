@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.4.553">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -47,7 +47,13 @@ ul.task-list li input[type="checkbox"] {
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -56,6 +62,7 @@ ul.task-list li input[type="checkbox"] {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -95,13 +102,40 @@ ul.task-list li input[type="checkbox"] {
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
 </head>
 
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
             <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -110,23 +144,23 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html" rel="" target="">
- <span class="menu-text">Harrie’s Hoekje</span></a>
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">Harrie’s Hoekje</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/Jonkman1" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/Jonkman1"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com" rel="" target=""><i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://twitter.com"> <i class="bi bi-twitter" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -139,7 +173,7 @@ ul.task-list li input[type="checkbox"] {
   </div>
     
   
-  <div class="quarto-title-meta">
+  <div class="quarto-title-meta column-page-left">
 
       
     
@@ -152,7 +186,7 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(45)</span></div><div class="category" data-category="Aanalyseren">Aanalyseren <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Bayesiaans">Bayesiaans <span class="quarto-category-count">(9)</span></div><div class="category" data-category="analyse">analyse <span class="quarto-category-count">(4)</span></div><div class="category" data-category="analyseren">analyseren <span class="quarto-category-count">(4)</span></div><div class="category" data-category="communicatie">communicatie <span class="quarto-category-count">(5)</span></div><div class="category" data-category="communiceren">communiceren <span class="quarto-category-count">(8)</span></div><div class="category" data-category="machine learning">machine learning <span class="quarto-category-count">(4)</span></div><div class="category" data-category="modellen">modellen <span class="quarto-category-count">(1)</span></div><div class="category" data-category="modelleren">modelleren <span class="quarto-category-count">(8)</span></div><div class="category" data-category="theorie">theorie <span class="quarto-category-count">(1)</span></div><div class="category" data-category="visualisatie">visualisatie <span class="quarto-category-count">(6)</span></div><div class="category" data-category="visualiseren">visualiseren <span class="quarto-category-count">(1)</span></div><div class="category" data-category="visualization">visualization <span class="quarto-category-count">(1)</span></div><div class="category" data-category="voorbereiden">voorbereiden <span class="quarto-category-count">(4)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(46)</span></div><div class="category" data-category="A0nalyseren">A0nalyseren <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Analyseren">Analyseren <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Bayesiaans">Bayesiaans <span class="quarto-category-count">(9)</span></div><div class="category" data-category="analyse">analyse <span class="quarto-category-count">(4)</span></div><div class="category" data-category="analyseren">analyseren <span class="quarto-category-count">(4)</span></div><div class="category" data-category="communicatie">communicatie <span class="quarto-category-count">(5)</span></div><div class="category" data-category="communiceren">communiceren <span class="quarto-category-count">(8)</span></div><div class="category" data-category="machine learning">machine learning <span class="quarto-category-count">(4)</span></div><div class="category" data-category="modellen">modellen <span class="quarto-category-count">(1)</span></div><div class="category" data-category="modelleren">modelleren <span class="quarto-category-count">(8)</span></div><div class="category" data-category="theorie">theorie <span class="quarto-category-count">(1)</span></div><div class="category" data-category="visualisatie">visualisatie <span class="quarto-category-count">(6)</span></div><div class="category" data-category="visualiseren">visualiseren <span class="quarto-category-count">(1)</span></div><div class="category" data-category="visualization">visualization <span class="quarto-category-count">(1)</span></div><div class="category" data-category="voorbereiden">voorbereiden <span class="quarto-category-count">(4)</span></div></div></div>
 <!-- main -->
 <main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
 
@@ -163,34 +197,66 @@ ul.task-list li input[type="checkbox"] {
 
 
 
+
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="Aanalyseren" data-listing-date-sort="1712008800000" data-listing-file-modified-sort="1711482742650" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
+<div class="quarto-post image-right" data-index="0" data-categories="Analyseren" data-listing-date-sort="1714600800000" data-listing-file-modified-sort="1714592826084" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="28" data-listing-word-count-sort="5544">
 <div class="thumbnail">
-<p><a href="./posts/2024-04-02-meta-analyse/meta-analyse.html"> <img src="./posts/2024-04-02-meta-analyse/Screenshot.PNG" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2024-05-02-basis-datavisualisatie/basis-datavis.html" class="no-external"></a></p><a href="./posts/2024-05-02-basis-datavisualisatie/basis-datavis.html" class="no-external">
+<p><img src="./posts/2024-05-02-basis-datavisualisatie/Screenshot.PNG" class="thumbnail-image"></p>
+</a><p><a href="./posts/2024-05-02-basis-datavisualisatie/basis-datavis.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2024-04-02-meta-analyse/meta-analyse.html">
 <h3 class="no-anchor listing-title">
-Meta-analyse
+<a href="./posts/2024-05-02-basis-datavisualisatie/basis-datavis.html" class="no-external">De basis van datavisualisatie</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2024-05-02-basis-datavisualisatie/basis-datavis.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Aanalyseren'); return false;">
-Aanalyseren
+<div class="listing-category" onclick="window.quartoListingCategory('Analyseren'); return false;">
+Analyseren
 </div>
 </div>
-<a href="./posts/2024-04-02-meta-analyse/meta-analyse.html">
 <div class="listing-description">
-<p>In deze blog wordt een notitieboekje gepresenteerd dat hoort bij het boek <em>Doing Meta-Analysis in R. A Hands-On Guide</em> van Mathias Harrer, Pim Cuijpers, Toshi Furukawa en David Ebert.</p>
+<a href="./posts/2024-05-02-basis-datavisualisatie/basis-datavis.html" class="no-external">In deze blog worden belangrijke visulisatiepakketten gepresenteerd alsmede een interessant bronnenoverzicht over dat onderwerp”. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2024-04-02-meta-analyse/meta-analyse.html">
+<a href="./posts/2024-05-02-basis-datavisualisatie/basis-datavis.html" class="no-external">
+<div class="listing-date">
+May 2, 2024
+</div>
+<div class="listing-author">
+Harrie Jonkman
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="1" data-categories="A0nalyseren" data-listing-date-sort="1712008800000" data-listing-file-modified-sort="1714034312137" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="121">
+<div class="thumbnail">
+<p><a href="./posts/2024-04-02-meta-analyse/meta-analyse.html" class="no-external"></a></p><a href="./posts/2024-04-02-meta-analyse/meta-analyse.html" class="no-external">
+<p><img src="./posts/2024-04-02-meta-analyse/Screenshot1.PNG" class="thumbnail-image"></p>
+</a><p><a href="./posts/2024-04-02-meta-analyse/meta-analyse.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/2024-04-02-meta-analyse/meta-analyse.html" class="no-external">Meta-analyse</a>
+</h3>
+<div class="listing-subtitle">
+<a href="./posts/2024-04-02-meta-analyse/meta-analyse.html" class="no-external"></a>
+</div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('A0nalyseren'); return false;">
+A0nalyseren
+</div>
+</div>
+<div class="listing-description">
+<a href="./posts/2024-04-02-meta-analyse/meta-analyse.html" class="no-external">In deze blog wordt een notitieboekje gepresenteerd dat hoort bij het boek <em>Doing Meta-Analysis in R. A Hands-On Guide</em> van Mathias Harrer, Pim Cuijpers, Toshi Furukawa en David Ebert. </a>
+</div>
+</div>
+<div class="metadata">
+<a href="./posts/2024-04-02-meta-analyse/meta-analyse.html" class="no-external">
 <div class="listing-date">
 Apr 2, 2024
 </div>
@@ -200,32 +266,30 @@ Mathias Harrer, Pim Cuijpers, Toshi Furukawa en David Ebert, bewerking Harrie Jo
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-categories="Bayesiaans" data-listing-date-sort="1709506800000" data-listing-file-modified-sort="1709585006479" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="27">
+<div class="quarto-post image-right" data-index="2" data-categories="Bayesiaans" data-listing-date-sort="1709506800000" data-listing-file-modified-sort="1709585006479" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="27" data-listing-word-count-sort="5314">
 <div class="thumbnail">
-<p><a href="./posts/2024-03-04-Bayes-samengevat/bayes_samengevat.html"> <img src="./posts/2024-03-04-Bayes-samengevat/Screenshot.PNG" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2024-03-04-Bayes-samengevat/bayes_samengevat.html" class="no-external"></a></p><a href="./posts/2024-03-04-Bayes-samengevat/bayes_samengevat.html" class="no-external">
+<p><img src="./posts/2024-03-04-Bayes-samengevat/Screenshot.PNG" class="thumbnail-image"></p>
+</a><p><a href="./posts/2024-03-04-Bayes-samengevat/bayes_samengevat.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2024-03-04-Bayes-samengevat/bayes_samengevat.html">
 <h3 class="no-anchor listing-title">
-Bayes samengevat
+<a href="./posts/2024-03-04-Bayes-samengevat/bayes_samengevat.html" class="no-external">Bayes samengevat</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2024-03-04-Bayes-samengevat/bayes_samengevat.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Bayesiaans'); return false;">
 Bayesiaans
 </div>
 </div>
-<a href="./posts/2024-03-04-Bayes-samengevat/bayes_samengevat.html">
 <div class="listing-description">
-<p>In deze blog wordt ingegaan op het verschil tussen frequentistische en Bayesiaanse statistiek en wordt samengevat hoe je een Bayesiaanse analyse uitvoert in R.</p>
+<a href="./posts/2024-03-04-Bayes-samengevat/bayes_samengevat.html" class="no-external">In deze blog wordt ingegaan op het verschil tussen frequentistische en Bayesiaanse statistiek en wordt samengevat hoe je een Bayesiaanse analyse uitvoert in R. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2024-03-04-Bayes-samengevat/bayes_samengevat.html">
+<a href="./posts/2024-03-04-Bayes-samengevat/bayes_samengevat.html" class="no-external">
 <div class="listing-date">
 Mar 4, 2024
 </div>
@@ -235,32 +299,30 @@ Andrew Heiss, bewerking Harrie Jonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-categories="analyseren" data-listing-date-sort="1707865200000" data-listing-file-modified-sort="1707903481446" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="15">
+<div class="quarto-post image-right" data-index="3" data-categories="analyseren" data-listing-date-sort="1707865200000" data-listing-file-modified-sort="1707903481446" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="15" data-listing-word-count-sort="2826">
 <div class="thumbnail">
-<p><a href="./posts/2024-02-13-multi-level-meta-analyse/multilevel.html"> <img src="./posts/2024-02-13-multi-level-meta-analyse/Screenshot2.PNG" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2024-02-13-multi-level-meta-analyse/multilevel.html" class="no-external"></a></p><a href="./posts/2024-02-13-multi-level-meta-analyse/multilevel.html" class="no-external">
+<p><img src="./posts/2024-02-13-multi-level-meta-analyse/Screenshot2.PNG" class="thumbnail-image"></p>
+</a><p><a href="./posts/2024-02-13-multi-level-meta-analyse/multilevel.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2024-02-13-multi-level-meta-analyse/multilevel.html">
 <h3 class="no-anchor listing-title">
-Multilevel meta-analyse
+<a href="./posts/2024-02-13-multi-level-meta-analyse/multilevel.html" class="no-external">Multilevel meta-analyse</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2024-02-13-multi-level-meta-analyse/multilevel.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('analyseren'); return false;">
 analyseren
 </div>
 </div>
-<a href="./posts/2024-02-13-multi-level-meta-analyse/multilevel.html">
 <div class="listing-description">
-<p>Op dit moment begeleid ik een groep studenten bij het opstellen en afronden van hun masterthesis. Daarvoor moeten ze een meta-analyse uitvoeren. Mij is gevraagd toe te werken bijvoorbeeld naar een multilevel meta-analyse met moderatoren. Een mooie inleiding daarop is het hoofdstuk <em>“Multilevel” meta-analyse</em> uit het boek <em>Doing Meta-Analysis in R</em> van Harrer, Cuijpers, Furukawa, and Ebert (2021), dat ik daarom hier bewerkt heb. De komende tijd zal ik het hele boek als een notitieboek opzetten (een verkorte en samenvattende versie). Dit hoofdstuk is een aanzet daarvoor.</p>
+<a href="./posts/2024-02-13-multi-level-meta-analyse/multilevel.html" class="no-external">Op dit moment begeleid ik een groep studenten bij het opstellen en afronden van hun masterthesis. Daarvoor moeten ze een meta-analyse uitvoeren. Mij is gevraagd toe te werken bijvoorbeeld naar een multilevel meta-analyse met moderatoren. Een mooie inleiding daarop is het hoofdstuk <em>“Multilevel” meta-analyse</em> uit het boek <em>Doing Meta-Analysis in R</em> van Harrer, Cuijpers, Furukawa, and Ebert (2021), dat ik daarom hier bewerkt heb. De komende tijd zal ik het hele boek als een notitieboek opzetten (een verkorte en samenvattende versie). Dit hoofdstuk is een aanzet daarvoor. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2024-02-13-multi-level-meta-analyse/multilevel.html">
+<a href="./posts/2024-02-13-multi-level-meta-analyse/multilevel.html" class="no-external">
 <div class="listing-date">
 Feb 14, 2024
 </div>
@@ -270,32 +332,30 @@ Harrie Jonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="3" data-categories="analyseren" data-listing-date-sort="1705964400000" data-listing-file-modified-sort="1706005274718" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2">
+<div class="quarto-post image-right" data-index="4" data-categories="analyseren" data-listing-date-sort="1705964400000" data-listing-file-modified-sort="1706005274718" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="250">
 <div class="thumbnail">
-<p><a href="./posts/2024-01-23-ROS-notitieboek/rosnotitieboek.html"> <img src="./posts/2024-01-23-ROS-notitieboek/Screenshot.PNG" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2024-01-23-ROS-notitieboek/rosnotitieboek.html" class="no-external"></a></p><a href="./posts/2024-01-23-ROS-notitieboek/rosnotitieboek.html" class="no-external">
+<p><img src="./posts/2024-01-23-ROS-notitieboek/Screenshot.PNG" class="thumbnail-image"></p>
+</a><p><a href="./posts/2024-01-23-ROS-notitieboek/rosnotitieboek.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2024-01-23-ROS-notitieboek/rosnotitieboek.html">
 <h3 class="no-anchor listing-title">
-ROS_notitieboek
+<a href="./posts/2024-01-23-ROS-notitieboek/rosnotitieboek.html" class="no-external">ROS_notitieboek</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2024-01-23-ROS-notitieboek/rosnotitieboek.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('analyseren'); return false;">
 analyseren
 </div>
 </div>
-<a href="./posts/2024-01-23-ROS-notitieboek/rosnotitieboek.html">
 <div class="listing-description">
-<p>Sinds kort is er vanuit het NSC-R Werkgroep een leesclub gestart rondom het boek <em>Regression and Other Stories</em> van Gelman, Hill en Vehtari. Ter ondersteuning van deze leesclub is dit Notitieboek gemaakt. In dit Notitieboek vind je korte samenvattingen van de hoofdstukken van het ROS-boek en presentaties van deze hoofdstukken door verschillende personen. De inhoud van het Notitieboek zal in de loop van de tijd groeien.</p>
+<a href="./posts/2024-01-23-ROS-notitieboek/rosnotitieboek.html" class="no-external">Sinds kort is er vanuit het NSC-R Werkgroep een leesclub gestart rondom het boek <em>Regression and Other Stories</em> van Gelman, Hill en Vehtari. Ter ondersteuning van deze leesclub is dit Notitieboek gemaakt. In dit Notitieboek vind je korte samenvattingen van de hoofdstukken van het ROS-boek en presentaties van deze hoofdstukken door verschillende personen. De inhoud van het Notitieboek zal in de loop van de tijd groeien. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2024-01-23-ROS-notitieboek/rosnotitieboek.html">
+<a href="./posts/2024-01-23-ROS-notitieboek/rosnotitieboek.html" class="no-external">
 <div class="listing-date">
 Jan 23, 2024
 </div>
@@ -305,32 +365,30 @@ Harrie Jonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="4" data-categories="communiceren" data-listing-date-sort="1702076400000" data-listing-file-modified-sort="1702140113351" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
+<div class="quarto-post image-right" data-index="5" data-categories="communiceren" data-listing-date-sort="1702076400000" data-listing-file-modified-sort="1702140113351" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="105">
 <div class="thumbnail">
-<p><a href="./posts/2023-12-09-quarto-boekje-2/allemaalindefamilie.html"> <img src="./posts/2023-12-09-quarto-boekje-2/allemaalindefamilie.PNG" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2023-12-09-quarto-boekje-2/allemaalindefamilie.html" class="no-external"></a></p><a href="./posts/2023-12-09-quarto-boekje-2/allemaalindefamilie.html" class="no-external">
+<p><img src="./posts/2023-12-09-quarto-boekje-2/allemaalindefamilie.PNG" class="thumbnail-image"></p>
+</a><p><a href="./posts/2023-12-09-quarto-boekje-2/allemaalindefamilie.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2023-12-09-quarto-boekje-2/allemaalindefamilie.html">
 <h3 class="no-anchor listing-title">
-Quarto boekje 2
+<a href="./posts/2023-12-09-quarto-boekje-2/allemaalindefamilie.html" class="no-external">Quarto boekje 2</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2023-12-09-quarto-boekje-2/allemaalindefamilie.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('communiceren'); return false;">
 communiceren
 </div>
 </div>
-<a href="./posts/2023-12-09-quarto-boekje-2/allemaalindefamilie.html">
 <div class="listing-description">
-<p>Quarto is gemaakt voor wetenschappelijke schrijven. Het programma kan ook heel goed worden gebruikt voor andere doeleinden. Hier een voorbeeld van een heel persoonlijk boekje dat ik onlangs gemaakt heb naar aanleiding van de geboorte van mijn kleindochter.</p>
+<a href="./posts/2023-12-09-quarto-boekje-2/allemaalindefamilie.html" class="no-external">Quarto is gemaakt voor wetenschappelijke schrijven. Het programma kan ook heel goed worden gebruikt voor andere doeleinden. Hier een voorbeeld van een heel persoonlijk boekje dat ik onlangs gemaakt heb naar aanleiding van de geboorte van mijn kleindochter. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2023-12-09-quarto-boekje-2/allemaalindefamilie.html">
+<a href="./posts/2023-12-09-quarto-boekje-2/allemaalindefamilie.html" class="no-external">
 <div class="listing-date">
 Dec 9, 2023
 </div>
@@ -340,32 +398,30 @@ Harrie Jonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="5" data-categories="analyseren" data-listing-date-sort="1698793200000" data-listing-file-modified-sort="1698751773577" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4">
+<div class="quarto-post image-right" data-index="6" data-categories="analyseren" data-listing-date-sort="1698793200000" data-listing-file-modified-sort="1698751773577" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="670">
 <div class="thumbnail">
-<p><a href="./posts/2023-11-01-copilot/copilot.html"> <img src="./posts/2023-11-01-copilot/Screenshot.PNG" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2023-11-01-copilot/copilot.html" class="no-external"></a></p><a href="./posts/2023-11-01-copilot/copilot.html" class="no-external">
+<p><img src="./posts/2023-11-01-copilot/Screenshot.PNG" class="thumbnail-image"></p>
+</a><p><a href="./posts/2023-11-01-copilot/copilot.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2023-11-01-copilot/copilot.html">
 <h3 class="no-anchor listing-title">
-Copilot
+<a href="./posts/2023-11-01-copilot/copilot.html" class="no-external">Copilot</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2023-11-01-copilot/copilot.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('analyseren'); return false;">
 analyseren
 </div>
 </div>
-<a href="./posts/2023-11-01-copilot/copilot.html">
 <div class="listing-description">
-<p>Sinds kort kun je in RStudio ook met een AI-tool werken die jou ondersteunt bij het schrijven van codes. Deze tool heet <em>Copilot</em> en sinds kort is er een plugin voor RStudio. In deze blog laat ik zien hoe je deze plugin kunt installeren en hoe je ermee kunt werken.</p>
+<a href="./posts/2023-11-01-copilot/copilot.html" class="no-external">Sinds kort kun je in RStudio ook met een AI-tool werken die jou ondersteunt bij het schrijven van codes. Deze tool heet <em>Copilot</em> en sinds kort is er een plugin voor RStudio. In deze blog laat ik zien hoe je deze plugin kunt installeren en hoe je ermee kunt werken. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2023-11-01-copilot/copilot.html">
+<a href="./posts/2023-11-01-copilot/copilot.html" class="no-external">
 <div class="listing-date">
 Nov 1, 2023
 </div>
@@ -375,32 +431,30 @@ Harrie Jonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="6" data-categories="communiceren" data-listing-date-sort="1696284000000" data-listing-file-modified-sort="1696401682137" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5">
+<div class="quarto-post image-right" data-index="7" data-categories="communiceren" data-listing-date-sort="1696284000000" data-listing-file-modified-sort="1696401682137" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="984">
 <div class="thumbnail">
-<p><a href="./posts/2023-10-04-werken-met-verwijzingen/verwijzingen.html"> <img src="./posts/2023-10-04-werken-met-verwijzingen/Screenshot.PNG" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2023-10-04-werken-met-verwijzingen/verwijzingen.html" class="no-external"></a></p><a href="./posts/2023-10-04-werken-met-verwijzingen/verwijzingen.html" class="no-external">
+<p><img src="./posts/2023-10-04-werken-met-verwijzingen/Screenshot.PNG" class="thumbnail-image"></p>
+</a><p><a href="./posts/2023-10-04-werken-met-verwijzingen/verwijzingen.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2023-10-04-werken-met-verwijzingen/verwijzingen.html">
 <h3 class="no-anchor listing-title">
-Werken met verwijzingen
+<a href="./posts/2023-10-04-werken-met-verwijzingen/verwijzingen.html" class="no-external">Werken met verwijzingen</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2023-10-04-werken-met-verwijzingen/verwijzingen.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('communiceren'); return false;">
 communiceren
 </div>
 </div>
-<a href="./posts/2023-10-04-werken-met-verwijzingen/verwijzingen.html">
 <div class="listing-description">
-<p>Dit is een blog over literatuurverwijzingen en hoe je hiermee kunt werken in R/RStudio. Daarvoor moet je het programma Zotero op jouw computer zetten. Hieronder laat ik zien hoe je vervolgens literatuur binnen kunt halen, hoe je een bibliotheek opbouwt, hoe je de verwijzingen in de tekst zet en hoe je voor een bepaalde literatuurklasse kunt kiezen.</p>
+<a href="./posts/2023-10-04-werken-met-verwijzingen/verwijzingen.html" class="no-external">Dit is een blog over literatuurverwijzingen en hoe je hiermee kunt werken in R/RStudio. Daarvoor moet je het programma Zotero op jouw computer zetten. Hieronder laat ik zien hoe je vervolgens literatuur binnen kunt halen, hoe je een bibliotheek opbouwt, hoe je de verwijzingen in de tekst zet en hoe je voor een bepaalde literatuurklasse kunt kiezen. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2023-10-04-werken-met-verwijzingen/verwijzingen.html">
+<a href="./posts/2023-10-04-werken-met-verwijzingen/verwijzingen.html" class="no-external">
 <div class="listing-date">
 Oct 3, 2023
 </div>
@@ -410,19 +464,19 @@ Harrie Jonkma
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="7" data-categories="visualiseren,analyseren" data-listing-date-sort="1693778400000" data-listing-file-modified-sort="1693829293876" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9">
+<div class="quarto-post image-right" data-index="8" data-categories="visualiseren,analyseren" data-listing-date-sort="1693778400000" data-listing-file-modified-sort="1693829293876" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1739">
 <div class="thumbnail">
-<p><a href="./posts/2023-09-04-slimme-steden/slimmesteden.html"> <img src="./posts/2023-09-04-slimme-steden/Screenshot.PNG" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2023-09-04-slimme-steden/slimmesteden.html" class="no-external"></a></p><a href="./posts/2023-09-04-slimme-steden/slimmesteden.html" class="no-external">
+<p><img src="./posts/2023-09-04-slimme-steden/Screenshot.PNG" class="thumbnail-image"></p>
+</a><p><a href="./posts/2023-09-04-slimme-steden/slimmesteden.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2023-09-04-slimme-steden/slimmesteden.html">
 <h3 class="no-anchor listing-title">
-Slimme steden
+<a href="./posts/2023-09-04-slimme-steden/slimmesteden.html" class="no-external">Slimme steden</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2023-09-04-slimme-steden/slimmesteden.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('visualiseren'); return false;">
 visualiseren
@@ -431,14 +485,12 @@ visualiseren
 analyseren
 </div>
 </div>
-<a href="./posts/2023-09-04-slimme-steden/slimmesteden.html">
 <div class="listing-description">
-<p>Dit is een blog nav O’Briens boek Urban Informatics waarin hij laat zien hoe je als stad (of gemeenschap) om kunt gaan met de informatie over jouw omgeving. Hij leert ons de vaardigheden hiervoor.</p>
+<a href="./posts/2023-09-04-slimme-steden/slimmesteden.html" class="no-external">Dit is een blog nav O’Briens boek Urban Informatics waarin hij laat zien hoe je als stad (of gemeenschap) om kunt gaan met de informatie over jouw omgeving. Hij leert ons de vaardigheden hiervoor. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2023-09-04-slimme-steden/slimmesteden.html">
+<a href="./posts/2023-09-04-slimme-steden/slimmesteden.html" class="no-external">
 <div class="listing-date">
 Sep 4, 2023
 </div>
@@ -448,32 +500,30 @@ Harrie Jonkma
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="8" data-categories="communiceren" data-listing-date-sort="1691100000000" data-listing-file-modified-sort="1691071601583" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
+<div class="quarto-post image-right" data-index="9" data-categories="communiceren" data-listing-date-sort="1691100000000" data-listing-file-modified-sort="1691071601583" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="176">
 <div class="thumbnail">
-<p><a href="./posts/2023-08-04-quarto-website/website.html"> <img src="./posts/2023-08-04-quarto-website/Screenshot1.PNG" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2023-08-04-quarto-website/website.html" class="no-external"></a></p><a href="./posts/2023-08-04-quarto-website/website.html" class="no-external">
+<p><img src="./posts/2023-08-04-quarto-website/Screenshot1.PNG" class="thumbnail-image"></p>
+</a><p><a href="./posts/2023-08-04-quarto-website/website.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2023-08-04-quarto-website/website.html">
 <h3 class="no-anchor listing-title">
-Website bouwen
+<a href="./posts/2023-08-04-quarto-website/website.html" class="no-external">Website bouwen</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2023-08-04-quarto-website/website.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('communiceren'); return false;">
 communiceren
 </div>
 </div>
-<a href="./posts/2023-08-04-quarto-website/website.html">
 <div class="listing-description">
-<p>Dit blog laat zien hoe je met Quarto een website kunt bouwen.</p>
+<a href="./posts/2023-08-04-quarto-website/website.html" class="no-external">Dit blog laat zien hoe je met Quarto een website kunt bouwen. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2023-08-04-quarto-website/website.html">
+<a href="./posts/2023-08-04-quarto-website/website.html" class="no-external">
 <div class="listing-date">
 Aug 4, 2023
 </div>
@@ -483,32 +533,30 @@ Sam Csik, bewerking Harrie Jonkma
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="9" data-categories="modelleren" data-listing-date-sort="1691013600000" data-listing-file-modified-sort="1691070891433" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
+<div class="quarto-post image-right" data-index="10" data-categories="modelleren" data-listing-date-sort="1691013600000" data-listing-file-modified-sort="1691070891433" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="97">
 <div class="thumbnail">
-<p><a href="./posts/2023-08-02-multilevel/multilevel.html"> <img src="./posts/2023-08-02-multilevel/Screenshot1.PNG" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2023-08-02-multilevel/multilevel.html" class="no-external"></a></p><a href="./posts/2023-08-02-multilevel/multilevel.html" class="no-external">
+<p><img src="./posts/2023-08-02-multilevel/Screenshot1.PNG" class="thumbnail-image"></p>
+</a><p><a href="./posts/2023-08-02-multilevel/multilevel.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2023-08-02-multilevel/multilevel.html">
 <h3 class="no-anchor listing-title">
-Introductie op multilevel analyse in R met lme4 en tidyverse
+<a href="./posts/2023-08-02-multilevel/multilevel.html" class="no-external">Introductie op multilevel analyse in R met lme4 en tidyverse</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2023-08-02-multilevel/multilevel.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('modelleren'); return false;">
 modelleren
 </div>
 </div>
-<a href="./posts/2023-08-02-multilevel/multilevel.html">
 <div class="listing-description">
-<p>Deze blog laat zien hoe je met de R-pakketten lme4 en tidyverse op eigentijdse wijze multilevel analyses kunt uitvoeren.</p>
+<a href="./posts/2023-08-02-multilevel/multilevel.html" class="no-external">Deze blog laat zien hoe je met de R-pakketten lme4 en tidyverse op eigentijdse wijze multilevel analyses kunt uitvoeren. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2023-08-02-multilevel/multilevel.html">
+<a href="./posts/2023-08-02-multilevel/multilevel.html" class="no-external">
 <div class="listing-date">
 Aug 3, 2023
 </div>
@@ -518,32 +566,30 @@ Raffaele Vacca, bewerking Harrie Jonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="10" data-categories="modelleren" data-listing-date-sort="1688335200000" data-listing-file-modified-sort="1693304274398" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6">
+<div class="quarto-post image-right" data-index="11" data-categories="modelleren" data-listing-date-sort="1688335200000" data-listing-file-modified-sort="1693304274398" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1199">
 <div class="thumbnail">
-<p><a href="./posts/2023-07-03-regressie_analyses/Moderatie.html"> <img src="./posts/2023-07-03-regressie_analyses/Screenshot1.PNG" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2023-07-03-regressie_analyses/Moderatie.html" class="no-external"></a></p><a href="./posts/2023-07-03-regressie_analyses/Moderatie.html" class="no-external">
+<p><img src="./posts/2023-07-03-regressie_analyses/Screenshot1.PNG" class="thumbnail-image"></p>
+</a><p><a href="./posts/2023-07-03-regressie_analyses/Moderatie.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2023-07-03-regressie_analyses/Moderatie.html">
 <h3 class="no-anchor listing-title">
-Enkelvoudige, meervoudige en moderatie regressieanalyse
+<a href="./posts/2023-07-03-regressie_analyses/Moderatie.html" class="no-external">Enkelvoudige, meervoudige en moderatie regressieanalyse</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2023-07-03-regressie_analyses/Moderatie.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('modelleren'); return false;">
 modelleren
 </div>
 </div>
-<a href="./posts/2023-07-03-regressie_analyses/Moderatie.html">
 <div class="listing-description">
-<p>In deze blog zet ik enkele verschillende vormen van regressie (enkelvoudige, meervoudige en modererende regressie) op rij en vergelijk ik de modellen. Met bepaalde pakketten worden de effecten inzichtelijk gemaakt.</p>
+<a href="./posts/2023-07-03-regressie_analyses/Moderatie.html" class="no-external">In deze blog zet ik enkele verschillende vormen van regressie (enkelvoudige, meervoudige en modererende regressie) op rij en vergelijk ik de modellen. Met bepaalde pakketten worden de effecten inzichtelijk gemaakt. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2023-07-03-regressie_analyses/Moderatie.html">
+<a href="./posts/2023-07-03-regressie_analyses/Moderatie.html" class="no-external">
 <div class="listing-date">
 Jul 3, 2023
 </div>
@@ -553,32 +599,30 @@ Harrie Jonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="11" data-categories="communiceren" data-listing-date-sort="1679094000000" data-listing-file-modified-sort="1688328260688" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8">
+<div class="quarto-post image-right" data-index="12" data-categories="communiceren" data-listing-date-sort="1679094000000" data-listing-file-modified-sort="1688328260688" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1492">
 <div class="thumbnail">
-<p><a href="./posts/2023-03-18-quarto-blog/schrijf_publiseer_blog.html"> <img src="./posts/2023-03-18-quarto-blog/Screenshot.PNG" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2023-03-18-quarto-blog/schrijf_publiseer_blog.html" class="no-external"></a></p><a href="./posts/2023-03-18-quarto-blog/schrijf_publiseer_blog.html" class="no-external">
+<p><img src="./posts/2023-03-18-quarto-blog/Screenshot.PNG" class="thumbnail-image"></p>
+</a><p><a href="./posts/2023-03-18-quarto-blog/schrijf_publiseer_blog.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2023-03-18-quarto-blog/schrijf_publiseer_blog.html">
 <h3 class="no-anchor listing-title">
-Maken en publiceren van een blog
+<a href="./posts/2023-03-18-quarto-blog/schrijf_publiseer_blog.html" class="no-external">Maken en publiceren van een blog</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2023-03-18-quarto-blog/schrijf_publiseer_blog.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('communiceren'); return false;">
 communiceren
 </div>
 </div>
-<a href="./posts/2023-03-18-quarto-blog/schrijf_publiseer_blog.html">
 <div class="listing-description">
-<p>In dit blog laat ik zien hoe je zelf met Quarto een blog kunt maken en hoe je dat kunt publiceren en verspreiden. Je kunt hier het blog vinden en de stappen die gezet zijn om het te maken en te publiceren.</p>
+<a href="./posts/2023-03-18-quarto-blog/schrijf_publiseer_blog.html" class="no-external">In dit blog laat ik zien hoe je zelf met Quarto een blog kunt maken en hoe je dat kunt publiceren en verspreiden. Je kunt hier het blog vinden en de stappen die gezet zijn om het te maken en te publiceren. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2023-03-18-quarto-blog/schrijf_publiseer_blog.html">
+<a href="./posts/2023-03-18-quarto-blog/schrijf_publiseer_blog.html" class="no-external">
 <div class="listing-date">
 Mar 18, 2023
 </div>
@@ -588,32 +632,30 @@ Harrie Jonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="12" data-categories="communiceren" data-listing-date-sort="1676847600000" data-listing-file-modified-sort="1688328260672" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8">
+<div class="quarto-post image-right" data-index="13" data-categories="communiceren" data-listing-date-sort="1676847600000" data-listing-file-modified-sort="1688328260672" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1551">
 <div class="thumbnail">
-<p><a href="./posts/2023-02-20-quarto-book/schrijf_publiseer_boek.html"> <img src="./posts/2023-02-20-quarto-book/TT_book_opzet.PNG" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2023-02-20-quarto-book/schrijf_publiseer_boek.html" class="no-external"></a></p><a href="./posts/2023-02-20-quarto-book/schrijf_publiseer_boek.html" class="no-external">
+<p><img src="./posts/2023-02-20-quarto-book/TT_book_opzet.PNG" class="thumbnail-image"></p>
+</a><p><a href="./posts/2023-02-20-quarto-book/schrijf_publiseer_boek.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2023-02-20-quarto-book/schrijf_publiseer_boek.html">
 <h3 class="no-anchor listing-title">
-Maken en publiceren van een boek
+<a href="./posts/2023-02-20-quarto-book/schrijf_publiseer_boek.html" class="no-external">Maken en publiceren van een boek</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2023-02-20-quarto-book/schrijf_publiseer_boek.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('communiceren'); return false;">
 communiceren
 </div>
 </div>
-<a href="./posts/2023-02-20-quarto-book/schrijf_publiseer_boek.html">
 <div class="listing-description">
-<p>In dit blog laat ik zien hoe je met Quarto een boek kunt maken en hoe je dat kunt publiceren en verspreiden. Je kunt hier het boek vinden en de stappen die gezet zijn om het te maken en te publiceren</p>
+<a href="./posts/2023-02-20-quarto-book/schrijf_publiseer_boek.html" class="no-external">In dit blog laat ik zien hoe je met Quarto een boek kunt maken en hoe je dat kunt publiceren en verspreiden. Je kunt hier het boek vinden en de stappen die gezet zijn om het te maken en te publiceren </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2023-02-20-quarto-book/schrijf_publiseer_boek.html">
+<a href="./posts/2023-02-20-quarto-book/schrijf_publiseer_boek.html" class="no-external">
 <div class="listing-date">
 Feb 20, 2023
 </div>
@@ -623,32 +665,30 @@ Harrie Jonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="13" data-categories="communiceren" data-listing-date-sort="1676242800000" data-listing-file-modified-sort="1688328260662" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9">
+<div class="quarto-post image-right" data-index="14" data-categories="communiceren" data-listing-date-sort="1676242800000" data-listing-file-modified-sort="1688328260662" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1638">
 <div class="thumbnail">
-<p><a href="./posts/2023-02-13-quarto-presentatie-toelichting/Quatropresentatie.html"> <img src="./posts/2023-02-13-quarto-presentatie-toelichting/Screenshot.PNG" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2023-02-13-quarto-presentatie-toelichting/Quatropresentatie.html" class="no-external"></a></p><a href="./posts/2023-02-13-quarto-presentatie-toelichting/Quatropresentatie.html" class="no-external">
+<p><img src="./posts/2023-02-13-quarto-presentatie-toelichting/Screenshot.PNG" class="thumbnail-image"></p>
+</a><p><a href="./posts/2023-02-13-quarto-presentatie-toelichting/Quatropresentatie.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2023-02-13-quarto-presentatie-toelichting/Quatropresentatie.html">
 <h3 class="no-anchor listing-title">
-Begin van mijn Quartoreis, een opzet voor een Quarto presentatie
+<a href="./posts/2023-02-13-quarto-presentatie-toelichting/Quatropresentatie.html" class="no-external">Begin van mijn Quartoreis, een opzet voor een Quarto presentatie</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2023-02-13-quarto-presentatie-toelichting/Quatropresentatie.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('communiceren'); return false;">
 communiceren
 </div>
 </div>
-<a href="./posts/2023-02-13-quarto-presentatie-toelichting/Quatropresentatie.html">
 <div class="listing-description">
-<p>Met Quarto, het nieuwe programma om wetenschappelijk te schrijven, kun je ook mooie presentaties maken. Megahn Hall maakte een mooie versie. Hoe dat er uit ziet en hoe je dat doet, daarover vind je informatie in deze blog.</p>
+<a href="./posts/2023-02-13-quarto-presentatie-toelichting/Quatropresentatie.html" class="no-external">Met Quarto, het nieuwe programma om wetenschappelijk te schrijven, kun je ook mooie presentaties maken. Megahn Hall maakte een mooie versie. Hoe dat er uit ziet en hoe je dat doet, daarover vind je informatie in deze blog. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2023-02-13-quarto-presentatie-toelichting/Quatropresentatie.html">
+<a href="./posts/2023-02-13-quarto-presentatie-toelichting/Quatropresentatie.html" class="no-external">
 <div class="listing-date">
 Feb 13, 2023
 </div>
@@ -658,32 +698,30 @@ Meghan Hall, bewerking Harrie Jonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="14" data-categories="modelleren" data-listing-date-sort="1673391600000" data-listing-file-modified-sort="1688328260661" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="36">
+<div class="quarto-post image-right" data-index="15" data-categories="modelleren" data-listing-date-sort="1673391600000" data-listing-file-modified-sort="1688328260661" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="36" data-listing-word-count-sort="7119">
 <div class="thumbnail">
-<p><a href="./posts/2023-01-11-machine-learning-with-tidymodels/TutorialALL.html"> <img src="./posts/2023-01-11-machine-learning-with-tidymodels/Screenshot1.PNG" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2023-01-11-machine-learning-with-tidymodels/TutorialALL.html" class="no-external"></a></p><a href="./posts/2023-01-11-machine-learning-with-tidymodels/TutorialALL.html" class="no-external">
+<p><img src="./posts/2023-01-11-machine-learning-with-tidymodels/Screenshot1.PNG" class="thumbnail-image"></p>
+</a><p><a href="./posts/2023-01-11-machine-learning-with-tidymodels/TutorialALL.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2023-01-11-machine-learning-with-tidymodels/TutorialALL.html">
 <h3 class="no-anchor listing-title">
-Werken met Tidymodels, een suite voor machine learning
+<a href="./posts/2023-01-11-machine-learning-with-tidymodels/TutorialALL.html" class="no-external">Werken met Tidymodels, een suite voor machine learning</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2023-01-11-machine-learning-with-tidymodels/TutorialALL.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('modelleren'); return false;">
 modelleren
 </div>
 </div>
-<a href="./posts/2023-01-11-machine-learning-with-tidymodels/TutorialALL.html">
 <div class="listing-description">
-<p><code>Tidymodels</code> is het suite-pakket van Posit om met machinelearning te werken. Op de website staan vijf handleidingen die voor deze post wat bewerkt zijn en die de verschillende aspecten van het pakket laten zien. Het is een introductie, het vertelt iets over de belangrijkste onderdelen en er wordt een uitgebreide case-studie gepresenteerd.</p>
+<a href="./posts/2023-01-11-machine-learning-with-tidymodels/TutorialALL.html" class="no-external"><code>Tidymodels</code> is het suite-pakket van Posit om met machinelearning te werken. Op de website staan vijf handleidingen die voor deze post wat bewerkt zijn en die de verschillende aspecten van het pakket laten zien. Het is een introductie, het vertelt iets over de belangrijkste onderdelen en er wordt een uitgebreide case-studie gepresenteerd. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2023-01-11-machine-learning-with-tidymodels/TutorialALL.html">
+<a href="./posts/2023-01-11-machine-learning-with-tidymodels/TutorialALL.html" class="no-external">
 <div class="listing-date">
 Jan 11, 2023
 </div>
@@ -693,19 +731,19 @@ Max Kuhn en Julia Silge, bewerkt door HarrieJonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="15" data-categories="modelleren,Bayesiaans" data-listing-date-sort="1670886000000" data-listing-file-modified-sort="1688328260658" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16">
+<div class="quarto-post image-right" data-index="16" data-categories="modelleren,Bayesiaans" data-listing-date-sort="1670886000000" data-listing-file-modified-sort="1688328260658" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16" data-listing-word-count-sort="3060">
 <div class="thumbnail">
-<p><a href="./posts/2022-12-13-bayes-logistisch-hierarchisch/Bayeshierarchlog.html"> <img src="./posts/2022-12-13-bayes-logistisch-hierarchisch/Screenshot.PNG" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2022-12-13-bayes-logistisch-hierarchisch/Bayeshierarchlog.html" class="no-external"></a></p><a href="./posts/2022-12-13-bayes-logistisch-hierarchisch/Bayeshierarchlog.html" class="no-external">
+<p><img src="./posts/2022-12-13-bayes-logistisch-hierarchisch/Screenshot.PNG" class="thumbnail-image"></p>
+</a><p><a href="./posts/2022-12-13-bayes-logistisch-hierarchisch/Bayeshierarchlog.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2022-12-13-bayes-logistisch-hierarchisch/Bayeshierarchlog.html">
 <h3 class="no-anchor listing-title">
-Bayesiaanse hierarchische logistische regressie
+<a href="./posts/2022-12-13-bayes-logistisch-hierarchisch/Bayeshierarchlog.html" class="no-external">Bayesiaanse hierarchische logistische regressie</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2022-12-13-bayes-logistisch-hierarchisch/Bayeshierarchlog.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('modelleren'); return false;">
 modelleren
@@ -714,14 +752,12 @@ modelleren
 Bayesiaans
 </div>
 </div>
-<a href="./posts/2022-12-13-bayes-logistisch-hierarchisch/Bayeshierarchlog.html">
 <div class="listing-description">
-<p>Hoe voer je een geclusterde logistische regressie uit vanuit een Bayesiaans perspectief? Aan de hand van data over succes en falen van Himalayaexpedities en leeftijd en zeestofgebruik van klimmers wordt duidelijk gemaakt hoe dit werkt. Deze blog is een bewerking van een deel van een hoofdstuk uit het prachtige Bayes Rules! boek.</p>
+<a href="./posts/2022-12-13-bayes-logistisch-hierarchisch/Bayeshierarchlog.html" class="no-external">Hoe voer je een geclusterde logistische regressie uit vanuit een Bayesiaans perspectief? Aan de hand van data over succes en falen van Himalayaexpedities en leeftijd en zeestofgebruik van klimmers wordt duidelijk gemaakt hoe dit werkt. Deze blog is een bewerking van een deel van een hoofdstuk uit het prachtige Bayes Rules! boek. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2022-12-13-bayes-logistisch-hierarchisch/Bayeshierarchlog.html">
+<a href="./posts/2022-12-13-bayes-logistisch-hierarchisch/Bayeshierarchlog.html" class="no-external">
 <div class="listing-date">
 Dec 13, 2022
 </div>
@@ -731,19 +767,19 @@ Alicia A. Johnson e.a., bewerking HarrieJonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="16" data-categories="modelleren,Bayesiaans" data-listing-date-sort="1670454000000" data-listing-file-modified-sort="1688328260656" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12">
+<div class="quarto-post image-right" data-index="17" data-categories="modelleren,Bayesiaans" data-listing-date-sort="1670454000000" data-listing-file-modified-sort="1688328260656" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2395">
 <div class="thumbnail">
-<p><a href="./posts/2022-12-08-expertsschattingen/expertsschattingen.html"> <img src="./posts/2022-12-08-expertsschattingen/Screenshot.PNG" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2022-12-08-expertsschattingen/expertsschattingen.html" class="no-external"></a></p><a href="./posts/2022-12-08-expertsschattingen/expertsschattingen.html" class="no-external">
+<p><img src="./posts/2022-12-08-expertsschattingen/Screenshot.PNG" class="thumbnail-image"></p>
+</a><p><a href="./posts/2022-12-08-expertsschattingen/expertsschattingen.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2022-12-08-expertsschattingen/expertsschattingen.html">
 <h3 class="no-anchor listing-title">
-Werken met moderne schattingstechnieken
+<a href="./posts/2022-12-08-expertsschattingen/expertsschattingen.html" class="no-external">Werken met moderne schattingstechnieken</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2022-12-08-expertsschattingen/expertsschattingen.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('modelleren'); return false;">
 modelleren
@@ -752,14 +788,12 @@ modelleren
 Bayesiaans
 </div>
 </div>
-<a href="./posts/2022-12-08-expertsschattingen/expertsschattingen.html">
 <div class="listing-description">
-<p>Hoe je schattingen maakt van uitkomsten door kennis van experts in te zetten, hoe zet je dit proces uit, hoe bereken je het en hoe combineer je deze kennis weer met data.</p>
+<a href="./posts/2022-12-08-expertsschattingen/expertsschattingen.html" class="no-external">Hoe je schattingen maakt van uitkomsten door kennis van experts in te zetten, hoe zet je dit proces uit, hoe bereken je het en hoe combineer je deze kennis weer met data. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2022-12-08-expertsschattingen/expertsschattingen.html">
+<a href="./posts/2022-12-08-expertsschattingen/expertsschattingen.html" class="no-external">
 <div class="listing-date">
 Dec 8, 2022
 </div>
@@ -769,19 +803,19 @@ HarrieJonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="17" data-categories="visualisatie,communicatie" data-listing-date-sort="1668294000000" data-listing-file-modified-sort="1688328260297" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="53">
+<div class="quarto-post image-right" data-index="18" data-categories="visualisatie,communicatie" data-listing-date-sort="1668294000000" data-listing-file-modified-sort="1688328260297" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="53" data-listing-word-count-sort="10561">
 <div class="thumbnail">
-<p><a href="./posts/2022-11-13-visualisaties/crimebynumbersHarrie.html"> <img src="./posts/2022-11-13-visualisaties/Screenshot.PNG" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2022-11-13-visualisaties/crimebynumbersHarrie.html" class="no-external"></a></p><a href="./posts/2022-11-13-visualisaties/crimebynumbersHarrie.html" class="no-external">
+<p><img src="./posts/2022-11-13-visualisaties/Screenshot.PNG" class="thumbnail-image"></p>
+</a><p><a href="./posts/2022-11-13-visualisaties/crimebynumbersHarrie.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2022-11-13-visualisaties/crimebynumbersHarrie.html">
 <h3 class="no-anchor listing-title">
-Visualisaties
+<a href="./posts/2022-11-13-visualisaties/crimebynumbersHarrie.html" class="no-external">Visualisaties</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2022-11-13-visualisaties/crimebynumbersHarrie.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('visualisatie'); return false;">
 visualisatie
@@ -790,14 +824,12 @@ visualisatie
 communicatie
 </div>
 </div>
-<a href="./posts/2022-11-13-visualisaties/crimebynumbersHarrie.html">
 <div class="listing-description">
-<p>Visualisaties met hotspot, choropleth en interactieve kaarten</p>
+<a href="./posts/2022-11-13-visualisaties/crimebynumbersHarrie.html" class="no-external">Visualisaties met hotspot, choropleth en interactieve kaarten </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2022-11-13-visualisaties/crimebynumbersHarrie.html">
+<a href="./posts/2022-11-13-visualisaties/crimebynumbersHarrie.html" class="no-external">
 <div class="listing-date">
 Nov 13, 2022
 </div>
@@ -807,19 +839,19 @@ Jacob Kap, bewerking HarrieJonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="18" data-categories="voorbereiden,modelleren,communiceren" data-listing-date-sort="1667775600000" data-listing-file-modified-sort="1696402364050" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="67">
+<div class="quarto-post image-right" data-index="19" data-categories="voorbereiden,modelleren,communiceren" data-listing-date-sort="1667775600000" data-listing-file-modified-sort="1696402364050" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="67" data-listing-word-count-sort="13253">
 <div class="thumbnail">
-<p><a href="./posts/2022-11-07-statistisch-denken/Stats21.html"> <img src="./posts/2022-11-07-statistisch-denken/Screenshot.PNG" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2022-11-07-statistisch-denken/Stats21.html" class="no-external"></a></p><a href="./posts/2022-11-07-statistisch-denken/Stats21.html" class="no-external">
+<p><img src="./posts/2022-11-07-statistisch-denken/Screenshot.PNG" class="thumbnail-image"></p>
+</a><p><a href="./posts/2022-11-07-statistisch-denken/Stats21.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2022-11-07-statistisch-denken/Stats21.html">
 <h3 class="no-anchor listing-title">
-Statistisch denken in de 21ste eeuw
+<a href="./posts/2022-11-07-statistisch-denken/Stats21.html" class="no-external">Statistisch denken in de 21ste eeuw</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2022-11-07-statistisch-denken/Stats21.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('voorbereiden'); return false;">
 voorbereiden
@@ -831,14 +863,12 @@ modelleren
 communiceren
 </div>
 </div>
-<a href="./posts/2022-11-07-statistisch-denken/Stats21.html">
 <div class="listing-description">
-<p>Statistisch denken in de 21ste eeuw met R én Python</p>
+<a href="./posts/2022-11-07-statistisch-denken/Stats21.html" class="no-external">Statistisch denken in de 21ste eeuw met R én Python </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2022-11-07-statistisch-denken/Stats21.html">
+<a href="./posts/2022-11-07-statistisch-denken/Stats21.html" class="no-external">
 <div class="listing-date">
 Nov 7, 2022
 </div>
@@ -848,19 +878,19 @@ Russel Poldrack, bewerking HarrieJonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="19" data-categories="voorbereiden,modelleren,communiceren" data-listing-date-sort="1665093600000" data-listing-file-modified-sort="1696402326751" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="19">
+<div class="quarto-post image-right" data-index="20" data-categories="voorbereiden,modelleren,communiceren" data-listing-date-sort="1665093600000" data-listing-file-modified-sort="1696402326751" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="19" data-listing-word-count-sort="3651">
 <div class="thumbnail">
-<p><a href="./posts/2022-10-07-verhalen-vertellen-met-data/verhalenvertellen.html"> <img src="./posts/2022-10-07-verhalen-vertellen-met-data/Screenshot.PNG" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2022-10-07-verhalen-vertellen-met-data/verhalenvertellen.html" class="no-external"></a></p><a href="./posts/2022-10-07-verhalen-vertellen-met-data/verhalenvertellen.html" class="no-external">
+<p><img src="./posts/2022-10-07-verhalen-vertellen-met-data/Screenshot.PNG" class="thumbnail-image"></p>
+</a><p><a href="./posts/2022-10-07-verhalen-vertellen-met-data/verhalenvertellen.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2022-10-07-verhalen-vertellen-met-data/verhalenvertellen.html">
 <h3 class="no-anchor listing-title">
-Verhalen vertellen met data
+<a href="./posts/2022-10-07-verhalen-vertellen-met-data/verhalenvertellen.html" class="no-external">Verhalen vertellen met data</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2022-10-07-verhalen-vertellen-met-data/verhalenvertellen.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('voorbereiden'); return false;">
 voorbereiden
@@ -872,14 +902,12 @@ modelleren
 communiceren
 </div>
 </div>
-<a href="./posts/2022-10-07-verhalen-vertellen-met-data/verhalenvertellen.html">
 <div class="listing-description">
-<p>Bespreking van een interessant leerboek moderne dataanalyse Telling stories with data van Rohan Alexander</p>
+<a href="./posts/2022-10-07-verhalen-vertellen-met-data/verhalenvertellen.html" class="no-external">Bespreking van een interessant leerboek moderne dataanalyse Telling stories with data van Rohan Alexander </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2022-10-07-verhalen-vertellen-met-data/verhalenvertellen.html">
+<a href="./posts/2022-10-07-verhalen-vertellen-met-data/verhalenvertellen.html" class="no-external">
 <div class="listing-date">
 Oct 7, 2022
 </div>
@@ -889,32 +917,30 @@ HarrieJonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="20" data-categories="communicatie" data-listing-date-sort="1665093600000" data-listing-file-modified-sort="1688328256586" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4">
+<div class="quarto-post image-right" data-index="21" data-categories="communicatie" data-listing-date-sort="1665093600000" data-listing-file-modified-sort="1688328256586" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="737">
 <div class="thumbnail">
-<p><a href="./posts/2022-10-07-quarto/quarto.html"> <img src="./posts/2022-10-07-quarto/Screenshot.PNG" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2022-10-07-quarto/quarto.html" class="no-external"></a></p><a href="./posts/2022-10-07-quarto/quarto.html" class="no-external">
+<p><img src="./posts/2022-10-07-quarto/Screenshot.PNG" class="thumbnail-image"></p>
+</a><p><a href="./posts/2022-10-07-quarto/quarto.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2022-10-07-quarto/quarto.html">
 <h3 class="no-anchor listing-title">
-Werken met Quarto
+<a href="./posts/2022-10-07-quarto/quarto.html" class="no-external">Werken met Quarto</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2022-10-07-quarto/quarto.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('communicatie'); return false;">
 communicatie
 </div>
 </div>
-<a href="./posts/2022-10-07-quarto/quarto.html">
 <div class="listing-description">
-<p>Over het werken met Quarto, de opvolger of het equivalent van RMarkdown</p>
+<a href="./posts/2022-10-07-quarto/quarto.html" class="no-external">Over het werken met Quarto, de opvolger of het equivalent van RMarkdown </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2022-10-07-quarto/quarto.html">
+<a href="./posts/2022-10-07-quarto/quarto.html" class="no-external">
 <div class="listing-date">
 Oct 7, 2022
 </div>
@@ -924,32 +950,30 @@ HarrieJonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="21" data-categories="visualization" data-listing-date-sort="1660773600000" data-listing-file-modified-sort="1688328256585" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8">
+<div class="quarto-post image-right" data-index="22" data-categories="visualization" data-listing-date-sort="1660773600000" data-listing-file-modified-sort="1688328256585" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1591">
 <div class="thumbnail">
-<p><a href="./posts/2022-09-20-wijken-plotten/wijken.html"> <img src="./posts/2022-09-20-wijken-plotten/Screenshot.PNG" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2022-09-20-wijken-plotten/wijken.html" class="no-external"></a></p><a href="./posts/2022-09-20-wijken-plotten/wijken.html" class="no-external">
+<p><img src="./posts/2022-09-20-wijken-plotten/Screenshot.PNG" class="thumbnail-image"></p>
+</a><p><a href="./posts/2022-09-20-wijken-plotten/wijken.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2022-09-20-wijken-plotten/wijken.html">
 <h3 class="no-anchor listing-title">
-Wijken plotten
+<a href="./posts/2022-09-20-wijken-plotten/wijken.html" class="no-external">Wijken plotten</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2022-09-20-wijken-plotten/wijken.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('visualization'); return false;">
 visualization
 </div>
 </div>
-<a href="./posts/2022-09-20-wijken-plotten/wijken.html">
 <div class="listing-description">
-<p>Over het maken van kaarten</p>
+<a href="./posts/2022-09-20-wijken-plotten/wijken.html" class="no-external">Over het maken van kaarten </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2022-09-20-wijken-plotten/wijken.html">
+<a href="./posts/2022-09-20-wijken-plotten/wijken.html" class="no-external">
 <div class="listing-date">
 Aug 18, 2022
 </div>
@@ -959,19 +983,19 @@ Daryn Ramsden, bewerking HarrieJonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="22" data-categories="visualisatie,modellen,Bayesiaans" data-listing-date-sort="1660514400000" data-listing-file-modified-sort="1688328256558" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="29">
+<div class="quarto-post image-right" data-index="23" data-categories="visualisatie,modellen,Bayesiaans" data-listing-date-sort="1660514400000" data-listing-file-modified-sort="1688328256558" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="29" data-listing-word-count-sort="5749">
 <div class="thumbnail">
-<p><a href="./posts/2022-08-15-geografische-analyse-van-risicos-met-inla/geografische-analyse-van-risicos-met-inla.html"> <img src="./posts/2022-08-15-geografische-analyse-van-risicos-met-inla/Screenshot.PNG" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2022-08-15-geografische-analyse-van-risicos-met-inla/geografische-analyse-van-risicos-met-inla.html" class="no-external"></a></p><a href="./posts/2022-08-15-geografische-analyse-van-risicos-met-inla/geografische-analyse-van-risicos-met-inla.html" class="no-external">
+<p><img src="./posts/2022-08-15-geografische-analyse-van-risicos-met-inla/Screenshot.PNG" class="thumbnail-image"></p>
+</a><p><a href="./posts/2022-08-15-geografische-analyse-van-risicos-met-inla/geografische-analyse-van-risicos-met-inla.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2022-08-15-geografische-analyse-van-risicos-met-inla/geografische-analyse-van-risicos-met-inla.html">
 <h3 class="no-anchor listing-title">
-Geografische analyse van risico’s met INLA
+<a href="./posts/2022-08-15-geografische-analyse-van-risicos-met-inla/geografische-analyse-van-risicos-met-inla.html" class="no-external">Geografische analyse van risico’s met INLA</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2022-08-15-geografische-analyse-van-risicos-met-inla/geografische-analyse-van-risicos-met-inla.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('visualisatie'); return false;">
 visualisatie
@@ -983,14 +1007,12 @@ modellen
 Bayesiaans
 </div>
 </div>
-<a href="./posts/2022-08-15-geografische-analyse-van-risicos-met-inla/geografische-analyse-van-risicos-met-inla.html">
 <div class="listing-description">
-<p>Paula Moraga laat zien hoe je geografische gegevens kunt analyseren met het programma INLA</p>
+<a href="./posts/2022-08-15-geografische-analyse-van-risicos-met-inla/geografische-analyse-van-risicos-met-inla.html" class="no-external">Paula Moraga laat zien hoe je geografische gegevens kunt analyseren met het programma INLA </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2022-08-15-geografische-analyse-van-risicos-met-inla/geografische-analyse-van-risicos-met-inla.html">
+<a href="./posts/2022-08-15-geografische-analyse-van-risicos-met-inla/geografische-analyse-van-risicos-met-inla.html" class="no-external">
 <div class="listing-date">
 Aug 15, 2022
 </div>
@@ -1000,32 +1022,30 @@ Paula Moraga, bewerking HarrieJonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="23" data-categories="Bayesiaans" data-listing-date-sort="1657058400000" data-listing-file-modified-sort="1688328256576" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
+<div class="quarto-post image-right" data-index="24" data-categories="Bayesiaans" data-listing-date-sort="1657058400000" data-listing-file-modified-sort="1688328256576" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="154">
 <div class="thumbnail">
-<p><a href="./posts/2022-08-18-bayes-en-stan/bayes-en-stan.html"> <img src="./posts/2022-08-18-bayes-en-stan/Screenshot.PNG" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2022-08-18-bayes-en-stan/bayes-en-stan.html" class="no-external"></a></p><a href="./posts/2022-08-18-bayes-en-stan/bayes-en-stan.html" class="no-external">
+<p><img src="./posts/2022-08-18-bayes-en-stan/Screenshot.PNG" class="thumbnail-image"></p>
+</a><p><a href="./posts/2022-08-18-bayes-en-stan/bayes-en-stan.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2022-08-18-bayes-en-stan/bayes-en-stan.html">
 <h3 class="no-anchor listing-title">
-Bayes en Stan
+<a href="./posts/2022-08-18-bayes-en-stan/bayes-en-stan.html" class="no-external">Bayes en Stan</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2022-08-18-bayes-en-stan/bayes-en-stan.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Bayesiaans'); return false;">
 Bayesiaans
 </div>
 </div>
-<a href="./posts/2022-08-18-bayes-en-stan/bayes-en-stan.html">
 <div class="listing-description">
-<p>Over het werken met Bayesiaanse analyse in Stan.</p>
+<a href="./posts/2022-08-18-bayes-en-stan/bayes-en-stan.html" class="no-external">Over het werken met Bayesiaanse analyse in Stan. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2022-08-18-bayes-en-stan/bayes-en-stan.html">
+<a href="./posts/2022-08-18-bayes-en-stan/bayes-en-stan.html" class="no-external">
 <div class="listing-date">
 Jul 6, 2022
 </div>
@@ -1035,32 +1055,30 @@ Jim Albert, werking HarrieJonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="24" data-categories="Bayesiaans" data-listing-date-sort="1657058400000" data-listing-file-modified-sort="1688328256550" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4">
+<div class="quarto-post image-right" data-index="25" data-categories="Bayesiaans" data-listing-date-sort="1657058400000" data-listing-file-modified-sort="1688328256550" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="685">
 <div class="thumbnail">
-<p><a href="./posts/2022-07-06-bayesrules/bayesrules.html"> <img src="./posts/2022-07-06-bayesrules/Screenshot.PNG" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2022-07-06-bayesrules/bayesrules.html" class="no-external"></a></p><a href="./posts/2022-07-06-bayesrules/bayesrules.html" class="no-external">
+<p><img data-src="./posts/2022-07-06-bayesrules/Screenshot.PNG" class="thumbnail-image"></p>
+</a><p><a href="./posts/2022-07-06-bayesrules/bayesrules.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2022-07-06-bayesrules/bayesrules.html">
 <h3 class="no-anchor listing-title">
-Bayes Rules!
+<a href="./posts/2022-07-06-bayesrules/bayesrules.html" class="no-external">Bayes Rules!</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2022-07-06-bayesrules/bayesrules.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Bayesiaans'); return false;">
 Bayesiaans
 </div>
 </div>
-<a href="./posts/2022-07-06-bayesrules/bayesrules.html">
 <div class="listing-description">
-<p>Aantekeningen bij een prachtig Bayesiaans studieboek</p>
+<a href="./posts/2022-07-06-bayesrules/bayesrules.html" class="no-external">Aantekeningen bij een prachtig Bayesiaans studieboek </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2022-07-06-bayesrules/bayesrules.html">
+<a href="./posts/2022-07-06-bayesrules/bayesrules.html" class="no-external">
 <div class="listing-date">
 Jul 6, 2022
 </div>
@@ -1070,32 +1088,30 @@ HarrieJonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="25" data-categories="visualisatie" data-listing-date-sort="1656280800000" data-listing-file-modified-sort="1688328256548" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="100">
+<div class="quarto-post image-right" data-index="26" data-categories="visualisatie" data-listing-date-sort="1656280800000" data-listing-file-modified-sort="1688328256548" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="100" data-listing-word-count-sort="19907">
 <div class="thumbnail">
-<p><a href="./posts/2022-06-27-ggplot-stap-voor-stap/ggplot-stap-voor-stap.html"> <img data-src="./posts/2022-06-27-ggplot-stap-voor-stap/Plaatje7.PNG" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2022-06-27-ggplot-stap-voor-stap/ggplot-stap-voor-stap.html" class="no-external"></a></p><a href="./posts/2022-06-27-ggplot-stap-voor-stap/ggplot-stap-voor-stap.html" class="no-external">
+<p><img data-src="./posts/2022-06-27-ggplot-stap-voor-stap/Plaatje7.PNG" class="thumbnail-image"></p>
+</a><p><a href="./posts/2022-06-27-ggplot-stap-voor-stap/ggplot-stap-voor-stap.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2022-06-27-ggplot-stap-voor-stap/ggplot-stap-voor-stap.html">
 <h3 class="no-anchor listing-title">
-ggplot stap voor stap
+<a href="./posts/2022-06-27-ggplot-stap-voor-stap/ggplot-stap-voor-stap.html" class="no-external">ggplot stap voor stap</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2022-06-27-ggplot-stap-voor-stap/ggplot-stap-voor-stap.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('visualisatie'); return false;">
 visualisatie
 </div>
 </div>
-<a href="./posts/2022-06-27-ggplot-stap-voor-stap/ggplot-stap-voor-stap.html">
 <div class="listing-description">
-<p>Een GGPLOT2 handleiding om mooi te kunnen plotten in R.</p>
+<a href="./posts/2022-06-27-ggplot-stap-voor-stap/ggplot-stap-voor-stap.html" class="no-external">Een GGPLOT2 handleiding om mooi te kunnen plotten in R. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2022-06-27-ggplot-stap-voor-stap/ggplot-stap-voor-stap.html">
+<a href="./posts/2022-06-27-ggplot-stap-voor-stap/ggplot-stap-voor-stap.html" class="no-external">
 <div class="listing-date">
 Jun 27, 2022
 </div>
@@ -1105,32 +1121,30 @@ Cédric Scherer, bewerking Harrie Jonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="26" data-categories="visualisatie" data-listing-date-sort="1653948000000" data-listing-file-modified-sort="1688328256536" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="24">
+<div class="quarto-post image-right" data-index="27" data-categories="visualisatie" data-listing-date-sort="1653948000000" data-listing-file-modified-sort="1688328256536" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="24" data-listing-word-count-sort="4797">
 <div class="thumbnail">
-<p><a href="./posts/2022-05-31-van-distill-naar-quarto/van-distill-naar-quarto.html"> <img data-src="./posts/2022-05-31-van-distill-naar-quarto/welcome_post.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2022-05-31-van-distill-naar-quarto/van-distill-naar-quarto.html" class="no-external"></a></p><a href="./posts/2022-05-31-van-distill-naar-quarto/van-distill-naar-quarto.html" class="no-external">
+<p><img data-src="./posts/2022-05-31-van-distill-naar-quarto/welcome_post.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/2022-05-31-van-distill-naar-quarto/van-distill-naar-quarto.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2022-05-31-van-distill-naar-quarto/van-distill-naar-quarto.html">
 <h3 class="no-anchor listing-title">
-Van distill naar quarto?
+<a href="./posts/2022-05-31-van-distill-naar-quarto/van-distill-naar-quarto.html" class="no-external">Van distill naar quarto?</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2022-05-31-van-distill-naar-quarto/van-distill-naar-quarto.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('visualisatie'); return false;">
 visualisatie
 </div>
 </div>
-<a href="./posts/2022-05-31-van-distill-naar-quarto/van-distill-naar-quarto.html">
 <div class="listing-description">
-<p>Een blog maken met quarto.</p>
+<a href="./posts/2022-05-31-van-distill-naar-quarto/van-distill-naar-quarto.html" class="no-external">Een blog maken met quarto. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2022-05-31-van-distill-naar-quarto/van-distill-naar-quarto.html">
+<a href="./posts/2022-05-31-van-distill-naar-quarto/van-distill-naar-quarto.html" class="no-external">
 <div class="listing-date">
 May 31, 2022
 </div>
@@ -1140,19 +1154,19 @@ Danielle Navarro bewerking HarrieJonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="27" data-categories="theorie,voorbereiden,modelleren" data-listing-date-sort="1651960800000" data-listing-file-modified-sort="1696402287170" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8">
+<div class="quarto-post image-right" data-index="28" data-categories="theorie,voorbereiden,modelleren" data-listing-date-sort="1651960800000" data-listing-file-modified-sort="1696402287170" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1410">
 <div class="thumbnail">
-<p><a href="./posts/2022-05-08-missende-waarden/missende-waarden.html"> <img data-src="./posts/2022-05-08-missende-waarden/Screenshot.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2022-05-08-missende-waarden/missende-waarden.html" class="no-external"></a></p><a href="./posts/2022-05-08-missende-waarden/missende-waarden.html" class="no-external">
+<p><img data-src="./posts/2022-05-08-missende-waarden/Screenshot.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/2022-05-08-missende-waarden/missende-waarden.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2022-05-08-missende-waarden/missende-waarden.html">
 <h3 class="no-anchor listing-title">
-Missende waarden
+<a href="./posts/2022-05-08-missende-waarden/missende-waarden.html" class="no-external">Missende waarden</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2022-05-08-missende-waarden/missende-waarden.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('theorie'); return false;">
 theorie
@@ -1164,14 +1178,12 @@ voorbereiden
 modelleren
 </div>
 </div>
-<a href="./posts/2022-05-08-missende-waarden/missende-waarden.html">
 <div class="listing-description">
-<p>Over het pakket <code>mice</code> en missende waarden</p>
+<a href="./posts/2022-05-08-missende-waarden/missende-waarden.html" class="no-external">Over het pakket <code>mice</code> en missende waarden </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2022-05-08-missende-waarden/missende-waarden.html">
+<a href="./posts/2022-05-08-missende-waarden/missende-waarden.html" class="no-external">
 <div class="listing-date">
 May 8, 2022
 </div>
@@ -1181,32 +1193,30 @@ Michy Allice, bewerking HarrieJonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="28" data-categories="visualisatie" data-listing-date-sort="1651701600000" data-listing-file-modified-sort="1688328256502" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12">
+<div class="quarto-post image-right" data-index="29" data-categories="visualisatie" data-listing-date-sort="1651701600000" data-listing-file-modified-sort="1688328256502" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2210">
 <div class="thumbnail">
-<p><a href="./posts/2022-05-05-kaarten-maken-met-r/kaarten-maken-met-r.html"> <img data-src="./posts/2022-05-05-kaarten-maken-met-r/DR2_map_Europe.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2022-05-05-kaarten-maken-met-r/kaarten-maken-met-r.html" class="no-external"></a></p><a href="./posts/2022-05-05-kaarten-maken-met-r/kaarten-maken-met-r.html" class="no-external">
+<p><img data-src="./posts/2022-05-05-kaarten-maken-met-r/DR2_map_Europe.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/2022-05-05-kaarten-maken-met-r/kaarten-maken-met-r.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2022-05-05-kaarten-maken-met-r/kaarten-maken-met-r.html">
 <h3 class="no-anchor listing-title">
-Kaarten maken met R
+<a href="./posts/2022-05-05-kaarten-maken-met-r/kaarten-maken-met-r.html" class="no-external">Kaarten maken met R</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2022-05-05-kaarten-maken-met-r/kaarten-maken-met-r.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('visualisatie'); return false;">
 visualisatie
 </div>
 </div>
-<a href="./posts/2022-05-05-kaarten-maken-met-r/kaarten-maken-met-r.html">
 <div class="listing-description">
-<p>Hieronder een korte introductie op hoe je kaarten maakt met R, met name met het pakket <code>sf</code>.</p>
+<a href="./posts/2022-05-05-kaarten-maken-met-r/kaarten-maken-met-r.html" class="no-external">Hieronder een korte introductie op hoe je kaarten maakt met R, met name met het pakket <code>sf</code>. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2022-05-05-kaarten-maken-met-r/kaarten-maken-met-r.html">
+<a href="./posts/2022-05-05-kaarten-maken-met-r/kaarten-maken-met-r.html" class="no-external">
 <div class="listing-date">
 May 5, 2022
 </div>
@@ -1216,32 +1226,30 @@ Euginio Petrovich, bewerking Harrie Jonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="29" data-categories="Bayesiaans" data-listing-date-sort="1648504800000" data-listing-file-modified-sort="1688328256456" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="19">
+<div class="quarto-post image-right" data-index="30" data-categories="Bayesiaans" data-listing-date-sort="1648504800000" data-listing-file-modified-sort="1688328256456" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="19" data-listing-word-count-sort="3632">
 <div class="thumbnail">
-<p><a href="./posts/2022-03-26-naieve-bayesiaanse-classificatie/naeve-bayesiaanse-classificatie.html"> <img data-src="./posts/2022-03-26-naieve-bayesiaanse-classificatie/Screenshot.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2022-03-26-naieve-bayesiaanse-classificatie/naeve-bayesiaanse-classificatie.html" class="no-external"></a></p><a href="./posts/2022-03-26-naieve-bayesiaanse-classificatie/naeve-bayesiaanse-classificatie.html" class="no-external">
+<p><img data-src="./posts/2022-03-26-naieve-bayesiaanse-classificatie/Screenshot.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/2022-03-26-naieve-bayesiaanse-classificatie/naeve-bayesiaanse-classificatie.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2022-03-26-naieve-bayesiaanse-classificatie/naeve-bayesiaanse-classificatie.html">
 <h3 class="no-anchor listing-title">
-Naïeve Bayesiaanse classificatie
+<a href="./posts/2022-03-26-naieve-bayesiaanse-classificatie/naeve-bayesiaanse-classificatie.html" class="no-external">Naïeve Bayesiaanse classificatie</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2022-03-26-naieve-bayesiaanse-classificatie/naeve-bayesiaanse-classificatie.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Bayesiaans'); return false;">
 Bayesiaans
 </div>
 </div>
-<a href="./posts/2022-03-26-naieve-bayesiaanse-classificatie/naeve-bayesiaanse-classificatie.html">
 <div class="listing-description">
-<p>In deze blog wordt getoond hoe Naïeve Bayesiaanse classificatieanalyse werkt.</p>
+<a href="./posts/2022-03-26-naieve-bayesiaanse-classificatie/naeve-bayesiaanse-classificatie.html" class="no-external">In deze blog wordt getoond hoe Naïeve Bayesiaanse classificatieanalyse werkt. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2022-03-26-naieve-bayesiaanse-classificatie/naeve-bayesiaanse-classificatie.html">
+<a href="./posts/2022-03-26-naieve-bayesiaanse-classificatie/naeve-bayesiaanse-classificatie.html" class="no-external">
 <div class="listing-date">
 Mar 29, 2022
 </div>
@@ -1251,32 +1259,30 @@ Harrie Jonkman en Mr.X
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="30" data-categories="Bayesiaans" data-listing-date-sort="1648504800000" data-listing-file-modified-sort="1688328256484" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="21">
+<div class="quarto-post image-right" data-index="31" data-categories="Bayesiaans" data-listing-date-sort="1648504800000" data-listing-file-modified-sort="1688328256484" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="21" data-listing-word-count-sort="4011">
 <div class="thumbnail">
-<p><a href="./posts/2022-03-29-wat-kun-je-met-bayes/wat-kun-je-met-bayes.html"> <img data-src="./posts/2022-03-29-wat-kun-je-met-bayes/Screenshot.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2022-03-29-wat-kun-je-met-bayes/wat-kun-je-met-bayes.html" class="no-external"></a></p><a href="./posts/2022-03-29-wat-kun-je-met-bayes/wat-kun-je-met-bayes.html" class="no-external">
+<p><img data-src="./posts/2022-03-29-wat-kun-je-met-bayes/Screenshot.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/2022-03-29-wat-kun-je-met-bayes/wat-kun-je-met-bayes.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2022-03-29-wat-kun-je-met-bayes/wat-kun-je-met-bayes.html">
 <h3 class="no-anchor listing-title">
-Wat kun je met Bayes?
+<a href="./posts/2022-03-29-wat-kun-je-met-bayes/wat-kun-je-met-bayes.html" class="no-external">Wat kun je met Bayes?</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2022-03-29-wat-kun-je-met-bayes/wat-kun-je-met-bayes.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Bayesiaans'); return false;">
 Bayesiaans
 </div>
 </div>
-<a href="./posts/2022-03-29-wat-kun-je-met-bayes/wat-kun-je-met-bayes.html">
 <div class="listing-description">
-<p>In deze blog wordt getoond wat je met Bayes wetenschappelijk kunt: schatten, testen en voorspellen.</p>
+<a href="./posts/2022-03-29-wat-kun-je-met-bayes/wat-kun-je-met-bayes.html" class="no-external">In deze blog wordt getoond wat je met Bayes wetenschappelijk kunt: schatten, testen en voorspellen. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2022-03-29-wat-kun-je-met-bayes/wat-kun-je-met-bayes.html">
+<a href="./posts/2022-03-29-wat-kun-je-met-bayes/wat-kun-je-met-bayes.html" class="no-external">
 <div class="listing-date">
 Mar 29, 2022
 </div>
@@ -1286,32 +1292,30 @@ Johnson e.a. en Harrie Jonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="31" data-categories="Bayesiaans" data-listing-date-sort="1646607600000" data-listing-file-modified-sort="1688328256455" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="20">
+<div class="quarto-post image-right" data-index="32" data-categories="Bayesiaans" data-listing-date-sort="1646607600000" data-listing-file-modified-sort="1688328256455" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="20" data-listing-word-count-sort="3966">
 <div class="thumbnail">
-<p><a href="./posts/2022-03-22-bayesiaanse-principes/bayes-principes.html"> <img data-src="./posts/2022-03-22-bayesiaanse-principes/Screenshot.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2022-03-22-bayesiaanse-principes/bayes-principes.html" class="no-external"></a></p><a href="./posts/2022-03-22-bayesiaanse-principes/bayes-principes.html" class="no-external">
+<p><img data-src="./posts/2022-03-22-bayesiaanse-principes/Screenshot.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/2022-03-22-bayesiaanse-principes/bayes-principes.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2022-03-22-bayesiaanse-principes/bayes-principes.html">
 <h3 class="no-anchor listing-title">
-Bayes’ principes
+<a href="./posts/2022-03-22-bayesiaanse-principes/bayes-principes.html" class="no-external">Bayes’ principes</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2022-03-22-bayesiaanse-principes/bayes-principes.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Bayesiaans'); return false;">
 Bayesiaans
 </div>
 </div>
-<a href="./posts/2022-03-22-bayesiaanse-principes/bayes-principes.html">
 <div class="listing-description">
-<p>Een blog over de principes van de Bayesiaanse theorie</p>
+<a href="./posts/2022-03-22-bayesiaanse-principes/bayes-principes.html" class="no-external">Een blog over de principes van de Bayesiaanse theorie </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2022-03-22-bayesiaanse-principes/bayes-principes.html">
+<a href="./posts/2022-03-22-bayesiaanse-principes/bayes-principes.html" class="no-external">
 <div class="listing-date">
 Mar 7, 2022
 </div>
@@ -1321,32 +1325,30 @@ Johnson e.a. en Harrie Jonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="32" data-categories="analyse" data-listing-date-sort="1644447600000" data-listing-file-modified-sort="1688328256441" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="19">
+<div class="quarto-post image-right" data-index="33" data-categories="analyse" data-listing-date-sort="1644447600000" data-listing-file-modified-sort="1688328256441" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="19" data-listing-word-count-sort="3795">
 <div class="thumbnail">
-<p><a href="./posts/2022-02-11-regressie-en-zo/regressie-en-zo.html"> <img data-src="./posts/2022-02-11-regressie-en-zo/Screenshot.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2022-02-11-regressie-en-zo/regressie-en-zo.html" class="no-external"></a></p><a href="./posts/2022-02-11-regressie-en-zo/regressie-en-zo.html" class="no-external">
+<p><img data-src="./posts/2022-02-11-regressie-en-zo/Screenshot.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/2022-02-11-regressie-en-zo/regressie-en-zo.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2022-02-11-regressie-en-zo/regressie-en-zo.html">
 <h3 class="no-anchor listing-title">
-Regressie en nog zo iets
+<a href="./posts/2022-02-11-regressie-en-zo/regressie-en-zo.html" class="no-external">Regressie en nog zo iets</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2022-02-11-regressie-en-zo/regressie-en-zo.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('analyse'); return false;">
 analyse
 </div>
 </div>
-<a href="./posts/2022-02-11-regressie-en-zo/regressie-en-zo.html">
 <div class="listing-description">
-<p>Dit is een blog naar aanleiding van Gelman/Hill/Vehtari nieuwe boek Regresion and other stories</p>
+<a href="./posts/2022-02-11-regressie-en-zo/regressie-en-zo.html" class="no-external">Dit is een blog naar aanleiding van Gelman/Hill/Vehtari nieuwe boek Regresion and other stories </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2022-02-11-regressie-en-zo/regressie-en-zo.html">
+<a href="./posts/2022-02-11-regressie-en-zo/regressie-en-zo.html" class="no-external">
 <div class="listing-date">
 Feb 10, 2022
 </div>
@@ -1356,32 +1358,30 @@ Harrie Jonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="33" data-categories="analyse" data-listing-date-sort="1644102000000" data-listing-file-modified-sort="1688328256425" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="44">
+<div class="quarto-post image-right" data-index="34" data-categories="analyse" data-listing-date-sort="1644102000000" data-listing-file-modified-sort="1688328256425" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="44" data-listing-word-count-sort="8699">
 <div class="thumbnail">
-<p><a href="./posts/2022-02-11-multilevelrstan/multilevelrstan.html"> <img data-src="./posts/2022-02-11-multilevelrstan/Screenshot.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2022-02-11-multilevelrstan/multilevelrstan.html" class="no-external"></a></p><a href="./posts/2022-02-11-multilevelrstan/multilevelrstan.html" class="no-external">
+<p><img data-src="./posts/2022-02-11-multilevelrstan/Screenshot.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/2022-02-11-multilevelrstan/multilevelrstan.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2022-02-11-multilevelrstan/multilevelrstan.html">
 <h3 class="no-anchor listing-title">
-Multilevel modeling met STAN
+<a href="./posts/2022-02-11-multilevelrstan/multilevelrstan.html" class="no-external">Multilevel modeling met STAN</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2022-02-11-multilevelrstan/multilevelrstan.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('analyse'); return false;">
 analyse
 </div>
 </div>
-<a href="./posts/2022-02-11-multilevelrstan/multilevelrstan.html">
 <div class="listing-description">
-<p>Introductie op multilevel modelleren met gebruik van <strong>rstanarm</strong>: Een tutorial voor onderwijsonderzoekers</p>
+<a href="./posts/2022-02-11-multilevelrstan/multilevelrstan.html" class="no-external">Introductie op multilevel modelleren met gebruik van <strong>rstanarm</strong>: Een tutorial voor onderwijsonderzoekers </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2022-02-11-multilevelrstan/multilevelrstan.html">
+<a href="./posts/2022-02-11-multilevelrstan/multilevelrstan.html" class="no-external">
 <div class="listing-date">
 Feb 6, 2022
 </div>
@@ -1391,32 +1391,30 @@ JoonHo Lee, Nicholas Sim, Feng Ji, and Sophia Rabe-Hesketh, vertaling HarrieJonk
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="34" data-categories="analyse" data-listing-date-sort="1641250800000" data-listing-file-modified-sort="1688328256413" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14">
+<div class="quarto-post image-right" data-index="35" data-categories="analyse" data-listing-date-sort="1641250800000" data-listing-file-modified-sort="1688328256413" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14" data-listing-word-count-sort="2736">
 <div class="thumbnail">
-<p><a href="./posts/2022-01-03-multilevel-modeling/multilevel-modeling.html"> <img data-src="./posts/2022-01-03-multilevel-modeling/Screenshot.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2022-01-03-multilevel-modeling/multilevel-modeling.html" class="no-external"></a></p><a href="./posts/2022-01-03-multilevel-modeling/multilevel-modeling.html" class="no-external">
+<p><img data-src="./posts/2022-01-03-multilevel-modeling/Screenshot.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/2022-01-03-multilevel-modeling/multilevel-modeling.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2022-01-03-multilevel-modeling/multilevel-modeling.html">
 <h3 class="no-anchor listing-title">
-Multilevel modeling
+<a href="./posts/2022-01-03-multilevel-modeling/multilevel-modeling.html" class="no-external">Multilevel modeling</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2022-01-03-multilevel-modeling/multilevel-modeling.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('analyse'); return false;">
 analyse
 </div>
 </div>
-<a href="./posts/2022-01-03-multilevel-modeling/multilevel-modeling.html">
 <div class="listing-description">
-<p>Dit is een post over multilevel analyse van longitudinale data met betrekking tot alcoholgebruik van jongeren.</p>
+<a href="./posts/2022-01-03-multilevel-modeling/multilevel-modeling.html" class="no-external">Dit is een post over multilevel analyse van longitudinale data met betrekking tot alcoholgebruik van jongeren. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2022-01-03-multilevel-modeling/multilevel-modeling.html">
+<a href="./posts/2022-01-03-multilevel-modeling/multilevel-modeling.html" class="no-external">
 <div class="listing-date">
 Jan 4, 2022
 </div>
@@ -1426,32 +1424,30 @@ Alexander Cernat, bewerking Harrie Jonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="35" data-categories="analyse" data-listing-date-sort="1641164400000" data-listing-file-modified-sort="1688328256404" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10">
+<div class="quarto-post image-right" data-index="36" data-categories="analyse" data-listing-date-sort="1641164400000" data-listing-file-modified-sort="1688328256404" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1828">
 <div class="thumbnail">
-<p><a href="./posts/2022-01-03-latente-groei-modeling/latente-groei-modeling.html"> <img data-src="./posts/2022-01-03-latente-groei-modeling/Screenshot1.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2022-01-03-latente-groei-modeling/latente-groei-modeling.html" class="no-external"></a></p><a href="./posts/2022-01-03-latente-groei-modeling/latente-groei-modeling.html" class="no-external">
+<p><img data-src="./posts/2022-01-03-latente-groei-modeling/Screenshot1.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/2022-01-03-latente-groei-modeling/latente-groei-modeling.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2022-01-03-latente-groei-modeling/latente-groei-modeling.html">
 <h3 class="no-anchor listing-title">
-Latente Groei Modeling
+<a href="./posts/2022-01-03-latente-groei-modeling/latente-groei-modeling.html" class="no-external">Latente Groei Modeling</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2022-01-03-latente-groei-modeling/latente-groei-modeling.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('analyse'); return false;">
 analyse
 </div>
 </div>
-<a href="./posts/2022-01-03-latente-groei-modeling/latente-groei-modeling.html">
 <div class="listing-description">
-<p>Dit is een blog over Latente Groei Modeling van longitudinale data van alcoholgebruik van jongeren</p>
+<a href="./posts/2022-01-03-latente-groei-modeling/latente-groei-modeling.html" class="no-external">Dit is een blog over Latente Groei Modeling van longitudinale data van alcoholgebruik van jongeren </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2022-01-03-latente-groei-modeling/latente-groei-modeling.html">
+<a href="./posts/2022-01-03-latente-groei-modeling/latente-groei-modeling.html" class="no-external">
 <div class="listing-date">
 Jan 3, 2022
 </div>
@@ -1461,32 +1457,30 @@ Alexander Cernat, bewerking Harrie Jonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="36" data-categories="voorbereiden" data-listing-date-sort="1633212000000" data-listing-file-modified-sort="1696402205387" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11">
+<div class="quarto-post image-right" data-index="37" data-categories="voorbereiden" data-listing-date-sort="1633212000000" data-listing-file-modified-sort="1696402205387" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11" data-listing-word-count-sort="2031">
 <div class="thumbnail">
-<p><a href="./posts/2021-10-03-ontrafelen/ontrafelen.html"> <img data-src="./posts/2021-10-03-ontrafelen/Screenshot1.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2021-10-03-ontrafelen/ontrafelen.html" class="no-external"></a></p><a href="./posts/2021-10-03-ontrafelen/ontrafelen.html" class="no-external">
+<p><img data-src="./posts/2021-10-03-ontrafelen/Screenshot1.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/2021-10-03-ontrafelen/ontrafelen.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2021-10-03-ontrafelen/ontrafelen.html">
 <h3 class="no-anchor listing-title">
-Opschonen en ontrafelen
+<a href="./posts/2021-10-03-ontrafelen/ontrafelen.html" class="no-external">Opschonen en ontrafelen</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2021-10-03-ontrafelen/ontrafelen.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('voorbereiden'); return false;">
 voorbereiden
 </div>
 </div>
-<a href="./posts/2021-10-03-ontrafelen/ontrafelen.html">
 <div class="listing-description">
-<p>Een post over opschonen en ontrafelen van data</p>
+<a href="./posts/2021-10-03-ontrafelen/ontrafelen.html" class="no-external">Een post over opschonen en ontrafelen van data </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2021-10-03-ontrafelen/ontrafelen.html">
+<a href="./posts/2021-10-03-ontrafelen/ontrafelen.html" class="no-external">
 <div class="listing-date">
 Oct 3, 2021
 </div>
@@ -1496,32 +1490,30 @@ Bewerking Harrie Jonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="37" data-categories="communicatie" data-listing-date-sort="1633039200000" data-listing-file-modified-sort="1688328256386" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7">
+<div class="quarto-post image-right" data-index="38" data-categories="communicatie" data-listing-date-sort="1633039200000" data-listing-file-modified-sort="1688328256386" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1280">
 <div class="thumbnail">
-<p><a href="./posts/2021-10-01-rmarkdown-en-officedown/rmarkdown-en-officedown.html"> <img data-src="./posts/2021-10-01-rmarkdown-en-officedown/Screenshot1.PNG" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2021-10-01-rmarkdown-en-officedown/rmarkdown-en-officedown.html" class="no-external"></a></p><a href="./posts/2021-10-01-rmarkdown-en-officedown/rmarkdown-en-officedown.html" class="no-external">
+<p><img data-src="./posts/2021-10-01-rmarkdown-en-officedown/Screenshot1.PNG" class="thumbnail-image"></p>
+</a><p><a href="./posts/2021-10-01-rmarkdown-en-officedown/rmarkdown-en-officedown.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2021-10-01-rmarkdown-en-officedown/rmarkdown-en-officedown.html">
 <h3 class="no-anchor listing-title">
-Rmarkdown en Officedown
+<a href="./posts/2021-10-01-rmarkdown-en-officedown/rmarkdown-en-officedown.html" class="no-external">Rmarkdown en Officedown</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2021-10-01-rmarkdown-en-officedown/rmarkdown-en-officedown.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('communicatie'); return false;">
 communicatie
 </div>
 </div>
-<a href="./posts/2021-10-01-rmarkdown-en-officedown/rmarkdown-en-officedown.html">
 <div class="listing-description">
-<p>Een blog over documentatie en hoe ze dat in de farmaceutische industrie kunnen doen</p>
+<a href="./posts/2021-10-01-rmarkdown-en-officedown/rmarkdown-en-officedown.html" class="no-external">Een blog over documentatie en hoe ze dat in de farmaceutische industrie kunnen doen </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2021-10-01-rmarkdown-en-officedown/rmarkdown-en-officedown.html">
+<a href="./posts/2021-10-01-rmarkdown-en-officedown/rmarkdown-en-officedown.html" class="no-external">
 <div class="listing-date">
 Oct 1, 2021
 </div>
@@ -1531,32 +1523,30 @@ Jakub Sobolewski, bewerking Harrie Jonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="38" data-categories="visualisatie" data-listing-date-sort="1626818400000" data-listing-file-modified-sort="1688328256363" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9">
+<div class="quarto-post image-right" data-index="39" data-categories="visualisatie" data-listing-date-sort="1626818400000" data-listing-file-modified-sort="1688328256363" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1688">
 <div class="thumbnail">
-<p><a href="./posts/2021-07-21-kaart-van-zwitserland/kaart-van-zwitserland.html"> <img data-src="./posts/2021-07-21-kaart-van-zwitserland/Screenshot.PNG" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2021-07-21-kaart-van-zwitserland/kaart-van-zwitserland.html" class="no-external"></a></p><a href="./posts/2021-07-21-kaart-van-zwitserland/kaart-van-zwitserland.html" class="no-external">
+<p><img data-src="./posts/2021-07-21-kaart-van-zwitserland/Screenshot.PNG" class="thumbnail-image"></p>
+</a><p><a href="./posts/2021-07-21-kaart-van-zwitserland/kaart-van-zwitserland.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2021-07-21-kaart-van-zwitserland/kaart-van-zwitserland.html">
 <h3 class="no-anchor listing-title">
-Kaart van Zwitserland
+<a href="./posts/2021-07-21-kaart-van-zwitserland/kaart-van-zwitserland.html" class="no-external">Kaart van Zwitserland</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2021-07-21-kaart-van-zwitserland/kaart-van-zwitserland.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('visualisatie'); return false;">
 visualisatie
 </div>
 </div>
-<a href="./posts/2021-07-21-kaart-van-zwitserland/kaart-van-zwitserland.html">
 <div class="listing-description">
-<p>Dit is een mooie blog van Giulia Ruggeri over kaarten maken met <code>ggplot2</code> en <code>sf</code>, in dit geval van Zwitserland</p>
+<a href="./posts/2021-07-21-kaart-van-zwitserland/kaart-van-zwitserland.html" class="no-external">Dit is een mooie blog van Giulia Ruggeri over kaarten maken met <code>ggplot2</code> en <code>sf</code>, in dit geval van Zwitserland </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2021-07-21-kaart-van-zwitserland/kaart-van-zwitserland.html">
+<a href="./posts/2021-07-21-kaart-van-zwitserland/kaart-van-zwitserland.html" class="no-external">
 <div class="listing-date">
 Jul 21, 2021
 </div>
@@ -1566,32 +1556,30 @@ Giulia Ruggeri, bewerking Harrie Jonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="39" data-categories="machine learning" data-listing-date-sort="1626559200000" data-listing-file-modified-sort="1688328256338" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="15">
+<div class="quarto-post image-right" data-index="40" data-categories="machine learning" data-listing-date-sort="1626559200000" data-listing-file-modified-sort="1688328256338" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="15" data-listing-word-count-sort="2945">
 <div class="thumbnail">
-<p><a href="./posts/2021-07-18-verzekeringskosten/verzekeringskosten.html"> <img data-src="./posts/2021-07-18-verzekeringskosten/Screenshot.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2021-07-18-verzekeringskosten/verzekeringskosten.html" class="no-external"></a></p><a href="./posts/2021-07-18-verzekeringskosten/verzekeringskosten.html" class="no-external">
+<p><img data-src="./posts/2021-07-18-verzekeringskosten/Screenshot.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/2021-07-18-verzekeringskosten/verzekeringskosten.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2021-07-18-verzekeringskosten/verzekeringskosten.html">
 <h3 class="no-anchor listing-title">
-Verzekeringskosten voorspellen
+<a href="./posts/2021-07-18-verzekeringskosten/verzekeringskosten.html" class="no-external">Verzekeringskosten voorspellen</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2021-07-18-verzekeringskosten/verzekeringskosten.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('machine learning'); return false;">
 machine learning
 </div>
 </div>
-<a href="./posts/2021-07-18-verzekeringskosten/verzekeringskosten.html">
 <div class="listing-description">
-<p>Dit is de blog die Arta Seyedan op 14 februari 2021 voor R-bloggers schreef over het voorspellen van verzekeringskosten en die ik wat bewerkt en vertaald heb.</p>
+<a href="./posts/2021-07-18-verzekeringskosten/verzekeringskosten.html" class="no-external">Dit is de blog die Arta Seyedan op 14 februari 2021 voor R-bloggers schreef over het voorspellen van verzekeringskosten en die ik wat bewerkt en vertaald heb. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2021-07-18-verzekeringskosten/verzekeringskosten.html">
+<a href="./posts/2021-07-18-verzekeringskosten/verzekeringskosten.html" class="no-external">
 <div class="listing-date">
 Jul 18, 2021
 </div>
@@ -1601,32 +1589,30 @@ Arta Seyadan, bewerking Harrie Jonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="40" data-categories="machine learning" data-listing-date-sort="1626559200000" data-listing-file-modified-sort="1688328256320" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5">
+<div class="quarto-post image-right" data-index="41" data-categories="machine learning" data-listing-date-sort="1626559200000" data-listing-file-modified-sort="1688328256320" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="820">
 <div class="thumbnail">
-<p><a href="./posts/2021-07-18-classificeren-van-palmer-penguins/classificeren-van-palmer-penguins.html"> <img data-src="./posts/2021-07-18-classificeren-van-palmer-penguins/Screenshot.PNG" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2021-07-18-classificeren-van-palmer-penguins/classificeren-van-palmer-penguins.html" class="no-external"></a></p><a href="./posts/2021-07-18-classificeren-van-palmer-penguins/classificeren-van-palmer-penguins.html" class="no-external">
+<p><img data-src="./posts/2021-07-18-classificeren-van-palmer-penguins/Screenshot.PNG" class="thumbnail-image"></p>
+</a><p><a href="./posts/2021-07-18-classificeren-van-palmer-penguins/classificeren-van-palmer-penguins.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2021-07-18-classificeren-van-palmer-penguins/classificeren-van-palmer-penguins.html">
 <h3 class="no-anchor listing-title">
-Classificeren van Palmer penguins
+<a href="./posts/2021-07-18-classificeren-van-palmer-penguins/classificeren-van-palmer-penguins.html" class="no-external">Classificeren van Palmer penguins</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2021-07-18-classificeren-van-palmer-penguins/classificeren-van-palmer-penguins.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('machine learning'); return false;">
 machine learning
 </div>
 </div>
-<a href="./posts/2021-07-18-classificeren-van-palmer-penguins/classificeren-van-palmer-penguins.html">
 <div class="listing-description">
-<p>De laatste tijd heeft Julia Silge een aantal videoopnamen gemaakt die laten zien hoe het <code>tidymodels</code> raamwerk is te gebruiken.Het zijn opnamen over de eerste stappen in het modelleren tot hoe complexe modellen zijn te evalueren. Deze videoopname is goed voor mensen die net beginnen met <code>tidymodels</code>. Ze maakt daarbij gebruik van een #TidyTuesday dataset over pinguïns. Hier gaat het om classificeren.</p>
+<a href="./posts/2021-07-18-classificeren-van-palmer-penguins/classificeren-van-palmer-penguins.html" class="no-external">De laatste tijd heeft Julia Silge een aantal videoopnamen gemaakt die laten zien hoe het <code>tidymodels</code> raamwerk is te gebruiken.Het zijn opnamen over de eerste stappen in het modelleren tot hoe complexe modellen zijn te evalueren. Deze videoopname is goed voor mensen die net beginnen met <code>tidymodels</code>. Ze maakt daarbij gebruik van een #TidyTuesday dataset over pinguïns. Hier gaat het om classificeren. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2021-07-18-classificeren-van-palmer-penguins/classificeren-van-palmer-penguins.html">
+<a href="./posts/2021-07-18-classificeren-van-palmer-penguins/classificeren-van-palmer-penguins.html" class="no-external">
 <div class="listing-date">
 Jul 18, 2021
 </div>
@@ -1636,32 +1622,30 @@ Julia Silge, bewerking Harrie Jonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="41" data-categories="machine learning" data-listing-date-sort="1625436000000" data-listing-file-modified-sort="1688328256312" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14">
+<div class="quarto-post image-right" data-index="42" data-categories="machine learning" data-listing-date-sort="1625436000000" data-listing-file-modified-sort="1688328256312" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14" data-listing-word-count-sort="2640">
 <div class="thumbnail">
-<p><a href="./posts/2021-07-18-classificeren-met-tidymodels/classificeren-met-tidymodels.html"> <img data-src="./posts/2021-07-18-classificeren-met-tidymodels/Screenshot1.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2021-07-18-classificeren-met-tidymodels/classificeren-met-tidymodels.html" class="no-external"></a></p><a href="./posts/2021-07-18-classificeren-met-tidymodels/classificeren-met-tidymodels.html" class="no-external">
+<p><img data-src="./posts/2021-07-18-classificeren-met-tidymodels/Screenshot1.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/2021-07-18-classificeren-met-tidymodels/classificeren-met-tidymodels.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2021-07-18-classificeren-met-tidymodels/classificeren-met-tidymodels.html">
 <h3 class="no-anchor listing-title">
-Classificeren met Tidymodels
+<a href="./posts/2021-07-18-classificeren-met-tidymodels/classificeren-met-tidymodels.html" class="no-external">Classificeren met Tidymodels</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2021-07-18-classificeren-met-tidymodels/classificeren-met-tidymodels.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('machine learning'); return false;">
 machine learning
 </div>
 </div>
-<a href="./posts/2021-07-18-classificeren-met-tidymodels/classificeren-met-tidymodels.html">
 <div class="listing-description">
-<p>Dit is bewerking van een blog over classificeren met het pakket Tidymodels die Rahul Raoniar in Towards data science schreef.</p>
+<a href="./posts/2021-07-18-classificeren-met-tidymodels/classificeren-met-tidymodels.html" class="no-external">Dit is bewerking van een blog over classificeren met het pakket Tidymodels die Rahul Raoniar in Towards data science schreef. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2021-07-18-classificeren-met-tidymodels/classificeren-met-tidymodels.html">
+<a href="./posts/2021-07-18-classificeren-met-tidymodels/classificeren-met-tidymodels.html" class="no-external">
 <div class="listing-date">
 Jul 5, 2021
 </div>
@@ -1671,32 +1655,30 @@ Rahul Raoniar, bewerking Harrie Jonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="42" data-categories="machine learning" data-listing-date-sort="1619042400000" data-listing-file-modified-sort="1688328256300" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="17">
+<div class="quarto-post image-right" data-index="43" data-categories="machine learning" data-listing-date-sort="1619042400000" data-listing-file-modified-sort="1688328256300" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="17" data-listing-word-count-sort="3244">
 <div class="thumbnail">
-<p><a href="./posts/2021-04-22-tidymodels-opnieuw/tidymodels-opnieuw.html"> <img data-src="./posts/2021-04-22-tidymodels-opnieuw/Screenshot.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2021-04-22-tidymodels-opnieuw/tidymodels-opnieuw.html" class="no-external"></a></p><a href="./posts/2021-04-22-tidymodels-opnieuw/tidymodels-opnieuw.html" class="no-external">
+<p><img data-src="./posts/2021-04-22-tidymodels-opnieuw/Screenshot.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/2021-04-22-tidymodels-opnieuw/tidymodels-opnieuw.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2021-04-22-tidymodels-opnieuw/tidymodels-opnieuw.html">
 <h3 class="no-anchor listing-title">
-Tidymodels opnieuw
+<a href="./posts/2021-04-22-tidymodels-opnieuw/tidymodels-opnieuw.html" class="no-external">Tidymodels opnieuw</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2021-04-22-tidymodels-opnieuw/tidymodels-opnieuw.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('machine learning'); return false;">
 machine learning
 </div>
 </div>
-<a href="./posts/2021-04-22-tidymodels-opnieuw/tidymodels-opnieuw.html">
 <div class="listing-description">
-<p>Blog van Rebecca Barter onder de titel ‘Tidymodels: tidy machine learning in R’</p>
+<a href="./posts/2021-04-22-tidymodels-opnieuw/tidymodels-opnieuw.html" class="no-external">Blog van Rebecca Barter onder de titel ‘Tidymodels: tidy machine learning in R’ </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2021-04-22-tidymodels-opnieuw/tidymodels-opnieuw.html">
+<a href="./posts/2021-04-22-tidymodels-opnieuw/tidymodels-opnieuw.html" class="no-external">
 <div class="listing-date">
 Apr 22, 2021
 </div>
@@ -1706,32 +1688,30 @@ Rebecca Barter, bewerking Harrie Jonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="43" data-categories="communicatie" data-listing-date-sort="1615330800000" data-listing-file-modified-sort="1688328256272" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14">
+<div class="quarto-post image-right" data-index="44" data-categories="communicatie" data-listing-date-sort="1615330800000" data-listing-file-modified-sort="1688328256272" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14" data-listing-word-count-sort="2738">
 <div class="thumbnail">
-<p><a href="./posts/2021-03-10-github/github.html"> <img data-src="./posts/2021-03-10-github/images/Screenshot.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2021-03-10-github/github.html" class="no-external"></a></p><a href="./posts/2021-03-10-github/github.html" class="no-external">
+<p><img data-src="./posts/2021-03-10-github/images/Screenshot.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/2021-03-10-github/github.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2021-03-10-github/github.html">
 <h3 class="no-anchor listing-title">
-GitHub voor samenwerking
+<a href="./posts/2021-03-10-github/github.html" class="no-external">GitHub voor samenwerking</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2021-03-10-github/github.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('communicatie'); return false;">
 communicatie
 </div>
 </div>
-<a href="./posts/2021-03-10-github/github.html">
 <div class="listing-description">
-<p>Lisa Lendway heeft een aantal interessante repositories op haar GitHub account staan, <span>zie hier</span>. Ze zijn vaak kort, maar helder en concreet. Haar stijl en de consistentie daarin bevallen mij zeer. Van haar manier van doen leer ik veel. Zij maakt haar stukken vaak voor haar statistieklessen en deelt zo haar kennis met haar studenten en anderen buiten haar klas. Ik heb mij voorgenomen om er een aantal goed te lezen, te vertalen en te bewerken waar nodig, en deze op mijn website over te nemen. Vorige maand deed ik dat al met een blof over Distill en nu een over GitHub.</p>
+<a href="./posts/2021-03-10-github/github.html" class="no-external">Lisa Lendway heeft een aantal interessante repositories op haar GitHub account staan, <span>zie hier</span>. Ze zijn vaak kort, maar helder en concreet. Haar stijl en de consistentie daarin bevallen mij zeer. Van haar manier van doen leer ik veel. Zij maakt haar stukken vaak voor haar statistieklessen en deelt zo haar kennis met haar studenten en anderen buiten haar klas. Ik heb mij voorgenomen om er een aantal goed te lezen, te vertalen en te bewerken waar nodig, en deze op mijn website over te nemen. Vorige maand deed ik dat al met een blof over Distill en nu een over GitHub. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2021-03-10-github/github.html">
+<a href="./posts/2021-03-10-github/github.html" class="no-external">
 <div class="listing-date">
 Mar 10, 2021
 </div>
@@ -1741,32 +1721,30 @@ Lisa Lendway, vertaling Harrie Jonkman
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="44" data-categories="communicatie" data-listing-date-sort="1613689200000" data-listing-file-modified-sort="1688328256257" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8">
+<div class="quarto-post image-right" data-index="45" data-categories="communicatie" data-listing-date-sort="1613689200000" data-listing-file-modified-sort="1688328256257" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1565">
 <div class="thumbnail">
-<p><a href="./posts/2021-02-19-website-met-distill/website-met-distill.html"> <img data-src="./posts/2021-02-19-website-met-distill/Screenshot.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2021-02-19-website-met-distill/website-met-distill.html" class="no-external"></a></p><a href="./posts/2021-02-19-website-met-distill/website-met-distill.html" class="no-external">
+<p><img data-src="./posts/2021-02-19-website-met-distill/Screenshot.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/2021-02-19-website-met-distill/website-met-distill.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2021-02-19-website-met-distill/website-met-distill.html">
 <h3 class="no-anchor listing-title">
-Website met distill
+<a href="./posts/2021-02-19-website-met-distill/website-met-distill.html" class="no-external">Website met distill</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2021-02-19-website-met-distill/website-met-distill.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('communicatie'); return false;">
 communicatie
 </div>
 </div>
-<a href="./posts/2021-02-19-website-met-distill/website-met-distill.html">
 <div class="listing-description">
-<p>Website met blog maken</p>
+<a href="./posts/2021-02-19-website-met-distill/website-met-distill.html" class="no-external">Website met blog maken </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2021-02-19-website-met-distill/website-met-distill.html">
+<a href="./posts/2021-02-19-website-met-distill/website-met-distill.html" class="no-external">
 <div class="listing-date">
 Feb 19, 2021
 </div>
@@ -1863,10 +1841,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1876,8 +1871,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1889,7 +1893,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1933,6 +2060,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1958,6 +2086,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -2018,6 +2172,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 

@@ -1,0 +1,15 @@
+---
+title: "De gids voor ES"
+description: |
+   Onlangs schreven Jané et al. de *Guide to Effect Sizes and Confidence Intervals*. Deze gids geeft academici, studenten en onderzoekers praktische en stapsgewijze instructies voor het berekenen en interpreteren van effectgroottes en betrouwbaarheidsintervallen. Het werk is gedaan en kan worden gedaan in `R`. De gids laats zien hoe de resultaten zijn te interpreteren en de bevindingen zijn te kwantificeren. Voor mijzelf is het een bijzonder leerzame gids die mij dit niet alleen veel inhoudelijk heeft geleerd, maar ook heeft geleerd hoe ik dit in `R` kan toepassen en hoe complexe zaken wetenschappelijk kunnen worden gecommuniceerd. Om die reden heb ik de moeite genomen de tekst naar het Nederlands toe te bewerken. Hartelijke dank aan Jané en zijn collega's voor het schrijven van deze gids, die ze de komende jaren met nieuwe inzichten zullen blijven aanvullen.
+   
+date: "2024-06-04"
+categories: [Analyseren]
+image: "Screenshot.PNG"
+---
+
+# Inleiding
+
+[Hier](https://gidsvoores.netlify.app/) vind je de *Gids voor Effectgroottes en Betrouwbaarheidsintervallen* die ik heb bewerkt. En [hier](https://matthewbjane.quarto.pub/) is de oorspronkelijke *Guide to Effect Sizes and Confidence Intervals* van Jané et al. te vinden.   
+
+![](Screenshot.PNG)

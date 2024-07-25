@@ -4,7 +4,7 @@ description: |
    In deze blog wordt een notitieboekje gepresenteerd dat hoort bij het boek *Doing Meta-Analysis in R. A Hands-On Guide* van Mathias Harrer, Pim Cuijpers, Toshi Furukawa en David Ebert. 
 author: "Mathias Harrer, Pim Cuijpers, Toshi Furukawa en David Ebert, bewerking Harrie Jonkman"
 date: "2024-04-02"
-categories: [A0nalyseren]
+categories: [Analyseren]
 image: "Screenshot1.PNG"
 ---
 

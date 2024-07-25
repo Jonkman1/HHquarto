@@ -1,0 +1,22 @@
+---
+title: "Meta-analyse: een voorbeeld"
+description: |
+   Hoe voer je een meta-analyse uit met R, wat levert het op en maak je de tekst op in Tufte-stijl. Hier vind je een voorbeeld waarin de relatie tussen ingrijpende jeugdervaringen van ouders en de sensitiviteit naar hun kinderen toe wordt onderzocht en waarbij in de analyse enkele moderatoren worden meegenomen.
+   
+date: "2024-07-25"
+categories: [Analyseren]
+image: "Screenshot.PNG"
+---
+
+# Inleiding
+De afgelopen maanden begeleidde ik een groep studenten die allemaal een meta-analyse moesten uitvoeren voor de studie Forensische Orthopedagogiek aan de Universiteit van Amsterdam. De algemene opdracht luidde als volgt:
+> Ingrijpende jeugdervaringen, ook wel *Adverse Childhood Experiences (ACE's)* genoemd, hebben een negatief effect op alle domeinen van het leven, inclusief het ouderschap. Uit onderzoek is gebleken dat ACE's van ouders mogelijk samenhangen met mentale gezondheidsproblemen, negatief opvoedgedrag, opvoedstress, problemen in de ouder-kindrelatie, en kindermishandeling, wat samen een risico vormt voor het ontwikkelen van psychische problemen bij kinderen. Dit duidt op een intergenerationele overdracht van trauma en psychische problemen. Meerdere mechanismen kunnen de overdracht van geestelijke gezondheid van ouders met ACE's op hun kinderen verklaren, waaronder erfelijkheid, een gedeelde risico-omgeving, factoren in de opvoeding en gehechtheid.   
+Het doel van dit onderzoek is om zicht te krijgen in de intergenerationele overdracht van ingrijpende jeugdervaringen.
+
+De studenten spitsten individueel hun onderzoeksvraag toe en zochten daarbij de relevante studies over het effect van ingrijpende jeugdervaringen.    
+Een van de studenten (A.M. Hovestadt) voerde een meta-analyse uit naar de effecten van ingrijpende jeugdervaringen van ouders op de sensitiviteit naar hun kinderen toe. In deze meta-analyse werden enkele moderatoren meegenomen, zoals het aantal ACE's, de leeftijd van ouders en de leeftijd van kinderen.
+
+Het [ingeleverde resultaat van de studie](Masterscriptie_HovestadtAnnemarije_13941844.pdf) vind je hier. Dit resultaat heb ik nogmaals opgemaakt in Tufte-stijl, een van mijn favoriete stijlen, en dat is [hier](AH-artikel_Tufte.pdf). Maar hoe de analyses zijn uitgevoerd in `R` wordt in [dit document](Annemarije_analyse.pdf) beschreven. Maar alle syntaxen en ook het databestand is terug te vinden op [Github](https://github.com/Jonkman1/Meta-analyse-voorbeeld)
+
+
+![](Screenshot.PNG)

@@ -3,7 +3,7 @@ title: "Meta-analyse: een voorbeeld"
 description: |
    Hoe voer je een meta-analyse uit met R, wat levert het op en maak je de tekst op in Tufte-stijl? Hier vind je een voorbeeld waarin dat alles gedaan wordt en de relatie wordt onderzocht tussen ingrijpende jeugdervaringen van ouders en de sensitiviteit naar hun kinderen toe. In de analyse worden enkele moderatoren worden meegenomen.
    
-date: "2024-07-25"
+date: "2024-08-25"
 categories: [Analyseren]
 image: "Screenshot.PNG"
 ---

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.353">
+<meta name="generator" content="quarto-1.6.39">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -25,7 +25,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -36,7 +36,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -72,17 +72,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-3a1197cc0774821054ad3543cdc64272.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -91,8 +97,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 
@@ -102,33 +110,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html" rel="" target="">
- <span class="menu-text">Harrie’s Hoekje</span></a>
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">Harrie’s Hoekje</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/Jonkman1" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/Jonkman1"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com" rel="" target=""><i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://twitter.com"> <i class="bi bi-twitter" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
+          </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
 </div>
-          </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -203,6 +211,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
+
 
 
 
@@ -287,7 +296,11 @@ time (1): Time
 <p>Een gemakkelijke manier om de vier coördinaten voor een bounding box te vinden is naar de site <a href="https://boundingbox.klokantech.com/">Bounding Box.</a> Deze site heeft een kaart van de wereld en een box op het scherm. Verplaats de doos naar het gebied waarvan u de kaart wilt hebben. Misschien moet u de grootte van de doos aanpassen om het gebied dat u wilt te bedekken. Verander dan in het gedeelte “Kopiëren en plakken” de dropdown box in “CSV”. In de sectie rechts hiervan staan de vier getallen die de bounding box vormen. Je kunt die nummers kopiëren in <code>get_map()</code>.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="images/bounding_box.PNG" class="img-fluid" width="950"></p>
+<div>
+<figure class="figure">
+<p><img src="images/bounding_box.PNG" class="img-fluid figure-img" width="950"></p>
+</figure>
+</div>
 </div>
 </div>
 <div class="cell">
@@ -322,7 +335,11 @@ time (1): Time
 </div>
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>sf_map</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Omdat we de kaartuitvoer hebben opgeslagen in <em>sf_map</em> kunnen we deze kaartachtergrond hergebruiken voor alle kaarten die we maken. Dit bespaart ons tijd, omdat we niet elke keer hoeven te wachten om de kaart te downloaden. Laten we de zelfmoorden uit onze dataset plotten. Net als bij een scatterplot gebruiken we de <code>geom_point()</code> functie uit het <code>ggplot2</code> pakket en zetten we onze lengte- en breedtegraad variabelen op respectievelijk de x- en y-as. Wanneer we <code>ggmap</code> laden, wordt ook automatisch <code>ggplot2</code> geladen, omdat dat pakket nodig is om <code>ggmap</code> te laten werken, zodat we zelf geen <code>library(ggplot2)</code> hoeven te doen.</p>
@@ -334,7 +351,11 @@ time (1): Time
 <pre><code>Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Als we de stippen willen kleuren, kunnen we <code>color =</code> gebruiken en dan een kleur kiezen. Laten we het proberen met “forestgreen.”</p>
@@ -347,7 +368,11 @@ time (1): Time
 <pre><code>Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Net als bij andere grafieken kunnen we de grootte van de punt veranderen met <code>size =</code>.</p>
@@ -362,7 +387,11 @@ time (1): Time
 <pre><code>Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Groter:</p>
@@ -376,7 +405,11 @@ time (1): Time
 <pre><code>Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Voor kaarten als deze - met één punt per gebeurtenis - is het moeilijk te zien of er gebeurtenissen plaatsvinden op dezelfde, of bijna dezelfde, plaats, aangezien elk punt ononderbroken groen is. We willen de punten semi-transparant maken, zodat als er meerdere zelfmoorden plaatsvinden op dezelfde plaats, dat punt donkerder wordt gearceerd dan wanneer er slechts één zelfmoord plaatsvond. Daarvoor gebruiken we de parameter <code>alpha =</code> die een waarde tussen 0 en 1 aanneemt. Hoe lager de waarde, hoe transparanter de stip.</p>
@@ -391,7 +424,11 @@ time (1): Time
 <pre><code>Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Deze kaart is nuttig omdat ze ons toelaat gemakkelijk te zien waar elke zelfmoord in San Francisco plaatsvond tussen 2003 en 2017. Er zijn echter enkele beperkingen. Zo toont deze kaart alle zelfmoorden in één kaart, wat betekent dat trends in de tijd verloren gaan.</p>
@@ -402,7 +439,11 @@ time (1): Time
 <div class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(suicide<span class="sc">$</span>X, suicide<span class="sc">$</span>Y, <span class="at">col =</span> <span class="st">"forestgreen"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -426,7 +467,11 @@ time (1): Time
 <pre><code>Warning: Removed 1 rows containing non-finite values (stat_binhex).</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <div class="cell">
@@ -434,7 +479,11 @@ time (1): Time
 <pre><code>Warning: Removed 1 rows containing non-finite values (stat_binhex).</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Uit deze kaart blijkt dat de meeste gebieden in de stad geen zelfmoorden hadden en dat de gebieden met de meeste zelfmoorden in het centrum van San Francisco liggen.</p>
@@ -447,7 +496,11 @@ time (1): Time
 <pre><code>Warning: Removed 1 rows containing non-finite values (stat_binhex).</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <div class="cell">
@@ -455,7 +508,11 @@ time (1): Time
 <pre><code>Warning: Removed 1 rows containing non-finite values (stat_binhex).</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Elke bin is veel groter en bestrijkt bijna heel San Francisco. Wees voorzichtig met kaarten als deze! Deze kaart is zo breed dat het lijkt alsof zelfmoorden overal in de stad voorkomen. We weten uit de kaart waarop elke zelfmoord als een stip wordt weergegeven dat er minder dan 1300 zelfmoorden zijn; dit is dus niet waar. Kaarten als deze maken het gemakkelijk om de lezer te misleiden, inclusief jezelf!</p>
@@ -468,7 +525,11 @@ time (1): Time
 <pre><code>Warning: Removed 1 rows containing non-finite values (stat_binhex).</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <div class="cell">
@@ -476,7 +537,11 @@ time (1): Time
 <pre><code>Warning: Removed 1 rows containing non-finite values (stat_binhex).</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Nu is elke bin erg klein en een veel kleiner gebied in San Francisco heeft een zelfmoord gehad. Dus wat is het juiste aantal bins om te gebruiken? Hier is geen universeel antwoord op te geven- je moet beslissen wat het doel is van de gegevens die je gebruikt. Dit levert ernstige problemen op voor - al dan niet opzettelijke - manipulatie van de gegevens, aangezien de kaart zo gemakkelijk kan worden gewijzigd zonder dat de gegevens zelf veranderen.</p>
@@ -497,7 +562,11 @@ time (1): Time
 <pre><code>Warning: Removed 1 rows containing non-finite values (stat_binhex).</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Standaard labelt het de legende als “count”. Aangezien we weten dat het hier gaat om tellingen van zelfmoorden, laten we dat als zodanig labelen.</p>
@@ -516,7 +585,11 @@ time (1): Time
 <pre><code>Warning: Removed 1 rows containing non-finite values (stat_binhex).</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -584,7 +657,11 @@ Geodetic CRS:  WGS84(DD)
 <div class="cell">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sf_neighborhoods<span class="sc">$</span>geometry)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Hier hebben we een kaart van San Francisco opgedeeld in buurten. Is dit een perfecte weergave van de wijken in San Francisco? Nee. Het is gewoon een poging van de stad om definities van buurten te maken. Waarschijnlijk zult u merken dat gebieden op de grens van buurten meer op elkaar lijken dan op gebieden aan de andere kant van hun aangewezen buurt. Je kunt hier een beetje lezen over hoe San Francisco de buurtgrenzen heeft bepaald <a href="https://data.sfgov.org/Geographic-Locations-and-Boundaries/Analysis-Neighborhoods/p5b7-5n3h">hier,</a> maar weet dat dit, zoals alle geografische gebieden die iemand heeft aangewezen, een zekere mate van onnauwkeurigheid en willekeur in zich heeft. Zoals wel vaker is dit gewoon weer een beperking waar we rekening mee moeten houden.</p>
@@ -599,7 +676,11 @@ Geodetic CRS:  WGS84(DD)
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="images/choropleth.PNG" style="width:100.0%;height:100.0%"></p>
+<div>
+<figure class="figure">
+<p><img src="images/choropleth.PNG" style="width:100.0%;height:100.0%" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <section id="ruimtelijke-verbindingen" class="level2">
@@ -661,7 +742,11 @@ Geodetic CRS:  WGS84(DD)
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sf_neighborhoods<span class="sc">$</span>geometry)</span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(suicide<span class="sc">$</span>geometry, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Onze volgende stap is het combineren van deze twee datasets om uit te zoeken hoeveel zelfmoorden er in elke buurt plaatsvonden. Dit wordt een proces in meerdere stappen, dus laten we het eerst plannen. Onze zelfmoordgegevens zijn één rij voor elke zelfmoord; onze buurtgegevens zijn één rij voor elke buurt. Aangezien ons doel is om de gegevens op buurtniveau in kaart te brengen, moeten we de buurt berekenen waar elke zelfmoord plaatsvond en vervolgens aggregeren tot buurtniveau om een telling van de zelfmoorden per buurt te krijgen. Dan moeten we dat combineren met de oorspronkelijke buurtgegevens en kunnen we die in kaart brengen.</p>
@@ -820,7 +905,11 @@ Attaching package: 'dplyr'</code></pre>
 <div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sf_neighborhoods_suicide, <span class="fu">aes</span>(<span class="at">fill =</span> number_suicides)) <span class="sc">+</span></span>
 <span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-54-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-54-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>We hebben nu een choropleth kaart gemaakt met het aantal zelfmoorden per buurt in San Francisco! Volgens de legenda hebben lichtblauwe buurten de meeste zelfmoorden en donkerblauwe buurten de minste (of helemaal geen). Normaal zouden we het omgekeerde willen, met donkere gebieden die een grotere hoeveelheid van wat de kaart laat zien betekenen.</p>
@@ -832,7 +921,11 @@ Attaching package: 'dplyr'</code></pre>
 <span id="cb88-4"><a href="#cb88-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">"white"</span>,</span>
 <span id="cb88-5"><a href="#cb88-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">high =</span> <span class="st">"red"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-55-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-55-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Dit geeft een veel betere kaart en toont duidelijk de gebieden waar zelfmoorden het meest voorkomen en waar geen zelfmoorden plaatsvonden.</p>
@@ -847,7 +940,11 @@ Attaching package: 'dplyr'</code></pre>
 <span id="cb89-7"><a href="#cb89-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Zelfmoorden in San Francisco, per buurt"</span>,</span>
 <span id="cb89-8"><a href="#cb89-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"2003 - 2017"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-56-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-56-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Aangezien de coördinaten niets toevoegen aan de kaart, halen we ze weg.</p>
@@ -864,7 +961,11 @@ Attaching package: 'dplyr'</code></pre>
 <span id="cb90-10"><a href="#cb90-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
 <span id="cb90-11"><a href="#cb90-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-57-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="crimebynumbersHarrie_files/figure-html/unnamed-chunk-57-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Dus wat moeten we meenemen van deze kaart? Er zijn meer zelfmoorden in de binnenstad dan elders in de stad. Betekent dit dat mensen daar eerder zelfmoord plegen dan elders? Niet noodzakelijkerwijs. Een grote fout die mensen maken bij het maken van een choropleth kaart (of eigenlijk elk type kaart) is het per ongeluk maken van een bevolkingskaart. De donkerder gearceerde delen van onze kaart zijn ook de plaatsen waar veel mensen wonen. Dus als er meer mensen zijn, is het redelijk dat er meer zelfmoorden zijn (of misdaden, enz.). Wat we eigenlijk zouden willen doen, is een percentage maken per bevolkingsaantal (meestal per 100.000, hoewel dit veronderstelt dat het risico voor elke persoon in de stad gelijk is, wat niet echt correct is) om te controleren voor bevolkingsverschillen.</p>
@@ -961,7 +1062,11 @@ dbl  (2): lat, long
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="images/leaflet_map1.png" class="img-fluid" width="496"></p>
+<div>
+<figure class="figure">
+<p><img src="images/leaflet_map1.png" class="img-fluid figure-img" width="496"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Wanneer je de bovenstaande code uitvoert, toont het een wereldkaart (verschillende keren gekopieerd). Zoom daarop in, en het toont relevante kenmerken van waar je ook kijkt.</p>
@@ -975,7 +1080,11 @@ dbl  (2): lat, long
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="images/leaflet_map2.png" class="img-fluid" width="496"></p>
+<div>
+<figure class="figure">
+<p><img src="images/leaflet_map2.png" class="img-fluid figure-img" width="496"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Het voegt nu een pictogram toe dat aangeeft waar elke apotheek in onze dataset zich bevindt. U kunt inzoomen en rondscrollen om meer te zien over waar de apotheken zich bevinden. Er zijn slechts enkele tientallen locaties in de gegevens, dus de popups die elkaar een beetje overlappen hebben geen invloed op onze kaart. Als we er meer hadden - zoals misdaadgegevens met miljoenen overtredingen - zou het erg moeilijk leesbaar worden. Om de pictogrammen in cirkels te veranderen kunnen we de functie <code>addMarkers()</code> veranderen in <code>addCircleMarkers()</code>, waarbij de rest van de code hetzelfde blijft.</p>
@@ -987,7 +1096,11 @@ dbl  (2): lat, long
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="images/leaflet_map3.png" class="img-fluid" width="496"></p>
+<div>
+<figure class="figure">
+<p><img src="images/leaflet_map3.png" class="img-fluid figure-img" width="496"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Dit maakt van het icoontje cirkels, die minder ruimte innemen. Om de grootte van onze icoontjes aan te passen gebruiken we de <code>radius</code> parameter in <code>addMarkers()</code> of <code>addCircleMarkers()</code>. Hoe groter de straal, hoe groter de icoontjes.</p>
@@ -1000,7 +1113,11 @@ dbl  (2): lat, long
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="images/leaflet_map4.png" class="img-fluid" width="496"></p>
+<div>
+<figure class="figure">
+<p><img src="images/leaflet_map4.png" class="img-fluid figure-img" width="496"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Door de <code>radius</code> optie op 5 te zetten wordt de grootte van het icoontje een stuk kleiner. In je eigen kaarten zul je met deze optie moeten rommelen om het eruit te laten zien zoals je wilt. Laten we verder gaan met het toevoegen van informatie over elk icoontje wanneer erop geklikt wordt.</p>
@@ -1018,7 +1135,11 @@ dbl  (2): lat, long
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="images/interactive_popup1.PNG" class="img-fluid" width="345"></p>
+<div>
+<figure class="figure">
+<p><img src="images/interactive_popup1.PNG" class="img-fluid figure-img" width="345"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Probeer rond te klikken en je zult zien dat de eigenaar van de apotheek waarop je hebt geklikt boven de stip verschijnt. Meestal willen we een titel hebben die aangeeft wat de waarde in de popup betekent. We kunnen dit doen door de functie <code>paste()</code> te gebruiken om tekst die de waarde uitlegt te combineren met de waarde zelf. Laten we de woorden “Bedrijfseigenaar:” toevoegen voor de kolom Bedrijfseigenaar.</p>
@@ -1033,7 +1154,11 @@ dbl  (2): lat, long
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="images/interactive_popup2.PNG" class="img-fluid" width="346"></p>
+<div>
+<figure class="figure">
+<p><img src="images/interactive_popup2.PNG" class="img-fluid figure-img" width="346"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>We hebben niet al te veel informatie in de gegevens, maar laten we het adres en het licentienummer toevoegen aan de popup door ze toe te voegen aan de <code>paste()</code> functie die we gebruiken.</p>
@@ -1052,7 +1177,11 @@ dbl  (2): lat, long
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="images/interactive_popup3.PNG" class="img-fluid" width="346"></p>
+<div>
+<figure class="figure">
+<p><img src="images/interactive_popup3.PNG" class="img-fluid figure-img" width="346"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Als alles op een lijn gezet wordt, is het moeilijk om te lezen. <code>&lt;br&gt;</code> is HTML taal voor regelonderbreking.</p>
@@ -1073,7 +1202,11 @@ dbl  (2): lat, long
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="images/interactive_popup4.PNG" class="img-fluid" width="346"></p>
+<div>
+<figure class="figure">
+<p><img src="images/interactive_popup4.PNG" class="img-fluid figure-img" width="346"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1099,7 +1232,11 @@ dbl  (2): lat, long
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="images/leaflet_map_temp.png" class="img-fluid" width="496"></p>
+<div>
+<figure class="figure">
+<p><img src="images/leaflet_map_temp.png" class="img-fluid figure-img" width="496"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Dicht bij elkaar gelegen locaties zijn gegroepeerd in tamelijk willekeurige groepen. We kunnen zien hoe groot elke groepering is door onze cursor over de cirkel te bewegen. Klik op een cirkel of zoom in, en het toont kleinere groepen op lagere aggregatieniveaus. Blijf klikken of inzoomen, en uiteindelijk wordt elke locatie als een eigen cirkel weergegeven.</p>
@@ -1123,7 +1260,11 @@ dbl  (2): lat, long
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="images/leaflet_choropleth1.png" class="img-fluid" width="345"></p>
+<div>
+<figure class="figure">
+<p><img src="images/leaflet_choropleth1.png" class="img-fluid figure-img" width="345"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Het maakte een kaart met dikke blauwe lijnen die elke buurt aangeven. Laten we het uiterlijk van de grafiek een beetje veranderen voordat we een popup maken of de wijken arceren De parameter <code>color</code> in <code>addPolygons()</code> verandert de kleur van de lijnen - laten we hem veranderen in zwart. De lijnen zijn ook erg dik, waardoor ze in elkaar overlopen en de buurten moeilijk te zien zijn. We kunnen de <code>weight</code> parameter veranderen om de grootte van deze lijnen te veranderen - kleinere waarden zijn dunnere lijnen. Laten we proberen dit op 1 te zetten.</p>
@@ -1136,7 +1277,11 @@ dbl  (2): lat, long
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="images/leaflet_choropleth2.png" class="img-fluid" width="344"></p>
+<div>
+<figure class="figure">
+<p><img src="images/leaflet_choropleth2.png" class="img-fluid figure-img" width="344"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Dat ziet er beter uit en we kunnen elke buurt nu duidelijk onderscheiden.</p>
@@ -1155,7 +1300,11 @@ dbl  (2): lat, long
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="images/leaflet_choropleth3.png" class="img-fluid" width="344"></p>
+<div>
+<figure class="figure">
+<p><img src="images/leaflet_choropleth3.png" class="img-fluid figure-img" width="344"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Voor dit soort kaarten willen we meestal elke polygoon een kleur geven om aan te geven hoe vaak de gebeurtenis in de polygoon heeft plaatsgevonden. We gebruiken de functie <code>colorNumeric()</code>, die veel werk wegneemt van het inkleuren van de kaart. Deze functie neemt twee ingangen, eerst een kleurenpalet, dat we kunnen halen van de site <a href="http://colorbrewer2.org/#type=sequential&amp;scheme=OrRd&amp;n=3">Color Brewer.</a> Laten we de vierde balk in de Sequential pagina gebruiken, die licht oranje tot rood is. Als je kijkt in de sectie met elke HEX-waarde staat er dat het palet “3-class OrRd” is. De “3-klasse” betekent gewoon dat we 3 kleuren hebben geselecteerd, de “OrRd” is het deel dat we willen. Dat vertelt <code>colorNumeric()</code> om het palet te maken met deze kleuren. De tweede parameter is de kolom voor onze numerieke variabele, <em>number_suicides</em>. We slaan de uitvoer van <code>colorNumeric("OrRd", sf_neighborhoods_suicide$number_suicides)</code> op als een nieuw object, dat we voor het gemak <em>pal</em> noemen omdat het een kleurenpalet is. Vervolgens stellen we in <code>addPolygons()</code> de parameter <code>fillColor</code> in op <code>pal(sf_neighborhoods_suicide$number_suicides)</code>, waardoor deze functie op de kolom wordt uitgevoerd. Wat dit echt doet is bepalen welke kleur elke buurt moet krijgen op basis van de waarde in de <em>number_suicides</em> kolom.</p>
@@ -1175,7 +1324,11 @@ dbl  (2): lat, long
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="images/leaflet_choropleth4.png" class="img-fluid" width="344"></p>
+<div>
+<figure class="figure">
+<p><img src="images/leaflet_choropleth4.png" class="img-fluid figure-img" width="344"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Aangezien de buurten transparant zijn, is het moeilijk te onderscheiden welke kleur wordt getoond. We kunnen elke buurt een effen kleur geven door de parameter <code>fillOpacity</code> in <code>addPolygons()</code> op 1 te zetten.</p>
@@ -1195,7 +1348,11 @@ dbl  (2): lat, long
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="images/leaflet_choropleth5.png" class="img-fluid" width="344"></p>
+<div>
+<figure class="figure">
+<p><img src="images/leaflet_choropleth5.png" class="img-fluid figure-img" width="344"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Om een legenda toe te voegen gebruiken we de functie <code>addLegend()</code>, die drie parameters nodig heeft. <code>pal</code> vraagt welk kleurenpalet we gebruiken - we willen dat het precies hetzelfde is als waarmee we de buurten kleuren, dus gebruiken we het <em>pal</em> object dat we gemaakt hebben. De <code>values</code> parameter wordt gebruikt voor welke kolom onze numerieke waarden komen, in ons geval de <em>number_suicides</em> kolom dus die voeren we in. Tenslotte bepaalt <code>opacity</code> hoe transparant de legenda zal zijn. Aangezien elke buurt is ingesteld om helemaal niet transparant te zijn, zetten we dit ook op 1 om consistent te zijn.</p>
@@ -1218,7 +1375,11 @@ dbl  (2): lat, long
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="images/leaflet_choropleth6.png" class="img-fluid" width="342"></p>
+<div>
+<figure class="figure">
+<p><img src="images/leaflet_choropleth6.png" class="img-fluid figure-img" width="342"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Tenslotte kunnen we een titel aan de legende toevoegen met de <code>title</code> parameter binnen <code>addLegend()</code>.</p>
@@ -1243,7 +1404,11 @@ dbl  (2): lat, long
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="images/leaflet_choropleth7.png" class="img-fluid" width="342"></p>
+<div>
+<figure class="figure">
+<p><img src="images/leaflet_choropleth7.png" class="img-fluid figure-img" width="342"></p>
+</figure>
+</div>
 </div>
 </div>
 
@@ -1287,18 +1452,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1330,11 +1484,48 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
-  function tippyHover(el, contentFn) {
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1344,8 +1535,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1357,7 +1557,129 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1401,6 +1723,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1426,6 +1749,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1486,6 +1835,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 

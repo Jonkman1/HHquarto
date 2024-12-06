@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.353">
+<meta name="generator" content="quarto-1.6.39">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -25,7 +25,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -36,7 +36,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -72,17 +72,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-3a1197cc0774821054ad3543cdc64272.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -91,8 +97,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 
@@ -102,33 +110,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html" rel="" target="">
- <span class="menu-text">Harrie’s Hoekje</span></a>
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">Harrie’s Hoekje</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/Jonkman1" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/Jonkman1"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com" rel="" target=""><i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://twitter.com"> <i class="bi bi-twitter" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
+          </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
 </div>
-          </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -143,9 +151,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         </div>
       </div>
                           <div class="quarto-categories">
-                <div class="quarto-category">voorbereiding</div>
+                <div class="quarto-category">voorbereiden</div>
                 <div class="quarto-category">modelleren</div>
-                <div class="quarto-category">communicatie</div>
+                <div class="quarto-category">communiceren</div>
               </div>
                   </div>
   </div>
@@ -190,6 +198,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
+
 <p><img src="Screenshot.PNG" class="img-fluid"></p>
 <section id="inleiding" class="level2">
 <h2 class="anchored" data-anchor-id="inleiding">Inleiding</h2>
@@ -208,31 +217,43 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="plan" class="level3">
 <h3 class="anchored" data-anchor-id="plan">Plan</h3>
 <p>Voor dit voorbeeld moeten we twee aspecten plannen. Het eerste is hoe de dataset die we nodig hebben eruit zal zien en het tweede is hoe de uiteindelijke grafiek eruit zal zien.</p>
-<p>De basisvereiste voor de dataset is dat deze in ieder geval de naam van de zetel (in Australië soms “divisie” genoemd) en de partij van de gekozene bevat. Een snelle schets van de dataset die we nodig hebben, zou er dus als volgt uit kunnen zien <a href="#fig-australiaexample-data">Figure&nbsp;1 (a)</a>.</p>
+<p>De basisvereiste voor de dataset is dat deze in ieder geval de naam van de zetel (in Australië soms “divisie” genoemd) en de partij van de gekozene bevat. Een snelle schets van de dataset die we nodig hebben, zou er dus als volgt uit kunnen zien <a href="#fig-australiaexample-data" class="quarto-xref">Figure&nbsp;1 (a)</a>.</p>
 <div id="fig-australiaexample" class="quarto-layout-panel">
-<figure class="figure">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-australiaexample-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="quarto-layout-row quarto-layout-valign-bottom">
-<div class="quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-australiaexample-data" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="figures/number-of-seats.png" class="img-fluid figure-img" data-ref-parent="fig-australiaexample"></p>
-<figcaption class="figure-caption">(a) Korte schets van een dataset die nuttig zou kunnen zijn voor het analyseren van Australische verkiezingen</figcaption>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-australiaexample" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-australiaexample-data" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-australiaexample-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/number-of-seats.png" class="img-fluid figure-img" style="width:45.0%" data-ref-parent="fig-australiaexample">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-australiaexample-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Korte schets van een dataset die nuttig zou kunnen zijn voor het analyseren van Australische verkiezingen
+</figcaption>
 </figure>
 </div>
 </div>
-<div class="quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-australiaexample-graph" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="figures/possible-seats.png" class="img-fluid figure-img" data-ref-parent="fig-australiaexample"></p>
-<figcaption class="figure-caption">(b) Korte schets van een mogelijke grafiek van het aantal door elke partij gewonnen zetels</figcaption>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-australiaexample" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-australiaexample-graph" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-australiaexample-graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/possible-seats.png" class="img-fluid figure-img" style="width:45.0%" data-ref-parent="fig-australiaexample">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-australiaexample-graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Korte schets van een mogelijke grafiek van het aantal door elke partij gewonnen zetels
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p></p><figcaption class="figure-caption">Figure&nbsp;1: Schetsen van een dataset en grafiek met betrekking tot de Australische verkiezingen</figcaption><p></p>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-australiaexample-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Schetsen van een dataset en grafiek met betrekking tot de Australische verkiezingen
+</figcaption>
 </figure>
 </div>
-<p>We moeten ook een plan maken voor de grafiek waarin we geïnteresseerd zijn. Aangezien we het aantal zetels willen weergeven dat elke partij won, is een snelle schets van waar we naar zouden kunnen streven <a href="#fig-australiaexample-graph">Figure&nbsp;1 (b)</a>.</p>
+<p>We moeten ook een plan maken voor de grafiek waarin we geïnteresseerd zijn. Aangezien we het aantal zetels willen weergeven dat elke partij won, is een snelle schets van waar we naar zouden kunnen streven <a href="#fig-australiaexample-graph" class="quarto-xref">Figure&nbsp;1 (b)</a>.</p>
 </section>
 <section id="simuleren" class="level3">
 <h3 class="anchored" data-anchor-id="simuleren">Simuleren</h3>
@@ -254,24 +275,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Datum: 6 oktober 2022</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Voorwaarden: Je moet weten waar je Australische verkiezingsgegevens kunt krijgen.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>In R zijn regels die beginnen met “#” commentaar. Dit betekent dat ze door R niet als code worden uitgevoerd, maar bedoeld zijn om door mensen te worden gelezen. Elke regel van deze preambule moet beginnen met een “". Maak ook duidelijk dat dit de preambule is door er”####” omheen te zetten. Het resultaat moet er als volgt uitzien <a href="#fig-quarto-australian-elections-3">Figure&nbsp;2</a>.</p>
-<div id="fig-quarto-australian-elections-3" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="figures/02-rstudio_cloud-3.png" class="img-fluid figure-img" style="width:75.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;2: Screenshot van Rohans australian_elections.qmd na eerste opzet en met een premabel</figcaption>
+<p>In R zijn regels die beginnen met “#” commentaar. Dit betekent dat ze door R niet als code worden uitgevoerd, maar bedoeld zijn om door mensen te worden gelezen. Elke regel van deze preambule moet beginnen met een “". Maak ook duidelijk dat dit de preambule is door er”####” omheen te zetten. Het resultaat moet er als volgt uitzien <a href="#fig-quarto-australian-elections-3" class="quarto-xref">Figure&nbsp;2</a>.</p>
+<div id="fig-quarto-australian-elections-3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-quarto-australian-elections-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/02-rstudio_cloud-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-quarto-australian-elections-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Screenshot van Rohans australian_elections.qmd na eerste opzet en met een premabel
+</figcaption>
 </figure>
 </div>
 <p>Hierna moeten we de werkruimte instellen. Hiervoor moeten alle benodigde pakketten worden geïnstalleerd en geladen. Een pakket hoeft maar één keer per computer geïnstalleerd te worden, maar moet elke keer dat het gebruikt wordt, moet het geladen worden. In dit geval gaan we <code>tidyverse</code> <span class="citation" data-cites="Wickham2017">[@Wickham2017]</span>, en <code>janitor</code> <span class="citation" data-cites="janitor">[@janitor]</span> gebruiken. Ze moeten worden geïnstalleerd omdat dit de eerste keer is dat ze worden gebruikt, en daarna moeten ze elk worden geladen.</p>
-<p>Hieronder volgt een voorbeeld van de installatie van de pakketten (er is overdreven veel commentaar toegevoegd om duidelijk te maken wat er gebeurt; in het algemeen is dit niveau van commentaar onnodig). Voer deze code uit door te klikken op de kleine groene pijl bij de R-code chunk (<a href="#fig-quarto-australian-elections-4">Figure&nbsp;3</a>). Ikzelf doe dit met het pakket packman waarmee het pakket alleen wordt geïnstalleerd als je het nog niet hebt (Pacman moet wel geïnstalleerd zijn)</p>
+<p>Hieronder volgt een voorbeeld van de installatie van de pakketten (er is overdreven veel commentaar toegevoegd om duidelijk te maken wat er gebeurt; in het algemeen is dit niveau van commentaar onnodig). Voer deze code uit door te klikken op de kleine groene pijl bij de R-code chunk (<a href="#fig-quarto-australian-elections-4" class="quarto-xref">Figure&nbsp;3</a>). Ikzelf doe dit met het pakket packman waarmee het pakket alleen wordt geïnstalleerd als je het nog niet hebt (Pacman moet wel geïnstalleerd zijn)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pacman)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(tidyverse, janitor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="fig-quarto-australian-elections-4" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="figures/02-rstudio_cloud-4.png" class="img-fluid figure-img" style="width:75.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;3: Screenshot van Rohans australian_elections.qmd met de groene pijl om de brok uit te voeren</figcaption>
+<div id="fig-quarto-australian-elections-4" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-quarto-australian-elections-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/02-rstudio_cloud-4.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-quarto-australian-elections-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Screenshot van Rohans australian_elections.qmd met de groene pijl om de brok uit te voeren
+</figcaption>
 </figure>
 </div>
 <p>Nu de pakketten zijn geïnstalleerd, moeten ze worden geladen. Aangezien die installatiestap maar één keer per computer hoeft te gebeuren, kan die code worden uitgecommentarieerd zodat hij niet per ongeluk wordt uitgevoerd.</p>
@@ -323,38 +352,54 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 # ... with 141 more rows</code></pre>
 </div>
 </div>
-<p>Op een gegeven moment zal je code niet meer werken en zul je anderen om hulp willen vragen. Maak geen screenshot van een klein stukje code en verwacht niet dat iemand op basis daarvan kan helpen. Dat kunnen ze vrijwel zeker niet. In plaats daarvan moet je ze je hele script geven op een manier die ze kunnen uitvoeren. Over GitHub wordt later in zijn boek geschreven <strong>?@sec-reproducible-workflows</strong>, maar voor nu, als je hulp nodig hebt, moet je een GitHub account aanmaken, waarmee je je code kunt delen op een manier die nuttiger is dan het maken van een screenshot. Ga daarvoor naar <a href="https://github.com">GitHub</a> (<a href="#fig-githubone">Figure&nbsp;4 (a)</a>). Nadenken over een geschikte gebruikersnaam is belangrijk omdat dit onderdeel wordt van je professionele profiel. Het zou dus zinvol zijn om een gebruikersnaam te hebben die professioneel is, onafhankelijk van een cursus, en idealiter gerelateerd aan je echte naam. Zoek dan naar een “+” in de rechterbovenhoek, en selecteer dan “New gist”.</p>
+<p>Op een gegeven moment zal je code niet meer werken en zul je anderen om hulp willen vragen. Maak geen screenshot van een klein stukje code en verwacht niet dat iemand op basis daarvan kan helpen. Dat kunnen ze vrijwel zeker niet. In plaats daarvan moet je ze je hele script geven op een manier die ze kunnen uitvoeren. Over GitHub wordt later in zijn boek geschreven <strong>?@sec-reproducible-workflows</strong>, maar voor nu, als je hulp nodig hebt, moet je een GitHub account aanmaken, waarmee je je code kunt delen op een manier die nuttiger is dan het maken van een screenshot. Ga daarvoor naar <a href="https://github.com">GitHub</a> (<a href="#fig-githubone" class="quarto-xref">Figure&nbsp;4 (a)</a>). Nadenken over een geschikte gebruikersnaam is belangrijk omdat dit onderdeel wordt van je professionele profiel. Het zou dus zinvol zijn om een gebruikersnaam te hebben die professioneel is, onafhankelijk van een cursus, en idealiter gerelateerd aan je echte naam. Zoek dan naar een “+” in de rechterbovenhoek, en selecteer dan “New gist”.</p>
 <div id="fig-githubgist" class="quarto-layout-panel">
-<figure class="figure">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-githubgist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="quarto-layout-row quarto-layout-valign-bottom">
-<div class="quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-githubone" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="figures/github_1.png" class="img-fluid figure-img" data-ref-parent="fig-githubgist"></p>
-<figcaption class="figure-caption">(a) GitHub aanmeldscherm</figcaption>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-githubgist" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-githubone" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-githubone-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/github_1.png" class="img-fluid figure-img" data-ref-parent="fig-githubgist">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-githubone-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) GitHub aanmeldscherm
+</figcaption>
 </figure>
 </div>
 </div>
-<div class="quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-githubgistone" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="figures/githubgistone.png" class="img-fluid figure-img" data-ref-parent="fig-githubgist"></p>
-<figcaption class="figure-caption">(b) New GitHub Gist</figcaption>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-githubgist" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-githubgistone" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-githubgistone-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/githubgistone.png" class="img-fluid figure-img" data-ref-parent="fig-githubgist">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-githubgistone-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) New GitHub Gist
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
 <div class="quarto-layout-row quarto-layout-valign-bottom">
-<div class="quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-githubgisttwo" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="figures/githubgisttwo.png" class="img-fluid figure-img" data-ref-parent="fig-githubgist"></p>
-<figcaption class="figure-caption">(c) Creëer een publiek GitHub Gist om code te delen</figcaption>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-githubgist" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-githubgisttwo" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-githubgisttwo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/githubgisttwo.png" class="img-fluid figure-img" data-ref-parent="fig-githubgist">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-githubgisttwo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) Creëer een publiek GitHub Gist om code te delen
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p></p><figcaption class="figure-caption">Figure&nbsp;4: Een Gist aanmaken om code te delen bij een hulpvraag</figcaption><p></p>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-githubgist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Een Gist aanmaken om code te delen bij een hulpvraag
+</figcaption>
 </figure>
 </div>
 <p>Vanaf hier moet je alle code aan die gist toevoegen, niet alleen het laatste stukje dat een fout geeft. En geef het een betekenisvolle bestandsnaam met “.R” aan het einde, bijvoorbeeld “australische_verkiezingen.R”.</p>
@@ -547,7 +592,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 6 Barton   Labor        </code></pre>
 </div>
 </div>
-<p>Onze gegevens komen nu vrij goed overeen met ons plan (<a href="#fig-australiaexample-data">Figure&nbsp;1 (a)</a>). Voor elke kiesdivisie hebben we de partij van de persoon die deze won.</p>
+<p>Onze gegevens komen nu vrij goed overeen met ons plan (<a href="#fig-australiaexample-data" class="quarto-xref">Figure&nbsp;1 (a)</a>). Voor elke kiesdivisie hebben we de partij van de persoon die deze won.</p>
 <p>Nu we de dataset mooi hebben opgeschoond, moeten we hem opslaan, zodat we in de volgende fase met die opgeschoonde dataset kunnen beginnen. We moeten ervoor zorgen dat we het opslaan onder een nieuwe bestandsnaam, zodat we de ruwe gegevens niet vervangen, en zodat het later gemakkelijk is de opgeschoonde dataset te identificeren.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(</span>
@@ -558,7 +603,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="verkennen" class="level3">
 <h3 class="anchored" data-anchor-id="verkennen">verkennen</h3>
-<p>Misschien willen we nu de dataset die we hebben gemaakt, verkennen. Een manier om een dataset beter te begrijpen is het maken van een grafiek. In het bijzonder willen we hier de grafiek bouwen die we gepland hebben in <a href="#fig-australiaexample-graph">Figure&nbsp;1 (b)</a>.</p>
+<p>Misschien willen we nu de dataset die we hebben gemaakt, verkennen. Een manier om een dataset beter te begrijpen is het maken van een grafiek. In het bijzonder willen we hier de grafiek bouwen die we gepland hebben in <a href="#fig-australiaexample-graph" class="quarto-xref">Figure&nbsp;1 (b)</a>.</p>
 <p>Eerst lezen we de zojuist gemaakte dataset in.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="do">#### Data inlezen ####</span></span>
@@ -590,10 +635,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># stelt ons in staat de x-as variabele te specificeren</span></span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="verhalenvertellen_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="verhalenvertellen_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
 </div>
-<p>Hiermee is bereikt wat we wilden bereiken. Maar we kunnen het er wat mooier laten uitzien door de standaardopties aan te passen en de labels te verbeteren (<a href="#fig-canadanice">Figure&nbsp;5</a>).</p>
+</div>
+<p>Hiermee is bereikt wat we wilden bereiken. Maar we kunnen het er wat mooier laten uitzien door de standaardopties aan te passen en de labels te verbeteren (<a href="#fig-canadanice" class="quarto-xref">Figure&nbsp;5</a>).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>cleaned_elections_data <span class="sc">|&gt;</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> elected_party)) <span class="sc">+</span></span>
@@ -604,10 +653,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Aantal zetels"</span></span>
 <span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="co"># Maak de labels meer betekenisvol </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-canadanice" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="verhalenvertellen_files/figure-html/fig-canadanice-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Figure&nbsp;5: Aantal gewonnen zetels, per politieke partij, bij de Australische Federale Verkiezingen van 2022</figcaption>
+<div id="fig-canadanice" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-canadanice-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="verhalenvertellen_files/figure-html/fig-canadanice-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-canadanice-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Aantal gewonnen zetels, per politieke partij, bij de Australische Federale Verkiezingen van 2022
+</figcaption>
 </figure>
 </div>
 </div>
@@ -618,7 +671,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Tot nu toe hebben we gegevens gedownload, opgeschoond en een grafiek gemaakt. Normaal gesproken moeten we wat we gedaan hebben uitvoerig toelichten. In dit geval kunnen we een paar alinea’s schrijven over wat we hebben gedaan, waarom we het hebben gedaan en wat we hebben gevonden om onze werkflow af te sluiten. Hieronder volgt een voorbeeld.</p>
 <blockquote class="blockquote">
 <p>Australië is een parlementaire democratie met 151 zetels in het Huis van Afgevaardigden, het huis waaruit de regering wordt gevormd. Er zijn twee grote partijen—“Liberal” en “Labor”—twee kleinere partijen—“Nationals” en “Greens”—en veel kleine partijtjes. De federale verkiezingen van 2022 vonden plaats op 21 mei en er werden ongeveer 15 miljoen stemmen uitgebracht. Wij waren geïnteresseerd in het aantal zetels dat elke partij won.</p>
-<p>We hebben de resultaten, per zetel, gedownload van de website van de Australian Electoral Commission. We hebben de dataset opgeschoond en schoongemaakt met behulp van de statistische programmeertaal R <span class="citation" data-cites="citeR">[@citeR]</span> inclusief de <code>tidyverse</code> <span class="citation" data-cites="tidyverse">[@tidyverse]</span> en <code>janitor</code> <span class="citation" data-cites="janitor">[@janitor]</span>. Vervolgens hebben we een grafiek gemaakt van het aantal zetels dat elke politieke partij won. (<a href="#fig-canadanice">Figure&nbsp;5</a>).</p>
+<p>We hebben de resultaten, per zetel, gedownload van de website van de Australian Electoral Commission. We hebben de dataset opgeschoond en schoongemaakt met behulp van de statistische programmeertaal R <span class="citation" data-cites="citeR">[@citeR]</span> inclusief de <code>tidyverse</code> <span class="citation" data-cites="tidyverse">[@tidyverse]</span> en <code>janitor</code> <span class="citation" data-cites="janitor">[@janitor]</span>. Vervolgens hebben we een grafiek gemaakt van het aantal zetels dat elke politieke partij won. (<a href="#fig-canadanice" class="quarto-xref">Figure&nbsp;5</a>).</p>
 <p>De Labor Party won 77 zetels, gevolgd door de Liberal Party met 48 zetels. De kleinere partijen wonnen het volgende aantal zetels: Nationals, 10 zetels en de Greens, 4 zetels. Tenslotte werden er 10 onafhankelijken gekozen en kandidaten van enkele andere partijen.</p>
 <p>De zetelverdeling is scheef in de richting van de twee grote partijen, wat een weerspiegeling kan zijn van relatief stabiele voorkeuren van de Australische kiezers, of mogelijk van inertie als gevolg van de voordelen van een reeds grote partij, zoals een nationaal netwerk en financiering, of een andere reden. Een beter begrip van de redenen voor deze verdeling is van belang voor toekomstige werkzaamheden. Hoewel de dataset bestaat uit iedereen die heeft gestemd, is het vermeldenswaard dat in Australië sommigen systematisch worden uitgesloten van stemming; en het is voor sommigen veel moeilijker om te stemmen dan voor anderen.</p>
 </blockquote>
@@ -663,18 +716,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -706,11 +748,48 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
-  function tippyHover(el, contentFn) {
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -720,8 +799,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -733,7 +821,129 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -777,6 +987,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -802,6 +1013,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -862,6 +1099,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 

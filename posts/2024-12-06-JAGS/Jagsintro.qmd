@@ -1,0 +1,337 @@
+---
+title: Lineaire regressie modellen met gebruik van Bayesiaanse analyse in JAGS
+author: Gita Benadi, bewerking Harrie Jonkman
+description: |
+   Hoe voer je ook alweer een Bayesiaanse analyse uit met R en JAGS? Aan de hand van drie lineaire (hierarchische) voorbeelden wordt dit hier uitgelegd in deze korte instructieve blog. 
+date: "2024-12-06"
+categories: [Analyseren]
+image: "Screenshot.PNG"
+---
+# Introductie
+
+Ik wilde toch weer eens met JAGS werk, dat statistisch programma om met Bayesiaanse technieken te kunnen werken. Daarvoor moest ik de basis weer ophalen, en daar was deze tekst van Gita Benadi heel geschikt. 
+
+De volgende tekst en R-code van haar (die ik in het Nederlands heb bewerkt, dank je wel Gita) laten drie voorbeelden zien van het uitvoeren van lineaire (hierarchische) modellen met behulp van Bayesiaanse analyse in JAGS. Om deze demonstratie te kunnen volgen, moet je een basiskennis hebben van de principes van Bayesiaanse statistiek. Termen zoals prior, likelihood, posterior en Markov Chain Monte Carlo (MCMC) moeten je bekend in de oren klinken. Als je deze basiskennis nog niet hebt, raad ik (Gita dus, Harrie ook) je aan de eerste helft van “Bayesian Basics” van Michael Clark te lezen (HTML-versie beschikbaar [hier](https://m-clark.github.io/docs/IntroBayes.html)).
+
+
+# Een simpele lineaire regressie
+
+Om te demonstreren hoe een lineaire regressie in JAGS eruit ziet, gaan we een gesimuleerde dataset gebruiken van de relatie tussen lichaamslengte en lichaamsmassa van een denkbeeldig slangensoort. Deze datasimulatie is gebaseerd op code geschreven door Felix May en op hoofdstuk 11 van het Bayesiaanse statistiek leerboek van Kéry (Introduction to WinBUGs for Ecologists, 2010, pp. 141-150, sowieso een heel instructief boek over Bayesiaanse analyse, vindt Harrie).
+
+Een lineaire regressie is gebaseerd op de aanname dat de gegevens willekeurige steekproeven zijn uit normale (Gaussische) verdelingen met gelijke variantie en een gemiddelde dat een lineaire functie is van de voorspeller(s). Hier creëer ik een dataset die aan deze aanname voldoet, met lichaamsmassa van de slangensoorten als lineaire functie van lichaamslengte:
+
+{r}
+# Hieronder creëer je de dataset
+set.seed(42) # Plaats een random seed voor de reproduceerbaarheid van de simulatie
+
+samplesize <- 30 # Aantal data punten
+b_length <- sort(rnorm(samplesize)) #  (verklarende variabele)
+
+int_true <- 30 # Werkelijke intercept
+slope_true <- 10 #  Werkelijke slope
+mu <- int_true + slope_true * b_length # Werkelijk gemiddelde van de normale verdeling
+sigma <- 5 # Werkelijk standaard deviatie van de normale verdelingen
+
+b_mass <- rnorm(samplesize, mean = mu, sd = sigma) # Lichaamsmassa (uitkomstvariabele)
+
+snakes1 <- data.frame(b_length = b_length, b_mass = b_mass)
+
+# zo ziet de dataset eruit
+head(snakes1)
+
+
+
+De lichaamslengtewaarden worden getrokken uit een normale verdeling met gemiddelde 0 en standaardafwijking 1, hoewel echte lichaamslengtes natuurlijk alleen positieve waarden kunnen hebben. Met een echte dataset moeten alle continue voorspellers altijd geschaald en gecentreerd worden voor de analyse (d.w.z. het gemiddelde aftrekken en delen door de standaardafwijking, waardoor ze getransformeerd worden naar waarden met een gemiddelde van 0 en een standaardafwijking van 1) om problemen met de modeluitvoering te voorkomen. Hier werken we direct met voorspellende waarden die vergelijkbaar zijn met een geschaalde en gecentreerde variabele.
+
+Om met JAGS een lineaire regressie op deze gegevensset uit te voeren, laden we eerst het R-pakket voor communicatie tussen R en JAGS:
+
+{r}
+# R2Jags moet wel geïnstalleerd zijn
+library(R2jags)
+
+Hiervoor moeten natuurlijk zowel JAGS als R2jags al op de computer geïnstalleerd zijn. Het pakket R2jags kan vanuit R worden geïnstalleerd met het commando **install.packages(“R2jags”)**. De methode om JAGS te installeren verschilt per besturingssysteem. Instructies zijn te vinden op de [JAGS-pagina](http://mcmc-jags.sourceforge.net/).
+
+Voordat we de gegevensset in JAGS kunnen analyseren, moet deze worden geconverteerd naar een ander formaat:
+
+{r}
+jagsdata_s1 <- with(snakes1, list(b_mass = b_mass, b_length = b_length, N = length(b_mass)))
+
+Dit maakt een lijst met drie elementen: de uitkomstvariabele en voorspeller als vectoren en de steekproefgrootte als een enkel getal.
+
+In de volgende stap schrijven we ons JAGS-model. Met behulp van het pakket R2jags kunnen we het model schrijven als een R-functie die de JAGS-code bevat:
+
+{r}
+lm1_jags <- function(){
+	# Likelihood:
+	for (i in 1:N){
+		b_mass[i] ~ dnorm(mu[i], tau) # tau is precisie (1 / variance)
+		mu[i] <- alpha + beta * b_length[i]
+	}
+	# Priors:
+	alpha ~ dnorm(0, 0.01) # intercept
+	beta ~ dnorm(0, 0.01) # slope
+	sigma ~ dunif(0, 100) # standaard deviatie
+	tau <- 1 / (sigma * sigma) # sigma^2 werkt niet in JAGS
+}
+
+
+Hoewel de kern van deze functie er op het eerste gezicht uitziet als R-code, is deze geschreven in JAGS, niet in R. De JAGS-taal lijkt erg op R, maar er zijn enkele kleine verschillen. In R wordt een normale verdeling bijvoorbeeld gespecificeerd met behulp van het gemiddelde en de standaardafwijking, maar in JAGS is de tweede parameter van het **dnorm** commando de *precisie* van de verdeling (1 / variantie).
+In een JAGS model betekent het tilde teken (~) dat het object links een willekeurige variabele is die verdeeld is volgens de verdeling rechts. De toewijzingspijl (<-) wordt gebruikt om deterministische relaties tussen objecten te specificeren. Voor meer details over de JAGS taal, zie de [JAGS-gebruikersgids](https://sourceforge.net/projects/mcmc-jags/files/Manuals/).
+
+In de bovenstaande functie specificeert het eerste deel de waarschijnlijkheid van de gegevens gegeven het lineaire regressiemodel. Elke waarde van de lichaamsmassa is een willekeurige trekking uit een normale verdeling waarvan het gemiddelde lineair afhangt van de lichaamslengte. De parameters **alpha** en **beta** zijn het intercept en de helling van het lineaire verband, waarvan de waarden moeten worden geschat. Het tweede deel van de functie specificeert de prior-verdeling voor elke parameter. Aangezien we gesimuleerde gegevens gebruiken, weten we wat de werkelijke waarden van de parameters zijn, maar in deze analyse gaan we doen alsof we geen voorafgaande informatie over hun waarden hebben. Daarom kiezen we *niet-informatieve priors* voor alle parameters, met vlakke verdelingen die alle plausibele waarden ongeveer even waarschijnlijk maken. De prior-verdeling voor **alfa** en **beta** is een normale verdeling met gemiddelde nul en lage precisie (d.w.z. grote standaardafwijking). Omdat de standaardafwijking van een normale verdeling alleen positief kan zijn, gebruiken we een uniforme verdeling met een minimum van nul en een groot maximum als prior voor **sigma**.
+
+De volgende code specificeert de initiële parameterwaarden voor de MCMC sampler, kiest de parameters waarvan de posterior verdelingen worden gerapporteerd en voert het model uit in JAGS:
+
+{r}
+init_values <- function(){
+	list(alpha = rnorm(1), beta = rnorm(1), sigma = runif(1))
+}
+
+params <- c("alpha", "beta", "sigma")
+
+fit_lm1 <- jags(data = jagsdata_s1, inits = init_values, parameters.to.save = params, model.file = lm1_jags,
+			   n.chains = 3, n.iter = 12000, n.burnin = 2000, n.thin = 10, DIC = F)
+
+
+De laatste opdracht voert drie MCMC-ketens uit met elk 12000 iteraties en verwijdert de eerste 2000 waarden (“burn-in”), omdat deze eerste waarden sterk afhangen van de gekozen beginwaarden en daarom geen goede weergave van de waarschijnlijkheid zijn. Om de correlatie tussen opeenvolgende waarden in de keten te verminderen, wordt alleen elke 10e iteratie opgeslagen en de rest weggegooid (“uitdunnen”).
+
+Laten we eens kijken naar een tabel met de uitvoer van het model:
+
+{r}
+fit_lm1
+
+Deze tabel toont het gemiddelde, de standaardafwijking en de kwantielen van de marginale posterior verdeling voor elk van de drie modelparameters. Merk op dat de gemiddelde posterior waarden van **alfa**, **beta** en **sigma** redelijk dicht bij de werkelijke waarden liggen die we voor de simulatie hebben gebruikt (alpha = 30, beta = 10, sigma = 5). Het bereik tussen de 2,5% en 97,5% kwantielen is het 95% *waarschijnlijke interval* voor elke parameter. Dit is het Bayesiaanse equivalent van een betrouwbaarheidsinterval, maar de interpretatie is anders en aantoonbaar intuïtiever. Bijvoorbeeld, voor het 95% procent geloofwaardigheidsinterval is er 95% kans dat de werkelijke parameterwaarde binnen dit bereik ligt.
+
+De laatste twee kolommen in de tabel zijn convergentiediagnoses. De effectieve steekproefgrootte n.eff is een getal kleiner dan of gelijk aan het aantal monsters dat is opgeslagen van de ketens (3 * (12000 - 2000) / 10). Hoe hoger de autocorrelatie in de opgeslagen monsters, hoe kleiner de effectieve steekproefgrootte. Rhat is een maat voor hoe goed de drie Markov-ketens gemengd zijn en zou idealiter een waarde dicht bij 1 moeten hebben. Als de Rhat-waarden aanzienlijk groter zijn dan 1, zijn de ketens niet goed gemengd en kunnen de posterior schattingen niet worden vertrouwd. We kunnen ook visueel beoordelen hoe goed de ketens gemengd zijn met het commando **traceplot**:
+
+
+
+{r}
+traceplot(fit_lm1, mfrow = c(2, 2), ask = F)
+
+In ons geval is alles goed, de ketens zijn heel mooi gemengd.
+
+Er zijn verschillende manieren om de marginale posterior verdelingen van de parameters grafisch weer te geven. 
+We kunnen de opdracht **plot** gebruiken op het gepaste modelobject:
+
+{r}
+plot(fit_lm1)
+
+Voor een visualisatie van de volledige posterior verdelingen met traceplots voor elke parameter, converteren we eerst het modelobject naar de klasse “mcmc”:
+
+{r}
+lm1_mcmc <- as.mcmc(fit_lm1)
+plot(lm1_mcmc)
+
+Tot slot willen we meestal de gegevens samen met de voorspelling van het model plotten. Hiervoor maken we eerst een nieuwe reeks voorspellingswaarden:
+
+{r}
+nvalues <- 100
+b_length_new <- seq(min(snakes1$b_length), max(snakes1$b_length), length.out = nvalues)
+
+Om de MCMC-monsters gemakkelijk te kunnen gebruiken voor voorspellingen, combineren we de drie ketens tot één. De volgende code maakt een mcmc-object met drie kolommen (een voor elke parameter) en 3000 rijen (een voor elk MCMC-monster):
+
+
+{r}
+lm1_mcmc_combi <- as.mcmc(rbind(lm1_mcmc[[1]], lm1_mcmc[[2]], lm1_mcmc[[3]]))
+
+Vervolgens berekenen we de verwachte waarde van de lichaamsmassa voor elk van de nieuwe lichaamslengtewaarden met behulp van de gemiddelde posterior waarden van de modelparameters **alfa** en **beta**:
+
+{r}
+pred_mean_mean <- mean(lm1_mcmc_combi[, "alpha"]) + b_length_new * mean(lm1_mcmc_combi[, "beta"])
+
+We kunnen nu de voorspellingslijn samen met de gegevens plotten. We zijn echter nog niet klaar: een bruikbare plot moet niet alleen de gemiddelde voorspelde waarde laten zien, maar ook de onzekerheid rond dit gemiddelde. In ons model zijn er twee bronnen van onzekerheid: de onzekerheid over de werkelijke parameterwaarden en de onzekerheid die wordt veroorzaakt door de stochasticiteit van de relatie tussen lichaamsmassa en lichaamslengte (de normale verdeling van gerealiseerde lichaamsmassawaarden rond het gemiddelde). Het eerste type onzekerheid kan worden gekwantificeerd als het betrouwbaarheidsinterval rond de voorspelde gemiddelde waarde van de lichaamsmassa voor een bepaalde waarde van de lichaamslengte. De volgende code bepaalt de boven- en ondergrenzen van dit 95% geloofwaardigheidsinterval voor elk van de 100 lichaamslengtes:
+
+{r}
+pred_mean_dist <- matrix(NA, nrow = nrow(lm1_mcmc_combi), ncol = nvalues)
+for (i in 1:nrow(pred_mean_dist)){
+    pred_mean_dist[i,] <- lm1_mcmc_combi[i,"alpha"] + b_length_new * lm1_mcmc_combi[i,"beta"]
+}
+credible_lower <- apply(pred_mean_dist, MARGIN = 2, quantile, prob = 0.025)
+credible_upper <- apply(pred_mean_dist, MARGIN = 2, quantile, prob = 0.975)
+
+Als schatting van beide soorten onzekerheid samen kunnen we willekeurige waarden trekken uit een normale verdeling met een gemiddelde gedefinieerd door de lineaire combinatie van lichaamslengte en de bemonsterde waarden van **alfa** en **beta**, en een variantie gelijk aan de bemonsterde sigma. Het volgende stukje code produceert deze willekeurige waarden voor elke parametercombinatie in de Markov-ketens en elke lichaamslengte. Om vloeiendere curven te krijgen, repliceren we de parametercombinaties uit de ketens eerst 50 keer, zodat we 50 willekeurige waarden uit de normale verdeling kunnen trekken voor elke parametercombinatie en elke waarde van de lichaamslengte. Vervolgens berekenen we de 2,5% en 97,5% kwantielen van de waarden voor elke lichaamslengte:
+
+{r}
+lm1_mcmc_combi_rep <- do.call(rbind, rep(list(lm1_mcmc_combi), 50)) # replicatie
+
+# Trek random waarden voor alle parameter combinaties (rijen) en lichaamlengte waarden (kolommen):
+pred_data_dist <- matrix(NA, nrow = nrow(lm1_mcmc_combi_rep), ncol = nvalues)
+for (i in 1:nrow(pred_data_dist)){
+    pred_data_dist[i,] <- lm1_mcmc_combi_rep[i,"alpha"] + b_length_new * lm1_mcmc_combi_rep[i,"beta"] +
+        rnorm(nvalues, mean = 0, sd = lm1_mcmc_combi_rep[i, "sigma"])
+}
+
+# Berekening kwantielen:
+uncertain_lower <- apply(pred_data_dist, MARGIN = 2, quantile, prob = 0.025)
+uncertain_upper <- apply(pred_data_dist, MARGIN = 2, quantile, prob = 0.975)
+
+Tot slot kunnen we de gegevens plotten met de gemiddelde modelvoorspelling en de twee onzekerheidsmaten:
+
+{r}
+plot(b_mass ~ b_length, data = snakes1)
+lines(b_length_new, pred_mean_mean)
+lines(b_length_new, credible_lower, lty = 2)
+lines(b_length_new, credible_upper, lty = 2)
+lines(b_length_new, uncertain_lower, lty = 2, col = "red")
+lines(b_length_new, uncertain_upper, lty = 2, col = "red")
+
+Als we een grote steekproef uit dezelfde populatie verzamelen en onze schatting van de posterior distributie correct is, zou 95% van de gegevens binnen het gebied tussen de twee rode lijnen moeten liggen.
+
+# Hetzelfde model met een extra categorische voorspeller
+
+Om te zien hoe een iets gecompliceerdere lineaire regressie in JAGS eruit ziet, voegen we hier een extra categoriale voorspeller toe aan onze gegevens. We nemen aan dat de relatie tussen lichaamslengte en lichaamsmassa verschilt tussen mannetjes en vrouwtjes van de slangensoort. De volgende code simuleert de gegevens voor dit model:
+
+{r}
+set.seed(42)
+
+samplesize <- 50 # Een grotere sample size omdat we een meer complex model draaien
+b_length <- sort(rnorm(samplesize)) # Lichaamslengte
+sex <- sample(c(0, 1), size = samplesize, replace = T) # Sekse (0: vrouw, 1: man)
+
+int_true_f <- 30 # Intercept van vrouwen
+int_true_m_diff <- 5 # Verschil tussen intercepten van mannen en vrouwen
+slope_true_f <- 10 # Helling van vrouwen
+slope_true_m_diff <- -3 # Verschil tussen de hellingen van mannen en vrouwen
+
+mu <- int_true_f + sex * int_true_m_diff + (slope_true_f + sex * slope_true_m_diff) * b_length # Werkelijke gemiddelden
+sigma <- 5 # Werkelijke standaard deviatie van normale verdelingen
+
+b_mass <- rnorm(samplesize, mean = mu, sd = sigma) # Lichaamsgewicht (uitkomstvariabele)
+
+# Combineer het in een dataframe:
+snakes2 <- data.frame(b_length = b_length, b_mass = b_mass, sex = sex)
+head(snakes2)
+
+{r}
+plot(b_mass ~ b_length, col = (sex + 1), data = snakes2)
+
+In deze dataset wordt het geslacht van een slang uitgedrukt als 0 (vrouwelijk) of 1 (mannelijk). Voor een analyse in JAGS moeten alle categoriale gegevens worden geconverteerd naar deze numerieke indeling. Als je categoriale variabele meer dan twee niveaus heeft, moet je elk niveau uitdrukken als een combinatie van nullen en enen.
+
+De analyse van deze gegevensset in JAGS lijkt sterk op die van het eenvoudigere model dat hierboven is beschreven. Eerst formatteren we de gegevens opnieuw:
+
+{r}
+jagsdata_s2 <- with(snakes2, list(b_mass = b_mass, b_length = b_length, sex = sex, N = length(b_mass)))
+
+Vervolgens schrijven we het model als een R-functie die de JAGS-code bevat:
+
+{r}
+lm2_jags <- function(){
+    # Likelihood:
+    for (i in 1:N){
+        b_mass[i] ~ dnorm(mu[i], tau) # tau is precisie (1 / variantie)
+        mu[i] <- alpha[1] + sex[i] * alpha[2] + (beta[1] + beta[2] * sex[i]) * b_length[i]
+    }
+    # Priors:
+    for (i in 1:2){
+        alpha[i] ~ dnorm(0, 0.01)
+        beta[i] ~ dnorm(0, 0.01)
+    }
+    sigma ~ dunif(0, 100)
+    tau <- 1 / (sigma * sigma)
+}
+
+Dit model bevat een interactie tussen geslacht en lichaamslengte, d.w.z. zowel het intercept als de helling van het lineaire verband tussen lichaamslengte en lichaamsmassa verschillen per geslacht. We moeten dus twee waarden schatten voor zowel alfa als bèta. Net als in een normale lineaire regressie in R wordt de eerste waarde van elke parameter (in dit geval de waarde voor vrouwtjes) gebruikt als referentie en wordt de tweede waarde (de waarde voor mannelijke slangen) uitgedrukt als een verschil met de eerste.
+
+Het volgende stukje code definieert de beginwaarden voor de Markov-ketens, kiest de parameters die moeten worden opgenomen en voert het model uit:
+
+{r}
+init_values <- function(){
+    list(alpha = rnorm(2), beta = rnorm(2), sigma = runif(1))
+}
+
+params <- c("alpha", "beta", "sigma")
+
+fit_lm2 <- jags(data = jagsdata_s2, inits = init_values, parameters.to.save = params, model.file = lm2_jags,
+               n.chains = 3, n.iter = 12000, n.burnin = 2000, n.thin = 10, DIC = F)
+
+Laten we eens kijken naar de uitvoer van het model:
+
+{r}
+fit_lm2
+
+De posterior gemiddelden liggen vrij dicht bij de werkelijke waarden die zijn gebruikt voor de simulatie (zie hierboven). Met het passende model kun je dezelfde plots van de uitvoer maken als voorheen, de convergentiediagnostiek bekijken, de gegevens en modelvoorspellingen plotten, enzovoort.
+
+
+# Een lineair hierarchisch model
+
+Als derde voorbeeld maken we een dataset met een random effect die geanalyseerd moet worden met een lineair mixed-effects model (lineair hierarchisch model). Net als de eerste dataset heeft deze slechts één voorspeller (lichaamslengte), maar daarnaast nemen we aan dat slangen op een aantal verschillende locaties zijn gevangen. We analyseren deze dataset met een random intercept model, dus we creëren een dataset met dezelfde helling van het effect van lichaamslengte op lichaamsmassa voor alle locaties, maar met verschillende intercepts per locatie. De aanname van een gemengde (hierarchische) model is dat de intercepts van de locaties normaal verdeeld zijn rond hun gemiddelde. De volgende code creëert de gegevens:
+
+{r}
+set.seed(42)
+
+samplesize <- 200
+nsites <- 10 # Aantal lokaties
+b_length <- sort(rnorm(samplesize)) # Lichaamslengte (verklarende variabele)
+sites <- sample(1:10, samplesize, replace = T) # Site (groepsvariabele)
+table(sites)
+
+{r}
+int_true_mean <- 45 # Werkelijke gemiddelde intercept
+int_true_sigma <- 10 # Werkelijke standaard deviatie van intercepten
+int_true_sites <- rnorm(n = nsites, mean = int_true_mean, sd = int_true_sigma) # Werkelijk intercept van elke lokatie
+
+# Intercept van elke slang individueel (afhankelijk van de site waar hij is gevangen):
+sitemat <- matrix(0, nrow = samplesize, ncol = nsites)
+for (i in 1:nrow(sitemat)) sitemat[i, sites[i]] <- 1
+int_true <- sitemat %*% int_true_sites
+
+slope_true <- 10 # Werkelijke slope
+mu <- int_true + slope_true * b_length # Werkelijk gemiddelde van de normaal verdelingen
+sigma <- 5 # Werkelijke standaard deviatie van  normaal verdelingen
+
+b_mass <- rnorm(samplesize, mean = mu, sd = sigma) # Lichaamsgewicht (uitkomstvariabele)
+
+snakes3 <- data.frame(b_length = b_length, b_mass = b_mass, site = sites)
+head(snakes3)
+
+{r}
+plot(b_mass ~ b_length, col = site, data = snakes3)
+
+Bij het voorbereiden van deze dataset voor analyse met JAGS, nemen we het aantal sites op als een extra element in de lijst:
+
+{r}
+Nsites <- length(levels(as.factor(snakes3$site)))
+jagsdata_s3 <- with(snakes3, list(b_mass = b_mass, b_length = b_length, site = site,
+                                  N = length(b_mass), Nsites = Nsites))
+
+Het JAGS-model is iets langer dan voorheen:
+
+{r}
+lm3_jags <- function(){
+    # Likelihood:
+    for (i in 1:N){
+        b_mass[i] ~ dnorm(mu[i], tau) # tau is precisie (1 / variantie)
+        mu[i] <- alpha + a[site[i]] + beta * b_length[i] # Random intercept voor lokatie
+    }
+    # Priors:
+    alpha ~ dnorm(0, 0.01) # intercept
+    sigma_a ~ dunif(0, 100) # standaard deviatie van random effect (variantie tussen lokaties)
+    tau_a <- 1 / (sigma_a * sigma_a) # converteer naar precisie
+    for (j in 1:Nsites){
+        a[j] ~ dnorm(0, tau_a) # random intercept voor elke lokatie
+    }
+    beta ~ dnorm(0, 0.01) # slope
+    sigma ~ dunif(0, 100) # standaard deviatie van vaste effecten (variantie binnen lokaties)
+    tau <- 1 / (sigma * sigma) # omzetten naar precisie
+}
+
+Naast het algemene intercept **alpha**, schatten we een intercept **a** voor elke locatie. De locatiespecifieke intercepts zijn normaal verdeeld rond het algemene intercept met variantie **sigma_a**. Deze variantie tussen locaties is een extra parameter die wordt opgenomen in de modelpassingsprocedure:
+
+{r}
+init_values <- function(){
+    list(alpha = rnorm(1), sigma_a = runif(1), beta = rnorm(1), sigma = runif(1))
+}
+
+params <- c("alpha", "beta", "sigma", "sigma_a")
+
+fit_lm3 <- jags(data = jagsdata_s3, inits = init_values, parameters.to.save = params, model.file = lm3_jags,
+               n.chains = 3, n.iter = 20000, n.burnin = 5000, n.thin = 10, DIC = F)
+
+De uitkomst van dit model ziet er als volgt uit:
+
+{r}
+fit_lm3
+
+Opnieuw liggen de geschatte gemiddelde posteriorwaarden vrij dicht bij de werkelijke waarden die voor de simulatie zijn gebruikt.
+

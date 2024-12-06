@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.353">
+<meta name="generator" content="quarto-1.6.39">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -38,17 +38,23 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-3a1197cc0774821054ad3543cdc64272.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -57,46 +63,75 @@ ul.task-list li input[type="checkbox"] {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html" rel="" target="">
- <span class="menu-text">Harrie’s Hoekje</span></a>
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">Harrie’s Hoekje</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/Jonkman1" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/Jonkman1"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com" rel="" target=""><i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://twitter.com"> <i class="bi bi-twitter" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
+          </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
 </div>
-          </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -111,9 +146,9 @@ ul.task-list li input[type="checkbox"] {
         </div>
       </div>
                           <div class="quarto-categories">
-                <div class="quarto-category">voorbereiding</div>
+                <div class="quarto-category">voorbereiden</div>
                 <div class="quarto-category">modelleren</div>
-                <div class="quarto-category">communicatie</div>
+                <div class="quarto-category">communiceren</div>
               </div>
                   </div>
   </div>
@@ -182,6 +217,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 
+
 <section id="inleiding" class="level2">
 <h2 class="anchored" data-anchor-id="inleiding">Inleiding</h2>
 <p><img src="Screenshot.PNG" class="img-fluid"></p>
@@ -233,7 +269,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Een andere manier om de waarschijnlijkheid van een gebeurtenis te bepalen is het experiment vele malen uit te voeren en te tellen hoe vaak elke gebeurtenis zich voordoet. Uit de relatieve frequentie van de verschillende uitkomsten kunnen we de waarschijnlijkheid van elke uitkomst berekenen. Laten we bijvoorbeeld zeggen dat we de kans op regen in San Francisco willen weten. We moeten eerst het experiment definiëren — laten we zeggen dat we voor elke dag in 2017 de gegevens van de National Weerstation bekijken en bepalen of er regen is gevallen op het weerstation in het centrum van San Francisco. Volgens deze gegevens waren er in 2017 73 regendagen. Om de kans op regen in San Francisco te berekenen, delen we gewoon het aantal regendagen door het aantal getelde dagen (365), wat P(regen in SF in 2017) = 0,2 oplevert.</p>
 <div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: right;">aantal regendagen</th>
@@ -258,7 +294,7 @@ ul.task-list li input[type="checkbox"] {
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="Stats21_files/figure-html/ElectionResults-1.png" style="height:50.0%" width="768" class="figure-img"></p>
-<figcaption class="figure-caption">Figuur1. Links: Een demonstratie van de wet van de grote getallen. Een munt werd 30.000 keer opgegooid, en na elke worp werd de kans op kop berekend op basis van het aantal koppen en staarten dat tot dan toe was verzameld. Het duurt ongeveer 15.000 keer voordat de waarschijnlijkheid de werkelijke waarschijnlijkheid van 0,5 bereikt. Rechts: Relatief aandeel van de stemmen in de speciale verkiezing van 12 december 2017 voor de zetel van de Amerikaanse Senaat in Alabama, als functie van het percentage kiesdistricten dat rapporteert. Deze gegevens zijn overgenomen uit: https://www.ajc.com/news/national/alabama-senate-race-live-updates-roy-moore-doug-jones/KPRfkdaweoiXICW3FHjXqI/</figcaption>
+<figcaption>Figuur1. Links: Een demonstratie van de wet van de grote getallen. Een munt werd 30.000 keer opgegooid, en na elke worp werd de kans op kop berekend op basis van het aantal koppen en staarten dat tot dan toe was verzameld. Het duurt ongeveer 15.000 keer voordat de waarschijnlijkheid de werkelijke waarschijnlijkheid van 0,5 bereikt. Rechts: Relatief aandeel van de stemmen in de speciale verkiezing van 12 december 2017 voor de zetel van de Amerikaanse Senaat in Alabama, als functie van het percentage kiesdistricten dat rapporteert. Deze gegevens zijn overgenomen uit: https://www.ajc.com/news/national/alabama-senate-race-live-updates-roy-moore-doug-jones/KPRfkdaweoiXICW3FHjXqI/</figcaption>
 </figure>
 </div>
 </div>
@@ -315,7 +351,7 @@ P(Uitkomst6_{worp1} \cup Uitkomst6_{worp2}) = P(Uitkomst6_{worp1}) + P(Uitkomst6
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="Stats21_files/figure-html/ThrowMatrix-1.png" style="height:50.0%" width="384" class="figure-img"></p>
-<figcaption class="figure-caption">Figuur2. Elke cel in deze matrix vertegenwoordigt een uitkomst van twee worpen van een dobbelsteen, waarbij de kolommen staan voor de eerste worp en de rijen voor de tweede worp. De cellen in rood staan voor de cellen met een zes in de eerste of tweede worp; de rest is blauw..</figcaption>
+<figcaption>Figuur2. Elke cel in deze matrix vertegenwoordigt een uitkomst van twee worpen van een dobbelsteen, waarbij de kolommen staan voor de eerste worp en de rijen voor de tweede worp. De cellen in rood staan voor de cellen met een zes in de eerste of tweede worp; de rest is blauw..</figcaption>
 </figure>
 </div>
 </div>
@@ -371,7 +407,7 @@ P(k\le2)= P(k=2) + P(k=1) + P(k=0) = 6e^{-5} + .002 + .040 = .043
 <p>In veel gevallen zou het aantal mogelijke uitkomsten te groot zijn om de cumulatieve kans te berekenen door alle mogelijke waarden op te sommen; gelukkig kan deze direct worden berekend voor elke theoretische kansverdeling. De tabel hieronder toont de cumulatieve kans op elk mogelijk aantal geslaagde vrije worpen in het voorbeeld van hierboven, waaruit we kunnen opmaken dat de kans dat Curry 2 of minder vrije worpen maakt uit 4 pogingen 0,043 is.</p>
 <div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small">
 <caption>Simpele en cumulatieve waarschijnlijkheidsdistributies voor aantal succesvolle vrije worpen van Steph Curry in 4 pogingen.</caption>
 <thead>
 <tr class="header">
@@ -426,7 +462,7 @@ P(A|B) = \frac{P(A \cap B)}{P(B)}
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/conditional_probability.png" style="height:50.0%" width="288" class="figure-img"></p>
-<figcaption class="figure-caption">Figuur 3. Een grafische voorstelling van de voorwaardelijke waarschijnlijkheid, die laat zien hoe de voorwaardelijke waarschijnlijkheid onze analyse beperkt tot een deelverzameling van de gegevens.</figcaption>
+<figcaption>Figuur 3. Een grafische voorstelling van de voorwaardelijke waarschijnlijkheid, die laat zien hoe de voorwaardelijke waarschijnlijkheid onze analyse beperkt tot een deelverzameling van de gegevens.</figcaption>
 </figure>
 </div>
 </div>
@@ -438,7 +474,7 @@ P(A|B) = \frac{P(A \cap B)}{P(B)}
 <p>Wij kunnen voorwaardelijke kansen ook rechtstreeks uit gegevens berekenen. Stel dat we geïnteresseerd zijn in de volgende vraag: Wat is de kans dat iemand diabetes heeft, als hij niet lichamelijk actief is? – Dat is <span class="math inline">\(P(diabetes|inactief)\)</span>. De NHANES-dataset bevat twee variabelen die de twee delen van deze vraag behandelen. De eerste (<code>Diabetes</code>) vraagt of de persoon ooit te horen heeft gekregen dat hij diabetes heeft, de tweede (``PhysActive```) registreert of de persoon deelneemt aan sport, fitness of recreatieve activiteiten van ten minste matige intensiteit. Laten we eerst de eenvoudige kansen berekenen die in de tabel staan. De tabel laat zien dat de kans dat iemand in de NHANES-dataset diabetes heeft .1 is, en dat de kans dat iemand inactief is .45 is.</p>
 <div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small">
 <caption>Samenvattende data voor diabetes en fysieke activiteit</caption>
 <thead>
 <tr class="header">
@@ -470,7 +506,7 @@ P(A|B) = \frac{P(A \cap B)}{P(B)}
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small">
 <caption>Gedeelde waarschijnlijkheden voor Diabetes en FysActieve variabelen.</caption>
 <thead>
 <tr class="header">
@@ -521,7 +557,7 @@ P(A|B) = P(A)
 <p>Laten we een ander voorbeeld bekijken, aan de hand van de NHANES-gegevens: Zijn lichamelijke en geestelijke gezondheid onafhankelijk van elkaar? NHANES bevat twee relevante vragen: <em>PhysActive</em>, die vraagt of de persoon lichamelijk actief is, en <em>DaysMentHlthBad</em>, die vraagt hoeveel dagen van de laatste 30 de persoon een slechte geestelijke gezondheid had. Laten we iedereen die de afgelopen maand meer dan 7 dagen een slechte geestelijke gezondheid had, beschouwen als iemand met een slechte geestelijke gezondheid. Op basis hiervan kunnen we een nieuwe variabele genaamd <em>badMentalHealth</em> definiëren als een logische variabele die aangeeft of elke persoon meer dan 7 dagen een slechte geestelijke gezondheid had of niet. We kunnen de gegevens eerst samenvatten om te laten zien hoeveel personen in elke combinatie van de twee variabelen vallen (weergegeven in de tabel hieronder en dan delen door het totale aantal waarnemingen om een tabel met verhoudingen te maken.</p>
 <div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small">
 <caption>Samenvatting van absolute frequentiedata voor mentale gezondheid en fysieke activiteit.</caption>
 <thead>
 <tr class="header">
@@ -556,7 +592,7 @@ P(A|B) = P(A)
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small">
 <caption>Samenvatting van relatieve frequentiedata voor mentale gezondheid en fysieke activiteit.</caption>
 <thead>
 <tr class="header">
@@ -592,7 +628,7 @@ P(A|B) = P(A)
 <p>Dit toont ons het aandeel van alle waarnemingen die in elke cel vallen. Wat we hier echter willen weten is de voorwaardelijke kans op een slechte geestelijke gezondheid, afhankelijk van of men lichamelijk actief is of niet. Om dit te berekenen delen we elke groep lichaamsbeweging door het totale aantal waarnemingen, zodat elke rij nu sommeert tot één (weergegeven in Tabel hierboven). Hier zien we de voorwaardelijke kansen op een slechte of goede geestelijke gezondheid voor elke groep lichaamsbeweging (in de bovenste twee rijen) samen met de algemene kans op een goede of slechte geestelijke gezondheid in de derde rij. Om te bepalen of geestelijke gezondheid en lichamelijke activiteit onafhankelijk zijn, zouden we de eenvoudige kans op een slechte geestelijke gezondheid (in de derde rij) vergelijken met de voorwaardelijke kans op een slechte geestelijke gezondheid als men lichamelijk actief is (in de tweede rij).</p>
 <div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small">
 <caption>Samenvatting van conditionele waarschijnlijkheid voor mentale gezondheid gegeven fysieke activiteit.</caption>
 <thead>
 <tr class="header">
@@ -708,7 +744,7 @@ P(B|A) = \frac{P(A|B)}{P(A)}*P(B)
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/BayesianInference.png" class="img-fluid figure-img" style="width:80.0%"></p>
-<figcaption class="figure-caption">Figuur 4. Een schema van het idee van een generatief model.</figcaption>
+<figcaption>Figuur 4. Een schema van het idee van een generatief model.</figcaption>
 </figure>
 </div>
 </div>
@@ -794,7 +830,7 @@ P(E|T) = \frac{P(T|E)*P(E)}{P(T|E)*P(E) + P(T|\neg E)*P(\neg E)}
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="Stats21_files/figure-html/like2-1.png" style="height:50.0%" width="384" class="figure-img"></p>
-<figcaption class="figure-caption">Figuur 5. Waarschijnlijkheid van elk mogelijk aantal responders onder verschillende hypothesen (p(respond)=0,5 (effen), 0,7 (gestippeld), 0,3 (gestreept). Waargenomen waarde weergegeven in de verticale lijn</figcaption>
+<figcaption>Figuur 5. Waarschijnlijkheid van elk mogelijk aantal responders onder verschillende hypothesen (p(respond)=0,5 (effen), 0,7 (gestippeld), 0,3 (gestreept). Waargenomen waarde weergegeven in de verticale lijn</figcaption>
 </figure>
 </div>
 </div>
@@ -812,7 +848,7 @@ P(E|T) = \frac{P(T|E)*P(E)}{P(T|E)*P(E) + P(T|\neg E)*P(\neg E)}
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="Stats21_files/figure-html/posteriorDist-1.png" style="height:50.0%" width="384" class="figure-img"></p>
-<figcaption class="figure-caption">Figuur 6. Posterior kansverdeling voor de waargenomen gegevens uitgezet in ononderbroken lijn tegen uniforme prior-verdeling (stippellijn). De maximale a posteriori (MAP) waarde wordt aangegeven door het diamantensymbool.</figcaption>
+<figcaption>Figuur 6. Posterior kansverdeling voor de waargenomen gegevens uitgezet in ononderbroken lijn tegen uniforme prior-verdeling (stippellijn). De maximale a posteriori (MAP) waarde wordt aangegeven door het diamantensymbool.</figcaption>
 </figure>
 </div>
 </div>
@@ -844,7 +880,7 @@ P(E|T) = \frac{P(T|E)*P(E)}{P(T|E)*P(E) + P(T|\neg E)*P(\neg E)}
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="Stats21_files/figure-html/posteriorDistPrior-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
-<figcaption class="figure-caption">Figuur 7. A: Effecten van priors op de posterior verdeling. De oorspronkelijke posterior verdeling op basis van een vlakke prior is blauw gekleurd. De prior gebaseerd op de observatie van 10 responders op 20 personen is uitgezet in de gestippelde zwarte lijn, en de posterior met deze prioriteit is uitgezet in rood. B: Effecten van de sterkte van de prior op de posterior distributie. De blauwe lijn toont de posterior verkregen met de prior op basis van 50 reageerders op 100 personen. De gestippelde zwarte lijn toont de prior gebaseerd op 250 reageerders uit 500 observaties, en de rode lijn toont de posterior gebaseerd op die prioriteit. C: Effecten van de sterkte van de prior op de posterior verdeling. De blauwe lijn toont de posterior verkregen met een absolute prior die stelt dat p(antwoord) 0,8 of groter is. De prior is weergegeven in de gestippelde zwarte lijn.</figcaption>
+<figcaption>Figuur 7. A: Effecten van priors op de posterior verdeling. De oorspronkelijke posterior verdeling op basis van een vlakke prior is blauw gekleurd. De prior gebaseerd op de observatie van 10 responders op 20 personen is uitgezet in de gestippelde zwarte lijn, en de posterior met deze prioriteit is uitgezet in rood. B: Effecten van de sterkte van de prior op de posterior distributie. De blauwe lijn toont de posterior verkregen met de prior op basis van 50 reageerders op 100 personen. De gestippelde zwarte lijn toont de prior gebaseerd op 250 reageerders uit 500 observaties, en de rode lijn toont de posterior gebaseerd op die prioriteit. C: Effecten van de sterkte van de prior op de posterior verdeling. De blauwe lijn toont de posterior verkregen met een absolute prior die stelt dat p(antwoord) 0,8 of groter is. De prior is weergegeven in de gestippelde zwarte lijn.</figcaption>
 </figure>
 </div>
 </div>
@@ -882,7 +918,7 @@ BF = \frac{p(data|H_1)}{p(data|H_2)}
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="Stats21_files/figure-html/bayesTesting-1.png" style="height:50.0%" width="384" class="figure-img"></p>
-<figcaption class="figure-caption">Figuur 8. Box plots met gegevens voor medicijn- en placebogroepen.</figcaption>
+<figcaption>Figuur 8. Box plots met gegevens voor medicijn- en placebogroepen.</figcaption>
 </figure>
 </div>
 </div>
@@ -937,7 +973,7 @@ Bayes factor type: BFindepSample, JZS</code></pre>
 <section id="interpreting-bayes-factors" class="level4">
 <h4 class="anchored" data-anchor-id="interpreting-bayes-factors">Interpreting Bayes Factors</h4>
 <p>Hoe weten we of een Bayes-factor van 2 of 20 goed of slecht is? Er is een algemene richtlijn voor de interpretatie van Bayes-factoren voorgesteld door [Kass &amp; Rafferty (1995)] (https://www.andrew.cmu.edu/user/kk3n/simplicity/KassRaftery1995.pdf):</p>
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>BF</th>
@@ -1046,18 +1082,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1089,11 +1114,48 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
-  function tippyHover(el, contentFn) {
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1103,8 +1165,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1116,7 +1187,129 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1160,6 +1353,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1185,6 +1379,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1245,6 +1465,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 

@@ -1,0 +1,19 @@
+---
+title: Nieuwsbrief maken met Quarto en Typst
+author: Harrie Jonkman
+description: |
+   Typst is een betrekkelijk nieuw opmaakprogramma dat vergelijkbaar is met Latex maar eenvoudiger van opzet, althans dat is de bedoeling. Het werkt zelfstandig en ook voor een deel met Quarto. Hier heb ik geprobeerd een nieuwbrief te maken.
+date: "2024-12-16"
+categories: [Communiseren]
+image: "Screenshot.PNG"
+---
+# Introductie
+
+**Typst** is een betrekkelijke nieuwe opmaaktaal voor het zetten van documenten. Het is ontworpen om gemakkelijk te leren, snel en veelzijdig te zijn. Het wil Latex vervangen. **Typst** neemt tekstbestanden met opmaak en voert PDF's uit.
+
+**Typst** is bedoeld voor het schrijven van lange teksten zoals essays, artikelen, wetenschappelijke papers, boeken, rapporten en huiswerkopdrachten. Bovendien is **Typst** zeer geschikt voor documenten met wiskundige notatie, zoals werkstukken op het gebied van wiskunde, natuurkunde en techniek. Tot slot wil het met z'n  styling- en automatiseringsfuncties een goede keuze zijn voor elke set documenten met een gemeenschappelijke stijl, zoals bijvoorbeeld een boekenserie.
+
+**Typst** werkt zelfstandig en daar kan goed mee in **VSCode** worden gewerkt. Daarvoor moet je enkele extensies binnenhalen. Het werkt ook met **Quarto** (het opmaakprogramma dat gemaakt is voor *R* en *Python*). Ik zal er later nog eens uitgebreider op terugkomen. Hier laat ik zien hoe je een Nieuwsbrief kunt maken.
+
+Binnenkort organiseer ik een boekpresentatie van het werk van de Amerikaanse dichter Billy Collins. Daarvoor heb ik deze Nieuwsbrief gemaakt om te kijken hoe het werkt met de Nieuwsbrief. Hier vind je informatie over hoe de combinatie tussen **Quarto** en **Typst** werkt[hier](https://quarto.org/docs/output-formats/typst.html). Ik heb het format voor de Nieuwsbrief (DeptNews) genomen. Vervolgens heb ik de tekst aangepast en ik heb de kleur aangepast. Dit is de Nieuwsbrief [hier](https://github.com/Jonkman1/Nieuwsbrief/blob/main/BC-news.pdf). Het geheel heb ik ook op **Github** gezet
+[hier](https://github.com/Jonkman1/Nieuwsbrief).

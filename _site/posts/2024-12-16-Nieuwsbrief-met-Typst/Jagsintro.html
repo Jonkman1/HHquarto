@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.39">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Gita Benadi, bewerking Harrie Jonkman">
+<meta name="dcterms.date" content="2024-12-06">
+<meta name="description" content="Hoe voer je ook alweer een Bayesiaanse analyse uit met R en JAGS? Aan de hand van drie lineaire (hierarchische) voorbeelden wordt dit hier uitgelegd in deze korte instructieve blog.">
+
+<title>Lineaire regressie modellen met gebruik van Bayesiaanse analyse in JAGS</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-3a1197cc0774821054ad3543cdc64272.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">Harrie’s Hoekje</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Jonkman1"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com"> <i class="bi bi-twitter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Lineaire regressie modellen met gebruik van Bayesiaanse analyse in JAGS</h1>
+                  <div>
+        <div class="description">
+          <p>Hoe voer je ook alweer een Bayesiaanse analyse uit met R en JAGS? Aan de hand van drie lineaire (hierarchische) voorbeelden wordt dit hier uitgelegd in deze korte instructieve blog.</p>
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">Analyseren</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Gita Benadi, bewerking Harrie Jonkman </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">December 6, 2024</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#introductie" id="toc-introductie" class="nav-link active" data-scroll-target="#introductie">Introductie</a></li>
+  <li><a href="#een-simpele-lineaire-regressie" id="toc-een-simpele-lineaire-regressie" class="nav-link" data-scroll-target="#een-simpele-lineaire-regressie">Een simpele lineaire regressie</a></li>
+  <li><a href="#zo-ziet-de-dataset-eruit" id="toc-zo-ziet-de-dataset-eruit" class="nav-link" data-scroll-target="#zo-ziet-de-dataset-eruit">zo ziet de dataset eruit</a></li>
+  <li><a href="#trek-random-waarden-voor-alle-parameter-combinaties-rijen-en-lichaamlengte-waarden-kolommen" id="toc-trek-random-waarden-voor-alle-parameter-combinaties-rijen-en-lichaamlengte-waarden-kolommen" class="nav-link" data-scroll-target="#trek-random-waarden-voor-alle-parameter-combinaties-rijen-en-lichaamlengte-waarden-kolommen">Trek random waarden voor alle parameter combinaties (rijen) en lichaamlengte waarden (kolommen):</a></li>
+  <li><a href="#berekening-kwantielen" id="toc-berekening-kwantielen" class="nav-link" data-scroll-target="#berekening-kwantielen">Berekening kwantielen:</a></li>
+  <li><a href="#hetzelfde-model-met-een-extra-categorische-voorspeller" id="toc-hetzelfde-model-met-een-extra-categorische-voorspeller" class="nav-link" data-scroll-target="#hetzelfde-model-met-een-extra-categorische-voorspeller">Hetzelfde model met een extra categorische voorspeller</a></li>
+  <li><a href="#combineer-het-in-een-dataframe" id="toc-combineer-het-in-een-dataframe" class="nav-link" data-scroll-target="#combineer-het-in-een-dataframe">Combineer het in een dataframe:</a></li>
+  <li><a href="#een-lineair-hierarchisch-model" id="toc-een-lineair-hierarchisch-model" class="nav-link" data-scroll-target="#een-lineair-hierarchisch-model">Een lineair hierarchisch model</a></li>
+  <li><a href="#intercept-van-elke-slang-individueel-afhankelijk-van-de-site-waar-hij-is-gevangen" id="toc-intercept-van-elke-slang-individueel-afhankelijk-van-de-site-waar-hij-is-gevangen" class="nav-link" data-scroll-target="#intercept-van-elke-slang-individueel-afhankelijk-van-de-site-waar-hij-is-gevangen">Intercept van elke slang individueel (afhankelijk van de site waar hij is gevangen):</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<section id="introductie" class="level1">
+<h1>Introductie</h1>
+<p>Ik wilde toch weer eens met JAGS werk, dat statistisch programma om met Bayesiaanse technieken te kunnen werken. Daarvoor moest ik de basis weer ophalen, en daar was deze tekst van Gita Benadi heel geschikt.</p>
+<p>De volgende tekst en R-code van haar (die ik in het Nederlands heb bewerkt, dank je wel Gita) laten drie voorbeelden zien van het uitvoeren van lineaire (hierarchische) modellen met behulp van Bayesiaanse analyse in JAGS. Om deze demonstratie te kunnen volgen, moet je een basiskennis hebben van de principes van Bayesiaanse statistiek. Termen zoals prior, likelihood, posterior en Markov Chain Monte Carlo (MCMC) moeten je bekend in de oren klinken. Als je deze basiskennis nog niet hebt, raad ik (Gita dus, Harrie ook) je aan de eerste helft van “Bayesian Basics” van Michael Clark te lezen (HTML-versie beschikbaar <a href="https://m-clark.github.io/docs/IntroBayes.html">hier</a>).</p>
+</section>
+<section id="een-simpele-lineaire-regressie" class="level1">
+<h1>Een simpele lineaire regressie</h1>
+<p>Om te demonstreren hoe een lineaire regressie in JAGS eruit ziet, gaan we een gesimuleerde dataset gebruiken van de relatie tussen lichaamslengte en lichaamsmassa van een denkbeeldig slangensoort. Deze datasimulatie is gebaseerd op code geschreven door Felix May en op hoofdstuk 11 van het Bayesiaanse statistiek leerboek van Kéry (Introduction to WinBUGs for Ecologists, 2010, pp.&nbsp;141-150, sowieso een heel instructief boek over Bayesiaanse analyse, vindt Harrie).</p>
+<p>Een lineaire regressie is gebaseerd op de aanname dat de gegevens willekeurige steekproeven zijn uit normale (Gaussische) verdelingen met gelijke variantie en een gemiddelde dat een lineaire functie is van de voorspeller(s). Hier creëer ik een dataset die aan deze aanname voldoet, met lichaamsmassa van de slangensoorten als lineaire functie van lichaamslengte:</p>
+<p>{r} # Hieronder creëer je de dataset set.seed(42) # Plaats een random seed voor de reproduceerbaarheid van de simulatie</p>
+<p>samplesize &lt;- 30 # Aantal data punten b_length &lt;- sort(rnorm(samplesize)) # (verklarende variabele)</p>
+<p>int_true &lt;- 30 # Werkelijke intercept slope_true &lt;- 10 # Werkelijke slope mu &lt;- int_true + slope_true * b_length # Werkelijk gemiddelde van de normale verdeling sigma &lt;- 5 # Werkelijk standaard deviatie van de normale verdelingen</p>
+<p>b_mass &lt;- rnorm(samplesize, mean = mu, sd = sigma) # Lichaamsmassa (uitkomstvariabele)</p>
+<p>snakes1 &lt;- data.frame(b_length = b_length, b_mass = b_mass)</p>
+</section>
+<section id="zo-ziet-de-dataset-eruit" class="level1">
+<h1>zo ziet de dataset eruit</h1>
+<p>head(snakes1)</p>
+<p>De lichaamslengtewaarden worden getrokken uit een normale verdeling met gemiddelde 0 en standaardafwijking 1, hoewel echte lichaamslengtes natuurlijk alleen positieve waarden kunnen hebben. Met een echte dataset moeten alle continue voorspellers altijd geschaald en gecentreerd worden voor de analyse (d.w.z. het gemiddelde aftrekken en delen door de standaardafwijking, waardoor ze getransformeerd worden naar waarden met een gemiddelde van 0 en een standaardafwijking van 1) om problemen met de modeluitvoering te voorkomen. Hier werken we direct met voorspellende waarden die vergelijkbaar zijn met een geschaalde en gecentreerde variabele.</p>
+<p>Om met JAGS een lineaire regressie op deze gegevensset uit te voeren, laden we eerst het R-pakket voor communicatie tussen R en JAGS:</p>
+<p>{r} # R2Jags moet wel geïnstalleerd zijn library(R2jags)</p>
+<p>Hiervoor moeten natuurlijk zowel JAGS als R2jags al op de computer geïnstalleerd zijn. Het pakket R2jags kan vanuit R worden geïnstalleerd met het commando <strong>install.packages(“R2jags”)</strong>. De methode om JAGS te installeren verschilt per besturingssysteem. Instructies zijn te vinden op de <a href="http://mcmc-jags.sourceforge.net/">JAGS-pagina</a>.</p>
+<p>Voordat we de gegevensset in JAGS kunnen analyseren, moet deze worden geconverteerd naar een ander formaat:</p>
+<p>{r} jagsdata_s1 &lt;- with(snakes1, list(b_mass = b_mass, b_length = b_length, N = length(b_mass)))</p>
+<p>Dit maakt een lijst met drie elementen: de uitkomstvariabele en voorspeller als vectoren en de steekproefgrootte als een enkel getal.</p>
+<p>In de volgende stap schrijven we ons JAGS-model. Met behulp van het pakket R2jags kunnen we het model schrijven als een R-functie die de JAGS-code bevat:</p>
+<p>{r} lm1_jags &lt;- function(){ # Likelihood: for (i in 1:N){ b_mass[i] ~ dnorm(mu[i], tau) # tau is precisie (1 / variance) mu[i] &lt;- alpha + beta * b_length[i] } # Priors: alpha ~ dnorm(0, 0.01) # intercept beta ~ dnorm(0, 0.01) # slope sigma ~ dunif(0, 100) # standaard deviatie tau &lt;- 1 / (sigma * sigma) # sigma^2 werkt niet in JAGS }</p>
+<p>Hoewel de kern van deze functie er op het eerste gezicht uitziet als R-code, is deze geschreven in JAGS, niet in R. De JAGS-taal lijkt erg op R, maar er zijn enkele kleine verschillen. In R wordt een normale verdeling bijvoorbeeld gespecificeerd met behulp van het gemiddelde en de standaardafwijking, maar in JAGS is de tweede parameter van het <strong>dnorm</strong> commando de <em>precisie</em> van de verdeling (1 / variantie). In een JAGS model betekent het tilde teken (~) dat het object links een willekeurige variabele is die verdeeld is volgens de verdeling rechts. De toewijzingspijl (&lt;-) wordt gebruikt om deterministische relaties tussen objecten te specificeren. Voor meer details over de JAGS taal, zie de <a href="https://sourceforge.net/projects/mcmc-jags/files/Manuals/">JAGS-gebruikersgids</a>.</p>
+<p>In de bovenstaande functie specificeert het eerste deel de waarschijnlijkheid van de gegevens gegeven het lineaire regressiemodel. Elke waarde van de lichaamsmassa is een willekeurige trekking uit een normale verdeling waarvan het gemiddelde lineair afhangt van de lichaamslengte. De parameters <strong>alpha</strong> en <strong>beta</strong> zijn het intercept en de helling van het lineaire verband, waarvan de waarden moeten worden geschat. Het tweede deel van de functie specificeert de prior-verdeling voor elke parameter. Aangezien we gesimuleerde gegevens gebruiken, weten we wat de werkelijke waarden van de parameters zijn, maar in deze analyse gaan we doen alsof we geen voorafgaande informatie over hun waarden hebben. Daarom kiezen we <em>niet-informatieve priors</em> voor alle parameters, met vlakke verdelingen die alle plausibele waarden ongeveer even waarschijnlijk maken. De prior-verdeling voor <strong>alfa</strong> en <strong>beta</strong> is een normale verdeling met gemiddelde nul en lage precisie (d.w.z. grote standaardafwijking). Omdat de standaardafwijking van een normale verdeling alleen positief kan zijn, gebruiken we een uniforme verdeling met een minimum van nul en een groot maximum als prior voor <strong>sigma</strong>.</p>
+<p>De volgende code specificeert de initiële parameterwaarden voor de MCMC sampler, kiest de parameters waarvan de posterior verdelingen worden gerapporteerd en voert het model uit in JAGS:</p>
+<p>{r} init_values &lt;- function(){ list(alpha = rnorm(1), beta = rnorm(1), sigma = runif(1)) }</p>
+<p>params &lt;- c(“alpha”, “beta”, “sigma”)</p>
+<p>fit_lm1 &lt;- jags(data = jagsdata_s1, inits = init_values, parameters.to.save = params, model.file = lm1_jags, n.chains = 3, n.iter = 12000, n.burnin = 2000, n.thin = 10, DIC = F)</p>
+<p>De laatste opdracht voert drie MCMC-ketens uit met elk 12000 iteraties en verwijdert de eerste 2000 waarden (“burn-in”), omdat deze eerste waarden sterk afhangen van de gekozen beginwaarden en daarom geen goede weergave van de waarschijnlijkheid zijn. Om de correlatie tussen opeenvolgende waarden in de keten te verminderen, wordt alleen elke 10e iteratie opgeslagen en de rest weggegooid (“uitdunnen”).</p>
+<p>Laten we eens kijken naar een tabel met de uitvoer van het model:</p>
+<p>{r} fit_lm1</p>
+<p>Deze tabel toont het gemiddelde, de standaardafwijking en de kwantielen van de marginale posterior verdeling voor elk van de drie modelparameters. Merk op dat de gemiddelde posterior waarden van <strong>alfa</strong>, <strong>beta</strong> en <strong>sigma</strong> redelijk dicht bij de werkelijke waarden liggen die we voor de simulatie hebben gebruikt (alpha = 30, beta = 10, sigma = 5). Het bereik tussen de 2,5% en 97,5% kwantielen is het 95% <em>waarschijnlijke interval</em> voor elke parameter. Dit is het Bayesiaanse equivalent van een betrouwbaarheidsinterval, maar de interpretatie is anders en aantoonbaar intuïtiever. Bijvoorbeeld, voor het 95% procent geloofwaardigheidsinterval is er 95% kans dat de werkelijke parameterwaarde binnen dit bereik ligt.</p>
+<p>De laatste twee kolommen in de tabel zijn convergentiediagnoses. De effectieve steekproefgrootte n.eff is een getal kleiner dan of gelijk aan het aantal monsters dat is opgeslagen van de ketens (3 * (12000 - 2000) / 10). Hoe hoger de autocorrelatie in de opgeslagen monsters, hoe kleiner de effectieve steekproefgrootte. Rhat is een maat voor hoe goed de drie Markov-ketens gemengd zijn en zou idealiter een waarde dicht bij 1 moeten hebben. Als de Rhat-waarden aanzienlijk groter zijn dan 1, zijn de ketens niet goed gemengd en kunnen de posterior schattingen niet worden vertrouwd. We kunnen ook visueel beoordelen hoe goed de ketens gemengd zijn met het commando <strong>traceplot</strong>:</p>
+<p>{r} traceplot(fit_lm1, mfrow = c(2, 2), ask = F)</p>
+<p>In ons geval is alles goed, de ketens zijn heel mooi gemengd.</p>
+<p>Er zijn verschillende manieren om de marginale posterior verdelingen van de parameters grafisch weer te geven. We kunnen de opdracht <strong>plot</strong> gebruiken op het gepaste modelobject:</p>
+<p>{r} plot(fit_lm1)</p>
+<p>Voor een visualisatie van de volledige posterior verdelingen met traceplots voor elke parameter, converteren we eerst het modelobject naar de klasse “mcmc”:</p>
+<p>{r} lm1_mcmc &lt;- as.mcmc(fit_lm1) plot(lm1_mcmc)</p>
+<p>Tot slot willen we meestal de gegevens samen met de voorspelling van het model plotten. Hiervoor maken we eerst een nieuwe reeks voorspellingswaarden:</p>
+<p>{r} nvalues &lt;- 100 b_length_new &lt;- seq(min(snakes1<span class="math inline">\(b_length), max(snakes1\)</span>b_length), length.out = nvalues)</p>
+<p>Om de MCMC-monsters gemakkelijk te kunnen gebruiken voor voorspellingen, combineren we de drie ketens tot één. De volgende code maakt een mcmc-object met drie kolommen (een voor elke parameter) en 3000 rijen (een voor elk MCMC-monster):</p>
+<p>{r} lm1_mcmc_combi &lt;- as.mcmc(rbind(lm1_mcmc[[1]], lm1_mcmc[[2]], lm1_mcmc[[3]]))</p>
+<p>Vervolgens berekenen we de verwachte waarde van de lichaamsmassa voor elk van de nieuwe lichaamslengtewaarden met behulp van de gemiddelde posterior waarden van de modelparameters <strong>alfa</strong> en <strong>beta</strong>:</p>
+<p>{r} pred_mean_mean &lt;- mean(lm1_mcmc_combi[, “alpha”]) + b_length_new * mean(lm1_mcmc_combi[, “beta”])</p>
+<p>We kunnen nu de voorspellingslijn samen met de gegevens plotten. We zijn echter nog niet klaar: een bruikbare plot moet niet alleen de gemiddelde voorspelde waarde laten zien, maar ook de onzekerheid rond dit gemiddelde. In ons model zijn er twee bronnen van onzekerheid: de onzekerheid over de werkelijke parameterwaarden en de onzekerheid die wordt veroorzaakt door de stochasticiteit van de relatie tussen lichaamsmassa en lichaamslengte (de normale verdeling van gerealiseerde lichaamsmassawaarden rond het gemiddelde). Het eerste type onzekerheid kan worden gekwantificeerd als het betrouwbaarheidsinterval rond de voorspelde gemiddelde waarde van de lichaamsmassa voor een bepaalde waarde van de lichaamslengte. De volgende code bepaalt de boven- en ondergrenzen van dit 95% geloofwaardigheidsinterval voor elk van de 100 lichaamslengtes:</p>
+<p>{r} pred_mean_dist &lt;- matrix(NA, nrow = nrow(lm1_mcmc_combi), ncol = nvalues) for (i in 1:nrow(pred_mean_dist)){ pred_mean_dist[i,] &lt;- lm1_mcmc_combi[i,“alpha”] + b_length_new * lm1_mcmc_combi[i,“beta”] } credible_lower &lt;- apply(pred_mean_dist, MARGIN = 2, quantile, prob = 0.025) credible_upper &lt;- apply(pred_mean_dist, MARGIN = 2, quantile, prob = 0.975)</p>
+<p>Als schatting van beide soorten onzekerheid samen kunnen we willekeurige waarden trekken uit een normale verdeling met een gemiddelde gedefinieerd door de lineaire combinatie van lichaamslengte en de bemonsterde waarden van <strong>alfa</strong> en <strong>beta</strong>, en een variantie gelijk aan de bemonsterde sigma. Het volgende stukje code produceert deze willekeurige waarden voor elke parametercombinatie in de Markov-ketens en elke lichaamslengte. Om vloeiendere curven te krijgen, repliceren we de parametercombinaties uit de ketens eerst 50 keer, zodat we 50 willekeurige waarden uit de normale verdeling kunnen trekken voor elke parametercombinatie en elke waarde van de lichaamslengte. Vervolgens berekenen we de 2,5% en 97,5% kwantielen van de waarden voor elke lichaamslengte:</p>
+<p>{r} lm1_mcmc_combi_rep &lt;- do.call(rbind, rep(list(lm1_mcmc_combi), 50)) # replicatie</p>
+</section>
+<section id="trek-random-waarden-voor-alle-parameter-combinaties-rijen-en-lichaamlengte-waarden-kolommen" class="level1">
+<h1>Trek random waarden voor alle parameter combinaties (rijen) en lichaamlengte waarden (kolommen):</h1>
+<p>pred_data_dist &lt;- matrix(NA, nrow = nrow(lm1_mcmc_combi_rep), ncol = nvalues) for (i in 1:nrow(pred_data_dist)){ pred_data_dist[i,] &lt;- lm1_mcmc_combi_rep[i,“alpha”] + b_length_new * lm1_mcmc_combi_rep[i,“beta”] + rnorm(nvalues, mean = 0, sd = lm1_mcmc_combi_rep[i, “sigma”]) }</p>
+</section>
+<section id="berekening-kwantielen" class="level1">
+<h1>Berekening kwantielen:</h1>
+<p>uncertain_lower &lt;- apply(pred_data_dist, MARGIN = 2, quantile, prob = 0.025) uncertain_upper &lt;- apply(pred_data_dist, MARGIN = 2, quantile, prob = 0.975)</p>
+<p>Tot slot kunnen we de gegevens plotten met de gemiddelde modelvoorspelling en de twee onzekerheidsmaten:</p>
+<p>{r} plot(b_mass ~ b_length, data = snakes1) lines(b_length_new, pred_mean_mean) lines(b_length_new, credible_lower, lty = 2) lines(b_length_new, credible_upper, lty = 2) lines(b_length_new, uncertain_lower, lty = 2, col = “red”) lines(b_length_new, uncertain_upper, lty = 2, col = “red”)</p>
+<p>Als we een grote steekproef uit dezelfde populatie verzamelen en onze schatting van de posterior distributie correct is, zou 95% van de gegevens binnen het gebied tussen de twee rode lijnen moeten liggen.</p>
+</section>
+<section id="hetzelfde-model-met-een-extra-categorische-voorspeller" class="level1">
+<h1>Hetzelfde model met een extra categorische voorspeller</h1>
+<p>Om te zien hoe een iets gecompliceerdere lineaire regressie in JAGS eruit ziet, voegen we hier een extra categoriale voorspeller toe aan onze gegevens. We nemen aan dat de relatie tussen lichaamslengte en lichaamsmassa verschilt tussen mannetjes en vrouwtjes van de slangensoort. De volgende code simuleert de gegevens voor dit model:</p>
+<p>{r} set.seed(42)</p>
+<p>samplesize &lt;- 50 # Een grotere sample size omdat we een meer complex model draaien b_length &lt;- sort(rnorm(samplesize)) # Lichaamslengte sex &lt;- sample(c(0, 1), size = samplesize, replace = T) # Sekse (0: vrouw, 1: man)</p>
+<p>int_true_f &lt;- 30 # Intercept van vrouwen int_true_m_diff &lt;- 5 # Verschil tussen intercepten van mannen en vrouwen slope_true_f &lt;- 10 # Helling van vrouwen slope_true_m_diff &lt;- -3 # Verschil tussen de hellingen van mannen en vrouwen</p>
+<p>mu &lt;- int_true_f + sex * int_true_m_diff + (slope_true_f + sex * slope_true_m_diff) * b_length # Werkelijke gemiddelden sigma &lt;- 5 # Werkelijke standaard deviatie van normale verdelingen</p>
+<p>b_mass &lt;- rnorm(samplesize, mean = mu, sd = sigma) # Lichaamsgewicht (uitkomstvariabele)</p>
+</section>
+<section id="combineer-het-in-een-dataframe" class="level1">
+<h1>Combineer het in een dataframe:</h1>
+<p>snakes2 &lt;- data.frame(b_length = b_length, b_mass = b_mass, sex = sex) head(snakes2)</p>
+<p>{r} plot(b_mass ~ b_length, col = (sex + 1), data = snakes2)</p>
+<p>In deze dataset wordt het geslacht van een slang uitgedrukt als 0 (vrouwelijk) of 1 (mannelijk). Voor een analyse in JAGS moeten alle categoriale gegevens worden geconverteerd naar deze numerieke indeling. Als je categoriale variabele meer dan twee niveaus heeft, moet je elk niveau uitdrukken als een combinatie van nullen en enen.</p>
+<p>De analyse van deze gegevensset in JAGS lijkt sterk op die van het eenvoudigere model dat hierboven is beschreven. Eerst formatteren we de gegevens opnieuw:</p>
+<p>{r} jagsdata_s2 &lt;- with(snakes2, list(b_mass = b_mass, b_length = b_length, sex = sex, N = length(b_mass)))</p>
+<p>Vervolgens schrijven we het model als een R-functie die de JAGS-code bevat:</p>
+<p>{r} lm2_jags &lt;- function(){ # Likelihood: for (i in 1:N){ b_mass[i] ~ dnorm(mu[i], tau) # tau is precisie (1 / variantie) mu[i] &lt;- alpha[1] + sex[i] * alpha[2] + (beta[1] + beta[2] * sex[i]) * b_length[i] } # Priors: for (i in 1:2){ alpha[i] ~ dnorm(0, 0.01) beta[i] ~ dnorm(0, 0.01) } sigma ~ dunif(0, 100) tau &lt;- 1 / (sigma * sigma) }</p>
+<p>Dit model bevat een interactie tussen geslacht en lichaamslengte, d.w.z. zowel het intercept als de helling van het lineaire verband tussen lichaamslengte en lichaamsmassa verschillen per geslacht. We moeten dus twee waarden schatten voor zowel alfa als bèta. Net als in een normale lineaire regressie in R wordt de eerste waarde van elke parameter (in dit geval de waarde voor vrouwtjes) gebruikt als referentie en wordt de tweede waarde (de waarde voor mannelijke slangen) uitgedrukt als een verschil met de eerste.</p>
+<p>Het volgende stukje code definieert de beginwaarden voor de Markov-ketens, kiest de parameters die moeten worden opgenomen en voert het model uit:</p>
+<p>{r} init_values &lt;- function(){ list(alpha = rnorm(2), beta = rnorm(2), sigma = runif(1)) }</p>
+<p>params &lt;- c(“alpha”, “beta”, “sigma”)</p>
+<p>fit_lm2 &lt;- jags(data = jagsdata_s2, inits = init_values, parameters.to.save = params, model.file = lm2_jags, n.chains = 3, n.iter = 12000, n.burnin = 2000, n.thin = 10, DIC = F)</p>
+<p>Laten we eens kijken naar de uitvoer van het model:</p>
+<p>{r} fit_lm2</p>
+<p>De posterior gemiddelden liggen vrij dicht bij de werkelijke waarden die zijn gebruikt voor de simulatie (zie hierboven). Met het passende model kun je dezelfde plots van de uitvoer maken als voorheen, de convergentiediagnostiek bekijken, de gegevens en modelvoorspellingen plotten, enzovoort.</p>
+</section>
+<section id="een-lineair-hierarchisch-model" class="level1">
+<h1>Een lineair hierarchisch model</h1>
+<p>Als derde voorbeeld maken we een dataset met een random effect die geanalyseerd moet worden met een lineair mixed-effects model (lineair hierarchisch model). Net als de eerste dataset heeft deze slechts één voorspeller (lichaamslengte), maar daarnaast nemen we aan dat slangen op een aantal verschillende locaties zijn gevangen. We analyseren deze dataset met een random intercept model, dus we creëren een dataset met dezelfde helling van het effect van lichaamslengte op lichaamsmassa voor alle locaties, maar met verschillende intercepts per locatie. De aanname van een gemengde (hierarchische) model is dat de intercepts van de locaties normaal verdeeld zijn rond hun gemiddelde. De volgende code creëert de gegevens:</p>
+<p>{r} set.seed(42)</p>
+<p>samplesize &lt;- 200 nsites &lt;- 10 # Aantal lokaties b_length &lt;- sort(rnorm(samplesize)) # Lichaamslengte (verklarende variabele) sites &lt;- sample(1:10, samplesize, replace = T) # Site (groepsvariabele) table(sites)</p>
+<p>{r} int_true_mean &lt;- 45 # Werkelijke gemiddelde intercept int_true_sigma &lt;- 10 # Werkelijke standaard deviatie van intercepten int_true_sites &lt;- rnorm(n = nsites, mean = int_true_mean, sd = int_true_sigma) # Werkelijk intercept van elke lokatie</p>
+</section>
+<section id="intercept-van-elke-slang-individueel-afhankelijk-van-de-site-waar-hij-is-gevangen" class="level1">
+<h1>Intercept van elke slang individueel (afhankelijk van de site waar hij is gevangen):</h1>
+<p>sitemat &lt;- matrix(0, nrow = samplesize, ncol = nsites) for (i in 1:nrow(sitemat)) sitemat[i, sites[i]] &lt;- 1 int_true &lt;- sitemat %*% int_true_sites</p>
+<p>slope_true &lt;- 10 # Werkelijke slope mu &lt;- int_true + slope_true * b_length # Werkelijk gemiddelde van de normaal verdelingen sigma &lt;- 5 # Werkelijke standaard deviatie van normaal verdelingen</p>
+<p>b_mass &lt;- rnorm(samplesize, mean = mu, sd = sigma) # Lichaamsgewicht (uitkomstvariabele)</p>
+<p>snakes3 &lt;- data.frame(b_length = b_length, b_mass = b_mass, site = sites) head(snakes3)</p>
+<p>{r} plot(b_mass ~ b_length, col = site, data = snakes3)</p>
+<p>Bij het voorbereiden van deze dataset voor analyse met JAGS, nemen we het aantal sites op als een extra element in de lijst:</p>
+<p>{r} Nsites &lt;- length(levels(as.factor(snakes3$site))) jagsdata_s3 &lt;- with(snakes3, list(b_mass = b_mass, b_length = b_length, site = site, N = length(b_mass), Nsites = Nsites))</p>
+<p>Het JAGS-model is iets langer dan voorheen:</p>
+<p>{r} lm3_jags &lt;- function(){ # Likelihood: for (i in 1:N){ b_mass[i] ~ dnorm(mu[i], tau) # tau is precisie (1 / variantie) mu[i] &lt;- alpha + a[site[i]] + beta * b_length[i] # Random intercept voor lokatie } # Priors: alpha ~ dnorm(0, 0.01) # intercept sigma_a ~ dunif(0, 100) # standaard deviatie van random effect (variantie tussen lokaties) tau_a &lt;- 1 / (sigma_a * sigma_a) # converteer naar precisie for (j in 1:Nsites){ a[j] ~ dnorm(0, tau_a) # random intercept voor elke lokatie } beta ~ dnorm(0, 0.01) # slope sigma ~ dunif(0, 100) # standaard deviatie van vaste effecten (variantie binnen lokaties) tau &lt;- 1 / (sigma * sigma) # omzetten naar precisie }</p>
+<p>Naast het algemene intercept <strong>alpha</strong>, schatten we een intercept <strong>a</strong> voor elke locatie. De locatiespecifieke intercepts zijn normaal verdeeld rond het algemene intercept met variantie <strong>sigma_a</strong>. Deze variantie tussen locaties is een extra parameter die wordt opgenomen in de modelpassingsprocedure:</p>
+<p>{r} init_values &lt;- function(){ list(alpha = rnorm(1), sigma_a = runif(1), beta = rnorm(1), sigma = runif(1)) }</p>
+<p>params &lt;- c(“alpha”, “beta”, “sigma”, “sigma_a”)</p>
+<p>fit_lm3 &lt;- jags(data = jagsdata_s3, inits = init_values, parameters.to.save = params, model.file = lm3_jags, n.chains = 3, n.iter = 20000, n.burnin = 5000, n.thin = 10, DIC = F)</p>
+<p>De uitkomst van dit model ziet er als volgt uit:</p>
+<p>{r} fit_lm3</p>
+<p>Opnieuw liggen de geschatte gemiddelde posteriorwaarden vrij dicht bij de werkelijke waarden die voor de simulatie zijn gebruikt.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

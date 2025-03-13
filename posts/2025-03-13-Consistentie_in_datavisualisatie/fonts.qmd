@@ -1,0 +1,697 @@
+---
+title: Consistentie in de datavisualisatie
+author: Harrie Jonkman
+description: |
+   Hoe maak je de datavisualisatie van een bepaalde organisatie consistentie waarbij je rekening houdt met het kleurgebruik en de typografie waarvoor is gekozen en waarbij je ook soms het logo kunt gebruiken. 
+date: "2025-03-13"
+lang: nl
+categories: [Communiseren]
+image: "Screenshot1.PNG"
+bibliography: litstijlgids.bib
+---
+
+# Introductie
+
+De komende tijd zal ik enkele blogs schrijven over hoe je met *R* en *Quarto* wetenschappelijke producten een meer consistente uitstraling kunt geven. In dit blog gaat het over *Consistentie in de datavisualisatie*.
+
+Media, onderzoeksinstellingen en overheden visualiseren data en informatie op allerlei manieren en gebruiken daarbij diverse programma's en technologieën. Over de eisen waaraan de visualisaties moeten voldoen, denken ze steeds meer na. Men is zich ervan bewust dat heldere uitgangspunten positief bijdragen aan toegankelijkheid, consistentie en effectiviteit van de resultaten. Steeds meer vooraanstaande media-, onderzoeks- en overheidsinstellingen publiceren daarom hun eigen stijlgidsen waarmee ze uitgangspunten van hun datavisualisatie formuleren (zie deze mooie voorbeelden: [@hiv/aids2021; @institute2024; @citistat2022; @b.b.c.2019].
+
+In deze blogbijdrage worden allereerst kort enkele richtlijnen en principes voor datavisualisatie gepresenteerd. Die beschrijven wat algemeen en voor elke organisatie van belang is, ze geven houvast en bieden ruimte voor creativiteit. Het helpt bij het opzetten van een consistente wijze van werken door na te denken over typografie, kleur en de inzet van het logo.
+
+Daarna laat ik zien wat dit voor een organisatie betekent en het kan aansluiten bij werwijze.
+
+# Enkele richtlijnen en principes
+
+## Typografie
+
+De kans is groot dat de organisatie al standaarden heeft voor het lettertype waarmee gewerkt wordt. Het lettertype voor datavisualisaties wordt daarop afgestemd, dat kan hetzelfde of een bijpassend lettertype zijn. Hou daarbij in ieder geval de volgende zaken in het achterhoofd:
+
+1.  *Leesbaarheid*. Focus op leesbaarheid. Zoek een lettertype dat gemakkelijk te lezen is en dat zowel hoofdletters als kleine letters ondersteunt. Weet zeker dat je met verschillende gewichten (vet, schuin, normaal, licht) kunt werken en ook dat je met de cijfers goed kunt werken.
+
+2.  *Toegankelijkheid*. Zorg ervoor dat iedereen toegang heeft tot het lettertype en ze het kunnen gebruiken.
+
+3.  *Afspraken*. Maak afspraken over tekstkleur en -groottes, ook voor de datavisualisatie. Dat kan kan globaal, maar de afspraken moeten wel te volgen zijn en vastgelegd zijn in de documentatie. Het moet wel werken in de verschillende media die gebruikt worden.
+
+## Kleur
+
+Kleur is belangrijk bij datavisualisatie. Hier kom je vier kleurvormen tegen: hoofdkleur, categoriale kleuren, opeenvolgende kleuren en divergerende kleuren.
+
+*Hoofdkleur*: Kijk of de organisatie een bepaalde hoofdkleur (of bv. twee hoofdkleuren) heeft.
+
+*Categoriale kleuren*: Wanneer je kleur gebruikt om categorieën te maken, is het doel eenvoudig: groepen van elkaar onderscheiden. Je maakt enkele kleuren aan, bv. vier, vijf, of zes kleuren (kan meer, maar misschien niet te veel). Er zijn hier drie belangrijke doelen:
+
+1.  Kleuren zijn apart en verschillend.
+
+2.  Kleuren zijn waarde-neutraal.
+
+3.  Kleuren passen aan bij de organisatie. Bv. door de kleuren die al gebruikt worden of het logo.
+
+4.  De kleuren passen bij elkaar en vormen een geheel.
+
+*Divergerende kleuren*: Divergerende kleuren worden gebruikt om de afstand tussen (vaak) twee of drie groepen duidelijk te maken. De kleuren zijn afzonderlijk en verschillend en het verschil tussen de groepen is duidelijk.
+
+*Opeenvolgende kleuren*: Wanneer kleur wordt gebruikt om een numerieke waarde of hoeveelheid weer te geven, gebruik je een opeenvolgende kleurenschaal. Het eenvoudigste voorbeeld is iets dat aan de ene kant wit begint en aan de andere kant donkerder wordt tot het zwart is.
+
+1.  Schalen veranderen op een uniforme manier en dat betekent dat het verschil tussen 1 en 2 hetzelfde is als het verschil tussen 2 en 3.
+
+2.  Ook de opeeenvolgende kleuren passen aan bij de organisatie.
+
+3.  Ook hier vormt het palette een geheel.
+
+*Waar je verder op moet letten*: Naast de kleuren die gegevens coderen, moet je een meer neutrale set kleuren instellen voor achtergronden, tekst, assen en andere markeringen. Dit zijn vaak zwart- en grijstinten, maar ze kunnen getint worden om beter bij je merk te passen.
+
+Als je organisatie een merkgids of ontwerpsysteem heeft, overweeg dan manieren om deze te integreren (en aan te vullen) met richtlijnen voor datavisualisatie.
+
+## Logo
+
+Zorg ervoor dat het logo (eventueel) kan worden gebruikt bij het maken van datavisualisatie. Het kleurgebruik past hier goed bij aan.
+
+# Praktijk
+
+Ik heb contact opgenomen met Wim Bernasco van het NSCR met wie ik eerder voor enige tijd in een R-werkgroep zat waarvoor ikzelf de website gemaakt heb [nsc_R workgroup](https://nscrweb.netlify.app). Ik vroeg hem of er op zijn instituut afspraken zijn over typografie en het kleurgebruik. Dit stuurde hij mij per omgaande onder anderen op dat ik als uitgangspunt heb gebruikt:
+
+![Het kleurgebruik](NSCRkleuren.png)
+
+Ik vroeg ook of hij mij het logo wilde sturen. Hij stuurde mij enkele opties toe en onderstaand logo heb ik steeds gebruikt:
+
+![Het logo](1a_NSCR_LogoBasis_RGB.jpg)
+
+Ok, installeer en open allereerst de volgende pakketten:
+
+```{r, warning=FALSE}
+
+if(!require(pacman))install.packages("pacman")
+
+pacman::p_load('ragg', 'systemfonts', 'textshaping','tidyverse', 'tidyr', 'gapminder',
+               'ggplot2',  'ggalt', 'monochromeR', 'cowplot', 'magick',
+               'forcats', 'R.utils', 'png', 
+               'grid', 'ggpubr', 'scales')
+```
+
+## Eerst iets over typografie
+
+Ik zie dat ze bij het NSCR met Calibri als font werken. Vervolgens heb ik gekeken of dit in mijn eigen fontbook staat. Dat was niet het geval en daarom heb ik het gedownload via google-fonts. Om met `R` te zien of het nu wel op mijn computer staat, kun je het volgende doen:
+
+```{r, warning=FALSE}
+library(ggplot2)
+ggplot(NULL, aes(0, 0)) +
+  geom_text(
+    aes(label = "Calibri"),
+    size = 18, family = "Calibri"
+  )
+```
+
+Maar wat heb ik van Calibri?
+
+```{r, warning=FALSE}
+
+
+system_fonts() %>% 
+  filter(family == "Calibri") %>% 
+  transmute(
+    family, style,
+    file = str_extract(path, "[\\w-]+\\.ttf$")
+  )
+```
+
+Ok, dit ziet er goed uit.
+
+## Kleur
+
+Vervolgens heb ik gekeken naar de kleuren, dat zijn deze:
+
+![NSCR kleuren en lettertype](stijl/Huisstijl/NSCRkleuren.png)
+
+Ik heb de NSCR-kleuren met hun RGB-codes in een RGB-Hex [converter](https://www.rgbtohex.net) gevonden
+
+Dit is de hoofdkleur NSCR pink #B81E6 en de andere kleuren.
+
+```{r, warning=FALSE}
+
+# NSCR hoofdkleur
+rgb_to_hex(c(184, 30, 97))
+
+## Andere kleuren
+rgb_to_hex(c(77, 114, 117))
+rgb_to_hex(c(254, 215, 157))
+rgb_to_hex(c(221, 90, 90))
+rgb_to_hex(c(123, 0, 56))
+rgb_to_hex(c(113, 143, 145))
+rgb_to_hex(c(175, 50, 98))
+
+# Lettertype kleur
+rgb_to_hex(c(65, 65, 65))
+```
+
+Ik heb ook naar de gradients van de hoofdkleur #B81E61 gekeken en deze in de [app](https://cararthompson.shinyapps.io/monochromeR/) geplaatst. Dan krijg ik dit kleurenpalette:#B81E61 #C64A80 #D478A0 #E2A5BF #F0D2DF
+
+Dit zijn de aanvullende NSCR-kleuren #4D7275, #FED79D, #DD5A5A, #7B0038, #718F91, #AF3262
+
+En als ik het goed heb gebruiken ze deze kleur voor het font: #414141
+
+Nu gaan we de algemene, opeenvolgende, divergerende, categoriale en tekstkleuren vastzetten.
+
+```{r, warning=FALSE}
+# Hoofdkleur
+NSCR_main <- c("#B81E61")
+
+# Opeenvolgend
+NSCR_lighter <- c("#B81E61", "#C64A80", "#D478A0", "#E2A5BF", "#F0D2DF")
+
+# divergerend
+NSCR_two <- c("#4D7275", "#FED79D")
+
+NSCR_three <- c("#4D7275", "#FED79D", "#DD5A5A")
+
+# Categoriaal
+NSCR_six <- c("#4D7275", "#FED79D", "#DD5A5A", "#7B0038", "#718F91", "#AF3262")
+
+# Tekstkleur
+NSCR_font <- c("#414141")
+
+```
+
+Eens even kijken hoe de kleuren eruit zien.
+
+```{r, warning=FALSE}
+monochromeR::view_palette(NSCR_main)
+
+monochromeR::view_palette(NSCR_lighter)
+
+monochromeR::view_palette(NSCR_three)
+
+monochromeR::view_palette(NSCR_six)
+
+monochromeR::view_palette(NSCR_font)
+
+```
+
+## Logo
+
+Het logo is duidelijk:
+
+![](logo/Logo's/NSCR/1a_NSCR_LogoBasis_RGB.jpg)
+
+## Basis grafiek met hoofdkleur
+
+Vervolgens heb ik gekeken of ik een eenvoudige basisgrafiek zou kunnen maken. Hoe kunnen we daar de NSCR-kleuren, hun lettertype en logo aan toevoegen en, vooral, hoe kunnen we uiteindelijk dit proces automatiseren. Ik laat eerst de belangrijke stappen zien. Daar gebruik ik het bekende `gapminder` data-bestand voor en grafieken die de BBC ook met dat bestand hebben gemaakt [@b.b.c.2019].
+
+1.  *Eerst eenvoudige lijngrafiek met de kleur van het NSCR*
+
+```{r, warning=FALSE}
+#Data binnenhalen
+df <- gapminder %>%
+  filter(country == "Malawi") 
+
+#Grafiek maken
+plot <- ggplot(df, aes(x = year, y = lifeExp)) +
+  geom_line(colour = NSCR_main, size = 1) +
+  geom_hline(yintercept = 0, size = 1, colour=NSCR_font) +
+  labs(title="Langer leven",
+       subtitle = "Levensverwachting in Malawi 1952-2007",
+        caption = 'Bron: Gapminder',
+       x = 'Jaar',
+       y = 'Levensverwachting') 
+
+plot
+```
+
+2.  *Tekstgrootte en rasterlijnen instellen*
+
+```{r, warning=FALSE}
+#Data binnenhalen
+df <- gapminder %>%
+  filter(country == "Malawi") 
+
+#MGrafiek maken
+plot <- ggplot(df, aes(x = year, y = lifeExp)) +
+  geom_line(colour = NSCR_main, size = 1) +
+  geom_hline(yintercept = 0, size = 1, colour=NSCR_font) +
+  labs(title="Langer leven",
+       subtitle = "Levensverwachting in Malawi 1952-2007",
+        caption = 'Bron: Gapminder',
+       x = 'Jaar',
+       y = 'Levensverwachting') + 
+  # centeer de kop en subkop en pas de grootte van de tekst aan
+  theme(plot.title = element_text(size = 20, hjust = 0.5), 
+        plot.subtitle = element_text(size = 14, hjust = 0.5),
+        plot.caption = element_text(size = 8),
+        axis.title = element_text(size = 12)) +
+  # aanpassen rasterlijnen
+   theme(axis.line = element_line(color='black'),
+    plot.background = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.border = element_blank())
+
+plot
+```
+
+3.  *Thema toevoegen voor consistentie*
+
+```{r, warning=FALSE}
+#Data binnenhalen
+df <- gapminder %>%
+  filter(country == "Malawi") 
+
+#Grafiek maken
+plot <- ggplot(df, aes(x = year, y = lifeExp)) +
+  theme_minimal() +
+  geom_line(colour = NSCR_main, size = 1) +
+  geom_hline(yintercept = 0, size = 1, colour=NSCR_font) +
+  labs(title="Langer leven",
+       subtitle = "Levensverwachting in Malawi 1952-2007",
+        caption = 'Bron: Gapminder',
+       x = 'Jaar',
+       y = 'Levensverwachting') + 
+  # centeer de kop en subkop en pas de grootte van de tekst aan
+  theme(plot.title = element_text(size = 20, hjust = 0.5), 
+        plot.subtitle = element_text(size = 14, hjust = 0.5),
+        plot.caption = element_text(size = 8),
+        axis.title = element_text(size = 12),
+        axis.text = element_text(size = 8)) +
+  # aanpassen rasterlijne
+   theme(axis.line = element_line(color='black'),
+    plot.background = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.border = element_blank())
+
+plot
+```
+
+4.  *Lettertype Calibri toevoegen*
+
+```{r, warning=FALSE}
+#Data for chart from gapminder package
+df <- gapminder %>%
+  filter(country == "Malawi") 
+
+#Make plot
+plot <- ggplot(df, aes(x = year, y = lifeExp)) +
+  theme_minimal() +
+  geom_line(colour = NSCR_main, size = 1) +
+  geom_hline(yintercept = 0, size = 1, colour=NSCR_font) +
+  labs(title="Langer leven",
+       subtitle = "Levensverwachting in Malawi 1952-2007",
+        caption = 'Bron: Gapminder',
+       x = 'Jaar',
+       y = 'Levensverwachting') + 
+        # plaats de titels, de titels op de assen en titels van de legenda in dezelfde kleur. 
+  theme(plot.title = element_text(size = 20, hjust = 0.5), 
+        plot.subtitle = element_text(size = 14, hjust = 0.5),
+        plot.caption = element_text(size = 8),
+        axis.title = element_text(size = 12),
+        axis.text = element_text(size = 8, color = NSCR_font),
+ # tekst elementen naar Calibri zetten. 
+        text = element_text(family = "Calibri")) +
+  # aanpassen rasterlijnen
+   theme(axis.line = element_line(color='black'),
+    plot.background = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.border = element_blank())
+
+plot
+```
+
+5.  *Nu het logo toevoegen*
+
+```{r, warning=FALSE}
+
+library(cowplot)
+library(magick)
+
+# Logo lokaal opslaan
+nscr_logo <- image_read('1a_NSCR_LogoBasis_RGB.jpg')
+
+#Data binnenhalen
+df <- gapminder %>%
+  filter(country == "Malawi") 
+
+#Grafiek maken
+plot <- ggplot(df, aes(x = year, y = lifeExp)) +
+  theme_minimal() +
+  geom_line(colour = NSCR_main, size = 1) +
+  geom_hline(yintercept = 0, size = 1, colour=NSCR_font) +
+  labs(title="Langer leven",
+       subtitle = "Levensverwachting in Malawi 1952-2007",
+        caption = 'Bron: Gapminder',
+       x = 'Jaar',
+       y = 'Levensverwachting') + 
+        # plaats de titels, de titels op de assen en titels van de legenda in dezelfde kleur. 
+  theme(plot.title = element_text(size = 20, hjust = 0.5), 
+        plot.subtitle = element_text(size = 14, hjust = 0.5),
+        plot.caption = element_text(size = 8),
+        axis.title = element_text(size = 12),
+        axis.text = element_text(size = 8, color = NSCR_font),
+ # tekst elementen naar Calibri zetten. 
+        text = element_text(family = "Calibri")) +
+  # aanpassen rasterlijnen
+   theme(axis.line = element_line(color='black'),
+    plot.background = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.border = element_blank())
+
+
+line_plot<- ggdraw() +
+  # specificeer positie logo 
+  draw_image(nscr_logo, x = -0.375, y = 0.45 , scale = 0.2) +   
+  draw_plot(plot)
+
+line_plot
+```
+
+6a. *Automatiseren met logo*
+
+In een apart bestand definieer je de eisen waaraan de visualisatie moet voldoen. Dan hoef je die eisen niet steeds opnieuw aan de programmering toe te voegen en kan iedereen deze gebruiken. Dat staat in het document `nscr.R` en we noemen het `theme_nscr`. Als je het logo wilt gebruiken moet je dat toevoegen.
+
+```{r, warning=FALSE}
+source('nscr.R')
+
+#Data binnenhalen
+df <- gapminder %>%
+  filter(country == "Malawi") 
+
+#Grafiek maken
+plot <- ggplot(df, aes(x = year, y = lifeExp)) +
+  geom_line(colour = NSCR_main, size = 1) +
+  geom_hline(yintercept = 0, size = 1, colour=NSCR_font) +
+  labs(title="Langer leven",
+       subtitle = "Levensverwachting in Malawi 1952-2007",
+        caption = 'Bron: Gapminder',
+       x = 'Jaar',
+       y = 'Levensverwachting') +
+theme_nscr
+ 
+# logo toevoegen
+line_plot <- ggdraw() +
+  # these specify the position on the graph
+  draw_image(nscr_logo, x = -0.375, y = 0.45 , scale = 0.2) +   
+  draw_plot(plot)
+
+line_plot 
+```
+
+6b. Automatiseren zonder logo Alles hetzelfde als hierboven maar nu zonder logo.
+
+```{r, warning=FALSE}
+source('nscr.R')
+
+#Data binnenhalen
+df <- gapminder %>%
+  filter(country == "Malawi") 
+
+#Grafiek maken
+plot <- ggplot(df, aes(x = year, y = lifeExp)) +
+  geom_line(colour = NSCR_main, size = 1) +
+  geom_hline(yintercept = 0, size = 1, colour=NSCR_font) +
+  labs(title="Langer leven",
+       subtitle = "Levensverwachting in Malawi 1952-2007",
+        caption = 'Bron: Gapminder',
+       x = 'Jaar',
+       y = 'Levensverwachting') +
+theme_nscr
+ 
+plot
+```
+
+# Met hoofdkleur
+
+Vervolgens heb ik vanuit deze opzet nog enkele andere visualisaties gemaakt. Eerst nog enkele visualisaties met alleen de hoofdkleur.
+
+## Staafdiagram (met logo)
+
+```{r, warning=FALSE}
+# Bestand activeren
+source('nscr.R')
+
+# Data voorbereiden
+df <- gapminder %>%
+  filter(year == 2007 & continent == "Africa") %>%
+  arrange(desc(lifeExp)) %>%
+  head(5)
+
+# Make plot
+plot <- ggplot(df, aes(x = country, y = lifeExp)) +
+  geom_bar(stat="identity", 
+           position="identity", 
+           fill=NSCR_main) +
+  geom_hline(yintercept = 0, size = 1, colour=NSCR_font) +
+  labs(title="Reunion is het hoogste",
+       subtitle = "Hoogste Afrikaanse levensverwachting, 2007",
+       caption = 'Bron: Gapminder') + 
+  theme_nscr
+
+bars_plot <- ggdraw() +
+  # specificeer de positie van de grafiek
+  draw_image(nscr_logo, x = -0.375, y = 0.45 , scale = 0.2) +   
+  draw_plot(plot)
+
+bars_plot 
+
+
+```
+
+## Of omgedraaid (zonder logo)
+
+```{r, warning=FALSE}
+source('nscr.R')
+
+# Data voorbereiden
+df <- gapminder %>%
+  filter(year == 2007 & continent == "Africa") %>%
+  arrange(desc(lifeExp)) %>%
+  head(5)
+
+# Grafiek maken
+plot <- ggplot(df, aes(x = country, y = lifeExp)) +
+  geom_bar(stat="identity", 
+           position="identity", 
+           fill=NSCR_main) +
+  geom_hline(yintercept = 0, size = 1, colour=NSCR_font) +
+  labs(title="Reunion is highest",
+       subtitle = "Highest African life expectancy, 2007",
+       caption = 'Bron: Gapminder') + 
+  theme_nscr
+
+bars_flipped<-plot + coord_flip()
+
+bars_flipped
+```
+
+## Histogram (zonder logo)
+
+```{r, warning=FALSE}
+
+# Bestand activeren
+source('nscr.R')
+
+# Data voorbereiden
+df <- gapminder %>%
+  filter(year == 2007)
+
+# Grafiek maken
+plot<-ggplot(df, aes(lifeExp)) +
+  geom_histogram(binwidth = 5, colour = "white", fill = NSCR_main) +
+  geom_hline(yintercept = 0, size = 1, colour=NSCR_font) +
+  scale_x_continuous(limits = c(35, 95),
+                     breaks = seq(40, 90, by = 10),
+                     labels = c("40", "50", "60", "70", "80", "90 years")) +
+  labs(title = "Hoe de levensverwachting varieert",
+       subtitle = "Verdeling van levensverwachting in 2007",
+       caption = 'Bron: Gapminder') +
+  theme_nscr
+
+
+plot
+  
+```
+
+# Categoriale kleuren
+
+Vervolgens gebruiken we ook de andere kleuren van het NSCR, eerst de categoriale kleuren.
+
+## Twee groepen vergelijken (zonder logo)
+
+```{r, warning=FALSE}
+
+# Bron activeren
+source('nscr.R')
+
+# Data bewerken
+df <- gapminder %>%
+  filter(country == "China" | country == "United States") 
+
+# Grafiek maken
+plot <- ggplot(df, aes(x = year, y = lifeExp, colour = country)) +
+  geom_line(size = 1) +
+  geom_hline(yintercept = 0, size = 1, colour=NSCR_font) +
+  scale_colour_manual(values = NSCR_two) +
+  labs(title="Living longer",
+       subtitle = "Life expectancy in China and the US",
+       caption = 'Bron: Gapminder') +
+ theme_nscr
+
+plot
+```
+
+## Een gegroepeerde staafdiagram (zonder logo)
+
+```{r, warning=FALSE}
+# Bestand activeren
+source('nscr.R')
+
+#Data voorbereiden
+df <- gapminder %>%
+  filter(year == 1967 | year == 2007) %>%
+  select(country, year, lifeExp) %>%
+  spread(year, lifeExp) %>%
+  mutate(gap = `2007` - `1967`) %>%
+  arrange(desc(gap)) %>%
+  head(5) %>%
+  gather(key = year, 
+         value = lifeExp,
+         -country,
+         -gap) 
+  
+#Grafiek maken
+plot <- ggplot(df, 
+               aes(x = country, 
+               y = lifeExp, 
+               fill = as.factor(year))) +
+  geom_bar(stat="identity", position="dodge") +
+  geom_hline(yintercept = 0, size = 1, colour=NSCR_font) +
+  scale_fill_manual(values = NSCR_two) +
+  labs(title="We're living longer",
+       subtitle = "Biggest life expectancy rise, 1967-2007",
+       caption = 'Bron: Gapminder') + 
+  theme_nscr
+
+plot
+```
+
+## Groepen vergelijken (met logo)
+
+```{r, warning=FALSE}
+# Bestand activeren
+source('nscr.R')
+
+# Deze pakketten activeren (moeten wel zijn geïnstalleerd)
+library("ggalt")
+library("tidyr")
+
+#Data voorbereiden
+df <- gapminder %>%
+  filter(year == 1967 | year == 2007) %>%
+  select(country, year, lifeExp) %>%
+  spread(year, lifeExp) %>%
+  mutate(gap = `2007` - `1967`) %>%
+  arrange(desc(gap)) %>%
+  head(10)
+
+#Grafiek maken
+plot<-ggplot(df, aes(x = `1967`, xend = `2007`, y = reorder(country, gap), group = country)) + 
+  geom_dumbbell(colour = "#dddddd",
+                size = 3,
+                colour_x = "#4D7275",
+                colour_xend = "#FED79D") +
+  labs(title="Wij leven langer",
+       subtitle="Stijging levensverwachting, 1967-2007",
+       caption = 'Bron: Gapminder') +
+  theme_nscr
+
+groepen_plot <- ggdraw() +
+  # logo toevoegen en positie bepalen
+  draw_image(nscr_logo, x = -0.375, y = 0.45 , scale = 0.2) +   
+  draw_plot(plot)
+
+groepen_plot
+  
+```
+
+# Divergerende kleuren
+
+Nu enkele grafieken met divergerende kleuren.
+
+## Facetten (zonder logo)
+
+```{r, warning=FALSE}
+# Bestand activeren
+source('nscr.R')
+
+# Data voorbereiden
+df <- gapminder %>%
+  filter(continent != "Americas") %>%
+  group_by(continent, year) %>%
+  summarise(pop = sum(as.numeric(pop)))
+
+# Grafiek maken
+plot<- ggplot() +
+  geom_area(data=df, aes(x = year, y = pop, fill = continent)) +
+  scale_fill_manual(values = NSCR_six) + 
+  facet_wrap( ~ continent, ncol = 5) + 
+  scale_y_continuous(breaks = c(0, 2000000000, 4000000000),
+                     labels = c(0, "2bn", "4bn")) +
+  geom_hline(yintercept = 0, size = 1, colour = NSCR_font) +
+  theme(legend.position = "none",
+        axis.text.x = element_blank()) +
+  scale_x_discrete(guide=  guide_axis(angle = 90)) +
+  labs(title = "Asië's snelle groei",
+       subtitle = "Groei van de bevolking per continent, 1952-2007",
+       caption = 'Bron:Gapminder') +
+  theme_nscr
+
+plot
+```
+
+# Opeenvolgende kleuren
+
+Nu een grafiek met de paarse opeenvolgende NSCR-kleuren
+
+## Kaarten (met logo)
+
+```{r, warning=FALSE}
+# Dateaset voorbereiden
+data(gapminder, package = "gapminder")
+plot<- gapminder %>%
+  filter(year == 2007) %>%
+  rename(region = country,
+         value = lifeExp) %>%
+  mutate(region = tolower(region)) %>%
+  mutate(region = 
+    recode(region,
+          "united states"    = "united states of america",
+          "congo, dem. rep." = "democratic republic of the congo",
+          "congo, rep."      = "republic of congo",
+          "korea, dem. rep." = "south korea",
+          "korea. rep."      = "north korea",
+          "tanzania"         = "united republic of tanzania",
+          "serbia"           = "republic of serbia",
+          "slovak republic"  = "slovakia",
+          "yemen, rep."      = "yemen"))
+```
+
+```{r, warning=FALSE}
+# Bestand activeren
+source('nscr.R')
+
+# pakketten activeren (moeten wel zijn geïnstalleerd)
+library(choroplethr)
+country_choropleth(plot)
+
+# Grafiek maken
+map<-country_choropleth(plot,
+                   num_colors=4) +
+  labs(title = "Life expectancy by country",
+       subtitle = "Gapminder 2007 data",
+       caption = "source: https://www.gapminder.org",
+       fill = "Years") +
+   scale_fill_manual(values = NSCR_lighter) +
+
+theme_nscr
+
+# logo toevoegen en positioneren
+map_2 <- ggdraw() +
+  draw_image(nscr_logo, x = -0.375, y = 0.45 , scale = 0.2) +   
+  draw_plot(map)
+
+map_2
+```

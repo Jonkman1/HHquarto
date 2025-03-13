@@ -188,9 +188,7 @@ monochromeR::view_palette(NSCR_font)
 
 ## Logo
 
-Het logo is duidelijk:
-
-![](logo/Logo's/NSCR/1a_NSCR_LogoBasis_RGB.jpg)
+Het logo is duidelijk. 
 
 ## Basis grafiek met hoofdkleur
 
